@@ -1,0 +1,1 @@
+"C:\Program Files\MongoDB\Server\3.0\bin\mongorestore" -d demodb_bkp demodb

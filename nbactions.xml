@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-rnrcat7</actionName>
+        <displayName>rnrcat7</displayName>
+        <goals>
+            <goal>tomcat7:run</goal>
+        </goals>
+    </action>
+</actions>
