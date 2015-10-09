@@ -1,2 +1,2 @@
 # hcm_ws
-ok man yoyo
+This is a simple HCM Workstation to support Indian Subcountinent Org. 
