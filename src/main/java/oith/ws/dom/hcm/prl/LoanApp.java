@@ -7,7 +7,63 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "LoanApp")
 public class LoanApp extends AbstEmpApp {
 
-    public enum LoanType {
+    public Double getAppliedAmount() {
+        return appliedAmount;
+    }
+
+    public void setAppliedAmount(Double appliedAmount) {
+        this.appliedAmount = appliedAmount;
+    }
+
+    public Double getSanctionedAmount() {
+        return sanctionedAmount;
+    }
+
+    public void setSanctionedAmount(Double sanctionedAmount) {
+        this.sanctionedAmount = sanctionedAmount;
+    }
+
+    public Double getInstallmentAmount() {
+        return installmentAmount;
+    }
+
+    public void setInstallmentAmount(Double installmentAmount) {
+        this.installmentAmount = installmentAmount;
+    }
+
+    public Double getLastAmount() {
+        return lastAmount;
+    }
+
+    public void setLastAmount(Double lastAmount) {
+        this.lastAmount = lastAmount;
+    }
+
+    public Double getRemainingAmount() {
+        return remainingAmount;
+    }
+
+    public void setRemainingAmount(Double remainingAmount) {
+        this.remainingAmount = remainingAmount;
+    }
+
+    public LoanType getLoanType() {
+        return loanType;
+    }
+
+    public void setLoanType(LoanType loanType) {
+        this.loanType = loanType;
+    }
+
+    public LoanStatus getLoanStatus() {
+        return loanStatus;
+    }
+
+    public void setLoanStatus(LoanStatus loanStatus) {
+        this.loanStatus = loanStatus;
+    }
+
+    public static enum LoanType {
 
         HOUSE,
         CAR,
@@ -16,7 +72,7 @@ public class LoanApp extends AbstEmpApp {
         OTHER
     }
 
-    public enum LoanStatus {
+    public static enum LoanStatus {
 
         OPEN,
         CLOSE

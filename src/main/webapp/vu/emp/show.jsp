@@ -55,7 +55,7 @@
             <c:if test="${emp.doj!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="description" text="Doj"/>: 
+                        <spring:message code="description" text="Date of Join"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="doj">
                         <fmt:formatDate value="${emp.doj}" type="date" pattern="dd/MM/yyyy EEEEE"/>
@@ -65,7 +65,7 @@
             <c:if test="${emp.doe!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="description" text="Doe"/>: 
+                        <spring:message code="description" text="Date of Expired"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="doe">
                         <fmt:formatDate value="${emp.doe}" type="date" pattern="dd/MM/yyyy EEEEE"/>

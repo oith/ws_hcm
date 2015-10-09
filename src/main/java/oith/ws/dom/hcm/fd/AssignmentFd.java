@@ -1,4 +1,4 @@
-package oith.ws.dom.hcm.pmis;
+package oith.ws.dom.hcm.fd;
 
 import oith.ws.dom.hcm.core.AbstEmpAttach;
 import java.util.Date;
@@ -7,30 +7,15 @@ import oith.ws.dom.core.IPeriodical;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "AssignmentHr")
-public class AssignmentHr extends AbstEmpAttach implements IPeriodical{
+@Document(collection = "AssignmentFd")
+public class AssignmentFd extends AbstEmpAttach implements IPeriodical {
 
-    public static enum EmpCat {
-
-        CASUAL,
-        CONTRACTUAL,
-        DEPUTATIONIST,
-        PERMANENT,
-        PROBATIONARY,
-        SUBSTITUTE,
-        TEMPORARY,
-        TRAINEE_APPRENTICE
-    }
-
-    
     @NotNull
     @DBRef
-    private Position position;
+    private Mess mess;
     @NotNull
     private Date startDate;
     private Date endDate;
-    @NotNull
-    private EmpCat empCat;
 
     @Override
     public Date getStartDate() {
@@ -52,12 +37,12 @@ public class AssignmentHr extends AbstEmpAttach implements IPeriodical{
         this.endDate = endDate;
     }
 
-    public EmpCat getEmpCat() {
-        return empCat;
+    public Mess getMess() {
+        return mess;
     }
 
-    public void setEmpCat(EmpCat empCat) {
-        this.empCat = empCat;
+    public void setMess(Mess mess) {
+        this.mess = mess;
     }
 
 }

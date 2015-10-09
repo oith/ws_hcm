@@ -76,7 +76,8 @@
                         <td></td>
                         <td><spring:message code="code" text="Code"/></td>
                         <td><spring:message code="profile" text="Profile"/></td>
-                        <td><spring:message code="doj" text="Doj"/></td>
+                        <td><spring:message code="doj" text="Date of Join"/></td>
+                        <td><spring:message code="doj" text="Date of Expired"/></td>
 
                     </tr>
                 </thead>
@@ -92,6 +93,7 @@
                             </td>
                             
                             <td><fmt:formatDate value="${emp.doj}" type="date" pattern="dd/MM/yyyy"/></td>
+                            <td><fmt:formatDate value="${emp.doe}" type="date" pattern="dd/MM/yyyy"/></td>
 
                             <td><a href="${pageContext.request.contextPath}/emp/edit/<c:out value="${emp.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/emp/delete/<c:out value="${emp.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>

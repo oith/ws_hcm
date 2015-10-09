@@ -9,7 +9,7 @@ import oith.ws.dom.core.IRanger;
 @Document(collection = "LeaveApp")
 public class LeaveApp extends AbstEmpApp implements IRanger {
 
-    public enum LeaveType {
+    public static enum LeaveType {
 
         ACCIDENT,
         CASUAL,
