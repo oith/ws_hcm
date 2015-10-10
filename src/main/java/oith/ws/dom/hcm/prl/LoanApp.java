@@ -7,6 +7,33 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "LoanApp")
 public class LoanApp extends AbstEmpApp {
 
+    public static enum LoanType {
+
+        HOUSE,
+        CAR,
+        STUDY,
+        HOUSE_HOLD,
+        OTHER
+    }
+
+    public static enum LoanStatus {
+
+        OPEN,
+        CLOSE
+    }
+
+    @NotNull
+    private Double appliedAmount;
+    private Double sanctionedAmount;
+    private Double installmentAmount;
+    private Double lastAmount;
+    private Double remainingAmount;
+
+    @NotNull
+    private LoanType loanType;
+    @NotNull
+    private LoanStatus loanStatus;
+
     public Double getAppliedAmount() {
         return appliedAmount;
     }
@@ -62,32 +89,5 @@ public class LoanApp extends AbstEmpApp {
     public void setLoanStatus(LoanStatus loanStatus) {
         this.loanStatus = loanStatus;
     }
-
-    public static enum LoanType {
-
-        HOUSE,
-        CAR,
-        STUDY,
-        HOUSE_HOLD,
-        OTHER
-    }
-
-    public static enum LoanStatus {
-
-        OPEN,
-        CLOSE
-    }
-
-    @NotNull
-    private Double appliedAmount;
-    private Double sanctionedAmount;
-    private Double installmentAmount;
-    private Double lastAmount;
-    private Double remainingAmount;
-
-    @NotNull
-    private LoanType loanType;
-    @NotNull
-    private LoanStatus loanStatus;
 
 }
