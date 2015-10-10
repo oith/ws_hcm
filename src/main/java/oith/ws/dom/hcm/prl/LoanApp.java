@@ -1,7 +1,10 @@
 package oith.ws.dom.hcm.prl;
 
+import java.util.Date;
 import oith.ws.dom.hcm.core.AbstEmpApp;
 import javax.validation.constraints.NotNull;
+import oith.ws.dom.hcm.core.Period;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "LoanApp")
@@ -24,15 +27,23 @@ public class LoanApp extends AbstEmpApp {
 
     @NotNull
     private Double appliedAmount;
-    private Double sanctionedAmount;
+    private Double sanctionAmount;
     private Double installmentAmount;
-    private Double lastAmount;
+    private Float interestPct;
     private Double remainingAmount;
+
+    private Double lastInstallmentAmount;
+    private Double lastInterestAmount;
+    @DBRef
+    private Period lastTouchPeriod;
+
+    private Date sanctionDate;
 
     @NotNull
     private LoanType loanType;
     @NotNull
     private LoanStatus loanStatus;
+    private String reasonForLoan;
 
     public Double getAppliedAmount() {
         return appliedAmount;
@@ -42,28 +53,12 @@ public class LoanApp extends AbstEmpApp {
         this.appliedAmount = appliedAmount;
     }
 
-    public Double getSanctionedAmount() {
-        return sanctionedAmount;
-    }
-
-    public void setSanctionedAmount(Double sanctionedAmount) {
-        this.sanctionedAmount = sanctionedAmount;
-    }
-
     public Double getInstallmentAmount() {
         return installmentAmount;
     }
 
     public void setInstallmentAmount(Double installmentAmount) {
         this.installmentAmount = installmentAmount;
-    }
-
-    public Double getLastAmount() {
-        return lastAmount;
-    }
-
-    public void setLastAmount(Double lastAmount) {
-        this.lastAmount = lastAmount;
     }
 
     public Double getRemainingAmount() {
@@ -90,4 +85,59 @@ public class LoanApp extends AbstEmpApp {
         this.loanStatus = loanStatus;
     }
 
+    public Double getSanctionAmount() {
+        return sanctionAmount;
+    }
+
+    public void setSanctionAmount(Double sanctionAmount) {
+        this.sanctionAmount = sanctionAmount;
+    }
+
+    public Float getInterestPct() {
+        return interestPct;
+    }
+
+    public void setInterestPct(Float interestPct) {
+        this.interestPct = interestPct;
+    }
+
+    public Double getLastInstallmentAmount() {
+        return lastInstallmentAmount;
+    }
+
+    public void setLastInstallmentAmount(Double lastInstallmentAmount) {
+        this.lastInstallmentAmount = lastInstallmentAmount;
+    }
+
+    public Double getLastInterestAmount() {
+        return lastInterestAmount;
+    }
+
+    public void setLastInterestAmount(Double lastInterestAmount) {
+        this.lastInterestAmount = lastInterestAmount;
+    }
+
+    public Period getLastTouchPeriod() {
+        return lastTouchPeriod;
+    }
+
+    public void setLastTouchPeriod(Period lastTouchPeriod) {
+        this.lastTouchPeriod = lastTouchPeriod;
+    }
+
+    public Date getSanctionDate() {
+        return sanctionDate;
+    }
+
+    public void setSanctionDate(Date sanctionDate) {
+        this.sanctionDate = sanctionDate;
+    }
+
+    public String getReasonForLoan() {
+        return reasonForLoan;
+    }
+
+    public void setReasonForLoan(String reasonForLoan) {
+        this.reasonForLoan = reasonForLoan;
+    }
 }

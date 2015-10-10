@@ -1,36 +1,36 @@
-package oith.ws.dom.hcm.prl;
+package oith.ws.dom.hcm.tr;
 
+import java.util.Date;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.IPeriodical;
 
-@Document(collection = "Element")
-public class Element extends AbstDocAudit implements ICodable {
-
-    public static enum ElementPole {
-
-        EARNING,
-        DEDUCTION
-    }
+@Document(collection = "Period")
+public class PeriodTr extends AbstDocAudit implements ICodable, IPeriodical {
 
     @NotNull
-    @Indexed(unique = true)
+    @Indexed
     private String code;
-
     @NotNull
     @Indexed
     private String name;
 
     private String description;
-    private String accNo;
-    private ElementPole elementPole;
 
+    @NotNull
+    private Date startDate;
+    @NotNull
+    private Date endDate;
+
+    @Override
     public String getCode() {
         return code;
     }
 
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
@@ -51,20 +51,20 @@ public class Element extends AbstDocAudit implements ICodable {
         this.description = description;
     }
 
-    public String getAccNo() {
-        return accNo;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setAccNo(String accNo) {
-        this.accNo = accNo;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public ElementPole getElementPole() {
-        return elementPole;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setElementPole(ElementPole elementPole) {
-        this.elementPole = elementPole;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
 }
