@@ -1,6 +1,5 @@
 package oith.ws.dom.hcm.pmis;
 
-import oith.ws.dom.hcm.pmis.*;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -47,6 +46,14 @@ public class Job extends AbstDocAudit implements ICodable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
 }

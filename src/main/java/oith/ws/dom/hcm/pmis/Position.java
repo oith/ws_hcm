@@ -1,7 +1,5 @@
 package oith.ws.dom.hcm.pmis;
 
-import oith.ws.dom.hcm.prl.*;
-import java.util.Set;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,8 +20,10 @@ public class Position extends AbstDocAudit implements ICodable {
     private String description;
 
     @DBRef
+    @NotNull
     private Dept dept;
     @DBRef
+    @NotNull
     private Job job;
 
     @Override

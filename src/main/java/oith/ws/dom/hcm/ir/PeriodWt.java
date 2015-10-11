@@ -1,6 +1,5 @@
 package oith.ws.dom.hcm.ir;
 
-import oith.ws.dom.hcm.core.*;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.index.Indexed;

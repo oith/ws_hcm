@@ -1,9 +1,9 @@
 package oith.ws.dom.hcm.core;
 
 //import com.oith.annotation.MacSearchable;
-import oith.ws.dom.core.*;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
+import oith.ws.dom.core.ICodable;
 
 public abstract class AbstEmpApp extends AbstEmpAttach implements ICodable{
 

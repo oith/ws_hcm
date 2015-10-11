@@ -49,4 +49,12 @@ public class Grade extends AbstDocAudit implements ICodable {
         this.description = description;
     }
 
+    public Set<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
+    }
+
 }

@@ -29,43 +29,44 @@
     <div>
         <form:hidden path="id"/>
         <ol class="property-list hrIrGrdScr">
-    
-        <c:if test="${dept.code!=null && !dept.code.isEmpty()}">
-            <li class="fieldcontain first_item">
-                <span id="title" class="property-label">
-                    <spring:message code="code" text="Code"/>: 
-                </span>
-                <span class="property-value" aria-labelledby="code">
-                    <c:out value="${dept.code}"/>
-                </span>
-            </li>
-        </c:if>
 
-        <c:if test="${dept.name!=null && !dept.name.isEmpty()}">
-            <li class="fieldcontain first_item">
-                <span id="name" class="property-label">
-                    <spring:message code="name" text="Name"/>: 
-                </span>
-                <span class="property-value" aria-labelledby="name">
-                    <c:out value="${dept.name}"/>
-                </span>
-            </li>
-        </c:if>
+            <c:if test="${dept.code!=null && !dept.code.isEmpty()}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="code" text="Code"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="code">
+                        <c:out value="${dept.code}"/>
+                    </span>
+                </li>
+            </c:if>
 
-        <c:if test="${dept.description!=null && !dept.description.isEmpty()}">
-            <li class="fieldcontain first_item">
-                <span id="title" class="property-label">
-                    <spring:message code="description" text="Description"/>: 
-                </span>
-                <span class="property-value" aria-labelledby="description">
-                    <c:out value="${dept.description}"/>
-                </span>
-            </li>
-        </c:if>
+            <c:if test="${dept.name!=null && !dept.name.isEmpty()}">
+                <li class="fieldcontain first_item">
+                    <span id="name" class="property-label">
+                        <spring:message code="name" text="Name"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="name">
+                        <c:out value="${dept.name}"/>
+                    </span>
+                </li>
+            </c:if>
 
-     
+            <c:if test="${dept.description!=null && !dept.description.isEmpty()}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="description" text="Description"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="description">
+                        <c:out value="${dept.description}"/>
+                    </span>
+                </li>
+            </c:if>
+            <c:set target="audit" property="audit" var="audit" value="${dept}" scope="request"/>
+            <jsp:include page="../_audit_show.jsp" flush="true" />
+
         </ol>
-    
+
     </div>
 
     <a href="${pageContext.request.contextPath}/dept/edit/<c:out value="${dept.id}"/>"><spring:message code="edit.link.label"/></a> |

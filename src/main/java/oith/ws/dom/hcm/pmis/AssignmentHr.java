@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "AssignmentHr")
-public class AssignmentHr extends AbstEmpAttach implements IPeriodical{
+public class AssignmentHr extends AbstEmpAttach implements IPeriodical {
 
     public static enum EmpCat {
 
@@ -22,7 +22,6 @@ public class AssignmentHr extends AbstEmpAttach implements IPeriodical{
         TRAINEE_APPRENTICE
     }
 
-    
     @NotNull
     @DBRef
     private Position position;
@@ -60,4 +59,11 @@ public class AssignmentHr extends AbstEmpAttach implements IPeriodical{
         this.empCat = empCat;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 }

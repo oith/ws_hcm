@@ -1,7 +1,7 @@
 package oith.ws.dom.hcm.core;
 
-import oith.ws.dom.core.*;
 import javax.validation.constraints.NotNull;
+import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.hcm.pmis.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
