@@ -124,7 +124,7 @@
             </c:if>
 
             <c:set target="audit" property="audit" var="audit" value="${profile}" scope="request"/>
-            <jsp:include page="../_audit_show.jsp" flush="true" />
+            <jsp:include page="../_auditShow.jsp" flush="true" />
         </ol>
         <div><jsp:include page="profileEduDtls_operator.jsp" /></div>
         <div><jsp:include page="profileJobDtls_operator.jsp" /></div>

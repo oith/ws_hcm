@@ -3,12 +3,12 @@ package oith.ws.dom.hcm.prl;
 import oith.ws.dom.hcm.core.Period;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
-import oith.ws.dom.core.AbstDocProcessed;
+import oith.ws.dom.core.AbstDocProcessAudit;
 import oith.ws.dom.hcm.pmis.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Document(collection = "ProcessedPrl")
-public class ProcessedPrl extends AbstDocProcessed {
+public class ProcessedPrl extends AbstDocProcessAudit {
 
     @NotNull
     @DBRef

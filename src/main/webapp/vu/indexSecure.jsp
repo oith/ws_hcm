@@ -37,17 +37,19 @@
     <p>
         <br/>
 
-    <sec:authorize access="isAuthenticated()">
-        Username: <sec:authentication property="principal.username" />
+        <sec:authorize access="isAuthenticated()">
+            Username: <sec:authentication property="principal.username" />
+            <br/>
+            Role: <sec:authentication property="principal.authorities"/>
+        </sec:authorize>
         <br/>
-        Role: <sec:authentication property="principal.authorities"/>
-    </sec:authorize>
-    <br/>
-    <c:forEach var="listValue" items="${lists}">
-        <a href="${pageContext.request.contextPath}${listValue}">${listValue}</a><br/>
-    </c:forEach>
+        <c:forEach var="listValue" items="${lists}">
+            <a href="${pageContext.request.contextPath}${listValue}">
+                <spring:message code="${listValue}" text="${listValue}"/>
+            </a><br/>
+        </c:forEach>
 
-</p>
+    </p>
 
 </tiles:putAttribute>
 

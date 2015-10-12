@@ -50,8 +50,11 @@
 
     <p>
         <c:forEach var="listValue" items="${lists}">
-            <a href="${pageContext.request.contextPath}${listValue}">${listValue}</a><br/>
+            <a href="${pageContext.request.contextPath}${listValue}">
+                <spring:message code="${listValue}" text="${listValue}"/>
+            </a><br/>
         </c:forEach>
+
     </p>
 
 </tiles:putAttribute>

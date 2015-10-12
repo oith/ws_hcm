@@ -51,18 +51,22 @@ public class Period extends AbstDocAudit implements ICodable, IPeriodical {
         this.description = description;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
 
+    @Override
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
 
+    @Override
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }

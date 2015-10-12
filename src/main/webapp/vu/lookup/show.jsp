@@ -98,7 +98,7 @@
                 </li>
             </c:if>
             <c:set target="audit" property="audit" var="audit" value="${lookup}" scope="request"/>
-            <jsp:include page="../_audit_show.jsp" flush="true" />
+            <jsp:include page="../_auditShow.jsp" flush="true" />
         </ol>
 
     </div>
