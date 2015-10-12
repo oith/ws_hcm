@@ -20,34 +20,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import oith.ws.exception.UserNotFoundException;
 
 @Controller
-//@RequestMapping(value = "/")
-//@RequestMapping(value = "/lookup")
-//@SessionAttributes("lookup")
+@RequestMapping(value = "/lookup")
 public class LookupController extends _OithAuditController {
 
     protected static final String MODEL_ATTIRUTE = "lookup";
-    protected static final String MODEL_ATTRIBUTES = "lookups";
-    protected static final String ADD_FORM_VIEW = "lookup/create";
-    protected static final String EDIT_FORM_VIEW = "lookup/edit";
-    protected static final String SHOW_FORM_VIEW = "lookup/show";
-    protected static final String LIST_VIEW = "lookup/index";
+    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
     private LookupService lookupService;
 
-    protected void setLookupService(LookupService lookupService) {
-        this.lookupService = lookupService;
-    }
-
-    @RequestMapping(value = "/lookup/create", method = RequestMethod.GET)
-    public String showCreateForm(ModelMap model, RedirectAttributes attributes) {
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create(ModelMap model, RedirectAttributes attributes) {
         Lookup lookup = new Lookup();
         model.addAttribute(MODEL_ATTIRUTE, lookup);
         return ADD_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/lookup/create", method = RequestMethod.POST)
-    public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         try {
             doAuditInsert(currObject);
@@ -65,11 +59,10 @@ public class LookupController extends _OithAuditController {
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, lookup.getId());
 
         return "redirect:/" + SHOW_FORM_VIEW + "/" + lookup.getId();
-        //return "redirect:/" + SHOW_FORM_VIEW + "/" +"55d6a25c27b6656d500fe22f";
     }
 
-    @RequestMapping(value = "/lookup/edit/{id}", method = RequestMethod.GET)
-    public String showEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         Lookup lookup = lookupService.findById(id);
 
@@ -81,8 +74,8 @@ public class LookupController extends _OithAuditController {
         return EDIT_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/lookup/edit", method = RequestMethod.POST)
-    public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return EDIT_FORM_VIEW;
@@ -97,7 +90,6 @@ public class LookupController extends _OithAuditController {
         }
 
         try {
-
             //lookup = lookupService.update(currObject);
             Lookup lookup = lookupService.update(currObject, "code,name,active,slNo,remarks,lookupKeyword,updateDate,updateByUser");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, lookup.getId());
@@ -108,7 +100,7 @@ public class LookupController extends _OithAuditController {
         }
     }
 
-    @RequestMapping(value = {"/lookup", "/lookup/index"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
     public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
@@ -130,15 +122,13 @@ public class LookupController extends _OithAuditController {
         return LIST_VIEW;
     }
 
-    @RequestMapping(value = {"/lookup", "/lookup/index"}, method = RequestMethod.GET)
-    public String showList(ModelMap model) {
+    @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
+    public String list(ModelMap model) {
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(5);
 
         List<Lookup> lookups = lookupService.findAll(searchCriteria);
-
-        System.out.println("showList:" + lookups);
 
         model.addAttribute(MODEL_ATTRIBUTES, lookups);
         model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
@@ -151,8 +141,8 @@ public class LookupController extends _OithAuditController {
         return LIST_VIEW;
     }
 
-    @RequestMapping(value = "/lookup/show/{id}", method = RequestMethod.GET)
-    public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
+    public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         Lookup lookup = lookupService.findById(id);
 
@@ -167,14 +157,13 @@ public class LookupController extends _OithAuditController {
         return SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/lookup/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
         try {
             Lookup deleted = lookupService.delete(id);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (LookupNotFoundException e) {
-
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         }
         return "redirect:/" + LIST_VIEW;

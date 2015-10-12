@@ -27,7 +27,6 @@ public class _OithAclController {
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public String menu(ModelMap map) {
-
         return "menu";
     }
 }

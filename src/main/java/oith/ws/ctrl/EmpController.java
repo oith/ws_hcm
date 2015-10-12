@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/emp")
-public class EmpController extends _OithController {
+public class EmpController extends _OithAuditController {
 
     protected static final String MODEL_ATTIRUTE = "emp";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -33,13 +33,13 @@ public class EmpController extends _OithController {
     private EmpService empService;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String showCreateForm(ModelMap model) {
+    public String create(ModelMap model) {
         model.addAttribute(MODEL_ATTIRUTE, new Emp());
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Emp currObject, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Emp currObject, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
@@ -51,7 +51,7 @@ public class EmpController extends _OithController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String showEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         Emp emp = empService.findById(id);
 
@@ -65,7 +65,7 @@ public class EmpController extends _OithController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Emp currObject,
+    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid Emp currObject,
             @PathVariable("id") String id,
             BindingResult bindingResult,
             ModelMap model,
@@ -108,7 +108,7 @@ public class EmpController extends _OithController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
-    public String showList(ModelMap model) {
+    public String list(ModelMap model) {
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(5);
@@ -127,7 +127,7 @@ public class EmpController extends _OithController {
     }
 
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
-    public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         Emp emp = empService.findById(id);
 

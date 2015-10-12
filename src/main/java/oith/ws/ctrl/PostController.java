@@ -23,17 +23,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import oith.ws.service.UserDetailsMac;
 
 @Controller
-//@RequestMapping(value = "/")
-//@RequestMapping(value = "/post")
-//@SessionAttributes("post")
+@RequestMapping(value = "/post")
 public class PostController extends _OithController {
 
     protected static final String MODEL_ATTIRUTE = "post";
-    protected static final String MODEL_ATTRIBUTES = "posts";
-    protected static final String ADD_FORM_VIEW = "post/create";
-    protected static final String EDIT_FORM_VIEW = "post/edit";
-    protected static final String SHOW_FORM_VIEW = "post/show";
-    protected static final String LIST_VIEW = "post/index";
+    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
     private PostService postService;
@@ -42,8 +40,8 @@ public class PostController extends _OithController {
     private UserService userService;
 
     //  public String showEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
-    @RequestMapping(value = "/post/create", method = RequestMethod.GET)
-    public String showCreateForm(ModelMap model, RedirectAttributes attributes) {
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create(ModelMap model, RedirectAttributes attributes) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
@@ -68,8 +66,8 @@ public class PostController extends _OithController {
         return ADD_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/post/create", method = RequestMethod.POST)
-    public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
@@ -79,8 +77,8 @@ public class PostController extends _OithController {
         return "redirect:/" + SHOW_FORM_VIEW + "/" + post.getId();
     }
 
-    @RequestMapping(value = "/post/edit/{id}", method = RequestMethod.GET)
-    public String showEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         Post post = postService.findById(id);
 
@@ -93,8 +91,8 @@ public class PostController extends _OithController {
         return EDIT_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/post/edit", method = RequestMethod.POST)
-    public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String edit(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return EDIT_FORM_VIEW;
@@ -112,7 +110,7 @@ public class PostController extends _OithController {
         return "redirect:/" + SHOW_FORM_VIEW + "/" + post.getId();
     }
 
-    @RequestMapping(value = {"/post", "/post/index"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
     public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
@@ -134,8 +132,8 @@ public class PostController extends _OithController {
         return LIST_VIEW;
     }
 
-    @RequestMapping(value = {"/post", "/post/index"}, method = RequestMethod.GET)
-    public String showList(ModelMap model) {
+    @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
+    public String list(ModelMap model) {
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
@@ -153,8 +151,8 @@ public class PostController extends _OithController {
         return LIST_VIEW;
     }
 
-    @RequestMapping(value = "/post/show/{id}", method = RequestMethod.GET)
-    public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
+    public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         Post post = postService.findById(id);
 
@@ -166,7 +164,7 @@ public class PostController extends _OithController {
         return SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/post/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
         try {
