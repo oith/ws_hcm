@@ -1,4 +1,3 @@
-
 package oith.ws.config;
 
 import oith.ws.repo.RoleConfigRepository;
@@ -7,6 +6,8 @@ import oith.ws.repo.RememberMeTokenRepository;
 import oith.ws.service.LoginService;
 import oith.ws.service.RememberMeTokenServiceImpl;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -203,18 +204,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //http.authorizeRequests().antMatchers("/user/create").permitAll();
         Iterable<RoleConfig> kk = roleConfigRepository.findAll();
 //        List<RoleConfig> kk = new ArrayList();
-//        kk.add(new RoleConfig("/,/index,/login,/logout", new Role("55cef88a27b665569010fcce", "*","Permit All"), null));
-//        kk.add(new RoleConfig("/org/**", new Role("55cef88a27b665569010fccd", "ADMIN","Administrator"), null));
-//        kk.add(new RoleConfig("/user/show", new Role("55cef88a27b665569010fccc", "USER","User"), null));
-//        kk.add(new RoleConfig("/user/create", new Role("55cef88a27b665569010fcce", "*","Permit All"), null));
-//        kk.add(new RoleConfig("/profile/create", new Role("55cef88a27b665569010fccc", "USER","User"), null));
-//        kk.add(new RoleConfig("/post/**", new Role("55cef88a27b665569010fcce", "*","Permit All"), null));
-//        kk.add(new RoleConfig("/admin/**", new Role("55cef88a27b665569010fccd", "ADMIN","Administrator"), null));
+//        kk.add(new RoleConfig("/,/index,/login,/logout", new Role("55cef88a27b665569010fcce", "*", "Permit All"), null));
+//        kk.add(new RoleConfig("/org/**", new Role("55cef88a27b665569010fccd", "ADMIN", "Administrator"), null));
+//        kk.add(new RoleConfig("/user/show", new Role("55cef88a27b665569010fccc", "USER", "User"), null));
+//        kk.add(new RoleConfig("/user/create", new Role("55cef88a27b665569010fcce", "*", "Permit All"), null));
+//        kk.add(new RoleConfig("/profile/create", new Role("55cef88a27b665569010fccc", "USER", "User"), null));
+//        kk.add(new RoleConfig("/post/**", new Role("55cef88a27b665569010fcce", "*", "Permit All"), null));
+//        kk.add(new RoleConfig("/admin/**", new Role("55cef88a27b665569010fccd", "ADMIN", "Administrator"), null));
 
         for (RoleConfig roleConfig : kk) {
 
-            Role role=roleConfig.getRole();
-            
+            Role role = roleConfig.getRole();
+
             if (role.getCode().equals("*")) {
                 http.authorizeRequests().antMatchers(roleConfig.getUrls().split(",")).permitAll();
             } else {

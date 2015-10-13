@@ -29,6 +29,17 @@
         <ol class="property-list hrIrGrdScr">
 
 
+            <c:if test="${user.group!=null && !user.group.isEmpty()}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="group" text="Group"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="group">
+                        <c:out value="${user.group}"/>
+                    </span>
+                </li>
+            </c:if>
+                
             <c:if test="${user.username!=null && !user.username.isEmpty()}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
