@@ -5,10 +5,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
-@Document(collection = "Job")
-public class Job extends AbstDocAudit implements ICodable {
+@Document(collection = "Desg")
+public class Desg extends AbstDocAudit implements ICodable {
 
     @NotNull
     @Indexed
@@ -18,14 +17,6 @@ public class Job extends AbstDocAudit implements ICodable {
     private String name;
 
     private String description;
-
-    @NotNull
-    @DBRef
-    private Desg desg;
-
-    @NotNull
-    @DBRef
-    private Grade grade;
 
     @Override
     public String getCode() {
@@ -51,14 +42,6 @@ public class Job extends AbstDocAudit implements ICodable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
     }
 
 }
