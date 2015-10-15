@@ -37,9 +37,9 @@
             <td><form:label path="username"><spring:message code="username" text="User Name"/></form:label></td>
             <td><form:input path="username" type="text" size="30" maxlength="30"/></td>
             <td><form:errors path="username" cssClass="error" element="div"/></td>
-            <td><form:label path="displayName"><spring:message code="displayName" text="Display Name"/></form:label></td>
-            <td><form:input path="displayName" type="text" size="50" maxlength="50"/></td>
-            <td><form:errors path="displayName" cssClass="error" element="div"/></td>
+            <td><form:label path="fullName"><spring:message code="fullName" text="Full Name"/></form:label></td>
+            <td><form:input path="fullName" type="text" size="50" maxlength="50"/></td>
+            <td><form:errors path="fullName" cssClass="error" element="div"/></td>
         </tr>
         <tr>
             <td><form:label path="gender"><spring:message code="gender" text="Gender"/></form:label></td>

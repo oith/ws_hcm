@@ -60,13 +60,13 @@
                     </span>
                 </li>
             </c:if>
-            <c:if test="${user.displayName!=null && !user.displayName.isEmpty()}">
+            <c:if test="${user.fullName!=null && !user.fullName.isEmpty()}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="displayName" text="Display Name"/>: 
+                        <spring:message code="fullName" text="Full Name"/>: 
                     </span>
-                    <span class="property-value" aria-labelledby="displayName">
-                        <c:out value="${user.displayName}"/>
+                    <span class="property-value" aria-labelledby="fullName">
+                        <c:out value="${user.fullName}"/>
                     </span>
                 </li>
             </c:if>

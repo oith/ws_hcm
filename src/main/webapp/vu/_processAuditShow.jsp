@@ -15,7 +15,7 @@
                 <spring:message code="processByUser" text="Insert By User"/>: 
             </span>
             <span class="property-value" aria-labelledby="processByUser">
-                <c:out value="${processAudit.processByUser.displayName}"/>
+                <c:out value="${processAudit.processByUser.fullName}"/>
             </span>
         </li>
     </c:if>
@@ -37,7 +37,7 @@
                 <spring:message code="tamperByUser" text="Update By User"/>: 
             </span>
             <span class="property-value" aria-labelledby="tamperByUser">
-                <c:out value="${processAudit.tamperByUser.displayName}"/>
+                <c:out value="${processAudit.tamperByUser.fullName}"/>
             </span>
         </li>
     </c:if>

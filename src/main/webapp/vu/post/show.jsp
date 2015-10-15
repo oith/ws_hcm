@@ -47,7 +47,7 @@
                         <spring:message code="user" text="user"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="user">
-                        <c:out value="${post.user.displayName}"/>
+                        <c:out value="${post.user.fullName}"/>
                     </span>
                 </li>
             </c:if>

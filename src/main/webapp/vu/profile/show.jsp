@@ -31,13 +31,13 @@
 
         <ol class="property-list hrIrGrdScr">
 
-            <c:if test="${profile.user.displayName!=null && !profile.user.displayName.isEmpty()}">
+            <c:if test="${profile.user.fullName!=null && !profile.user.fullName.isEmpty()}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="displayName" text="Display Name"/>: 
+                        <spring:message code="fullName" text="Full Name"/>: 
                     </span>
-                    <span class="property-value" aria-labelledby="user.displayName">
-                        <c:out value="${profile.user.displayName}"/>
+                    <span class="property-value" aria-labelledby="user.fullName">
+                        <c:out value="${profile.user.fullName}"/>
                     </span>
                 </li>
             </c:if>

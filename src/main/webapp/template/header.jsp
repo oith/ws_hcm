@@ -79,7 +79,7 @@
 
                         <div>
                             <spring:message code="welcome.label" text="Welcome"/>
-                            <a href="${pageContext.request.contextPath}/user/show"><sec:authentication property="principal.displayName" /></a>
+                            <a href="${pageContext.request.contextPath}/user/show"><sec:authentication property="principal.fullName" /></a>
                         </div>
 
                         <div>

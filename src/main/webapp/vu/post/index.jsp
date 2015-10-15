@@ -92,7 +92,7 @@
                             <td><a href="${pageContext.request.contextPath}/post/show/<c:out value="${post.id}"/>"><spring:message code="show.link.label"/></a></td>
                             <td><c:out value="${post.subject}"/></td>
                             <td><c:out value="${post.content}"/></td>
-                            <td><c:out value="${post.user.displayName}"/></td>
+                            <td><c:out value="${post.user.fullName}"/></td>
 
                             <td><a href="${pageContext.request.contextPath}/post/edit/<c:out value="${post.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/post/delete/<c:out value="${post.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>

@@ -76,7 +76,7 @@
 
                         <td></td>
                         <td><spring:message code="profilePicFile" text="Profile Pic File"/></td>
-                        <td><spring:message code="displayName" text="Display Name"/></td>
+                        <td><spring:message code="fullName" text="Full Name"/></td>
                         <td><spring:message code="username" text="User Name"/></td>
                         <td><spring:message code="gender" text="Gender"/></td>
                         <td><spring:message code="dob" text="Dob"/></td>
@@ -105,10 +105,10 @@
                                 <img id="imagePreview" height="55px" width="45px" src="${macImage}" alt="${macImage}"/>
                             </td>
 
-                            <td><a href="${pageContext.request.contextPath}/admin/user/admin_show/<c:out value="${profile.user.id}"/>"><c:out value="${profile.user.displayName}"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/admin/user/admin_show/<c:out value="${profile.user.id}"/>"><c:out value="${profile.user.fullName}"/></a></td>
 
 
-                            <%--<td><c:out value="${profile.user.displayName}"/></td>--%>
+                            <%--<td><c:out value="${profile.user.fullName}"/></td>--%>
                             <td><c:out value="${profile.user.username}"/></td>
                             <td><c:out value="${profile.user.gender}"/></td>
                             <td><fmt:formatDate value="${profile.user.dob}" type="date" pattern="dd/MM/yyyy"/></td>

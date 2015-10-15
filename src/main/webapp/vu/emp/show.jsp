@@ -47,7 +47,7 @@
                         <spring:message code="profile" text="Profile"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="profile">
-                        <a href="${pageContext.request.contextPath}/operator/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.displayName}"/></a>
+                        <a href="${pageContext.request.contextPath}/operator/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.fullName}"/></a>
                     </span>
                 </li>
             </c:if>

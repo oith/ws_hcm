@@ -112,7 +112,7 @@ public class UserController extends _OithController {
             //session.setAttribute("userId", user.getId());
             //session.setAttribute("fullName", user.getDisplayName());
             authUser.setUserId(user.getId());
-            authUser.setDisplayName(user.getDisplayName());
+            authUser.setFullName(user.getFullName());
 
             return "redirect:/" + SHOW_FORM_VIEW;
         } catch (UserNotFoundException e) {

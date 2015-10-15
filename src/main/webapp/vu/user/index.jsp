@@ -76,7 +76,7 @@
                         <td></td>
                         <td><spring:message code="group" text="Group"/></td>
                         <td><spring:message code="username" text="Username"/></td>
-                        <td><spring:message code="displayName" text="displayName"/></td>
+                        <td><spring:message code="fullName" text="fullName"/></td>
                         <td><spring:message code="gender" text="gender"/></td>
                         <td><spring:message code="dob" text="dob"/></td>
                         <td><spring:message code="password" text="password"/></td>
@@ -95,7 +95,7 @@
 
                             <td><c:out value="${user.group}"/></td>
                             <td><c:out value="${user.username}"/></td>
-                            <td><c:out value="${user.displayName}"/></td>
+                            <td><c:out value="${user.fullName}"/></td>
                             <td><c:out value="${user.gender}"/></td>
                             <td><c:out value="${user.dob}"/></td>
                             <td><c:out value="${user.id}"/></td>

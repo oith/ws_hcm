@@ -89,7 +89,7 @@
                             <td><c:out value="${emp.code}"/></td>
 
                             <td>    
-                                <a href="${pageContext.request.contextPath}/operator/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.displayName}"/></a>
+                                <a href="${pageContext.request.contextPath}/operator/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.fullName}"/></a>
                             </td>
                             
                             <td><fmt:formatDate value="${emp.doj}" type="date" pattern="dd/MM/yyyy"/></td>
