@@ -18,8 +18,6 @@ public class TrnscFm extends AbstDocAudit implements ICodable {
     }
 
     @NotNull
-    private String group;
-    @NotNull
     private String code;
     @NotNull
     private Date transDate;
@@ -99,14 +97,6 @@ public class TrnscFm extends AbstDocAudit implements ICodable {
 
     public void setNarration(String narration) {
         this.narration = narration;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
     }
 
 }
