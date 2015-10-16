@@ -1,5 +1,8 @@
-/target
+target/
+lib/oith_ws_core-1.0.0.jar
 .classpath
 .project
 .springBeans
-oith_ws_core-1.0.0.jar
+
+
+
