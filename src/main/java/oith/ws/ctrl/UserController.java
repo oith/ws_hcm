@@ -1,11 +1,13 @@
 package oith.ws.ctrl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import oith.ws.dom.core.User;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.UserService;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import oith.ws.dom.core.Role;
+import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
+import oith.ws.service.RoleService;
 import oith.ws.service.UserDetailsMac;
 
 @Controller
@@ -41,6 +45,8 @@ public class UserController extends _OithController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping(value = "/user/create", method = RequestMethod.GET)
     public String showCreateForm(ModelMap model) {
@@ -106,7 +112,7 @@ public class UserController extends _OithController {
         }
 
         try {//user name cant be update admin can do
-            User user = userService.update(currObject, "displayName,gender,dob,password");//username
+            User user = userService.update(currObject, "fullName,gender,dob,password");//username
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
 
             //session.setAttribute("userId", user.getId());
@@ -143,6 +149,7 @@ public class UserController extends _OithController {
         User user = new User();
         Set<Role> roles = getCommonRoles();
         user.setAuthorities(roles);
+        model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return ADD_FORM_VIEW_ADMIN;
@@ -159,11 +166,12 @@ public class UserController extends _OithController {
     public String submitAdminCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("authorities", getAuthorities());
             return ADD_FORM_VIEW_ADMIN;
         }
 
-        Set<Role> roles = getCommonRoles();
-        currObject.setAuthorities(roles);
+        //Set<Role> roles = getCommonRoles();
+        //currObject.setAuthorities(roles);
         User user = userService.create(currObject);
 
         //session.getSessionContext().getSession(LIST_VIEW)
@@ -171,6 +179,22 @@ public class UserController extends _OithController {
         //session.setAttribute("fullName", user.getDisplayName());
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, user.getId());
         return "redirect:/" + "admin/" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
+    }
+
+    private Map<String, String> getAuthorities() {
+
+        Map<String, String> phones = new HashMap();
+
+        for (Role col : roleService.findAll()) {
+            phones.put(col.getId(), col.getCode() + "-" + col.getName());
+        }
+//        phones.put("samsung", "SAMSUNG");
+//        phones.put("nokia", "NOKIA");
+//        phones.put("iphone", "IPHONE");
+//        phones.put("bberry", "BLACKBERRY");
+//        phones.put("htc", "HTC");
+
+        return phones;
     }
 
     @RequestMapping(value = "/admin/user/admin_edit/{id}", method = RequestMethod.GET)
@@ -182,6 +206,8 @@ public class UserController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
+
+        model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return EDIT_FORM_VIEW_ADMIN;
@@ -191,11 +217,12 @@ public class UserController extends _OithController {
     public String submitAdminEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("authorities", getAuthorities());
             return EDIT_FORM_VIEW_ADMIN;
         }
 
         try {
-            User user = userService.update(currObject, "displayName,gender,dob,username,password");
+            User user = userService.update(currObject, "fullName,gender,dob,username,password,authorities");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
             return "redirect:/" + "admin/" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
         } catch (UserNotFoundException e) {
@@ -258,9 +285,9 @@ public class UserController extends _OithController {
         }
 
         List<Role> kk = new ArrayList<>();
-        kk.add(new Role("55cef88a27b665569010fcce", "*","Permit All"));
-        kk.add(new Role("55cef88a27b665569010fccc", "USER","User"));
-        kk.add(new Role("55cef88a27b665569010fccd", "ADMIN","Administrator"));
+        kk.add(new Role("55cef88a27b665569010fcce", "*", "Permit All"));
+        kk.add(new Role("55cef88a27b665569010fccc", "USER", "User"));
+        kk.add(new Role("55cef88a27b665569010fccd", "ADMIN", "Administrator"));
         model.addAttribute("allAuthorities", kk);
         model.addAttribute(MODEL_ATTIRUTE, user);
         return SHOW_FORM_VIEW_ADMIN;

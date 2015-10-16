@@ -1,6 +1,5 @@
 package oith.ws.service;
 
-
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.AccountHeadFmNotFoundException;
 import oith.ws.repo.AccountHeadFmRepository;
@@ -48,8 +47,6 @@ public class AccountHeadFmServiceImpl implements AccountHeadFmService {
         AccountHeadFm userSaved = accountHeadFmRepository.save(accountHeadFm);
         return userSaved;
     }
-
-
 
     @Override
     @Transactional
@@ -117,6 +114,26 @@ public class AccountHeadFmServiceImpl implements AccountHeadFmService {
 
         accountHeadFmRepository.save(user);
         return updated;
+    }
+
+    @Transactional(rollbackFor = AccountHeadFmNotFoundException.class)
+    @Override
+    public AccountHeadFm update(AccountHeadFm updated, String cols) throws AccountHeadFmNotFoundException {
+
+        AccountHeadFm accountHeadFm = (AccountHeadFm) accountHeadFmRepository.findOne(updated.getId());
+
+        if (accountHeadFm == null) {
+            throw new AccountHeadFmNotFoundException();
+        }
+        //updated.setUser(userRepository.findByUsername("mac"));
+        try {
+            MacUtils.copyProperties(accountHeadFm, updated, cols);
+        } catch (Exception e) {
+            LOGGER.info("No user found with err: " + e);
+        }
+
+        accountHeadFm = accountHeadFmRepository.save(accountHeadFm);
+        return accountHeadFm;
     }
 
     @Transactional
@@ -207,7 +224,7 @@ public class AccountHeadFmServiceImpl implements AccountHeadFmService {
                 + "]"
                 + "}";
         //'$regex':'^win$'
-        Query query= new BasicQuery(yy);
+        Query query = new BasicQuery(yy);
 
         // query.addCriteria(Criteria.where("loginId").regex(pageable.getSearchTerm(), "i").orOperator(Criteria.where("fullName").regex(pageable.getSearchTerm(), "i"))
         //  );

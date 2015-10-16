@@ -1,11 +1,12 @@
 package oith.ws.service;
 
-import oith.ws.dom.hcm.pmis.Emp;
+
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.EmpNotFoundException;
-import oith.ws.repo.EmpRepository;
+import oith.ws.exception.TrnscFmNotFoundException;
+import oith.ws.repo.TrnscFmRepository;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import oith.ws.dom.hcm.fm.TrnscFm;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,20 +19,20 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("empService")
+@Service("tarnscFmService")
 @Transactional(readOnly = true)
-public class EmpServiceImpl implements EmpService {
+public class TrnscFmServiceImpl implements TrnscFmService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmpServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrnscFmServiceImpl.class);
 
     @Autowired
-    private EmpRepository empRepository;
+    private TrnscFmRepository tarnscFmRepository;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void setEmpRepository(EmpRepository empRepository) {
-        this.empRepository = empRepository;
+    public void setTrnscFmRepository(TrnscFmRepository tarnscFmRepository) {
+        this.tarnscFmRepository = tarnscFmRepository;
     }
 
     public MongoTemplate getMongoTemplate() {
@@ -40,18 +41,20 @@ public class EmpServiceImpl implements EmpService {
 
     @Transactional
     @Override
-    public Emp create(Emp emp) {
+    public TrnscFm create(TrnscFm tarnscFm) {
         //ObjectId objectId = new ObjectId();
-        LOGGER.debug("Creating a new user with information: " + emp);
-        //emp.setId(objectId.toString());
-        Emp userSaved = empRepository.save(emp);
+        LOGGER.debug("Creating a new user with information: " + tarnscFm);
+        //tarnscFm.setId(objectId.toString());
+        TrnscFm userSaved = tarnscFmRepository.save(tarnscFm);
         return userSaved;
     }
 
+
+
     @Override
     @Transactional
-    public Emp findById(String id) {
-        Emp user = (Emp) empRepository.findOne(id);
+    public TrnscFm findById(String id) {
+        TrnscFm user = (TrnscFm) tarnscFmRepository.findOne(id);
 
         //Hibernate.initialize(emp.getLookupAnyTypeId());
         //Hibernate.initialize(emp.getPersonEduDtlList());
@@ -61,23 +64,23 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    @Transactional(rollbackFor = EmpNotFoundException.class)
-    public Emp delete(String userId) throws EmpNotFoundException {
+    @Transactional(rollbackFor = TrnscFmNotFoundException.class)
+    public TrnscFm delete(String userId) throws TrnscFmNotFoundException {
 
-        Emp user = (Emp) empRepository.findOne(userId);
+        TrnscFm user = (TrnscFm) tarnscFmRepository.findOne(userId);
 
         if (user == null) {
-            throw new EmpNotFoundException();
+            throw new TrnscFmNotFoundException();
         }
 
-        empRepository.delete(user);
+        tarnscFmRepository.delete(user);
         return user;
     }
 
     @Override
     @Transactional
-    public Iterable<Emp> findAll() {
-        Iterable<Emp> users = empRepository.findAll();//createQuery("FROM " + Person.class.getName()).list();
+    public Iterable<TrnscFm> findAll() {
+        Iterable<TrnscFm> users = tarnscFmRepository.findAll();//createQuery("FROM " + Person.class.getName()).list();
 
 //        List<Person> jj = new ArrayList<>();
 //        for (Person user : users) {
@@ -96,14 +99,14 @@ public class EmpServiceImpl implements EmpService {
         return users;
     }
 
-    @Transactional(rollbackFor = EmpNotFoundException.class)
+    @Transactional(rollbackFor = TrnscFmNotFoundException.class)
     @Override
-    public Emp update(Emp updated) throws EmpNotFoundException {
+    public TrnscFm update(TrnscFm updated) throws TrnscFmNotFoundException {
 
-        Emp user = (Emp) empRepository.findOne(updated.getId());
+        TrnscFm user = (TrnscFm) tarnscFmRepository.findOne(updated.getId());
 
         if (user == null) {
-            throw new EmpNotFoundException();
+            throw new TrnscFmNotFoundException();
         }
 
         try {
@@ -112,33 +115,13 @@ public class EmpServiceImpl implements EmpService {
             LOGGER.info("No user found with err: " + e);
         }
 
-        empRepository.save(user);
+        tarnscFmRepository.save(user);
         return updated;
-    }
-
-    @Transactional(rollbackFor = EmpNotFoundException.class)
-    @Override
-    public Emp update(Emp updated, String cols) throws EmpNotFoundException {
-
-        Emp emp = (Emp) empRepository.findOne(updated.getId());
-
-        if (emp == null) {
-            throw new EmpNotFoundException();
-        }
-        //updated.setUser(userRepository.findByUsername("mac"));
-        try {
-            MacUtils.copyProperties(emp, updated, cols);
-        } catch (Exception e) {
-            LOGGER.info("No user found with err: " + e);
-        }
-
-        emp = empRepository.save(emp);
-        return emp;
     }
 
     @Transactional
     @Override
-    public List<Emp> findAll(_SearchDTO pageable) {
+    public List<TrnscFm> findAll(_SearchDTO pageable) {
 
 //        Session session = userRepository;
 //
@@ -185,9 +168,9 @@ public class EmpServiceImpl implements EmpService {
 
         query.with(request);
 
-        List<Emp> users = mongoTemplate.find(query, Emp.class);
+        List<TrnscFm> users = mongoTemplate.find(query, TrnscFm.class);
 
-        long asd = mongoTemplate.count(query, Emp.class);
+        long asd = mongoTemplate.count(query, TrnscFm.class);
 
         //  System.out.println("data on srach: " + asd + " data: " + users);
         pageable.setTotalPages((int) Math.ceil(1d * asd / pageable.getPageSize()));
@@ -197,7 +180,7 @@ public class EmpServiceImpl implements EmpService {
 
     @Transactional
     @Override
-    public List<Emp> search(_SearchDTO pageable) {
+    public List<TrnscFm> search(_SearchDTO pageable) {
         LOGGER.debug("Searching accBnks with search criteria: " + pageable);
 
 //        String searchTerm = pageable.getSearchTerm().toUpperCase();
@@ -224,7 +207,7 @@ public class EmpServiceImpl implements EmpService {
                 + "]"
                 + "}";
         //'$regex':'^win$'
-        Query query = new BasicQuery(yy);
+        Query query= new BasicQuery(yy);
 
         // query.addCriteria(Criteria.where("loginId").regex(pageable.getSearchTerm(), "i").orOperator(Criteria.where("fullName").regex(pageable.getSearchTerm(), "i"))
         //  );
@@ -235,9 +218,9 @@ public class EmpServiceImpl implements EmpService {
 
         query.with(request);
 
-        List<Emp> users = mongoTemplate.find(query, Emp.class);
+        List<TrnscFm> users = mongoTemplate.find(query, TrnscFm.class);
 
-        long asd = mongoTemplate.count(query, Emp.class);
+        long asd = mongoTemplate.count(query, TrnscFm.class);
 
         System.out.println("data on srach: " + asd + " data: " + users);
 
@@ -253,5 +236,4 @@ public class EmpServiceImpl implements EmpService {
 //        pageable.setTotalRecs(userPages.getTotalElements());
         return users;
     }
-
 }

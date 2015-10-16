@@ -2,6 +2,7 @@ package oith.ws.dom.hcm.fm;
 
 import java.util.Date;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
 import oith.ws.dom.hcm.pmis.Emp;
@@ -25,10 +26,11 @@ public class TrnscFm extends AbstDocAudit implements ICodable {
     @DBRef
     private AccountHeadFm accountHeadFm;
     @DBRef
-    private AccountHeadFm accountHeadFmOppos;
+    private AccountHeadFm accountHeadFmOpposite;
     @NotNull
     private Sign sign;
     @NotNull
+    @Size(min=0, max=100000)
     private Double amount;
 
     @DBRef
@@ -59,12 +61,12 @@ public class TrnscFm extends AbstDocAudit implements ICodable {
         this.accountHeadFm = accountHeadFm;
     }
 
-    public AccountHeadFm getAccountHeadFmOppos() {
-        return accountHeadFmOppos;
+    public AccountHeadFm getAccountHeadFmOpposite() {
+        return accountHeadFmOpposite;
     }
 
-    public void setAccountHeadFmOppos(AccountHeadFm accountHeadFmOppos) {
-        this.accountHeadFmOppos = accountHeadFmOppos;
+    public void setAccountHeadFmOppos(AccountHeadFm accountHeadFmOpposite) {
+        this.accountHeadFmOpposite = accountHeadFmOpposite;
     }
 
     public Sign getSign() {

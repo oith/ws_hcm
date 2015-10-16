@@ -31,12 +31,14 @@ public abstract class _OithAuditController extends _OithController {
     }
 
     protected void doAuditInsert(AbstDocAudit currObject) throws UserNotFoundException {
+        User user = getCurrUser();
+        currObject.setGroup(user.getGroup());
+        currObject.setInsertByUser(user);
         currObject.setInsertDate(new Date());
-        currObject.setInsertByUser(getCurrUser());
     }
 
     protected void doAuditUpdate(AbstDocAudit currObject) throws UserNotFoundException {
-        currObject.setUpdateDate(new Date());
         currObject.setUpdateByUser(getCurrUser());
+        currObject.setUpdateDate(new Date());
     }
 }

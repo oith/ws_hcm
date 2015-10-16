@@ -9,9 +9,11 @@ public interface EmpService {
 
     public Emp findById(String id);
 
-    public Emp create(Emp org);
+    public Emp create(Emp emp);
 
-    public Emp update(Emp org) throws EmpNotFoundException;
+    public Emp update(Emp emp) throws EmpNotFoundException;
+
+    public Emp update(Emp emp, String cols) throws EmpNotFoundException;
 
     public Emp delete(String id) throws EmpNotFoundException;
 

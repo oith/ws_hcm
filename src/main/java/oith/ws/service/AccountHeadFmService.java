@@ -1,6 +1,5 @@
 package oith.ws.service;
 
-
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.AccountHeadFmNotFoundException;
 import java.util.List;
@@ -10,9 +9,11 @@ public interface AccountHeadFmService {
 
     public AccountHeadFm findById(String id);
 
-    public AccountHeadFm create(AccountHeadFm org);
+    public AccountHeadFm create(AccountHeadFm accountHeadFm);
 
-    public AccountHeadFm update(AccountHeadFm org) throws AccountHeadFmNotFoundException;
+    public AccountHeadFm update(AccountHeadFm accountHeadFm) throws AccountHeadFmNotFoundException;
+
+    public AccountHeadFm update(AccountHeadFm accountHeadFm, String cols) throws AccountHeadFmNotFoundException;
 
     public AccountHeadFm delete(String id) throws AccountHeadFmNotFoundException;
 

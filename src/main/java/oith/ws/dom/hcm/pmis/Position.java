@@ -13,15 +13,10 @@ public class Position extends AbstDocAudit implements ICodable {
     @NotNull
     @Indexed
     private String code;
-    @NotNull
-    @Indexed
-    private String name;
-
-    private String description;
 
     @DBRef
     @NotNull
-    private Dept dept;
+    private OrgStruct orgStruct;
     @DBRef
     @NotNull
     private Job job;
@@ -36,25 +31,25 @@ public class Position extends AbstDocAudit implements ICodable {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @Override
     public String toString() {
-        return job + " of " + dept;
+        return job + " of " + orgStruct;
+    }
+
+    public OrgStruct getOrgStruct() {
+        return orgStruct;
+    }
+
+    public void setOrgStruct(OrgStruct orgStruct) {
+        this.orgStruct = orgStruct;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
     }
 
 }

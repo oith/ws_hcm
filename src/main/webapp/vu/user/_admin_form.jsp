@@ -91,6 +91,13 @@
 
 
         </tr>
+        <tr> 
+            <td><form:label path="authorities"><spring:message code="authorities" text="Authorities"/></form:label></td>
+                <td>
+                <form:select path="authorities" items="${authorities}" multiple="true"/>
+            </td>   
+            <td><form:errors path="authorities" cssClass="error" element="div"/></td>
+        </tr>
     </table>
 </div>   
 
