@@ -14,7 +14,7 @@ public abstract class _OithAuditController extends _OithController {
     @Autowired
     private UserService userService;
 
-    private User getCurrUser() throws UserNotFoundException {
+    protected User getCurrUser() throws UserNotFoundException {
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
 

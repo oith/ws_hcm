@@ -192,13 +192,15 @@ public class ProfileController extends _OithAuditController {
 
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST)
     public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
-
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
-        User user = userService.findById(userId);
-
-        currObject.setUser(user);
-
+        User authUser = null;
+        
+        try {
+            authUser = super.getCurrUser();
+        } catch (Exception e) {
+        }
+        
+        currObject.setUser(authUser);
+        
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
         }
@@ -213,7 +215,7 @@ public class ProfileController extends _OithAuditController {
 
         Profile profile = profileService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, profile.getId());
-        authUser.setProfileId(profile.getId());
+        //authUser.setProfileId(profile.getId());
 
         return "redirect:/" + SHOW_FORM_VIEW;
     }
@@ -527,7 +529,7 @@ public class ProfileController extends _OithAuditController {
         return SHOW_FORM_VIEW_ADMIN;
     }
 
-     @RequestMapping(value = "/operator/profile/operator_show/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/operator/profile/operator_show/{id}", method = RequestMethod.GET)
     public String showOperForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
         Profile user = profileService.findById(id);
         System.out.println("showForm: " + user + " userId: " + id);
@@ -541,11 +543,7 @@ public class ProfileController extends _OithAuditController {
         model.addAttribute(MODEL_ATTIRUTE, user);
         return SHOW_FORM_VIEW_OPERATOR;
     }
-    
-    
-            
-            
-            
+
     @RequestMapping(value = "/profile/getPhoto/{code}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<byte[]> getCodableDTO(@PathVariable("code") String code) {
