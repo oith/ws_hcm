@@ -21,10 +21,10 @@
         <jetty.version>8.1.16.v20140903</jetty.version>
       
         <!--<maven.tomcat.url>http://localhost:8090/OITH_WS/</maven.tomcat.url>--> 
-        <!--<hibernate.validator.version>5.2.1.Final</hibernate.validator.version>-->
+        <hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
         <javax.validation.version>1.1.0.Final</javax.validation.version>
         <org.apache.tomcat.version>7.0.50</org.apache.tomcat.version>
-        <!--<hibernate.version>5.0.0.Final</hibernate.version>-->
+        <hibernate.version>5.0.0.Final</hibernate.version>
         <org.springframework.security.version>4.0.2.RELEASE</org.springframework.security.version>
     
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -295,12 +295,12 @@
             <version>2.0.0.CR1</version>
         </dependency>
         <!-- Hibernate Validator -->
-<!--        <dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
         </dependency>
-        
+  <!--      
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
