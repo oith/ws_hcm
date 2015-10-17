@@ -75,8 +75,10 @@
                     <tr>
                         <td></td>
                         <td><spring:message code="code" text="Code"/></td>
-                        <td><spring:message code="name" text="Name"/></td>
-                        <td><spring:message code="description" text="Description"/></td>
+                        <td><spring:message code="transDate" text="transDate"/></td>
+                        <td><spring:message code="accountHeadFm" text="accountHeadFm"/></td>
+                        <td><spring:message code="sign" text="sign"/></td>
+                        <td><spring:message code="amount" text="amount"/></td>
 
                     </tr>
                 </thead>
@@ -86,8 +88,10 @@
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/trnscFm/show/<c:out value="${trnscFm.id}"/>"><spring:message code="show.link.label"/></a></td>
                             <td><c:out value="${trnscFm.code}"/></td>
-                            <td><c:out value="${trnscFm.title}"/></td>
-                            <td><c:out value="${trnscFm.accNo}"/></td>
+                            <td><c:out value="${trnscFm.transDate}"/></td>
+                            <td><c:out value="${trnscFm.accountHeadFm.title}"/></td>
+                            <td><c:out value="${trnscFm.sign}"/></td>
+                            <td><c:out value="${trnscFm.amount}"/></td>
 
                             <td><a href="${pageContext.request.contextPath}/trnscFm/edit/<c:out value="${trnscFm.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/trnscFm/delete/<c:out value="${trnscFm.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>

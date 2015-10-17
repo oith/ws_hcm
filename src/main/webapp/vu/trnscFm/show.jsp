@@ -41,24 +41,24 @@
                 </li>
             </c:if>
 
-            <c:if test="${trnscFm.title!=null && !trnscFm.title.isEmpty()}">
+            <c:if test="${trnscFm.transDate!=null}">
                 <li class="fieldcontain first_item">
                     <span id="name" class="property-label">
-                        <spring:message code="title" text="title"/>: 
+                        <spring:message code="transDate" text="transDate"/>: 
                     </span>
-                    <span class="property-value" aria-labelledby="title">
-                        <c:out value="${trnscFm.title}"/>
+                    <span class="property-value" aria-labelledby="transDate">
+                        <c:out value="${trnscFm.transDate}"/>
                     </span>
                 </li>
             </c:if>
 
-            <c:if test="${trnscFm.accNo!=null && !trnscFm.accNo.isEmpty()}">
+            <c:if test="${trnscFm.amount!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="description" text="Description"/>: 
+                        <spring:message code="amount" text="amount"/>: 
                     </span>
-                    <span class="property-value" aria-labelledby="description">
-                        <c:out value="${trnscFm.accNo}"/>
+                    <span class="property-value" aria-labelledby="amount">
+                        <c:out value="${trnscFm.amount}"/>
                     </span>
                 </li>
             </c:if>
