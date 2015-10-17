@@ -1,23 +1,23 @@
 package oith.ws.service;
 
-import oith.ws.dom.hcm.pmis.Dept;
+import oith.ws.dom.hcm.pmis.Org;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.DeptNotFoundException;
 import java.util.List;
 
 public interface DeptService {
 
-    public Dept findById(String id);
+    public Org findById(String id);
 
-    public Dept create(Dept org);
+    public Org create(Org org);
 
-    public Dept update(Dept org) throws DeptNotFoundException;
+    public Org update(Org org) throws DeptNotFoundException;
 
-    public Dept delete(String id) throws DeptNotFoundException;
+    public Org delete(String id) throws DeptNotFoundException;
 
-    public List<Dept> search(_SearchDTO pageable);
+    public List<Org> search(_SearchDTO pageable);
 
-    public List<Dept> findAll(_SearchDTO pageable);
+    public List<Org> findAll(_SearchDTO pageable);
 
-    public Iterable<Dept> findAll();
+    public Iterable<Org> findAll();
 }

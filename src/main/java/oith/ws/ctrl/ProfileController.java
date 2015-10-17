@@ -192,15 +192,10 @@ public class ProfileController extends _OithAuditController {
 
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST)
     public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
-        User authUser = null;
-        
-        try {
-            authUser = super.getCurrUser();
-        } catch (Exception e) {
-        }
-        
-        currObject.setUser(authUser);
-        
+        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        currObject.setUser(userService.findById(authUser.getUserId()));
+
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
         }
@@ -215,7 +210,7 @@ public class ProfileController extends _OithAuditController {
 
         Profile profile = profileService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, profile.getId());
-        //authUser.setProfileId(profile.getId());
+        authUser.setProfileId(profile.getId());
 
         return "redirect:/" + SHOW_FORM_VIEW;
     }

@@ -1,6 +1,6 @@
 package oith.ws.service;
 
-import oith.ws.dom.hcm.pmis.Dept;
+import oith.ws.dom.hcm.pmis.Org;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.DeptNotFoundException;
 import oith.ws.repo.DeptRepository;
@@ -40,11 +40,11 @@ public class DeptServiceImpl implements DeptService {
 
     @Transactional
     @Override
-    public Dept create(Dept dept) {
+    public Org create(Org dept) {
         //ObjectId objectId = new ObjectId();
         LOGGER.debug("Creating a new user with information: " + dept);
         //dept.setId(objectId.toString());
-        Dept userSaved = deptRepository.save(dept);
+        Org userSaved = deptRepository.save(dept);
         return userSaved;
     }
 
@@ -52,8 +52,8 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Transactional
-    public Dept findById(String id) {
-        Dept user = (Dept) deptRepository.findOne(id);
+    public Org findById(String id) {
+        Org user = (Org) deptRepository.findOne(id);
 
         //Hibernate.initialize(emp.getLookupAnyTypeId());
         //Hibernate.initialize(emp.getPersonEduDtlList());
@@ -64,9 +64,9 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Transactional(rollbackFor = DeptNotFoundException.class)
-    public Dept delete(String userId) throws DeptNotFoundException {
+    public Org delete(String userId) throws DeptNotFoundException {
 
-        Dept user = (Dept) deptRepository.findOne(userId);
+        Org user = (Org) deptRepository.findOne(userId);
 
         if (user == null) {
             throw new DeptNotFoundException();
@@ -78,8 +78,8 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Transactional
-    public Iterable<Dept> findAll() {
-        Iterable<Dept> users = deptRepository.findAll();//createQuery("FROM " + Person.class.getName()).list();
+    public Iterable<Org> findAll() {
+        Iterable<Org> users = deptRepository.findAll();//createQuery("FROM " + Person.class.getName()).list();
 
 //        List<Person> jj = new ArrayList<>();
 //        for (Person user : users) {
@@ -100,9 +100,9 @@ public class DeptServiceImpl implements DeptService {
 
     @Transactional(rollbackFor = DeptNotFoundException.class)
     @Override
-    public Dept update(Dept updated) throws DeptNotFoundException {
+    public Org update(Org updated) throws DeptNotFoundException {
 
-        Dept user = (Dept) deptRepository.findOne(updated.getId());
+        Org user = (Org) deptRepository.findOne(updated.getId());
 
         if (user == null) {
             throw new DeptNotFoundException();
@@ -120,7 +120,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Transactional
     @Override
-    public List<Dept> findAll(_SearchDTO pageable) {
+    public List<Org> findAll(_SearchDTO pageable) {
 
 //        Session session = userRepository;
 //
@@ -167,9 +167,9 @@ public class DeptServiceImpl implements DeptService {
 
         query.with(request);
 
-        List<Dept> users = mongoTemplate.find(query, Dept.class);
+        List<Org> users = mongoTemplate.find(query, Org.class);
 
-        long asd = mongoTemplate.count(query, Dept.class);
+        long asd = mongoTemplate.count(query, Org.class);
 
         //  System.out.println("data on srach: " + asd + " data: " + users);
         pageable.setTotalPages((int) Math.ceil(1d * asd / pageable.getPageSize()));
@@ -179,7 +179,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Transactional
     @Override
-    public List<Dept> search(_SearchDTO pageable) {
+    public List<Org> search(_SearchDTO pageable) {
         LOGGER.debug("Searching accBnks with search criteria: " + pageable);
 
 //        String searchTerm = pageable.getSearchTerm().toUpperCase();
@@ -217,9 +217,9 @@ public class DeptServiceImpl implements DeptService {
 
         query.with(request);
 
-        List<Dept> users = mongoTemplate.find(query, Dept.class);
+        List<Org> users = mongoTemplate.find(query, Org.class);
 
-        long asd = mongoTemplate.count(query, Dept.class);
+        long asd = mongoTemplate.count(query, Org.class);
 
         System.out.println("data on srach: " + asd + " data: " + users);
 

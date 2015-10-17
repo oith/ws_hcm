@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
 
-@Document(collection = "Dept")
-public class Dept extends AbstDocAudit implements ICodable {
+@Document(collection = "Org")
+public class Org extends AbstDocAudit implements ICodable {
 
     @NotNull
     @Indexed
@@ -15,6 +15,8 @@ public class Dept extends AbstDocAudit implements ICodable {
     @NotNull
     @Indexed
     private String name;
+    @NotNull
+    private OrgType orgType;
 
     private String description;
 
@@ -44,4 +46,16 @@ public class Dept extends AbstDocAudit implements ICodable {
         this.description = description;
     }
 
+    public OrgType getOrgType() {
+        return orgType;
+    }
+
+    public void setOrgType(OrgType orgType) {
+        this.orgType = orgType;
+    }
+
+    public enum OrgType {
+
+        BUSINESS_UNIT, OPERATING_UNIT, PLANT, DEPARTMENT, SUB_DEPARTMENT
+    }
 }

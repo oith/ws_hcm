@@ -1,6 +1,6 @@
 package oith.ws.ctrl;
 
-import oith.ws.dom.hcm.pmis.Dept;
+import oith.ws.dom.hcm.pmis.Org;
 import oith.ws.exception.DeptNotFoundException;
 import oith.ws.service.DeptService;
 import java.util.ArrayList;
@@ -34,18 +34,18 @@ public class DeptController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        model.addAttribute(MODEL_ATTIRUTE, new Dept());
+        model.addAttribute(MODEL_ATTIRUTE, new Org());
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Dept currObject, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Org currObject, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
         }
 
-        Dept dept = deptService.create(currObject);
+        Org dept = deptService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, dept.getId());
         return "redirect:/" + SHOW_FORM_VIEW + "/" + dept.getId();
     }
@@ -53,7 +53,7 @@ public class DeptController extends _OithAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        Dept dept = deptService.findById(id);
+        Org dept = deptService.findById(id);
 
         if (dept == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -65,7 +65,7 @@ public class DeptController extends _OithAuditController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid Dept currObject,
+    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid Org currObject,
             @PathVariable("id") String id,
             BindingResult bindingResult,
             ModelMap model,
@@ -77,7 +77,7 @@ public class DeptController extends _OithAuditController {
         }
 
         try {
-            Dept dept = deptService.update(currObject);
+            Org dept = deptService.update(currObject);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, dept.getId());
         } catch (DeptNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -89,7 +89,7 @@ public class DeptController extends _OithAuditController {
     public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Dept> depts;
+        List<Org> depts;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             depts = deptService.search(searchCriteria);
@@ -113,7 +113,7 @@ public class DeptController extends _OithAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(5);
 
-        List<Dept> depts = deptService.findAll(searchCriteria);
+        List<Org> depts = deptService.findAll(searchCriteria);
 
         model.addAttribute(MODEL_ATTRIBUTES, depts);
         model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
@@ -129,7 +129,7 @@ public class DeptController extends _OithAuditController {
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        Dept dept = deptService.findById(id);
+        Org dept = deptService.findById(id);
 
         if (dept == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -144,7 +144,7 @@ public class DeptController extends _OithAuditController {
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
         try {
-            Dept deleted = deptService.delete(id);
+            Org deleted = deptService.delete(id);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (DeptNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);

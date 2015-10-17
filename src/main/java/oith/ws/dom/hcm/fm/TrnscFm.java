@@ -1,8 +1,9 @@
 package oith.ws.dom.hcm.fm;
 
 import java.util.Date;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
 import oith.ws.dom.hcm.pmis.Emp;
@@ -25,22 +26,25 @@ public class TrnscFm extends AbstDocAudit implements ICodable {
     @NotNull
     @DBRef
     private AccountHeadFm accountHeadFm;
-    @DBRef
-    private AccountHeadFm accountHeadFmOpposite;
+
     @NotNull
     private Sign sign;
     @NotNull
-    @Size(min=0, max=100000)
+    @Min(1)
+    @Max(100000)
     private Double amount;
-
+    @DBRef
+    private AccountHeadFm accountHeadFmOpposite;
     @DBRef
     private Emp emp;
     private String narration;
 
+    @Override
     public String getCode() {
         return code;
     }
 
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
