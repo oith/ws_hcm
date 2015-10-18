@@ -16,7 +16,7 @@ public class Position extends AbstDocAudit implements ICodable {
 
     @DBRef
     @NotNull
-    private OrgStruct orgStruct;
+    private OrgUnit orgStruct;
     @DBRef
     @NotNull
     private Job job;
@@ -36,11 +36,11 @@ public class Position extends AbstDocAudit implements ICodable {
         return job + " of " + orgStruct;
     }
 
-    public OrgStruct getOrgStruct() {
+    public OrgUnit getOrgStruct() {
         return orgStruct;
     }
 
-    public void setOrgStruct(OrgStruct orgStruct) {
+    public void setOrgStruct(OrgUnit orgStruct) {
         this.orgStruct = orgStruct;
     }
 

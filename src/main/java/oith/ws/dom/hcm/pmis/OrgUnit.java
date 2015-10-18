@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
 
-@Document(collection = "OrgStruct")
-public class OrgStruct extends AbstDocAudit implements ICodable {
+@Document(collection = "OrgUnit")
+public class OrgUnit extends AbstDocAudit implements ICodable {
 
     @NotNull
     @Indexed
