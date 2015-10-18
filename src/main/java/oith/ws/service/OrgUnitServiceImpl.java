@@ -1,12 +1,11 @@
 package oith.ws.service;
 
-
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.TrnscFmNotFoundException;
-import oith.ws.repo.TrnscFmRepository;
+import oith.ws.exception.OrgUnitNotFoundException;
+import oith.ws.repo.OrgUnitRepository;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import oith.ws.dom.hcm.fm.TrnscFm;
+import oith.ws.dom.hcm.pmis.OrgUnit;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,20 +18,20 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("trnscFmService")
+@Service("orgUnitService")
 @Transactional(readOnly = true)
-public class TrnscFmServiceImpl implements TrnscFmService {
+public class OrgUnitServiceImpl implements OrgUnitService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TrnscFmServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrgUnitServiceImpl.class);
 
     @Autowired
-    private TrnscFmRepository trnscFmRepository;
+    private OrgUnitRepository orgUnitRepository;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void setTrnscFmRepository(TrnscFmRepository trnscFmRepository) {
-        this.trnscFmRepository = trnscFmRepository;
+    public void setOrgUnitRepository(OrgUnitRepository orgUnitRepository) {
+        this.orgUnitRepository = orgUnitRepository;
     }
 
     public MongoTemplate getMongoTemplate() {
@@ -41,20 +40,18 @@ public class TrnscFmServiceImpl implements TrnscFmService {
 
     @Transactional
     @Override
-    public TrnscFm create(TrnscFm trnscFm) {
+    public OrgUnit create(OrgUnit orgUnit) {
         //ObjectId objectId = new ObjectId();
-        LOGGER.debug("Creating a new user with information: " + trnscFm);
-        //trnscFm.setId(objectId.toString());
-        TrnscFm userSaved = trnscFmRepository.save(trnscFm);
+        LOGGER.debug("Creating a new user with information: " + orgUnit);
+        //orgUnit.setId(objectId.toString());
+        OrgUnit userSaved = orgUnitRepository.save(orgUnit);
         return userSaved;
     }
 
-
-
     @Override
     @Transactional
-    public TrnscFm findById(String id) {
-        TrnscFm user = (TrnscFm) trnscFmRepository.findOne(id);
+    public OrgUnit findById(String id) {
+        OrgUnit user = (OrgUnit) orgUnitRepository.findOne(id);
 
         //Hibernate.initialize(emp.getLookupAnyTypeId());
         //Hibernate.initialize(emp.getPersonEduDtlList());
@@ -64,23 +61,23 @@ public class TrnscFmServiceImpl implements TrnscFmService {
     }
 
     @Override
-    @Transactional(rollbackFor = TrnscFmNotFoundException.class)
-    public TrnscFm delete(String userId) throws TrnscFmNotFoundException {
+    @Transactional(rollbackFor = OrgUnitNotFoundException.class)
+    public OrgUnit delete(String userId) throws OrgUnitNotFoundException {
 
-        TrnscFm user = (TrnscFm) trnscFmRepository.findOne(userId);
+        OrgUnit user = (OrgUnit) orgUnitRepository.findOne(userId);
 
         if (user == null) {
-            throw new TrnscFmNotFoundException();
+            throw new OrgUnitNotFoundException();
         }
 
-        trnscFmRepository.delete(user);
+        orgUnitRepository.delete(user);
         return user;
     }
 
     @Override
     @Transactional
-    public Iterable<TrnscFm> findAll() {
-        Iterable<TrnscFm> users = trnscFmRepository.findAll();//createQuery("FROM " + Person.class.getName()).list();
+    public Iterable<OrgUnit> findAll() {
+        Iterable<OrgUnit> users = orgUnitRepository.findAll();//createQuery("FROM " + Person.class.getName()).list();
 
 //        List<Person> jj = new ArrayList<>();
 //        for (Person user : users) {
@@ -99,14 +96,14 @@ public class TrnscFmServiceImpl implements TrnscFmService {
         return users;
     }
 
-    @Transactional(rollbackFor = TrnscFmNotFoundException.class)
+    @Transactional(rollbackFor = OrgUnitNotFoundException.class)
     @Override
-    public TrnscFm update(TrnscFm updated) throws TrnscFmNotFoundException {
+    public OrgUnit update(OrgUnit updated) throws OrgUnitNotFoundException {
 
-        TrnscFm user = (TrnscFm) trnscFmRepository.findOne(updated.getId());
+        OrgUnit user = (OrgUnit) orgUnitRepository.findOne(updated.getId());
 
         if (user == null) {
-            throw new TrnscFmNotFoundException();
+            throw new OrgUnitNotFoundException();
         }
 
         try {
@@ -115,13 +112,13 @@ public class TrnscFmServiceImpl implements TrnscFmService {
             LOGGER.info("No user found with err: " + e);
         }
 
-        trnscFmRepository.save(user);
+        orgUnitRepository.save(user);
         return updated;
     }
 
     @Transactional
     @Override
-    public List<TrnscFm> findAll(_SearchDTO pageable) {
+    public List<OrgUnit> findAll(_SearchDTO pageable) {
 
 //        Session session = userRepository;
 //
@@ -168,9 +165,9 @@ public class TrnscFmServiceImpl implements TrnscFmService {
 
         query.with(request);
 
-        List<TrnscFm> users = mongoTemplate.find(query, TrnscFm.class);
+        List<OrgUnit> users = mongoTemplate.find(query, OrgUnit.class);
 
-        long asd = mongoTemplate.count(query, TrnscFm.class);
+        long asd = mongoTemplate.count(query, OrgUnit.class);
 
         //  System.out.println("data on srach: " + asd + " data: " + users);
         pageable.setTotalPages((int) Math.ceil(1d * asd / pageable.getPageSize()));
@@ -180,7 +177,7 @@ public class TrnscFmServiceImpl implements TrnscFmService {
 
     @Transactional
     @Override
-    public List<TrnscFm> search(_SearchDTO pageable) {
+    public List<OrgUnit> search(_SearchDTO pageable) {
         LOGGER.debug("Searching accBnks with search criteria: " + pageable);
 
 //        String searchTerm = pageable.getSearchTerm().toUpperCase();
@@ -207,7 +204,7 @@ public class TrnscFmServiceImpl implements TrnscFmService {
                 + "]"
                 + "}";
         //'$regex':'^win$'
-        Query query= new BasicQuery(yy);
+        Query query = new BasicQuery(yy);
 
         // query.addCriteria(Criteria.where("loginId").regex(pageable.getSearchTerm(), "i").orOperator(Criteria.where("fullName").regex(pageable.getSearchTerm(), "i"))
         //  );
@@ -218,9 +215,9 @@ public class TrnscFmServiceImpl implements TrnscFmService {
 
         query.with(request);
 
-        List<TrnscFm> users = mongoTemplate.find(query, TrnscFm.class);
+        List<OrgUnit> users = mongoTemplate.find(query, OrgUnit.class);
 
-        long asd = mongoTemplate.count(query, TrnscFm.class);
+        long asd = mongoTemplate.count(query, OrgUnit.class);
 
         System.out.println("data on srach: " + asd + " data: " + users);
 
