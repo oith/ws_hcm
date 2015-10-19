@@ -2,6 +2,7 @@ package oith.ws.dom.hcm.fd;
 
 import javax.validation.constraints.NotNull;
 import oith.ws.dom.core.AbstDocAudit;
+import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.core.Period;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,6 +18,10 @@ public class Cost extends AbstDocAudit {
     private Period period;
     @NotNull
     private Double cost;
+
+    public Cost(User user) {
+        super(user);
+    }
 
     public Mess getMess() {
         return mess;

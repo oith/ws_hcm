@@ -3,12 +3,18 @@ package oith.ws.dom.hcm.prl;
 import java.util.Date;
 import oith.ws.dom.hcm.core.AbstEmpApp;
 import javax.validation.constraints.NotNull;
+import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.core.Period;
+import oith.ws.dom.hcm.pmis.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "LoanApp")
 public class LoanApp extends AbstEmpApp {
+
+    public LoanApp(User user, Emp emp) {
+        super(user, emp);
+    }
 
     public static enum LoanType {
 

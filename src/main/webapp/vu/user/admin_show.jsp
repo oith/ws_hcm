@@ -149,7 +149,7 @@
                 </li>
             </c:if>
                 
-                 <div><jsp:include page="authorities.jsp" /></div>
+                 <%--<div><jsp:include page="authorities.jsp" /></div>--%>
                             
 
             <br>

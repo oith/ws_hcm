@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.validation.Valid;
+import oith.ws.dom.core.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import oith.ws.dom.core.Role;
-import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
+import oith.ws.service.ClientService;
 import oith.ws.service.RoleService;
 import oith.ws.service.UserDetailsMac;
 
@@ -47,11 +48,14 @@ public class UserController extends _OithController {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private ClientService clientService;
 
     @RequestMapping(value = "/user/create", method = RequestMethod.GET)
     public String showCreateForm(ModelMap model) {
 
-        User user = new User();
+        Client client = new Client();
+        User user = new User(client);
         Set<Role> roles = getCommonRoles();
         user.setAuthorities(roles);
         model.addAttribute(MODEL_ATTIRUTE, user);
@@ -146,7 +150,11 @@ public class UserController extends _OithController {
     @RequestMapping(value = "/admin/user/admin_create", method = RequestMethod.GET)
     public String showAdminCreateForm(ModelMap model) {
 
-        User user = new User();
+        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String clientId = authUser.getClientId();
+        Client client = clientService.findById(clientId);
+
+        User user = new User(client);
         Set<Role> roles = getCommonRoles();
         user.setAuthorities(roles);
         model.addAttribute("authorities", getAuthorities());
@@ -157,7 +165,7 @@ public class UserController extends _OithController {
 
     private Set<Role> getCommonRoles() {
         Set<Role> roles = new HashSet();
-        roles.add(new Role("55cef88a27b665569010fccc"));
+        roles.add(new Role(null, "55cef88a27b665569010fccc"));
         // roles.add("ROLE_USER");
         return roles;
     }
@@ -285,9 +293,14 @@ public class UserController extends _OithController {
         }
 
         List<Role> kk = new ArrayList<>();
-        kk.add(new Role("55cef88a27b665569010fcce", "*", "Permit All"));
-        kk.add(new Role("55cef88a27b665569010fccc", "USER", "User"));
-        kk.add(new Role("55cef88a27b665569010fccd", "ADMIN", "Administrator"));
+//        kk.add(new Role("55cef88a27b665569010fcce", "*", "Permit All"));
+//        kk.add(new Role("55cef88a27b665569010fccc", "USER", "User"));
+//        kk.add(new Role("55cef88a27b665569010fccd", "ADMIN", "Administrator"));
+
+        for (Role kk1 : roleService.findAll()) {
+            kk.add(kk1);
+        }
+
         model.addAttribute("allAuthorities", kk);
         model.addAttribute(MODEL_ATTIRUTE, user);
         return SHOW_FORM_VIEW_ADMIN;

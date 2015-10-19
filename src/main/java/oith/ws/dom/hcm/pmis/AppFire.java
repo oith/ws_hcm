@@ -5,6 +5,7 @@
  */
 package oith.ws.dom.hcm.pmis;
 
+import oith.ws.dom.core.User;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -13,5 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "AppFire")
 public class AppFire extends AbstAssignmentAltApp{
+
+    public AppFire(User user, Emp emp) {
+        super(user, emp);
+    }
     
 }

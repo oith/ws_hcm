@@ -7,11 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
+import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dom.hcm.pmis.OrgUnit;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.AccountHeadFmService;
+import oith.ws.service.UserDetailsMac;
+import oith.ws.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -56,7 +60,12 @@ public class OrgUnitController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        model.addAttribute(MODEL_ATTIRUTE, new OrgUnit());
+
+        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = authUser.getUserId();
+        User user = userService.findById(userId);
+
+        model.addAttribute(MODEL_ATTIRUTE, new OrgUnit(user));
         model.addAttribute("accountHeadFms", getAccountHeadFms());
 
         return ADD_FORM_VIEW;

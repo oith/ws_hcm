@@ -5,9 +5,12 @@ import oith.ws.service.AccountHeadFmService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
+import oith.ws.service.UserDetailsMac;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -33,7 +36,11 @@ public class AccountHeadFmController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm());
+        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = authUser.getUserId();
+        User user = userService.findById(userId);
+
+        model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm(user));
         return ADD_FORM_VIEW;
     }
 

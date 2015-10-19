@@ -4,6 +4,7 @@ import oith.ws.dom.hcm.core.Period;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocProcessAudit;
+import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.pmis.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -19,6 +20,10 @@ public class ProcessedPrl extends AbstDocProcessAudit {
     private Period period;
 
     private Double netPay;
+
+    public ProcessedPrl(User user) {
+        super(user);
+    }
 
     public Double getNetPay() {
         return netPay;

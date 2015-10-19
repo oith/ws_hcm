@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.User;
 
 @Document(collection = "Org")
 public class Org extends AbstDocAudit implements ICodable {
@@ -19,6 +20,10 @@ public class Org extends AbstDocAudit implements ICodable {
     private OrgType orgType;
 
     private String description;
+
+    public Org(User user) {
+        super(user);
+    }
 
     @Override
     public String getCode() {

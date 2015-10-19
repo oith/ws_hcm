@@ -6,12 +6,17 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.pmis.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "TrnscFm")
 public class TrnscFm extends AbstDocAudit implements ICodable {
+
+    public TrnscFm(User user) {
+        super(user);
+    }
 
     public static enum Sign {
 

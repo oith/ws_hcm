@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAttach;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.User;
 
 @Document(collection = "Emp")
 public class Emp extends AbstDocAttach implements ICodable {
@@ -20,6 +21,10 @@ public class Emp extends AbstDocAttach implements ICodable {
     private Date doe;//date of expired
 
     private Set<EmpContactPerson> empContactPersons;
+
+    public Emp(User user) {
+        super(user);
+    }
 
     @Override
     public String getCode() {

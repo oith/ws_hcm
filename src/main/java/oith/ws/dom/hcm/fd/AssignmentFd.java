@@ -4,6 +4,8 @@ import oith.ws.dom.hcm.core.AbstEmpAttach;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import oith.ws.dom.core.IPeriodical;
+import oith.ws.dom.core.User;
+import oith.ws.dom.hcm.pmis.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,6 +18,10 @@ public class AssignmentFd extends AbstEmpAttach implements IPeriodical {
     @NotNull
     private Date startDate;
     private Date endDate;
+
+    public AssignmentFd(User user, Emp emp) {
+        super(user, emp);
+    }
 
     @Override
     public Date getStartDate() {

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.User;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "AccountHeadFm")
@@ -25,6 +26,12 @@ public class AccountHeadFm extends AbstDocAudit implements ICodable {
     private Boolean empRequired;
     @Size(max = 500)
     private String description;
+
+    public AccountHeadFm(User user) {
+        super(user);
+    }
+    
+    
 
     public String getCode() {
         return code;

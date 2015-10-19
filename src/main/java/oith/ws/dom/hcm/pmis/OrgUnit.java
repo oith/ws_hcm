@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.User;
 
 @Document(collection = "OrgUnit")
 public class OrgUnit extends AbstDocAudit implements ICodable {
@@ -33,6 +34,10 @@ public class OrgUnit extends AbstDocAudit implements ICodable {
 
     @Indexed
     private Org subDepartment;
+
+    public OrgUnit(User user) {
+        super(user);
+    }
 
     @Override
     public String getCode() {

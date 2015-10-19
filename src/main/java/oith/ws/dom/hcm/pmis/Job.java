@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.User;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Document(collection = "Job")
@@ -21,6 +22,10 @@ public class Job extends AbstDocAudit implements ICodable {
     @NotNull
     @DBRef
     private Grade grade;
+
+    public Job(User user) {
+        super(user);
+    }
 
     @Override
     public String getCode() {

@@ -6,6 +6,7 @@
 package oith.ws.dom.hcm.pmis;
 
 import java.util.Date;
+import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.core.AbstEmpApp;
 
 /**
@@ -18,6 +19,10 @@ public abstract class AbstAssignmentAltApp extends AbstEmpApp {
     private Date prlEffectDate;
     private String refNo;
     //AltType altType;
+
+    public AbstAssignmentAltApp(User user, Emp emp) {
+        super(user, emp);
+    }
 
     public Date getEffectDate() {
         return effectDate;

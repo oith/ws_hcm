@@ -6,6 +6,7 @@ import oith.ws.service.LookupService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+import oith.ws.dom.core.User;
 import oith.ws.dto._SearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import oith.ws.exception.UserNotFoundException;
+import oith.ws.service.UserDetailsMac;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 @RequestMapping(value = "/lookup")
@@ -35,7 +38,11 @@ public class LookupController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {
-        Lookup lookup = new Lookup();
+        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = authUser.getUserId();
+        User user = userService.findById(userId);
+
+        Lookup lookup = new Lookup(user);
         model.addAttribute(MODEL_ATTIRUTE, lookup);
         return ADD_FORM_VIEW;
     }

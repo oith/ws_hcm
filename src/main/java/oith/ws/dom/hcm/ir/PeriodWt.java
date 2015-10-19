@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
 import oith.ws.dom.core.IPeriodical;
+import oith.ws.dom.core.User;
 
 @Document(collection = "Period")
 public class PeriodWt extends AbstDocAudit implements ICodable, IPeriodical {
@@ -24,6 +25,10 @@ public class PeriodWt extends AbstDocAudit implements ICodable, IPeriodical {
     private Date startDate;
     @NotNull
     private Date endDate;
+
+    public PeriodWt(User user) {
+        super(user);
+    }
 
     @Override
     public String getCode() {

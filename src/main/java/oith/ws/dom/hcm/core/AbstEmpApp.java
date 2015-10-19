@@ -4,6 +4,8 @@ package oith.ws.dom.hcm.core;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.User;
+import oith.ws.dom.hcm.pmis.Emp;
 
 public abstract class AbstEmpApp extends AbstEmpAttach implements ICodable{
 
@@ -12,6 +14,10 @@ public abstract class AbstEmpApp extends AbstEmpAttach implements ICodable{
     //@MacSearchable
     private String code;
     private String remarks;
+
+    public AbstEmpApp(User user, Emp emp) {
+        super(user, emp);
+    }
 
     public Date getAppDate() {
         return appDate;

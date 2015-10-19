@@ -5,9 +5,14 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.User;
 
 @Document(collection = "Element")
 public class Element extends AbstDocAudit implements ICodable {
+
+    public Element(User user) {
+        super(user);
+    }
 
     public static enum ElementPole {
 

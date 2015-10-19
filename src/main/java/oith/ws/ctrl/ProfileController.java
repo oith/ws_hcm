@@ -73,12 +73,8 @@ public class ProfileController extends _OithAuditController {
 
     @Autowired
     private ProfileService profileService;
-
     @Autowired
     private GridFsOperations gridFsTemplate;
-
-    @Autowired
-    private UserService userService;
 
     //profile/det/del/ProfileEduDtls~55cef88a27b665569010f85c~4
     @RequestMapping(value = "profile/det/del/{dets}", method = RequestMethod.GET)
@@ -156,7 +152,7 @@ public class ProfileController extends _OithAuditController {
 
         Profile profile = profileService.findByUser(user);
         if (profile == null) {
-            profile = new Profile();
+            profile = new Profile(null);//c pore
             model.addAttribute("userId", id);
             model.addAttribute(MODEL_ATTIRUTE, profile);
 

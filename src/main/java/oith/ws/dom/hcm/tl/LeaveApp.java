@@ -5,9 +5,15 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.IRanger;
+import oith.ws.dom.core.User;
+import oith.ws.dom.hcm.pmis.Emp;
 
 @Document(collection = "LeaveApp")
 public class LeaveApp extends AbstEmpApp implements IRanger {
+
+    public LeaveApp(User user, Emp emp) {
+        super(user, emp);
+    }
 
     public static enum LeaveType {
 
