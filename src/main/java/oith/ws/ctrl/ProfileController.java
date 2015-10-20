@@ -123,7 +123,7 @@ public class ProfileController extends _OithAuditController {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
-        User user = userService.findById(userId);
+        User user = super.getUserService().findById(userId);
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -144,7 +144,7 @@ public class ProfileController extends _OithAuditController {
     @RequestMapping(value = "admin/profile/admin_show_4m_user/{id}", method = RequestMethod.GET)
     public String showShowFormAUser(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        User user = userService.findById(id);
+        User user = super.getUserService().findById(id);
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -165,7 +165,7 @@ public class ProfileController extends _OithAuditController {
     @RequestMapping(value = "admin/profile/admin_create", method = RequestMethod.POST)
     public String submitCreateForm4mUser(@ModelAttribute("userId") String userId, @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
-        User user = userService.findById(userId);
+        User user = super.getUserService().findById(userId);
         currObject.setUser(user);
 
         if (bindingResult.hasErrors()) {
@@ -190,7 +190,7 @@ public class ProfileController extends _OithAuditController {
     public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        currObject.setUser(userService.findById(authUser.getUserId()));
+        currObject.setUser(super.getUserService().findById(authUser.getUserId()));
 
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;

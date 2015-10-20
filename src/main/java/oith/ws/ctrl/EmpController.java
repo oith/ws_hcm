@@ -37,12 +37,14 @@ public class EmpController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        
-                UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
-        User user = userService.findById(userId);
 
-        model.addAttribute(MODEL_ATTIRUTE, new Emp(user));
+        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = authUser.getUserId();
+        User user = super.getUserService().findById(userId);
+        
+        //make profile query and add
+
+        model.addAttribute(MODEL_ATTIRUTE, new Emp(user,null));
         return ADD_FORM_VIEW;
     }
 

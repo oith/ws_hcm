@@ -12,7 +12,7 @@ import oith.ws.service.UserService;
 public abstract class _OithAuditController extends _OithController {
 
     @Autowired
-    protected UserService userService;
+    private UserService userService;
 
     protected User getCurrUser() throws UserNotFoundException {
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -32,7 +32,7 @@ public abstract class _OithAuditController extends _OithController {
 
     protected void doAuditInsert(AbstDocAudit currObject) throws UserNotFoundException {
         User user = getCurrUser();
-        currObject.setClient(user.getClient());
+//        currObject.setClient(user.getClient());
         currObject.setInsertByUser(user);
         currObject.setInsertDate(new Date());
     }
@@ -41,4 +41,14 @@ public abstract class _OithAuditController extends _OithController {
         currObject.setUpdateByUser(getCurrUser());
         currObject.setUpdateDate(new Date());
     }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+    
+    
 }

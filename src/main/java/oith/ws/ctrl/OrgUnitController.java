@@ -63,7 +63,7 @@ public class OrgUnitController extends _OithAuditController {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
-        User user = userService.findById(userId);
+        User user = super.getUserService().findById(userId);
 
         model.addAttribute(MODEL_ATTIRUTE, new OrgUnit(user));
         model.addAttribute("accountHeadFms", getAccountHeadFms());

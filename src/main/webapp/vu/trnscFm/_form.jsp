@@ -4,19 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<style>
-    .error {
-        color: #ff0000;
-    }
-    .errorblock {
-        color: #000;
-        background-color: #ffEEEE;
-        border: 3px solid #ff0000;
-        padding: 8px;
-        margin: 16px;
-    }
-</style>
-
 <link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
@@ -33,16 +20,16 @@
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
         <tr>
-            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="code" type="text" required="true" size="30" maxlength="20"/></td>
             <td><form:errors path="code" cssClass="error" element="div"/></td>
-            <td><form:label path="transDate"><spring:message code="transDate" text="Trans Date"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="transDate"><spring:message code="transDate" text="Trans Date"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="transDate" type="date" required="true" id="datepicker_transDate" placeholder="DD/MM/YYYY" maxlength="10"/></td>
             <td><form:errors path="transDate" cssClass="error" element="div"/></td>
 
         </tr>
         <tr>
-            <td><form:label path="accountHeadFm"><spring:message code="accountHeadFm" text="Account HeadFm"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="accountHeadFm"><spring:message code="accountHeadFm" text="Account HeadFm"/><span class="required-indicator needed">*</span></form:label></td>
                 <td>
                 <form:select path="accountHeadFm" name="accountHeadFm" id="accountHeadFm" required="true">
                     <form:option value="${null}" label="--Select--">  
@@ -53,10 +40,10 @@
             <td><form:errors path="accountHeadFm" cssClass="error" element="div"/></td>
         </tr>
         <tr>
-            <td><form:label path="amount"><spring:message code="amount" text="Amount"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="amount"><spring:message code="amount" text="Amount"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="amount" type="number" required="true" min="1" max="100000"/></td>
             <td><form:errors path="amount" cssClass="error" element="div"/></td>      
-            <td><form:label path="sign"><spring:message code="sign" text="Sign"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="sign"><spring:message code="sign" text="Sign"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:select path="sign" name="sign" id="sign" >
                     <form:option value="DR" label="Debit"/>
                     <form:option value="CR" label="Credit"/>

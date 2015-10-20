@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocAttach;
 import oith.ws.dom.core.ICodable;
+import oith.ws.dom.core.Profile;
 import oith.ws.dom.core.User;
 
 @Document(collection = "Emp")
@@ -22,8 +23,8 @@ public class Emp extends AbstDocAttach implements ICodable {
 
     private Set<EmpContactPerson> empContactPersons;
 
-    public Emp(User user) {
-        super(user);
+    public Emp(User user, Profile profile) {
+        super(user, profile);
     }
 
     @Override

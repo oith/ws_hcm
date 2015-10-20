@@ -33,7 +33,7 @@
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
         <tr>
-            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="code" type="text" required="true" size="30" maxlength="20"/></td>
             <td><form:errors path="code" cssClass="error" element="div"/></td>
   

@@ -38,7 +38,7 @@ public class AccountHeadFmController extends _OithAuditController {
     public String create(ModelMap model) {
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
-        User user = userService.findById(userId);
+        User user = super.getUserService().findById(userId);
 
         model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm(user));
         return ADD_FORM_VIEW;

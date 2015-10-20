@@ -33,18 +33,18 @@
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
         <tr>
-            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="code" type="text" required="true" size="10" maxlength="10"/></td>
             <td><form:errors path="code" cssClass="error" element="div"/></td>
-            <td><form:label path="title"><spring:message code="title" text="title"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="title"><spring:message code="title" text="title"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="title" type="text" required="true" size="30" maxlength="30"/></td>
             <td><form:errors path="title" cssClass="error" element="div"/></td>
         </tr>
         <tr>
-            <td><form:label path="empRequired"><spring:message code="empRequired" text="Employee Required ?"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="empRequired"><spring:message code="empRequired" text="Employee Required ?"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:checkbox path="empRequired"/></td>
             <td><form:errors path="empRequired" cssClass="error" element="div"/></td>
-            <td><form:label path="active"><spring:message code="active" text="Active ?"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="active"><spring:message code="active" text="Active ?"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:checkbox path="active"/></td>
             <td><form:errors path="active" cssClass="error" element="div"/></td>
         </tr>

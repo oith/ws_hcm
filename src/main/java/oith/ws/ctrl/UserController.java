@@ -56,8 +56,8 @@ public class UserController extends _OithController {
 
         Client client = new Client();
         User user = new User(client);
-        Set<Role> roles = getCommonRoles();
-        user.setAuthorities(roles);
+        //Set<Role> roles = getCommonRoles();
+        //user.setAuthorities(roles);
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return ADD_FORM_VIEW;
@@ -70,8 +70,8 @@ public class UserController extends _OithController {
             return ADD_FORM_VIEW;
         }
 
-        Set<Role> roles = getCommonRoles();
-        currObject.setAuthorities(roles);
+        //Set<Role> roles = getCommonRoles();
+        //currObject.setAuthorities(roles);
 
         currObject.setAccountNonExpired(true);
         currObject.setAccountNonLocked(true);
@@ -155,17 +155,18 @@ public class UserController extends _OithController {
         Client client = clientService.findById(clientId);
 
         User user = new User(client);
-        Set<Role> roles = getCommonRoles();
-        user.setAuthorities(roles);
+        //Set<Role> roles = getCommonRoles();
+        //user.setAuthorities(roles);
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return ADD_FORM_VIEW_ADMIN;
     }
 
-    private Set<Role> getCommonRoles() {
+    private Set<Role> getCommonRolesx() {
         Set<Role> roles = new HashSet();
-        roles.add(new Role(null, "55cef88a27b665569010fccc"));
+       // roles.add(new Role(null, "55cef88a27b665569010fccc"));
+        //roles.add(new Role());
         // roles.add("ROLE_USER");
         return roles;
     }

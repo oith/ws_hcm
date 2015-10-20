@@ -2,6 +2,7 @@ package oith.ws.config;
 
 import oith.ws.repo.RepositoryPackage;
 import com.mongodb.MongoClient;
+import com.mongodb.WriteConcern;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -21,6 +22,8 @@ public class RepositoryConfiguration {
     @Bean
     public SimpleMongoDbFactory simpleMongoDbFactory() throws Exception {
         MongoClient m = new MongoClient(HOST, PORT);
+        //use to duplicate error
+        //m.setWriteConcern(WriteConcern.SAFE);
         return new SimpleMongoDbFactory(m, dbName);
     }
 

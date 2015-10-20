@@ -73,7 +73,7 @@
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
         <tr>
-            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="code" type="text" required="true" size="30" maxlength="20"/></td>
             <td><form:errors path="code" cssClass="error" element="div"/></td>
             <td><form:label path="active"><spring:message code="active" text="Active"/></form:label></td>
@@ -84,7 +84,7 @@
             <td><form:label path="slNo"><spring:message code="slNo" text="Sl No"/></form:label></td>
             <td><form:input path="slNo" type="number" size="15" maxlength="15"/></td>
             <td><form:errors path="slNo" cssClass="error" element="div"/></td>
-            <td><form:label path="name"><spring:message code="name" text="Name"/><span class="required-indicator">*</span></form:label></td>
+            <td><form:label path="name"><spring:message code="name" text="Name"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="name" type="text" required="true" size="30" maxlength="100"/></td>
             <td><form:errors path="name" cssClass="error" element="div"/></td>
         </tr>

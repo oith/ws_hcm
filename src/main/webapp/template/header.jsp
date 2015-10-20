@@ -5,11 +5,19 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<script>
+    var contextPath = "<%=request.getContextPath()%>";
+</script>
+
 <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico"/>
 
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/oith.css"/> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/styles.css"/> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/menu.css" media="screen"/> 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery-ui.css"/> 
+
+<script src="<%=request.getContextPath()%>/resources/js/oith.js"></script>
+
 <!-- BOOTSTRAP CSS -->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap.css"/>
 <!-- BOOTSTRAP JS -->
@@ -19,28 +27,28 @@
 
 <head>
     <script type="text/javascript">
-                jQuery(document).ready(function () {
-        //initMenu();
-        //showUserName();
-        //showApplicantName();
-        });
-                function showApplicantName() {
-                var controller = "HrIrAplc";
-                        var action = "getAplcTitle";
-                        $.ajax({
-                        type: "POST",
-                                url: "{request.contextPath} " / "+controller +" / "+action,
-                                dataType: 'JSON',
-                                success: function (d) {
-                                //                    document.getElementById('showApplicantTitle').innerHTML=d.message
-                                document.getElementById('showUserTitle').innerHTML = d.message
-                                },
-                                error: function (err) {
-                                alert("Sorry for Inconvenience, Please Login Again");
-                                        //                        window.location.href = 'createLink(controller:'HrIrAplc', action:'logout')}'
-                                }
-                        });
-                }
+            jQuery(document).ready(function () {
+    //initMenu();
+    //showUserName();
+    //showApplicantName();
+    });
+            function showApplicantName() {
+            var controller = "HrIrAplc";
+                    var action = "getAplcTitle";
+                    $.ajax({
+                    type: "POST",
+                            url: "{request.contextPath} " / "+controller +" / "+action,
+                            dataType: 'JSON',
+                            success: function (d) {
+                            //                    document.getElementById('showApplicantTitle').innerHTML=d.message
+                            document.getElementById('showUserTitle').innerHTML = d.message
+                            },
+                            error: function (err) {
+                            alert("Sorry for Inconvenience, Please Login Again");
+                                    //                        window.location.href = 'createLink(controller:'HrIrAplc', action:'logout')}'
+                            }
+                    });
+            }
     </script>
 
 </head>   

@@ -199,19 +199,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //http.authorizeRequests().antMatchers("/", "/index", "/login", "/logout").permitAll();
-        //http.authorizeRequests().antMatchers("/,/index,/login,/logout".split(",")).permitAll();
-        //http.authorizeRequests().antMatchers("/user/create").permitAll();
-        Iterable<RoleConfig> kk = roleConfigRepository.findAll();
+        http.authorizeRequests().antMatchers("/", "/index", "/login", "/logout").permitAll();
+        http.authorizeRequests().antMatchers("/,/index,/login,/logout".split(",")).permitAll();
+        http.authorizeRequests().antMatchers("/user/create").permitAll();
+        http.authorizeRequests().antMatchers("/**").permitAll();
+        
+//        Iterable<RoleConfig> kk = roleConfigRepository.findAll();
 //        List<RoleConfig> kk = new ArrayList();
-//        kk.add(new RoleConfig("/,/index,/login,/logout", new Role("55cef88a27b665569010fcce", "*", "Permit All"), null));
-//        kk.add(new RoleConfig("/org/**", new Role("55cef88a27b665569010fccd", "ADMIN", "Administrator"), null));
-//        kk.add(new RoleConfig("/user/show", new Role("55cef88a27b665569010fccc", "USER", "User"), null));
-//        kk.add(new RoleConfig("/user/create", new Role("55cef88a27b665569010fcce", "*", "Permit All"), null));
-//        kk.add(new RoleConfig("/profile/create", new Role("55cef88a27b665569010fccc", "USER", "User"), null));
-//        kk.add(new RoleConfig("/post/**", new Role("55cef88a27b665569010fcce", "*", "Permit All"), null));
-//        kk.add(new RoleConfig("/admin/**", new Role("55cef88a27b665569010fccd", "ADMIN", "Administrator"), null));
-
+//        kk.add(new RoleConfig(null,"/,/index,/login,/logout", new Role(null,"55cef88a27b665569010fcce", "*", "Permit All"), null));
+//        kk.add(new RoleConfig(null,"/org/**", new Role(null,"55cef88a27b665569010fccd", "ADMIN", "Administrator"), null));
+//        kk.add(new RoleConfig(null,"/user/show", new Role(null,"55cef88a27b665569010fccc", "USER", "User"), null));
+//        kk.add(new RoleConfig(null,"/user/create", new Role(null,"55cef88a27b665569010fcce", "*", "Permit All"), null));
+//        kk.add(new RoleConfig(null,"/profile/create", new Role(null,"55cef88a27b665569010fccc", "USER", "User"), null));
+//        kk.add(new RoleConfig(null,"/post/**", new Role(null,"55cef88a27b665569010fcce", "*", "Permit All"), null));
+//        kk.add(new RoleConfig(null,"/admin/**", new Role(null,"55cef88a27b665569010fccd", "ADMIN", "Administrator"), null));
+/*
         for (RoleConfig roleConfig : kk) {
 
             Role role = roleConfig.getRole();
@@ -222,7 +224,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(roleConfig.getUrls().split(",")).hasRole(role.getCode());
 //                http.authorizeRequests().antMatchers(kk1.getUrls().split(",")).hasAnyRole(kk1.getRole().getName());
             }
-        }
+        }*/
         http.authorizeRequests()
                 .antMatchers("/resources/**").permitAll()
                 .anyRequest().authenticated();

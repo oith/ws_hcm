@@ -37,10 +37,10 @@ public class OrgController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        
-                UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
-        User user = userService.findById(userId);
+        User user = super.getUserService().findById(userId);
 
         model.addAttribute(MODEL_ATTIRUTE, new Org(user));
         return ADD_FORM_VIEW;

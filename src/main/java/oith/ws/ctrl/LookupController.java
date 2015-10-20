@@ -40,7 +40,7 @@ public class LookupController extends _OithAuditController {
     public String create(ModelMap model, RedirectAttributes attributes) {
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
-        User user = userService.findById(userId);
+        User user = super.getUserService().findById(userId);
 
         Lookup lookup = new Lookup(user);
         model.addAttribute(MODEL_ATTIRUTE, lookup);
