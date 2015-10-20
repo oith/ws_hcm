@@ -30,8 +30,10 @@ public class AccountHeadFm extends AbstDocAudit implements ICodable {
     public AccountHeadFm(User user) {
         super(user);
     }
-    
-    
+
+    public AccountHeadFm() {
+        super(null);
+    }
 
     public String getCode() {
         return code;

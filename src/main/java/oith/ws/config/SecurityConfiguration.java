@@ -1,17 +1,13 @@
 package oith.ws.config;
 
 import oith.ws.repo.RoleConfigRepository;
-import oith.ws.dom.core.RoleConfig;
 import oith.ws.repo.RememberMeTokenRepository;
 import oith.ws.service.LoginService;
 import oith.ws.service.RememberMeTokenServiceImpl;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import oith.ws.dom.core.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -56,20 +56,20 @@ import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.UserDetailsMac;
 
 @Controller
-//@RequestMapping(value = "/")
-//@RequestMapping(value = "/profile")
-//@SessionAttributes("profile")
+@RequestMapping(value = "/profile")
 public class ProfileController extends _OithAuditController {
 
     protected static final String MODEL_ATTIRUTE = "profile";
-    protected static final String MODEL_ATTRIBUTES = "profiles";
-    protected static final String ADD_FORM_VIEW = "profile/create";
-    protected static final String EDIT_FORM_VIEW = "profile/edit";
-    protected static final String EDIT_FORM_VIEW_ADMIN = "profile/admin_edit";
-    protected static final String SHOW_FORM_VIEW = "profile/show";
-    protected static final String LIST_VIEW = "profile/index";
-    protected static final String SHOW_FORM_VIEW_ADMIN = "profile/admin_show";
-    protected static final String SHOW_FORM_VIEW_OPERATOR = "profile/operator_show";
+    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
+
+//
+    protected static final String EDIT_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_edit";
+    protected static final String SHOW_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_show";
+    protected static final String SHOW_FORM_VIEW_OPERATOR = MODEL_ATTIRUTE + "/operator_show";
 
     @Autowired
     private ProfileService profileService;
@@ -77,7 +77,7 @@ public class ProfileController extends _OithAuditController {
     private GridFsOperations gridFsTemplate;
 
     //profile/det/del/ProfileEduDtls~55cef88a27b665569010f85c~4
-    @RequestMapping(value = "profile/det/del/{dets}", method = RequestMethod.GET)
+    @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
     public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
 
         String aaa[] = dets.split("~");
@@ -118,7 +118,7 @@ public class ProfileController extends _OithAuditController {
         }
     }
 
-    @RequestMapping(value = "/profile/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(ModelMap model, RedirectAttributes attributes) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -141,7 +141,7 @@ public class ProfileController extends _OithAuditController {
         }
     }
 
-    @RequestMapping(value = "admin/profile/admin_show_4m_user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_show_4m_user/{id}", method = RequestMethod.GET)
     public String showShowFormAUser(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         User user = super.getUserService().findById(id);
@@ -162,7 +162,7 @@ public class ProfileController extends _OithAuditController {
         }
     }
 
-    @RequestMapping(value = "admin/profile/admin_create", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin_create", method = RequestMethod.POST)
     public String submitCreateForm4mUser(@ModelAttribute("userId") String userId, @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         User user = super.getUserService().findById(userId);
@@ -186,7 +186,7 @@ public class ProfileController extends _OithAuditController {
         return "redirect:/" + "admin/" + SHOW_FORM_VIEW_ADMIN + "/" + profile.getId();
     }
 
-    @RequestMapping(value = "/profile/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -211,7 +211,7 @@ public class ProfileController extends _OithAuditController {
         return "redirect:/" + SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/profile/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String showEditForm(ModelMap model, RedirectAttributes attributes) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -350,7 +350,7 @@ public class ProfileController extends _OithAuditController {
         }
     }
 
-    @RequestMapping(value = "/admin/profile/admin_delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
         try {
@@ -363,7 +363,7 @@ public class ProfileController extends _OithAuditController {
         return "redirect:/admin/profile/index";
     }
 
-    @RequestMapping(value = "/admin/profile/admin_edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_edit/{id}", method = RequestMethod.GET)
     public String showAdminEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         Profile user = profileService.findById(id);
@@ -377,7 +377,7 @@ public class ProfileController extends _OithAuditController {
         return EDIT_FORM_VIEW_ADMIN;
     }
 
-    @RequestMapping(value = "/admin/profile/admin_edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin_edit", method = RequestMethod.POST)
     public String submitAdminEditFormDD(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
@@ -443,7 +443,7 @@ public class ProfileController extends _OithAuditController {
         return "redirect:/" + SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = {"/admin/profile", "/admin/profile/index"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"", "/index"}, method = RequestMethod.POST)
     public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
         System.out.println("Searching profiles with search criteria: " + searchCriteria);
 
@@ -466,7 +466,7 @@ public class ProfileController extends _OithAuditController {
         return LIST_VIEW;
     }
 
-    @RequestMapping(value = {"/admin/profile", "/admin/profile/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/index"}, method = RequestMethod.GET)
     public String showList(ModelMap model) {
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
@@ -487,7 +487,7 @@ public class ProfileController extends _OithAuditController {
         return LIST_VIEW;
     }
 
-    @RequestMapping(value = "/profile/show", method = RequestMethod.GET)
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String showForm(ModelMap model, RedirectAttributes attributes, HttpServletResponse resp) {
         //String profileId = (String) session.getAttribute("profileId");
 
@@ -505,7 +505,7 @@ public class ProfileController extends _OithAuditController {
         return SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/admin/profile/admin_show/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_show/{id}", method = RequestMethod.GET)
     public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
         Profile user = profileService.findById(id);
         System.out.println("showForm: " + user + " userId: " + id);
@@ -535,7 +535,7 @@ public class ProfileController extends _OithAuditController {
         return SHOW_FORM_VIEW_OPERATOR;
     }
 
-    @RequestMapping(value = "/profile/getPhoto/{code}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getPhoto/{code}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<byte[]> getCodableDTO(@PathVariable("code") String code) {
 
@@ -554,10 +554,9 @@ public class ProfileController extends _OithAuditController {
             System.out.println("eeeeeeeey get photo " + e);
             return null;
         }
-
     }
 
-    @RequestMapping(value = "/profile/getPhoto/small/{code}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getPhoto/small/{code}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<byte[]> getCodableDTOSmall(@PathVariable("code") String code) {
 

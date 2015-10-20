@@ -2,9 +2,10 @@ package oith.ws.ctrl;
 
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class _OithHomeController {
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
-    private final List<String> list = new LinkedList();
+    private final SortedSet<String> list = new TreeSet<>();
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(ModelMap model, HttpServletRequest request) {
@@ -58,8 +59,10 @@ public class _OithHomeController {
                     //list.add(urlPattern);
                 }
 
-                list.add(urlPattern);
-                Collections.sort(list);
+                if (!(urlPattern.contains("{") || urlPattern.endsWith("/"))) {
+                    list.add(urlPattern);
+                }
+                //Collections.sort(list);
             }
         }
     }

@@ -42,6 +42,8 @@ public class LookupController extends _OithAuditController {
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
 
+        model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
+
         Lookup lookup = new Lookup(user);
         model.addAttribute(MODEL_ATTIRUTE, lookup);
         return ADD_FORM_VIEW;
@@ -59,6 +61,7 @@ public class LookupController extends _OithAuditController {
         }
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
             return ADD_FORM_VIEW;
         }
 
@@ -81,10 +84,16 @@ public class LookupController extends _OithAuditController {
         return EDIT_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String update(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
             return EDIT_FORM_VIEW;
         }
 

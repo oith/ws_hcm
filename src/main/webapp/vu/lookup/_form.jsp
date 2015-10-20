@@ -97,10 +97,10 @@
         <tr>
             <td><form:label path="lookupKeyword"><spring:message code="lookupKeyword" text="Lookup Keyword"/></form:label></td>
             <td>
-                <form:select path="lookupKeyword" name="lookupKeyword" id="lookupKeyword" >
-                    <form:option value="EDUCATION" label="EDUCATION"/>
-                    <form:option value="BLOOD_GROUP" label="BLOOD GROUP"/>
-                    <form:option value="PROFESSION" label="PROFESSION"/>
+                <form:select path="lookupKeyword" name="lookupKeyword" id="lookupKeyword"  required="true">
+                    <form:option value="${null}" label="--Select--">  
+                        <form:options items="${lookupKeywords}"></form:options>
+                    </form:option>
                 </form:select>
             </td>
             <td><form:errors path="lookupKeyword" cssClass="error" element="div"/></td>

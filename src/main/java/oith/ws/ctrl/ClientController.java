@@ -37,14 +37,16 @@ public class ClientController extends _OithController {
         // UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // String userId = authUser.getUserId();
         // User user = super.getUserService().findById(userId);
+        model.addAttribute("clientCategorys", Client.ClientCategory.values());
         model.addAttribute(MODEL_ATTIRUTE, new Client());
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Client currObject, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Client currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("clientCategorys", Client.ClientCategory.values());
             return ADD_FORM_VIEW;
         }
 

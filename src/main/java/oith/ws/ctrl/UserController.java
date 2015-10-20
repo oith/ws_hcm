@@ -29,20 +29,19 @@ import oith.ws.service.RoleService;
 import oith.ws.service.UserDetailsMac;
 
 @Controller
-//@RequestMapping(value = "/")
-//@RequestMapping(value = "/user")
-//@SessionAttributes("user")
+@RequestMapping(value = "/user")
 public class UserController extends _OithController {
 
     protected static final String MODEL_ATTIRUTE = "user";
-    protected static final String MODEL_ATTRIBUTES = "users";
-    protected static final String ADD_FORM_VIEW = "user/create";
-    protected static final String ADD_FORM_VIEW_ADMIN = "user/admin_create";
-    protected static final String EDIT_FORM_VIEW = "user/edit";
-    protected static final String EDIT_FORM_VIEW_ADMIN = "user/admin_edit";
-    protected static final String SHOW_FORM_VIEW = "user/show";
-    protected static final String SHOW_FORM_VIEW_ADMIN = "user/admin_show";
-    protected static final String LIST_VIEW_ADMIN = "user/index";
+    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
+
+    protected static final String ADD_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_create";
+    protected static final String EDIT_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_edit";
+    protected static final String SHOW_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_show";
 
     @Autowired
     private UserService userService;
@@ -51,7 +50,7 @@ public class UserController extends _OithController {
     @Autowired
     private ClientService clientService;
 
-    @RequestMapping(value = "/user/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(ModelMap model) {
 
         Client client = new Client();
@@ -63,7 +62,7 @@ public class UserController extends _OithController {
         return ADD_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/user/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
@@ -72,7 +71,6 @@ public class UserController extends _OithController {
 
         //Set<Role> roles = getCommonRoles();
         //currObject.setAuthorities(roles);
-
         currObject.setAccountNonExpired(true);
         currObject.setAccountNonLocked(true);
         currObject.setCredentialsNonExpired(true);
@@ -87,7 +85,7 @@ public class UserController extends _OithController {
         return "redirect:/" + SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/user/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String showEditForm(ModelMap model, RedirectAttributes attributes) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -103,7 +101,7 @@ public class UserController extends _OithController {
         return EDIT_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -131,7 +129,7 @@ public class UserController extends _OithController {
         }
     }
 
-    @RequestMapping(value = "/user/show", method = RequestMethod.GET)
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String showForm(ModelMap model, RedirectAttributes attributes) {
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
@@ -147,7 +145,7 @@ public class UserController extends _OithController {
         return SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/admin/user/admin_create", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_create", method = RequestMethod.GET)
     public String showAdminCreateForm(ModelMap model) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -165,13 +163,13 @@ public class UserController extends _OithController {
 
     private Set<Role> getCommonRolesx() {
         Set<Role> roles = new HashSet();
-       // roles.add(new Role(null, "55cef88a27b665569010fccc"));
+        // roles.add(new Role(null, "55cef88a27b665569010fccc"));
         //roles.add(new Role());
         // roles.add("ROLE_USER");
         return roles;
     }
 
-    @RequestMapping(value = "/admin/user/admin_create", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin_create", method = RequestMethod.POST)
     public String submitAdminCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
@@ -206,7 +204,7 @@ public class UserController extends _OithController {
         return phones;
     }
 
-    @RequestMapping(value = "/admin/user/admin_edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_edit/{id}", method = RequestMethod.GET)
     public String showAdminEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
         User user = userService.findById(id);
@@ -222,7 +220,7 @@ public class UserController extends _OithController {
         return EDIT_FORM_VIEW_ADMIN;
     }
 
-    @RequestMapping(value = "/admin/user/admin_edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin_edit", method = RequestMethod.POST)
     public String submitAdminEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
@@ -240,7 +238,7 @@ public class UserController extends _OithController {
         }
     }
 
-    @RequestMapping(value = {"/admin/user", "/admin/user/index"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"", "/index"}, method = RequestMethod.POST)
     public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
@@ -259,10 +257,10 @@ public class UserController extends _OithController {
             pages.add(i);
         }
         model.addAttribute("pages", pages);
-        return LIST_VIEW_ADMIN;
+        return LIST_VIEW;
     }
 
-    @RequestMapping(value = {"/admin/user", "/admin/user/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/index"}, method = RequestMethod.GET)
     public String showList(ModelMap model) {
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
@@ -280,10 +278,10 @@ public class UserController extends _OithController {
             pages.add(i);
         }
         model.addAttribute("pages", pages);
-        return LIST_VIEW_ADMIN;
+        return LIST_VIEW;
     }
 
-    @RequestMapping(value = "/admin/user/admin_show/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin_show/{id}", method = RequestMethod.GET)
     public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
         User user = userService.findById(id);
         System.out.println("showForm: " + user + " userId: " + id);
@@ -307,7 +305,7 @@ public class UserController extends _OithController {
         return SHOW_FORM_VIEW_ADMIN;
     }
 
-    @RequestMapping(value = "/admin/user/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
         try {
@@ -316,6 +314,6 @@ public class UserController extends _OithController {
         } catch (UserNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         }
-        return "redirect:/" + "admin/" + LIST_VIEW_ADMIN;
+        return "redirect:/" + "admin/" + LIST_VIEW;
     }
 }
