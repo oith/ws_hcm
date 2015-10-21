@@ -23,7 +23,7 @@ public class RepositoryConfiguration {
     public SimpleMongoDbFactory simpleMongoDbFactory() throws Exception {
         MongoClient m = new MongoClient(HOST, PORT);
         //use to duplicate error
-        //m.setWriteConcern(WriteConcern.SAFE);
+        m.setWriteConcern(WriteConcern.SAFE);
         return new SimpleMongoDbFactory(m, dbName);
     }
 

@@ -47,7 +47,6 @@ public class PostController extends _OithController {
         String userId = authUser.getUserId();
 
         if (userId == null) {
-            System.out.println("No user found with id: " + userId);
             attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -91,8 +90,13 @@ public class PostController extends _OithController {
         return EDIT_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String edit(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String edit(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject,
+            BindingResult bindingResult, ModelMap model, 
+            RedirectAttributes attributes, 
+            MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return EDIT_FORM_VIEW;
