@@ -184,7 +184,7 @@ public class UserController extends _OithController {
         //session.setAttribute("userId", user.getId());
         //session.setAttribute("fullName", user.getDisplayName());
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, user.getId());
-        return "redirect:/" + "admin/" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
+        return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
     }
 
     private List<Role> getAuthorities() {
@@ -225,7 +225,7 @@ public class UserController extends _OithController {
         try {
             User user = userService.update(currObject, "fullName,gender,dob,username,password,authorities");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
-            return "redirect:/" + "admin/" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
+            return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
         } catch (UserNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return null;
@@ -296,6 +296,6 @@ public class UserController extends _OithController {
         } catch (UserNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         }
-        return "redirect:/" + "admin/" + LIST_VIEW;
+        return "redirect:/" + "" + LIST_VIEW;
     }
 }
