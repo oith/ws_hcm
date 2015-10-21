@@ -1,6 +1,6 @@
 package oith.ws.ctrl;
 
-import oith.ws.dom.hcm.pmis.Org;
+import oith.ws.dom.hcm.pmis.OrgUnit;
 import oith.ws.exception.OrgNotFoundException;
 import oith.ws.service.OrgService;
 import java.util.ArrayList;
@@ -42,18 +42,18 @@ public class OrgController extends _OithAuditController {
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
 
-        model.addAttribute(MODEL_ATTIRUTE, new Org(user));
+        model.addAttribute(MODEL_ATTIRUTE, new OrgUnit(user));
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Org currObject, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid OrgUnit currObject, BindingResult bindingResult, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
         }
 
-        Org org = orgService.create(currObject);
+        OrgUnit org = orgService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, org.getId());
         return "redirect:/" + SHOW_FORM_VIEW + "/" + org.getId();
     }
@@ -61,7 +61,7 @@ public class OrgController extends _OithAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        Org org = orgService.findById(id);
+        OrgUnit org = orgService.findById(id);
 
         if (org == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -73,7 +73,7 @@ public class OrgController extends _OithAuditController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid Org currObject,
+    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid OrgUnit currObject,
             @PathVariable("id") String id,
             BindingResult bindingResult,
             ModelMap model,
@@ -85,7 +85,7 @@ public class OrgController extends _OithAuditController {
         }
 
         try {
-            Org org = orgService.update(currObject);
+            OrgUnit org = orgService.update(currObject);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, org.getId());
         } catch (OrgNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -97,7 +97,7 @@ public class OrgController extends _OithAuditController {
     public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Org> orgs;
+        List<OrgUnit> orgs;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             orgs = orgService.search(searchCriteria);
@@ -121,7 +121,7 @@ public class OrgController extends _OithAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(5);
 
-        List<Org> orgs = orgService.findAll(searchCriteria);
+        List<OrgUnit> orgs = orgService.findAll(searchCriteria);
 
         model.addAttribute(MODEL_ATTRIBUTES, orgs);
         model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
@@ -137,7 +137,7 @@ public class OrgController extends _OithAuditController {
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        Org org = orgService.findById(id);
+        OrgUnit org = orgService.findById(id);
 
         if (org == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -152,7 +152,7 @@ public class OrgController extends _OithAuditController {
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
         try {
-            Org deleted = orgService.delete(id);
+            OrgUnit deleted = orgService.delete(id);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (OrgNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);

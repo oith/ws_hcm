@@ -13,27 +13,17 @@ public class OrgUnit extends AbstDocAudit implements ICodable {
     @NotNull
     @Indexed
     private String code;
+    @NotNull
+    @Indexed
+    private String name;
+    @NotNull
+    private OrgType orgType;
 
     @NotNull
     @Indexed
-    private Org businessUnit;
+    private CostCenter costCenter;
 
-    //This level represents an independent accounting unit within a client. Each company code has its own balance sheet and its own profit and loss statement.
-    //Example: a subsidiary company, member of a corporate group
-    @NotNull
-    @Indexed
-    private Org operatingUnit;//companyCode, factory, Operational unit within a company code. ie: production facility, branch office.
-
-    @NotNull
-    @Indexed
-    private Org plant;//factory, Operational unit within a company code. ie: production facility, branch office.
-
-    @NotNull
-    @Indexed
-    private Org department;
-
-    @Indexed
-    private Org subDepartment;
+    private String description;
 
     public OrgUnit(User user) {
         super(user);
@@ -49,44 +39,33 @@ public class OrgUnit extends AbstDocAudit implements ICodable {
         this.code = code;
     }
 
-    public Org getBusinessUnit() {
-        return businessUnit;
+    public String getName() {
+        return name;
     }
 
-    public void setBusinessUnit(Org businessUnit) {
-        this.businessUnit = businessUnit;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Org getOperatingUnit() {
-        return operatingUnit;
+    public String getDescription() {
+        return description;
     }
 
-    public void setOperatingUnit(Org operatingUnit) {
-        this.operatingUnit = operatingUnit;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Org getPlant() {
-        return plant;
+    public OrgType getOrgType() {
+        return orgType;
     }
 
-    public void setPlant(Org plant) {
-        this.plant = plant;
+    public void setOrgType(OrgType orgType) {
+        this.orgType = orgType;
     }
 
-    public Org getDepartment() {
-        return department;
-    }
+    public enum OrgType {
 
-    public void setDepartment(Org department) {
-        this.department = department;
+        COMPANY_CODE, PERSONNEL_AREA, PERSONNEL_SUBAREA
+        //BUSINESS_UNIT, OPERATING_UNIT, PLANT, DEPARTMENT, SUB_DEPARTMENT
     }
-
-    public Org getSubDepartment() {
-        return subDepartment;
-    }
-
-    public void setSubDepartment(Org subDepartment) {
-        this.subDepartment = subDepartment;
-    }
-
 }

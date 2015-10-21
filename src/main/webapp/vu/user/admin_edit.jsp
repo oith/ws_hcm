@@ -23,10 +23,10 @@
      </div>
     <h1><spring:message code="edit.page.title"/></h1>
     <div>
-        <form:form action="${pageContext.request.contextPath}/admin/user/admin_edit" enctype="multipart/form-data" commandName="user" method="POST">
+        <form:form action="${pageContext.request.contextPath}/user/admin_edit" enctype="multipart/form-data" commandName="user" method="POST">
         <jsp:include page="_admin_form.jsp" />
         <div>
-            <a href="${pageContext.request.contextPath}/admin/user/admin_show/<c:out value="${user.id}"/>"><spring:message code="show.link.label"/></a>
+            <a href="${pageContext.request.contextPath}/user/admin_show/<c:out value="${user.id}"/>"><spring:message code="show.link.label"/></a>
             <input type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
         </div>
         </form:form>

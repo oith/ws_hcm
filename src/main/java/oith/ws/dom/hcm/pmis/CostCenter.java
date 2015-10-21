@@ -7,8 +7,8 @@ import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
 import oith.ws.dom.core.User;
 
-@Document(collection = "Org")
-public class Org extends AbstDocAudit implements ICodable {
+@Document(collection = "CostCenter")
+public class CostCenter extends AbstDocAudit implements ICodable {
 
     @NotNull
     @Indexed
@@ -16,12 +16,10 @@ public class Org extends AbstDocAudit implements ICodable {
     @NotNull
     @Indexed
     private String name;
-    @NotNull
-    private OrgType orgType;
-
+    
     private String description;
 
-    public Org(User user) {
+    public CostCenter(User user) {
         super(user);
     }
 
@@ -51,16 +49,4 @@ public class Org extends AbstDocAudit implements ICodable {
         this.description = description;
     }
 
-    public OrgType getOrgType() {
-        return orgType;
-    }
-
-    public void setOrgType(OrgType orgType) {
-        this.orgType = orgType;
-    }
-
-    public enum OrgType {
-
-        BUSINESS_UNIT, OPERATING_UNIT, PLANT, DEPARTMENT, SUB_DEPARTMENT
-    }
 }

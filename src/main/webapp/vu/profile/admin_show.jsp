@@ -23,7 +23,7 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/admin/profile/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="profile" text="Profile"/></a>
+        <a href="${pageContext.request.contextPath}/profile/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="profile" text="Profile"/></a>
     </div>
 
     <h1><spring:message code="show.page.title"/></h1>
@@ -130,8 +130,8 @@
         <div><jsp:include page="profileJobDtls.jsp" /></div>
     </div>
 
-    <a href="${pageContext.request.contextPath}/admin/profile/admin_edit/${profile.id}"><spring:message code="edit.link.label" text="Edit"/></a> |
-    <a href="${pageContext.request.contextPath}/admin/profile/admin_delete/${profile.id}" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a>
+    <a href="${pageContext.request.contextPath}/profile/admin_edit/${profile.id}"><spring:message code="edit.link.label" text="Edit"/></a> |
+    <a href="${pageContext.request.contextPath}/profile/admin_delete/${profile.id}" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a>
 
 
 </tiles:putAttribute>  

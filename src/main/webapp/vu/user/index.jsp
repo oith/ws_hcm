@@ -24,12 +24,12 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/admin/user/admin_create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="user" text="User"/></a>
+        <a href="${pageContext.request.contextPath}/user/admin_create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="user" text="User"/></a>
     </div>
 
     <h1><spring:message code="list.page.title"/></h1>
 
-    <form:form action="${pageContext.request.contextPath}/admin/user/index" commandName="searchCriteria" method="POST">
+    <form:form action="${pageContext.request.contextPath}/user/index" commandName="searchCriteria" method="POST">
 
         <table>
             <tr>
@@ -91,7 +91,7 @@
                     <c:forEach items="${users}" var="user"  varStatus="loopStatus">
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
-                            <td><a href="${pageContext.request.contextPath}/admin/user/admin_show/<c:out value="${user.id}"/>"><spring:message code="show.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/user/admin_show/<c:out value="${user.id}"/>"><spring:message code="show.link.label"/></a></td>
 
                             <td><c:out value="${user.group}"/></td>
                             <td><c:out value="${user.username}"/></td>
@@ -105,8 +105,8 @@
                             <td><c:if test="${user.credentialsNonExpired}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!user.credentialsNonExpired}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
                             <td><c:if test="${user.enabled}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!user.enabled}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
 
-                            <td><a href="${pageContext.request.contextPath}/admin/user/admin_edit/<c:out value="${user.id}"/>"><spring:message code="edit.link.label"/></a></td>
-                            <td><a href="${pageContext.request.contextPath}/admin/user/delete/<c:out value="${user.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/user/admin_edit/<c:out value="${user.id}"/>"><spring:message code="edit.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/user/delete/<c:out value="${user.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
                         </tr>
                     </c:forEach>
                 </tbody>

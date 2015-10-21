@@ -24,12 +24,12 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <%--<a href="${pageContext.request.contextPath}/admin/profile/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profile" text="Profile"/></a>--%>
+        <%--<a href="${pageContext.request.contextPath}/profile/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profile" text="Profile"/></a>--%>
     </div>
 
     <h1><spring:message code="list.page.title"/></h1>
 
-    <form:form action="${pageContext.request.contextPath}/admin/profile/index" commandName="searchCriteria" method="POST">
+    <form:form action="${pageContext.request.contextPath}/profile/index" commandName="searchCriteria" method="POST">
 
         <table>
             <tr>
@@ -97,7 +97,7 @@
                     <c:forEach items="${profiles}" var="profile"  varStatus="loopStatus">
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
-                            <td><a href="${pageContext.request.contextPath}/admin/profile/admin_show/<c:out value="${profile.id}"/>"><spring:message code="show.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/profile/admin_show/<c:out value="${profile.id}"/>"><spring:message code="show.link.label"/></a></td>
 
 
                             <td>   
@@ -105,7 +105,7 @@
                                 <img id="imagePreview" height="55px" width="45px" src="${macImage}" alt="${macImage}"/>
                             </td>
 
-                            <td><a href="${pageContext.request.contextPath}/admin/user/admin_show/<c:out value="${profile.user.id}"/>"><c:out value="${profile.user.fullName}"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/user/admin_show/<c:out value="${profile.user.id}"/>"><c:out value="${profile.user.fullName}"/></a></td>
 
 
                             <%--<td><c:out value="${profile.user.fullName}"/></td>--%>
@@ -127,8 +127,8 @@
                             <td><c:if test="${profile.user.enabled}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!profile.user.enabled}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
 
 
-                                    <td><a href="${pageContext.request.contextPath}/admin/profile/admin_edit/<c:out value="${profile.id}"/>"><spring:message code="edit.link.label"/></a></td>
-                            <td><a href="${pageContext.request.contextPath}/admin/profile/admin_delete/<c:out value="${profile.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
+                                    <td><a href="${pageContext.request.contextPath}/profile/admin_edit/<c:out value="${profile.id}"/>"><spring:message code="edit.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/profile/admin_delete/<c:out value="${profile.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
                         </tr>
                     </c:forEach>
                 </tbody>

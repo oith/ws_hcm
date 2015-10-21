@@ -27,12 +27,11 @@ public class AccountHeadFm extends AbstDocAudit implements ICodable {
     @Size(max = 500)
     private String description;
 
-    public AccountHeadFm(User user) {
-        super(user);
+    public AccountHeadFm() {
     }
 
-    public AccountHeadFm() {
-        super(null);
+    public AccountHeadFm(User user) {
+        super(user);
     }
 
     public String getCode() {
@@ -89,6 +88,11 @@ public class AccountHeadFm extends AbstDocAudit implements ICodable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return code + "-" + title;
     }
 
 }

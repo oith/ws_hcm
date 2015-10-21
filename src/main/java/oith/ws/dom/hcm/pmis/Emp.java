@@ -23,6 +23,9 @@ public class Emp extends AbstDocAttach implements ICodable {
 
     private Set<EmpContactPerson> empContactPersons;
 
+    public Emp() {
+    }
+
     public Emp(User user, Profile profile) {
         super(user, profile);
     }

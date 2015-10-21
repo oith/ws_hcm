@@ -5,7 +5,7 @@ import oith.ws.exception.OrgUnitNotFoundException;
 import oith.ws.repo.OrgUnitRepository;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import oith.ws.dom.hcm.pmis.OrgUnit;
+import oith.ws.dom.hcm.pmis.OrgStruct;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,18 +40,18 @@ public class OrgUnitServiceImpl implements OrgUnitService {
 
     @Transactional
     @Override
-    public OrgUnit create(OrgUnit orgUnit) {
+    public OrgStruct create(OrgStruct orgUnit) {
         //ObjectId objectId = new ObjectId();
         LOGGER.debug("Creating a new user with information: " + orgUnit);
         //orgUnit.setId(objectId.toString());
-        OrgUnit userSaved = orgUnitRepository.save(orgUnit);
+        OrgStruct userSaved = orgUnitRepository.save(orgUnit);
         return userSaved;
     }
 
     @Override
     @Transactional
-    public OrgUnit findById(String id) {
-        OrgUnit user = (OrgUnit) orgUnitRepository.findOne(id);
+    public OrgStruct findById(String id) {
+        OrgStruct user = (OrgStruct) orgUnitRepository.findOne(id);
 
         //Hibernate.initialize(emp.getLookupAnyTypeId());
         //Hibernate.initialize(emp.getPersonEduDtlList());
@@ -62,9 +62,9 @@ public class OrgUnitServiceImpl implements OrgUnitService {
 
     @Override
     @Transactional(rollbackFor = OrgUnitNotFoundException.class)
-    public OrgUnit delete(String userId) throws OrgUnitNotFoundException {
+    public OrgStruct delete(String userId) throws OrgUnitNotFoundException {
 
-        OrgUnit user = (OrgUnit) orgUnitRepository.findOne(userId);
+        OrgStruct user = (OrgStruct) orgUnitRepository.findOne(userId);
 
         if (user == null) {
             throw new OrgUnitNotFoundException();
@@ -76,8 +76,8 @@ public class OrgUnitServiceImpl implements OrgUnitService {
 
     @Override
     @Transactional
-    public Iterable<OrgUnit> findAll() {
-        Iterable<OrgUnit> users = orgUnitRepository.findAll();//createQuery("FROM " + Person.class.getName()).list();
+    public Iterable<OrgStruct> findAll() {
+        Iterable<OrgStruct> users = orgUnitRepository.findAll();//createQuery("FROM " + Person.class.getName()).list();
 
 //        List<Person> jj = new ArrayList<>();
 //        for (Person user : users) {
@@ -98,9 +98,9 @@ public class OrgUnitServiceImpl implements OrgUnitService {
 
     @Transactional(rollbackFor = OrgUnitNotFoundException.class)
     @Override
-    public OrgUnit update(OrgUnit updated) throws OrgUnitNotFoundException {
+    public OrgStruct update(OrgStruct updated) throws OrgUnitNotFoundException {
 
-        OrgUnit user = (OrgUnit) orgUnitRepository.findOne(updated.getId());
+        OrgStruct user = (OrgStruct) orgUnitRepository.findOne(updated.getId());
 
         if (user == null) {
             throw new OrgUnitNotFoundException();
@@ -118,7 +118,7 @@ public class OrgUnitServiceImpl implements OrgUnitService {
 
     @Transactional
     @Override
-    public List<OrgUnit> findAll(_SearchDTO pageable) {
+    public List<OrgStruct> findAll(_SearchDTO pageable) {
 
 //        Session session = userRepository;
 //
@@ -165,9 +165,9 @@ public class OrgUnitServiceImpl implements OrgUnitService {
 
         query.with(request);
 
-        List<OrgUnit> users = mongoTemplate.find(query, OrgUnit.class);
+        List<OrgStruct> users = mongoTemplate.find(query, OrgStruct.class);
 
-        long asd = mongoTemplate.count(query, OrgUnit.class);
+        long asd = mongoTemplate.count(query, OrgStruct.class);
 
         //  System.out.println("data on srach: " + asd + " data: " + users);
         pageable.setTotalPages((int) Math.ceil(1d * asd / pageable.getPageSize()));
@@ -177,7 +177,7 @@ public class OrgUnitServiceImpl implements OrgUnitService {
 
     @Transactional
     @Override
-    public List<OrgUnit> search(_SearchDTO pageable) {
+    public List<OrgStruct> search(_SearchDTO pageable) {
         LOGGER.debug("Searching accBnks with search criteria: " + pageable);
 
 //        String searchTerm = pageable.getSearchTerm().toUpperCase();
@@ -215,9 +215,9 @@ public class OrgUnitServiceImpl implements OrgUnitService {
 
         query.with(request);
 
-        List<OrgUnit> users = mongoTemplate.find(query, OrgUnit.class);
+        List<OrgStruct> users = mongoTemplate.find(query, OrgStruct.class);
 
-        long asd = mongoTemplate.count(query, OrgUnit.class);
+        long asd = mongoTemplate.count(query, OrgStruct.class);
 
         System.out.println("data on srach: " + asd + " data: " + users);
 

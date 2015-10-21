@@ -4,6 +4,7 @@ import oith.ws.exception.TrnscFmNotFoundException;
 import oith.ws.service.TrnscFmService;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
@@ -40,23 +41,19 @@ public class TrnscFmController extends _OithAuditController {
 
     @Autowired
     private TrnscFmService trnscFmService;
+
     @Autowired
     private AccountHeadFmService accountHeadFmService;
 
-    private Map<String, String> getAccountHeadFms() {
+    private List<AccountHeadFm> getAccountHeadFms() {
 
-        Map<String, String> phones = new HashMap();
+        List<AccountHeadFm> accountHeadFms = new LinkedList(); 
 
         for (AccountHeadFm col : accountHeadFmService.findAll()) {
-            phones.put(col.getId(), col.getCode() + "-" + col.getTitle());
+            accountHeadFms.add(col);
+            //phones.put(col.getId(), col.getCode() + "-" + col.getTitle());
         }
-//        phones.put("samsung", "SAMSUNG");
-//        phones.put("nokia", "NOKIA");
-//        phones.put("iphone", "IPHONE");
-//        phones.put("bberry", "BLACKBERRY");
-//        phones.put("htc", "HTC");
-
-        return phones;
+        return accountHeadFms;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -77,7 +74,7 @@ public class TrnscFmController extends _OithAuditController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("accountHeadFms", getAccountHeadFms());
-            
+
             return ADD_FORM_VIEW;
         }
 
@@ -102,14 +99,16 @@ public class TrnscFmController extends _OithAuditController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid TrnscFm currObject,
+    public String update(
             @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid TrnscFm currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
             MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("accountHeadFms", getAccountHeadFms());
             return EDIT_FORM_VIEW;
         }
 

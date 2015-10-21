@@ -79,22 +79,22 @@
             <td><form:checkbox path="credentialsNonExpired"/></td>
             <td><form:errors path="credentialsNonExpired" cssClass="error" element="div"/></td>
 
-            <td><form:label path="group"><spring:message code="group" text="Group"/></form:label></td>
-                <td>
-                <form:select path="group" name="group" id="group" >
-                    <form:option value="ANONYMOUS" label="ANONYMOUS"/>
-                    <form:option value="OITH" label="OITH"/>
-                    <form:option value="IBCS" label="IBCS"/>
-                </form:select>
-            </td>
-            <td><form:errors path="group" cssClass="error" element="div"/></td>
+            <%--            <td><form:label path="group"><spring:message code="group" text="Group"/></form:label></td>
+                            <td>
+                            <form:select path="group" name="group" id="group" >
+                                <form:option value="ANONYMOUS" label="ANONYMOUS"/>
+                                <form:option value="OITH" label="OITH"/>
+                                <form:option value="IBCS" label="IBCS"/>
+                            </form:select>
+                        </td>
+                        <td><form:errors path="group" cssClass="error" element="div"/></td>--%>
 
 
         </tr>
         <tr> 
             <td><form:label path="authorities"><spring:message code="authorities" text="Authorities"/></form:label></td>
                 <td>
-                <form:select path="authorities" items="${authorities}" multiple="true"/>
+                <form:select path="authorities" itemValue="id" itemLabel="name" items="${authorities}" multiple="true"/>
             </td>   
             <td><form:errors path="authorities" cssClass="error" element="div"/></td>
         </tr>

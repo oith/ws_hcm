@@ -20,16 +20,16 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/admin/user/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="user" text="User"/></a>
+        <a href="${pageContext.request.contextPath}/user/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="user" text="User"/></a>
     </div>
 
     <h1><spring:message code="show.page.title"/></h1>
     <div>
         <%--<form:hidden path="id"/>--%>
-        <ol class="property-list hrIrGrdScr">
+        <ol class="property-list">
 
 
-            <c:if test="${user.group!=null && !user.group.isEmpty()}">
+           <%-- <c:if test="${user.group!=null && !user.group.isEmpty()}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
                         <spring:message code="group" text="Group"/>: 
@@ -38,7 +38,7 @@
                         <c:out value="${user.group}"/>
                     </span>
                 </li>
-            </c:if>
+            </c:if>--%>
                 
             <c:if test="${user.username!=null && !user.username.isEmpty()}">
                 <li class="fieldcontain first_item">
@@ -155,9 +155,9 @@
             <br>
             make profile or goto show profile
             <br>
-            <%--<a href="${pageContext.request.contextPath}/admin/profile/admin_create_4m_user/<c:out value="${user.id}"/>">Create Profile</a>--%>
+            <%--<a href="${pageContext.request.contextPath}/profile/admin_create_4m_user/<c:out value="${user.id}"/>">Create Profile</a>--%>
             <br>
-            <a href="${pageContext.request.contextPath}/admin/profile/admin_show_4m_user/<c:out value="${user.id}"/>">Show Profile</a>
+            <a href="${pageContext.request.contextPath}/profile/admin_show_4m_user/<c:out value="${user.id}"/>">Show Profile</a>
 
 
         </ol>
@@ -165,8 +165,8 @@
     </div>
 
 
-    <a href="${pageContext.request.contextPath}/admin/user/admin_edit/<c:out value="${user.id}"/>"><spring:message code="edit.link.label"/></a> |
-    <a href="${pageContext.request.contextPath}/admin/user/delete/<c:out value="${user.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a>
+    <a href="${pageContext.request.contextPath}/user/admin_edit/<c:out value="${user.id}"/>"><spring:message code="edit.link.label"/></a> |
+    <a href="${pageContext.request.contextPath}/user/delete/<c:out value="${user.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a>
 
 </tiles:putAttribute>  
 

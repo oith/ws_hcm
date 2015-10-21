@@ -22,7 +22,7 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home" text="Home"/></a> |
-        <a href="${pageContext.request.contextPath}/trnscFm/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="trnscFm" text="Account Head Fm"/></a>
+        <a href="${pageContext.request.contextPath}/trnscFm/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="trnscFm" text="Transaction"/></a>
     </div>
 
     <h1><spring:message code="create.page.title"/></h1>

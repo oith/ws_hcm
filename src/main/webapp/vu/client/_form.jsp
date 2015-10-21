@@ -4,7 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-
 <link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
@@ -21,7 +20,7 @@
     //                    buttonImageOnly: true
     //                });
     //            });
-          
+
 
 
     //$(document).ready(function() {
@@ -30,7 +29,7 @@
     //$(document).ready(function() {
     //    $("#datepicker2").datepicker({dateFormat: "mm/dd/yy"});
     //});   
-    
+
     //$(function() {
     //    $( "#dialog" ).dialog();
     //});
@@ -57,7 +56,8 @@
 //} 
 </script>
 
-<form:errors path="*" cssClass="errorblock" element="div" />
+<form:errors path="*" cssClass="errorblock" element="div"/>
+
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
         <tr>
@@ -77,6 +77,17 @@
             <td><form:errors path="name" cssClass="error" element="div"/></td>
         </tr>
         <tr>
+            <td><form:label path="domain"><spring:message code="domain" text="domain"/><span class="required-indicator needed">*</span></form:label></td>
+            <td><form:input path="domain" type="text" required="true" size="20" maxlength="20"/></td>
+            <td><form:errors path="domain" cssClass="error" element="div"/></td>
+            <td><form:label path="loginUrl"><spring:message code="loginUrl" text="loginUrl"/><span class="required-indicator needed">*</span></form:label></td>
+            <td><form:input path="loginUrl" type="text" required="true" size="30" maxlength="100"/></td>
+            <td><form:errors path="loginUrl" cssClass="error" element="div"/></td>
+        </tr>
+        <tr>
+            <td><form:label path="userCreateUrl"><spring:message code="userCreateUrl" text="userCreateUrl"/><span class="required-indicator needed">*</span></form:label></td>
+            <td><form:input path="userCreateUrl" type="text" required="true" size="30" maxlength="100"/></td>
+            <td><form:errors path="userCreateUrl" cssClass="error" element="div"/></td>
 
             <td><form:label path="remarks"><spring:message code="remarks" text="Remarks"/></form:label></td>
             <td><form:textarea path="remarks" type="text" size="30" maxlength="500"/></td>
@@ -84,7 +95,7 @@
         </tr>
         <tr>
             <td><form:label path="clientCategory"><spring:message code="clientCategory" text="Client Category"/><span class="required-indicator needed">*</span></form:label></td>
-            <td>
+                <td>
                 <form:select path="clientCategory" name="clientCategory" id="clientCategory" required="true">
                     <form:option value="${null}" label="--Select--">  
                         <form:options items="${clientCategorys}"></form:options>

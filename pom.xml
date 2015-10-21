@@ -623,7 +623,7 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
-                    <debug>false</debug>
+                    <debug>true</debug>
                     <showDeprecation>false</showDeprecation>
                 </configuration>
             </plugin>

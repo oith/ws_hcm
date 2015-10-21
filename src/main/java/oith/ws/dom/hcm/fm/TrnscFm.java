@@ -14,6 +14,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "TrnscFm")
 public class TrnscFm extends AbstDocAudit implements ICodable {
 
+    public TrnscFm() {
+
+    }
+
     public TrnscFm(User user) {
         super(user);
     }

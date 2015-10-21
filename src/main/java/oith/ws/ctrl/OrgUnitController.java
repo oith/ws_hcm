@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
-import oith.ws.dom.hcm.pmis.OrgUnit;
+import oith.ws.dom.hcm.pmis.OrgStruct;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.AccountHeadFmService;
 import oith.ws.service.UserDetailsMac;
@@ -65,21 +65,21 @@ public class OrgUnitController extends _OithAuditController {
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
 
-        model.addAttribute(MODEL_ATTIRUTE, new OrgUnit(user));
+        model.addAttribute(MODEL_ATTIRUTE, new OrgStruct(user));
         model.addAttribute("accountHeadFms", getAccountHeadFms());
 
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid OrgUnit currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid OrgStruct currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("accountHeadFms", getAccountHeadFms());
             return ADD_FORM_VIEW;
         }
 
-        OrgUnit orgUnit = orgUnitService.create(currObject);
+        OrgStruct orgUnit = orgUnitService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, orgUnit.getId());
         return "redirect:/" + SHOW_FORM_VIEW + "/" + orgUnit.getId();
     }
@@ -87,7 +87,7 @@ public class OrgUnitController extends _OithAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        OrgUnit orgUnit = orgUnitService.findById(id);
+        OrgStruct orgUnit = orgUnitService.findById(id);
 
         if (orgUnit == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -100,7 +100,7 @@ public class OrgUnitController extends _OithAuditController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid OrgUnit currObject,
+    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid OrgStruct currObject,
             @PathVariable("id") String id,
             BindingResult bindingResult,
             ModelMap model,
@@ -112,7 +112,7 @@ public class OrgUnitController extends _OithAuditController {
         }
 
         try {
-            OrgUnit orgUnit = orgUnitService.update(currObject);
+            OrgStruct orgUnit = orgUnitService.update(currObject);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, orgUnit.getId());
         } catch (OrgUnitNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -124,7 +124,7 @@ public class OrgUnitController extends _OithAuditController {
     public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<OrgUnit> orgUnits;
+        List<OrgStruct> orgUnits;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             orgUnits = orgUnitService.search(searchCriteria);
@@ -148,7 +148,7 @@ public class OrgUnitController extends _OithAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(5);
 
-        List<OrgUnit> orgUnits = orgUnitService.findAll(searchCriteria);
+        List<OrgStruct> orgUnits = orgUnitService.findAll(searchCriteria);
 
         model.addAttribute(MODEL_ATTRIBUTES, orgUnits);
         model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
@@ -164,7 +164,7 @@ public class OrgUnitController extends _OithAuditController {
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        OrgUnit orgUnit = orgUnitService.findById(id);
+        OrgStruct orgUnit = orgUnitService.findById(id);
 
         if (orgUnit == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -179,7 +179,7 @@ public class OrgUnitController extends _OithAuditController {
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
         try {
-            OrgUnit deleted = orgUnitService.delete(id);
+            OrgStruct deleted = orgUnitService.delete(id);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (OrgUnitNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);

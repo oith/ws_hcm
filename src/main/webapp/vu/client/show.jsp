@@ -75,7 +75,37 @@
             </c:if>
 
 
+            <c:if test="${client.domain!=null && !client.domain.isEmpty()}">
+                <li class="fieldcontain first_item">
+                    <span id="domain" class="property-label">
+                        <spring:message code="domain" text="domain"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="domain">
+                        <c:out value="${client.domain}"/>
+                    </span>
+                </li>
+            </c:if>
 
+            <c:if test="${client.loginUrl!=null && !client.loginUrl.isEmpty()}">
+                <li class="fieldcontain first_item">
+                    <span id="loginUrl" class="property-label">
+                        <spring:message code="loginUrl" text="loginUrl"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="loginUrl">
+                        <c:out value="${client.loginUrl}"/>
+                    </span>
+                </li>
+            </c:if>
+            <c:if test="${client.userCreateUrl!=null && !client.userCreateUrl.isEmpty()}">
+                <li class="fieldcontain first_item">
+                    <span id="userCreateUrl" class="property-label">
+                        <spring:message code="userCreateUrl" text="userCreateUrl"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="userCreateUrl">
+                        <c:out value="${client.userCreateUrl}"/>
+                    </span>
+                </li>
+            </c:if>
             <c:if test="${client.remarks!=null && !client.remarks.isEmpty()}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">

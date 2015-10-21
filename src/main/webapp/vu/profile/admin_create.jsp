@@ -26,7 +26,7 @@ admin create from user
 
     <h1><spring:message code="create.page.title"/></h1>
     <div>
-        <form:form action="${pageContext.request.contextPath}/admin/profile/admin_create" enctype="multipart/form-data" commandName="profile" method="POST">
+        <form:form action="${pageContext.request.contextPath}/profile/admin_create" enctype="multipart/form-data" commandName="profile" method="POST">
             <input type="hidden" id="userId" value="${userId}" name="userId"/>
             <%--<form:hidden path="user"/>--%>
             <jsp:include page="_admin_form.jsp" />

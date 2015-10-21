@@ -1,9 +1,9 @@
 package oith.ws.repo;
 
-import oith.ws.dom.hcm.pmis.Org;
+import oith.ws.dom.hcm.pmis.OrgUnit;
 import org.springframework.data.repository.CrudRepository;
 
-public interface OrgRepository extends CrudRepository<Org, String> {
+public interface OrgRepository extends CrudRepository<OrgUnit, String> {
 
-    public Org findByCode(String code);
+    public OrgUnit findByCode(String code);
 }

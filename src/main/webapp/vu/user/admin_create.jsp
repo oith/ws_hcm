@@ -26,7 +26,7 @@
 
     <h1><spring:message code="create.page.title"/></h1>
     <div>
-        <form:form action="${pageContext.request.contextPath}/admin/user/admin_create" enctype="multipart/form-data" commandName="user" method="POST">
+        <form:form action="${pageContext.request.contextPath}/user/admin_create" enctype="multipart/form-data" commandName="user" method="POST">
         <jsp:include page="_admin_form.jsp" />
         <div>
             <input type="submit" value="<spring:message code="create.page.submit.label"/>"/>

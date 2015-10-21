@@ -32,7 +32,7 @@ public abstract class _OithAuditController extends _OithController {
 
     protected void doAuditInsert(AbstDocAudit currObject) throws UserNotFoundException {
         User user = getCurrUser();
-//        currObject.setClient(user.getClient());
+        currObject.setClient(user.getClient());
         currObject.setInsertByUser(user);
         currObject.setInsertDate(new Date());
     }
@@ -49,6 +49,5 @@ public abstract class _OithAuditController extends _OithController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    
-    
+
 }

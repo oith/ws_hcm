@@ -114,7 +114,7 @@ public class ProfileController extends _OithAuditController {
         if (profileIdCurr.equals(profileId)) {
             return "redirect:/profile/show";
         } else {
-            return "redirect:/admin/profile/admin_show/" + profileId;
+            return "redirect:/profile/admin_show/" + profileId;
         }
     }
 
@@ -158,7 +158,7 @@ public class ProfileController extends _OithAuditController {
 
             return "profile/admin_create";
         } else {
-            return "redirect:/" + "admin/" + SHOW_FORM_VIEW_ADMIN + "/" + profile.getId();
+            return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + profile.getId();
         }
     }
 
@@ -183,7 +183,7 @@ public class ProfileController extends _OithAuditController {
         Profile profile = profileService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, profile.getId());
 
-        return "redirect:/" + "admin/" + SHOW_FORM_VIEW_ADMIN + "/" + profile.getId();
+        return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + profile.getId();
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -286,7 +286,7 @@ public class ProfileController extends _OithAuditController {
         if (profileIdCurr.equals(profileId)) {
             return "redirect:/" + SHOW_FORM_VIEW;
         } else {
-            return "redirect:/admin/profile/admin_show/" + profileId;
+            return "redirect:/profile/admin_show/" + profileId;
         }
     }
 
@@ -346,7 +346,7 @@ public class ProfileController extends _OithAuditController {
         if (profileIdCurr.equals(profileId)) {
             return "redirect:/" + SHOW_FORM_VIEW;
         } else {
-            return "redirect:/admin/profile/admin_show/" + profileId;
+            return "redirect:/profile/admin_show/" + profileId;
         }
     }
 
@@ -360,7 +360,7 @@ public class ProfileController extends _OithAuditController {
             System.out.println("No profile found with id: " + id);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         }
-        return "redirect:/admin/profile/index";
+        return "redirect:/profile/index";
     }
 
     @RequestMapping(value = "/admin_edit/{id}", method = RequestMethod.GET)
@@ -394,7 +394,7 @@ public class ProfileController extends _OithAuditController {
         try {
             Profile user = profileService.update(currObject, "firstName,middleName,lastName,nickName,profilePicFile,updateDate,updateByUser");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
-            return "redirect:/" + "admin/" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
+            return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
 
         } catch (ProfileNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -488,17 +488,14 @@ public class ProfileController extends _OithAuditController {
     }
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
-    public String showForm(ModelMap model, RedirectAttributes attributes, HttpServletResponse resp) {
+    public String showForm(ModelMap model, RedirectAttributes attributes) {
         //String profileId = (String) session.getAttribute("profileId");
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileId = authUser.getProfileId();
         Profile profile = profileService.findById(profileId);
 
-        System.out.println("showForm:" + profile);
-
         if (profile == null) {
-            System.out.println("No profile found with id: " + profileId);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
         }
         model.addAttribute(MODEL_ATTIRUTE, profile);
@@ -508,10 +505,8 @@ public class ProfileController extends _OithAuditController {
     @RequestMapping(value = "/admin_show/{id}", method = RequestMethod.GET)
     public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
         Profile user = profileService.findById(id);
-        System.out.println("showForm: " + user + " userId: " + id);
 
         if (user == null) {
-
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
@@ -520,13 +515,11 @@ public class ProfileController extends _OithAuditController {
         return SHOW_FORM_VIEW_ADMIN;
     }
 
-    @RequestMapping(value = "/operator/profile/operator_show/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/operator_show/{id}", method = RequestMethod.GET)
     public String showOperForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
         Profile user = profileService.findById(id);
-        System.out.println("showForm: " + user + " userId: " + id);
 
         if (user == null) {
-
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
@@ -629,7 +622,6 @@ public class ProfileController extends _OithAuditController {
             } catch (Exception e) {
                 System.out.println("eeeeeeeee" + e);
             }
-
         }
     }
 }

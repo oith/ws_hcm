@@ -33,7 +33,7 @@
                 <td>
                 <form:select path="accountHeadFm" name="accountHeadFm" id="accountHeadFm" required="true">
                     <form:option value="${null}" label="--Select--">  
-                        <form:options items="${accountHeadFms}"></form:options>
+                        <form:options  itemValue="id" items="${accountHeadFms}"></form:options>
                     </form:option>
                 </form:select>  
             </td>

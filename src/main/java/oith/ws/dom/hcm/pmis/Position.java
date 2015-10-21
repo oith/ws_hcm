@@ -17,7 +17,20 @@ public class Position extends AbstDocAudit implements ICodable {
 
     @DBRef
     @NotNull
-    private OrgUnit orgStruct;
+    private CostCenter costCenter;
+
+    @DBRef
+    @NotNull
+    private OrgStruct orgStruct;
+
+    @DBRef
+    @NotNull
+    private EnterpriseStruct enterpriseStruct;
+
+    @DBRef
+    @NotNull
+    private PersonnelStruct personnelStruct;
+
     @DBRef
     @NotNull
     private Job job;
@@ -41,11 +54,11 @@ public class Position extends AbstDocAudit implements ICodable {
         return job + " of " + orgStruct;
     }
 
-    public OrgUnit getOrgStruct() {
+    public OrgStruct getOrgStruct() {
         return orgStruct;
     }
 
-    public void setOrgStruct(OrgUnit orgStruct) {
+    public void setOrgStruct(OrgStruct orgStruct) {
         this.orgStruct = orgStruct;
     }
 
@@ -55,6 +68,30 @@ public class Position extends AbstDocAudit implements ICodable {
 
     public void setJob(Job job) {
         this.job = job;
+    }
+
+    public CostCenter getCostCenter() {
+        return costCenter;
+    }
+
+    public void setCostCenter(CostCenter costCenter) {
+        this.costCenter = costCenter;
+    }
+
+    public EnterpriseStruct getEnterpriseStruct() {
+        return enterpriseStruct;
+    }
+
+    public void setEnterpriseStruct(EnterpriseStruct enterpriseStruct) {
+        this.enterpriseStruct = enterpriseStruct;
+    }
+
+    public PersonnelStruct getPersonnelStruct() {
+        return personnelStruct;
+    }
+
+    public void setPersonnelStruct(PersonnelStruct personnelStruct) {
+        this.personnelStruct = personnelStruct;
     }
 
 }

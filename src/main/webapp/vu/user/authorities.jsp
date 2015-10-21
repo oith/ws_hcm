@@ -90,11 +90,12 @@
                             <div class="form-group">
                                 <spring:message code="edu" text="Role"/>
 
-                                <select name="allAuthorities" id="allAuthorities" class="form-control" >
+                          
+                                <select name="authorities" id="authorities" class="form-control" >
                                     <!--<option value="" label="...." />-->
                                     <!--<option value="55cef88a27b665569010fccc">USER</option>-->
                                     <!--<option value="55cef88a27b665569010fccd">ADMIN</option>-->
-                                    <options items="${allAuthorities}" />
+                                    <options items="${authorities}" />
                                 </select>
                             </div>
                         </div>
