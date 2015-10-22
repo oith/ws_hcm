@@ -1,14 +1,10 @@
 package oith.ws.ctrl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import oith.ws.dom.core.User;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.UserService;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +16,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import oith.ws.dom.core.Role;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.ClientService;
 import oith.ws.service.RoleService;
 import oith.ws.service.UserDetailsMac;
+import oith.ws.util.StringToRoleConverter;
+import org.springframework.core.convert.support.GenericConversionService;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -50,6 +49,16 @@ public class UserController extends _OithController {
     @Autowired
     private ClientService clientService;
 
+    @InitBinder
+    void registerConverters(WebDataBinder binder) {
+        if (binder.getConversionService() instanceof GenericConversionService) {
+            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
+
+            conversionService.addConverter(new StringToRoleConverter(roleService));
+//            conversionService.addConverter(new RoleToStringConverter());
+        }
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(ModelMap model) {
 
@@ -57,13 +66,14 @@ public class UserController extends _OithController {
         User user = new User();
         //Set<Role> roles = getCommonRoles();
         //user.setAuthorities(roles);
+        model.addAttribute("genders", User.Gender.values());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
@@ -96,24 +106,25 @@ public class UserController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
+        model.addAttribute("genders", User.Gender.values());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return EDIT_FORM_VIEW;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
-
         currObject.setId(userId);
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("genders", User.Gender.values());
             return EDIT_FORM_VIEW;
         }
 
-        try {//user name cant be update admin can do
+        try {//user name cant be update but admin can do
             User user = userService.update(currObject, "fullName,gender,dob,password");//username
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
 
@@ -155,6 +166,7 @@ public class UserController extends _OithController {
         User user = new User(client);
         //Set<Role> roles = getCommonRoles();
         //user.setAuthorities(roles);
+        model.addAttribute("genders", User.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
@@ -169,9 +181,10 @@ public class UserController extends _OithController {
 //        return roles;
 //    }
     @RequestMapping(value = "/admin_create", method = RequestMethod.POST)
-    public String submitAdminCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    public String submitAdminCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("genders", User.Gender.values());
             model.addAttribute("authorities", getAuthorities());
             return ADD_FORM_VIEW_ADMIN;
         }
@@ -179,12 +192,8 @@ public class UserController extends _OithController {
         //Set<Role> roles = getCommonRoles();
         //currObject.setAuthorities(roles);
         User user = userService.create(currObject);
-
-        //session.getSessionContext().getSession(LIST_VIEW)
-        //session.setAttribute("userId", user.getId());
-        //session.setAttribute("fullName", user.getDisplayName());
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, user.getId());
-        return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
+        return "redirect:/" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
     }
 
     private List<Role> getAuthorities() {
@@ -199,7 +208,10 @@ public class UserController extends _OithController {
     }
 
     @RequestMapping(value = "/admin_edit/{id}", method = RequestMethod.GET)
-    public String showAdminEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    public String showAdminEditForm(
+            @PathVariable("id") String id,
+            ModelMap model,
+            RedirectAttributes attributes) {
 
         User user = userService.findById(id);
 
@@ -208,16 +220,23 @@ public class UserController extends _OithController {
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
 
+        model.addAttribute("genders", User.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return EDIT_FORM_VIEW_ADMIN;
     }
 
-    @RequestMapping(value = "/admin_edit", method = RequestMethod.POST)
-    public String submitAdminEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/admin_edit/{id}", method = RequestMethod.POST)
+    public String submitAdminEditForm(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("genders", User.Gender.values());
             model.addAttribute("authorities", getAuthorities());
             return EDIT_FORM_VIEW_ADMIN;
         }
@@ -225,11 +244,10 @@ public class UserController extends _OithController {
         try {
             User user = userService.update(currObject, "fullName,gender,dob,username,password,authorities");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
-            return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
         } catch (UserNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return null;
         }
+        return "redirect:/" + SHOW_FORM_VIEW_ADMIN + "/" + id;
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
@@ -281,7 +299,7 @@ public class UserController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-
+        model.addAttribute("genders", User.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
         return SHOW_FORM_VIEW_ADMIN;

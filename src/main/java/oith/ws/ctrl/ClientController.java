@@ -83,7 +83,7 @@ public class ClientController extends _OithController {
         }
 
         try {
-            Client client = clientService.update(currObject, "code,name,active,slNo,remarks,clientCategory");
+            Client client = clientService.update(currObject, "code,name,active,slNo,remarks,clientCategory,domain,loginUrl,userCreateUrl");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, id);
         } catch (Exception e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);

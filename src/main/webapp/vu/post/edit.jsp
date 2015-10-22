@@ -25,10 +25,10 @@
     </div>
     <h1><spring:message code="edit.page.title"/></h1>
     <div>
-        <form:form action="${pageContext.request.contextPath}/post/edit" enctype="multipart/form-data" commandName="post" method="POST">
+        <form:form action="${pageContext.request.contextPath}/post/edit/${post.id}" enctype="multipart/form-data" commandName="post" method="POST">
         <jsp:include page="_form.jsp" />
         <div>
-            <a href="${pageContext.request.contextPath}/post/show/<c:out value="${post.id}"/>"><spring:message code="show.link.label"/></a>
+            <a href="${pageContext.request.contextPath}/post/show/${post.id}"><spring:message code="show.link.label"/></a>
             <input type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
         </div>
         </form:form>

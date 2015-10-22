@@ -4,18 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<style>
-    .error {
-        color: #ff0000;
-    }
-    .errorblock {
-        color: #000;
-        background-color: #ffEEEE;
-        border: 3px solid #ff0000;
-        padding: 8px;
-        margin: 16px;
-    }
-</style>
 
 <link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
@@ -29,7 +17,7 @@
 </script>
 
 <form:errors path="*" cssClass="errorblock" element="div" />
-<form:hidden path="id"/>
+
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
 
@@ -43,13 +31,7 @@
         </tr>
         <tr>
             <td><form:label path="gender"><spring:message code="gender" text="Gender"/></form:label></td>
-                <td>
-                <form:select path="gender" name="gender" id="gender" >
-                    <form:option value="MALE" label="Male"/>
-                    <form:option value="FEMALE" label="Female"/>
-                    <form:option value="OTHER" label="Other"/>
-                </form:select>
-            </td>
+            <td><form:select path="gender" items="${genders}"/></td>   
             <td><form:errors path="gender" cssClass="error" element="div"/></td>
 
             <td><form:label path="dob"><spring:message code="dob" text="Dob"/></form:label></td>
@@ -79,21 +61,21 @@
             <td><form:checkbox path="credentialsNonExpired"/></td>
             <td><form:errors path="credentialsNonExpired" cssClass="error" element="div"/></td>
 
-            <%--            <td><form:label path="group"><spring:message code="group" text="Group"/></form:label></td>
+            <%--            <td><form:label path="client"><spring:message code="client" text="Group"/></form:label></td>
                             <td>
-                            <form:select path="group" name="group" id="group" >
+                            <form:select path="client" name="client" id="client" >
                                 <form:option value="ANONYMOUS" label="ANONYMOUS"/>
                                 <form:option value="OITH" label="OITH"/>
                                 <form:option value="IBCS" label="IBCS"/>
                             </form:select>
                         </td>
-                        <td><form:errors path="group" cssClass="error" element="div"/></td>--%>
+                        <td><form:errors path="client" cssClass="error" element="div"/></td>--%>
 
 
         </tr>
         <tr> 
             <td><form:label path="authorities"><spring:message code="authorities" text="Authorities"/></form:label></td>
-                <td>
+            <td>
                 <form:select path="authorities" itemValue="id" itemLabel="name" items="${authorities}" multiple="true"/>
             </td>   
             <td><form:errors path="authorities" cssClass="error" element="div"/></td>

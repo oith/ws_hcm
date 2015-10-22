@@ -3,24 +3,26 @@ package oith.ws.ctrl;
 import oith.ws.exception.TrnscFmNotFoundException;
 import oith.ws.service.TrnscFmService;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import javax.validation.Valid;
-import oith.ws.dom.core.Client;
 import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dom.hcm.fm.TrnscFm;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.AccountHeadFmService;
+import oith.ws.service.EmpService;
 import oith.ws.service.UserDetailsMac;
-import oith.ws.service.UserService;
+import oith.ws.util.StringToAccountHeadFmConverter;
+import oith.ws.util.StringToEmpConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +47,22 @@ public class TrnscFmController extends _OithAuditController {
     @Autowired
     private AccountHeadFmService accountHeadFmService;
 
+    @Autowired
+    private EmpService empService;
+
+    @InitBinder
+    void registerConverters(WebDataBinder binder) {
+        if (binder.getConversionService() instanceof GenericConversionService) {
+            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
+
+            conversionService.addConverter(new StringToAccountHeadFmConverter(accountHeadFmService));
+            conversionService.addConverter(new StringToEmpConverter(empService));
+        }
+    }
+
     private List<AccountHeadFm> getAccountHeadFms() {
 
-        List<AccountHeadFm> accountHeadFms = new LinkedList(); 
+        List<AccountHeadFm> accountHeadFms = new LinkedList();
 
         for (AccountHeadFm col : accountHeadFmService.findAll()) {
             accountHeadFms.add(col);
@@ -93,6 +108,7 @@ public class TrnscFmController extends _OithAuditController {
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
         model.addAttribute("accountHeadFms", getAccountHeadFms());
+        model.addAttribute("accountHeadFmOpposites", getAccountHeadFms());
         model.addAttribute(MODEL_ATTIRUTE, trnscFm);
 
         return EDIT_FORM_VIEW;
@@ -109,11 +125,12 @@ public class TrnscFmController extends _OithAuditController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("accountHeadFms", getAccountHeadFms());
+            model.addAttribute("accountHeadFmOpposites", getAccountHeadFms());
             return EDIT_FORM_VIEW;
         }
 
         try {
-            TrnscFm trnscFm = trnscFmService.update(currObject);
+            TrnscFm trnscFm = trnscFmService.update(currObject, "accountHeadFm,accountHeadFmOpposite,transDate,amount,emp,sign,code,narration");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, trnscFm.getId());
         } catch (TrnscFmNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);

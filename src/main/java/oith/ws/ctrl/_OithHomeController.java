@@ -59,7 +59,8 @@ public class _OithHomeController {
                     //list.add(urlPattern);
                 }
 
-                if (!(urlPattern.contains("{") || urlPattern.endsWith("/"))) {
+                if (!( urlPattern.endsWith("/"))) {
+//                if (!(urlPattern.contains("{") || urlPattern.endsWith("/"))) {
                     list.add(urlPattern);
                 }
                 //Collections.sort(list);

@@ -53,7 +53,7 @@
 
         <tr>
             <td><form:label path="emp"><spring:message code="emp" text="Employee"/></form:label></td>
-            <td><form:input path="emp" type="text" size="50" maxlength="100"/></td>
+            <td><form:input path="emp" type="text" size="20" maxlength="20"/></td>
             <td><form:errors path="emp" cssClass="error" element="div"/></td>
         </tr>
         <tr>
@@ -62,7 +62,7 @@
                 <td>
                 <form:select path="accountHeadFmOpposite" name="accountHeadFmOpposite" id="accountHeadFmOpposite" >
                     <form:option value="${null}" label="--Select--">  
-                        <form:options items="${accountHeadFms}"></form:options>
+                        <form:options items="${accountHeadFmOpposites}"></form:options>
                     </form:option>
                 </form:select>  
             </td>

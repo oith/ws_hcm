@@ -8,7 +8,10 @@ import oith.ws.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+import static oith.ws.ctrl.LookupController.ADD_FORM_VIEW;
+import static oith.ws.ctrl._OithController.ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,7 +27,7 @@ import oith.ws.service.UserDetailsMac;
 
 @Controller
 @RequestMapping(value = "/post")
-public class PostController extends _OithController {
+public class PostController extends _OithAuditController {
 
     protected static final String MODEL_ATTIRUTE = "post";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -36,13 +39,11 @@ public class PostController extends _OithController {
     @Autowired
     private PostService postService;
 
-    @Autowired
-    private UserService userService;
-
     //  public String showEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {
 
+        //chk if user in logged
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
 
@@ -52,15 +53,7 @@ public class PostController extends _OithController {
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
 
-        User user = userService.findById(userId);
-
-        if (user == null) {
-            System.out.println("No user found with obj id: " + userId);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
-        }
-
-        model.addAttribute(MODEL_ATTIRUTE, new Post(user));
+        model.addAttribute(MODEL_ATTIRUTE, new Post());
 
         return ADD_FORM_VIEW;
     }
@@ -68,9 +61,19 @@ public class PostController extends _OithController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
+        try {
+            doAuditInsert(currObject);
+            currObject.setUser(currObject.getInsertByUser());
+        } catch (UserNotFoundException ex) {
+            System.out.println("No user object found with id: " + ex);
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+            return ADD_FORM_VIEW;
+        }
+
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
         }
+
         Post post = postService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, post.getId());
         return "redirect:/" + SHOW_FORM_VIEW + "/" + post.getId();
@@ -94,8 +97,8 @@ public class PostController extends _OithController {
     public String edit(
             @PathVariable("id") String id,
             @ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject,
-            BindingResult bindingResult, ModelMap model, 
-            RedirectAttributes attributes, 
+            BindingResult bindingResult, ModelMap model,
+            RedirectAttributes attributes,
             MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {

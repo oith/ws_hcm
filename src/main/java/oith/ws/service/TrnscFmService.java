@@ -1,6 +1,5 @@
 package oith.ws.service;
 
-
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.TrnscFmNotFoundException;
 import java.util.List;
@@ -11,6 +10,8 @@ public interface TrnscFmService {
     public TrnscFm findById(String id);
 
     public TrnscFm create(TrnscFm org);
+
+    public TrnscFm update(TrnscFm org, String cols) throws TrnscFmNotFoundException;
 
     public TrnscFm update(TrnscFm org) throws TrnscFmNotFoundException;
 

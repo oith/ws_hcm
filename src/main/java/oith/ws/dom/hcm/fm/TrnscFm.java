@@ -15,17 +15,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class TrnscFm extends AbstDocAudit implements ICodable {
 
     public TrnscFm() {
-
     }
 
     public TrnscFm(User user) {
         super(user);
-    }
-
-    public static enum Sign {
-
-        DR,
-        CR
     }
 
     @NotNull
@@ -78,7 +71,7 @@ public class TrnscFm extends AbstDocAudit implements ICodable {
         return accountHeadFmOpposite;
     }
 
-    public void setAccountHeadFmOppos(AccountHeadFm accountHeadFmOpposite) {
+    public void setAccountHeadFmOpposite(AccountHeadFm accountHeadFmOpposite) {
         this.accountHeadFmOpposite = accountHeadFmOpposite;
     }
 
@@ -114,4 +107,9 @@ public class TrnscFm extends AbstDocAudit implements ICodable {
         this.narration = narration;
     }
 
+    public static enum Sign {
+
+        DR,
+        CR
+    }
 }

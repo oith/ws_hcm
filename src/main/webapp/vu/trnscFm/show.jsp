@@ -62,6 +62,59 @@
                     </span>
                 </li>
             </c:if>
+            <c:if test="${trnscFm.accountHeadFm!=null}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="accountHeadFm" text="accountHeadFm"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="accountHeadFm">
+                        <c:out value="${trnscFm.accountHeadFm}"/>
+                    </span>
+                </li>
+            </c:if>
+
+            <c:if test="${trnscFm.accountHeadFmOpposite!=null}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="accountHeadFmOpposite" text="accountHeadFmOpposite"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="accountHeadFmOpposite">
+                        <c:out value="${trnscFm.accountHeadFmOpposite}"/>
+                    </span>
+                </li>
+            </c:if>
+
+            <c:if test="${trnscFm.emp!=null}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="emp" text="emp"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="emp">
+                        <c:out value="${trnscFm.emp}"/>
+                    </span>
+                </li>
+            </c:if>
+            <c:if test="${trnscFm.sign!=null}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="sign" text="sign"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="sign">
+                        <c:out value="${trnscFm.sign}"/>
+                    </span>
+                </li>
+            </c:if>
+
+            <c:if test="${trnscFm.narration!=null}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="narration" text="narration"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="narration">
+                        <c:out value="${trnscFm.narration}"/>
+                    </span>
+                </li>
+            </c:if>
             <c:set target="audit" property="audit" var="audit" value="${trnscFm}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
 

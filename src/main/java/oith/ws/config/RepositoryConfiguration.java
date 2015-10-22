@@ -2,12 +2,14 @@ package oith.ws.config;
 
 import oith.ws.repo.RepositoryPackage;
 import com.mongodb.MongoClient;
-import com.mongodb.WriteConcern;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -23,7 +25,7 @@ public class RepositoryConfiguration {
     public SimpleMongoDbFactory simpleMongoDbFactory() throws Exception {
         MongoClient m = new MongoClient(HOST, PORT);
         //use to duplicate error
-        m.setWriteConcern(WriteConcern.SAFE);
+        //m.setWriteConcern(WriteConcern.SAFE);
         return new SimpleMongoDbFactory(m, dbName);
     }
 
@@ -36,7 +38,20 @@ public class RepositoryConfiguration {
     @Bean
     public MongoOperations mongoTemplate() throws Exception {
 
-        MongoOperations operations = new MongoTemplate(simpleMongoDbFactory());
+        MongoMappingContext mappingContext = new MongoMappingContext();
+
+        MappingMongoConverter converter = new MappingMongoConverter(simpleMongoDbFactory(), mappingContext);
+        converter.setTypeMapper(new DefaultMongoTypeMapper(null));
+        //converter.setTypeMapper(mapper);
+//        converter.setCustomConversions(new CustomConversions(
+//                Arrays.asList(
+//                        new StringToRoleConverter(),
+//                        new RoleToStringConverter()
+//                // new TimeZoneWriteConverter()
+//                )
+//        ));
+
+        converter.afterPropertiesSet();
 
 //        if (!operations.collectionExists("User")) {
 //            operations.createCollection("User");
@@ -44,6 +59,7 @@ public class RepositoryConfiguration {
 //        if (!operations.collectionExists("Profile")) {
 //            operations.createCollection("Profile");
 //        }
+        MongoOperations operations = new MongoTemplate(simpleMongoDbFactory(), converter);
         return operations;
     }
 
@@ -72,10 +88,13 @@ public class RepositoryConfiguration {
      return gridFsTemplate;
      }
 
-     @Bean
-     public MongoConverter mongoConverter() throws Exception{
-     MongoMappingContext mappingContext = new MongoMappingContext();
-     MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(mongoDbFactory(), mappingContext);
-     return mappingMongoConverter;
-     }*/
+     */
+//    @Bean
+//    public MongoConverter mongoConverter() throws Exception {
+//        MongoMappingContext mappingContext = new MongoMappingContext();
+//        StringToRoleConverter roleConverter = new StringToRoleConverter();
+//        MappingMongoConverter mappingMongoConverter = new MappingMongoConverter(simpleMongoDbFactory(), mappingContext);
+//         mappingMongoConverter.afterPropertiesSet();
+//        return mappingMongoConverter;
+//    }
 }

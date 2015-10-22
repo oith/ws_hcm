@@ -74,7 +74,7 @@
                 <thead>
                     <tr>
                         <td></td>
-                        <td><spring:message code="group" text="Group"/></td>
+                        <td><spring:message code="client" text="Client"/></td>
                         <td><spring:message code="username" text="Username"/></td>
                         <td><spring:message code="fullName" text="fullName"/></td>
                         <td><spring:message code="gender" text="gender"/></td>
@@ -93,7 +93,7 @@
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/user/admin_show/<c:out value="${user.id}"/>"><spring:message code="show.link.label"/></a></td>
 
-                            <td><c:out value="${user.group}"/></td>
+                            <td><c:out value="${user.client.name}"/></td>
                             <td><c:out value="${user.username}"/></td>
                             <td><c:out value="${user.fullName}"/></td>
                             <td><c:out value="${user.gender}"/></td>

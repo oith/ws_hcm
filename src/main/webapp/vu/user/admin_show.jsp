@@ -29,17 +29,17 @@
         <ol class="property-list">
 
 
-           <%-- <c:if test="${user.group!=null && !user.group.isEmpty()}">
+            <c:if test="${user.client!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="group" text="Group"/>: 
+                        <spring:message code="client" text="Client"/>: 
                     </span>
-                    <span class="property-value" aria-labelledby="group">
-                        <c:out value="${user.group}"/>
+                    <span class="property-value" aria-labelledby="client">
+                        <c:out value="${user.client.name}"/>
                     </span>
                 </li>
-            </c:if>--%>
-                
+            </c:if>
+
             <c:if test="${user.username!=null && !user.username.isEmpty()}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
@@ -148,9 +148,9 @@
                     </span>
                 </li>
             </c:if>
-                
-                 <%--<div><jsp:include page="authorities.jsp" /></div>--%>
-                            
+
+            <%--<div><jsp:include page="authorities.jsp" /></div>--%>
+
 
             <br>
             make profile or goto show profile

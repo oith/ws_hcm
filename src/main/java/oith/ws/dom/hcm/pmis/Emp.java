@@ -64,4 +64,9 @@ public class Emp extends AbstDocAttach implements ICodable {
         this.doe = doe;
     }
 
+    @Override
+    public String toString() {
+        return code;
+    }
+
 }

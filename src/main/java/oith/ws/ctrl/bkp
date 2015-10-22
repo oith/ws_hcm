@@ -1,0 +1,54 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package oith.ws.ctrl;
+
+import oith.ws.dom.core.Role;
+import oith.ws.service.RoleService;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+@Component
+public class StringToRoleConverter implements Converter<String, Role> {
+
+    @Autowired
+    private RoleService roleService;
+
+    @Override
+    public Role convert(String id) {
+        if (StringUtils.isBlank(id)) {
+            return null;
+        }
+        return roleService.findById(id);
+    }
+
+}
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package oith.ws.ctrl;
+
+import oith.ws.dom.core.Role;
+import oith.ws.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+@Component
+public class RoleToStringConverter implements Converter<Role, String> {
+
+    @Override
+    public String convert(Role id) {
+        if (id == null) {
+            return null;
+        }
+        return id.getId();
+    }
+
+}

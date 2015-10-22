@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface EmpService {
 
+    public Emp findByCode(String code);
+
     public Emp findById(String id);
 
     public Emp create(Emp emp);

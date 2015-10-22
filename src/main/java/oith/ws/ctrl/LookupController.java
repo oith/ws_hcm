@@ -38,14 +38,8 @@ public class LookupController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
-        User user = super.getUserService().findById(userId);
-
         model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
-
-        Lookup lookup = new Lookup(user);
-        model.addAttribute(MODEL_ATTIRUTE, lookup);
+        model.addAttribute(MODEL_ATTIRUTE, new Lookup());
         return ADD_FORM_VIEW;
     }
 
