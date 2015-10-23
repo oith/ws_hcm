@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
-import oith.ws.dom.hcm.pmis.OrgStruct;
+import oith.ws.dom.core.OrgStruct;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.AccountHeadFmService;
 import oith.ws.service.UserDetailsMac;

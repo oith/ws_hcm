@@ -55,7 +55,7 @@ public class TrnscFmController extends _OithAuditController {
         if (binder.getConversionService() instanceof GenericConversionService) {
             GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
 
-            conversionService.addConverter(new StringToAccountHeadFmConverter(accountHeadFmService));
+            //conversionService.addConverter(new StringToAccountHeadFmConverter(accountHeadFmService));
             conversionService.addConverter(new StringToEmpConverter(empService));
         }
     }
@@ -108,7 +108,6 @@ public class TrnscFmController extends _OithAuditController {
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
         model.addAttribute("accountHeadFms", getAccountHeadFms());
-        model.addAttribute("accountHeadFmOpposites", getAccountHeadFms());
         model.addAttribute(MODEL_ATTIRUTE, trnscFm);
 
         return EDIT_FORM_VIEW;
@@ -125,7 +124,6 @@ public class TrnscFmController extends _OithAuditController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("accountHeadFms", getAccountHeadFms());
-            model.addAttribute("accountHeadFmOpposites", getAccountHeadFms());
             return EDIT_FORM_VIEW;
         }
 

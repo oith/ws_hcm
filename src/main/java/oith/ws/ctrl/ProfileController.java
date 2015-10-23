@@ -7,7 +7,6 @@ import oith.ws.dom.core.Profile;
 import oith.ws.dom.core.User;
 import oith.ws.exception.ProfileNotFoundException;
 import oith.ws.service.ProfileService;
-import oith.ws.service.UserService;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 import java.awt.Graphics2D;
@@ -23,7 +22,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
@@ -211,26 +209,6 @@ public class ProfileController extends _OithAuditController {
         return "redirect:/" + SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String showEditForm(ModelMap model, RedirectAttributes attributes) {
-
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String profileId = authUser.getProfileId();
-
-        //String profileId = (String) session.getAttribute("profileId");
-        System.out.println("Rendering edit profile form for profile with id: " + profileId);
-
-        Profile profile = profileService.findById(profileId);
-
-        if (profile == null) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            //return createRedirectViewPath(REQUEST_MAPPING_LIST);
-        }
-        model.addAttribute(MODEL_ATTIRUTE, profile);
-
-        return EDIT_FORM_VIEW;
-    }
-
     @RequestMapping(value = "/profileEduDtl/edit", method = RequestMethod.POST)
     public String submitEditDetailEduForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileEduDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
@@ -364,7 +342,10 @@ public class ProfileController extends _OithAuditController {
     }
 
     @RequestMapping(value = "/admin_edit/{id}", method = RequestMethod.GET)
-    public String showAdminEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    public String showAdminEditForm(
+            @PathVariable("id") String id,
+            ModelMap model,
+            RedirectAttributes attributes) {
 
         Profile user = profileService.findById(id);
 
@@ -377,8 +358,14 @@ public class ProfileController extends _OithAuditController {
         return EDIT_FORM_VIEW_ADMIN;
     }
 
-    @RequestMapping(value = "/admin_edit", method = RequestMethod.POST)
-    public String submitAdminEditFormDD(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/admin_edit/{id}", method = RequestMethod.POST)
+    public String submitAdminEditFormDD(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes,
+            MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return EDIT_FORM_VIEW_ADMIN;
@@ -403,8 +390,28 @@ public class ProfileController extends _OithAuditController {
 
     }
 
-    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String showEditForm(ModelMap model, RedirectAttributes attributes) {
+
+        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String profileId = authUser.getProfileId();
+        Profile profile = profileService.findById(profileId);
+
+        if (profile == null) {
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+            //return createRedirectViewPath(REQUEST_MAPPING_LIST);
+        }
+        model.addAttribute(MODEL_ATTIRUTE, profile);
+
+        return EDIT_FORM_VIEW;
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String submitEditForm(
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileId = authUser.getProfileId();

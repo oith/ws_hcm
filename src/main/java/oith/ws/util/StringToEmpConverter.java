@@ -9,13 +9,15 @@ import oith.ws.dom.hcm.pmis.Emp;
 import oith.ws.service.EmpService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author mbadiuzzaman
  */
-public class StringToEmpConverter implements Converter<String, Emp> {
 
+public class StringToEmpConverter implements Converter<String, Emp> {
+    
     private final EmpService empService;
 
     public StringToEmpConverter(EmpService empService) {

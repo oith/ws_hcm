@@ -24,7 +24,7 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/emp/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="emp" text="Department"/></a>
+        <a href="${pageContext.request.contextPath}/emp/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="emp" text="Employee"/></a>
     </div>
 
     <h1><spring:message code="list.page.title"/></h1>
@@ -89,7 +89,7 @@
                             <td><c:out value="${emp.code}"/></td>
 
                             <td>    
-                                <a href="${pageContext.request.contextPath}/operator/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.fullName}"/></a>
+                                <a href="${pageContext.request.contextPath}/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.fullName}"/></a>
                             </td>
                             
                             <td><fmt:formatDate value="${emp.doj}" type="date" pattern="dd/MM/yyyy"/></td>

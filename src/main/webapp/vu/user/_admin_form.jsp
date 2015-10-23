@@ -20,7 +20,16 @@
 
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
-
+        <tr>
+            <td><form:label path="client"><spring:message code="client" text="Client"/></form:label></td>
+                <td>
+                <form:select path="client.id" name="client" id="client" required="true">
+                    <form:option value="${null}" label="--Select--"/>  
+                    <form:options itemValue="id" itemLabel="name" items="${clients}"/>
+                </form:select>  
+            </td>
+            <td><form:errors path="client" cssClass="error" element="div"/></td>
+        </tr>
         <tr>
             <td><form:label path="username"><spring:message code="username" text="User Name"/></form:label></td>
             <td><form:input path="username" type="text" size="30" maxlength="30"/></td>
@@ -60,23 +69,17 @@
             <td><form:label path="credentialsNonExpired"><spring:message code="credentialsNonExpired" text="Credentials Non Expired"/></form:label></td>
             <td><form:checkbox path="credentialsNonExpired"/></td>
             <td><form:errors path="credentialsNonExpired" cssClass="error" element="div"/></td>
-
-            <%--            <td><form:label path="client"><spring:message code="client" text="Group"/></form:label></td>
-                            <td>
-                            <form:select path="client" name="client" id="client" >
-                                <form:option value="ANONYMOUS" label="ANONYMOUS"/>
-                                <form:option value="OITH" label="OITH"/>
-                                <form:option value="IBCS" label="IBCS"/>
-                            </form:select>
-                        </td>
-                        <td><form:errors path="client" cssClass="error" element="div"/></td>--%>
-
-
         </tr>
         <tr> 
             <td><form:label path="authorities"><spring:message code="authorities" text="Authorities"/></form:label></td>
-            <td>
-                <form:select path="authorities" itemValue="id" itemLabel="name" items="${authorities}" multiple="true"/>
+                <td>
+                <form:select path="authorities" 
+                             name="authorities" 
+                             id="authorities" 
+                             items="${authorities}" 
+                             itemValue="id" 
+                             itemLabel="name"
+                             multiple="true"/>
             </td>   
             <td><form:errors path="authorities" cssClass="error" element="div"/></td>
         </tr>

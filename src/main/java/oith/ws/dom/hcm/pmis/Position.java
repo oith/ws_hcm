@@ -1,5 +1,8 @@
 package oith.ws.dom.hcm.pmis;
 
+import oith.ws.dom.core.OrgStruct;
+import oith.ws.dom.core.PersonnelStruct;
+import oith.ws.dom.core.CostCenter;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,9 +26,9 @@ public class Position extends AbstDocAudit implements ICodable {
     @NotNull
     private OrgStruct orgStruct;
 
-    @DBRef
-    @NotNull
-    private EnterpriseStruct enterpriseStruct;
+//    @DBRef
+//    @NotNull
+//    private EnterpriseStruct enterpriseStruct;
 
     @DBRef
     @NotNull
@@ -78,13 +81,13 @@ public class Position extends AbstDocAudit implements ICodable {
         this.costCenter = costCenter;
     }
 
-    public EnterpriseStruct getEnterpriseStruct() {
-        return enterpriseStruct;
-    }
-
-    public void setEnterpriseStruct(EnterpriseStruct enterpriseStruct) {
-        this.enterpriseStruct = enterpriseStruct;
-    }
+//    public EnterpriseStruct getEnterpriseStruct() {
+//        return enterpriseStruct;
+//    }
+//
+//    public void setEnterpriseStruct(EnterpriseStruct enterpriseStruct) {
+//        this.enterpriseStruct = enterpriseStruct;
+//    }
 
     public PersonnelStruct getPersonnelStruct() {
         return personnelStruct;

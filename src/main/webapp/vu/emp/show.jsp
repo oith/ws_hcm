@@ -21,8 +21,8 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/emp/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="emp" text="Department"/></a> |
-        <a href="${pageContext.request.contextPath}/emp/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="emp" text="Department"/></a>
+        <a href="${pageContext.request.contextPath}/emp/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="emp" text="Employee"/></a> |
+        <a href="${pageContext.request.contextPath}/emp/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="emp" text="Employee"/></a>
     </div>
 
     <h1><spring:message code="show.page.title"/></h1>
@@ -47,7 +47,7 @@
                         <spring:message code="profile" text="Profile"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="profile">
-                        <a href="${pageContext.request.contextPath}/operator/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.fullName}"/></a>
+                        <a href="${pageContext.request.contextPath}/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.fullName}"/></a>
                     </span>
                 </li>
             </c:if>

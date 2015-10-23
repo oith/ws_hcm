@@ -1,12 +1,13 @@
 package oith.ws.ctrl;
 
-import oith.ws.dom.hcm.pmis.OrgUnit;
+import oith.ws.dom.core.OrgUnit;
 import oith.ws.exception.OrgNotFoundException;
 import oith.ws.service.OrgService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.User;
+import oith.ws.dom.hcm.pmis.Job;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.UserDetailsMac;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class OrgController extends _OithAuditController {
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
 
-        model.addAttribute(MODEL_ATTIRUTE, new OrgUnit(user));
+        model.addAttribute(MODEL_ATTIRUTE, new Job(user));
         return ADD_FORM_VIEW;
     }
 

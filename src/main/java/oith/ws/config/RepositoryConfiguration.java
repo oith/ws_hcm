@@ -38,10 +38,10 @@ public class RepositoryConfiguration {
     @Bean
     public MongoOperations mongoTemplate() throws Exception {
 
-        MongoMappingContext mappingContext = new MongoMappingContext();
-
-        MappingMongoConverter converter = new MappingMongoConverter(simpleMongoDbFactory(), mappingContext);
-        converter.setTypeMapper(new DefaultMongoTypeMapper(null));
+        //MappingMongoConverter converter = new MappingMongoConverter(simpleMongoDbFactory(), new MongoMappingContext());
+        //converter.setTypeMapper(new DefaultMongoTypeMapper(null));
+        //converter.afterPropertiesSet();
+        //MongoOperations operations = new MongoTemplate(simpleMongoDbFactory(), converter);
         //converter.setTypeMapper(mapper);
 //        converter.setCustomConversions(new CustomConversions(
 //                Arrays.asList(
@@ -50,16 +50,13 @@ public class RepositoryConfiguration {
 //                // new TimeZoneWriteConverter()
 //                )
 //        ));
-
-        converter.afterPropertiesSet();
-
 //        if (!operations.collectionExists("User")) {
 //            operations.createCollection("User");
 //        }
 //        if (!operations.collectionExists("Profile")) {
 //            operations.createCollection("Profile");
 //        }
-        MongoOperations operations = new MongoTemplate(simpleMongoDbFactory(), converter);
+        MongoOperations operations = new MongoTemplate(simpleMongoDbFactory());
         return operations;
     }
 

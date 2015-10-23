@@ -5,6 +5,7 @@ import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.service.AccountHeadFmService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 /**
  *

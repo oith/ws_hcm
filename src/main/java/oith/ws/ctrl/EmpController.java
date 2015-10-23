@@ -1,5 +1,6 @@
 package oith.ws.ctrl;
 
+import oith.ws.util.StringToProfileConverter;
 import oith.ws.dom.hcm.pmis.Emp;
 import oith.ws.exception.EmpNotFoundException;
 import oith.ws.service.EmpService;
@@ -8,12 +9,17 @@ import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.User;
 import oith.ws.dto._SearchDTO;
+import oith.ws.service.ProfileService;
 import oith.ws.service.UserDetailsMac;
+import oith.ws.util.StringToRoleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,16 +41,27 @@ public class EmpController extends _OithAuditController {
     @Autowired
     private EmpService empService;
 
+    @Autowired
+    private ProfileService profileService;
+
+    @InitBinder
+    void registerConverters(WebDataBinder binder) {
+        if (binder.getConversionService() instanceof GenericConversionService) {
+            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
+
+            conversionService.addConverter(new StringToProfileConverter(profileService));
+        }
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
 
         UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
-        
-        //make profile query and add
 
-        model.addAttribute(MODEL_ATTIRUTE, new Emp(user,null));
+        //make profile query and add
+        model.addAttribute(MODEL_ATTIRUTE, new Emp(user, null));
         return ADD_FORM_VIEW;
     }
 
@@ -75,8 +92,9 @@ public class EmpController extends _OithAuditController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute(MODEL_ATTIRUTE) @Valid Emp currObject,
+    public String update(
             @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Emp currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,

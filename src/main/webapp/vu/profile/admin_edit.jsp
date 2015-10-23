@@ -24,10 +24,10 @@
      
     <h1><spring:message code="edit.page.title"/></h1>
     <div>
-        <form:form action="${pageContext.request.contextPath}/profile/admin_edit" enctype="multipart/form-data" commandName="profile" method="POST">
+        <form:form action="${pageContext.request.contextPath}/profile/admin_edit/${profile.id}" enctype="multipart/form-data" commandName="profile" method="POST">
         <jsp:include page="_admin_form.jsp" />
         <div>
-            <a href="${pageContext.request.contextPath}/profile/admin_show/<c:out value="${profile.id}"/>"><spring:message code="show.link.label"/></a>
+            <a href="${pageContext.request.contextPath}/profile/admin_show/${profile.id}"><spring:message code="show.link.label"/></a>
             <input type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
         </div>
         </form:form>

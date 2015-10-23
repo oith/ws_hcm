@@ -4,19 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<style>
-    .error {
-        color: #ff0000;
-    }
-    .errorblock {
-        color: #000;
-        background-color: #ffEEEE;
-        border: 3px solid #ff0000;
-        padding: 8px;
-        margin: 16px;
-    }
-</style>
-
 <link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
@@ -30,8 +17,6 @@
 </script>
 
 <form:errors path="*" cssClass="errorblock" element="div" />
-<form:hidden path="id"/>
-<form:hidden path="profile.id"/>
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
         <tr>
@@ -39,11 +24,11 @@
             <td><form:input path="code" type="text" required="true" size="30" maxlength="20"/></td>
             <td><form:errors path="code" cssClass="error" element="div"/></td>
 
-
-            <td>${emp.profile.user.username}</td>
-  <!--            <td><form:label path="profile.user.username"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
-              <td><form:input path="profile.user.username" type="text" required="true" size="30" maxlength="20"/></td>
-              <td><form:errors path="profile.user.username" cssClass="error" element="div"/></td>-->
+            <td><form:label path="profile"><spring:message code="profile" text="Profile"/><span class="required-indicator needed">*</span></form:label></td>
+            <td><form:input path="profile.id" type="text" required="true" size="30" maxlength="30"/>
+                ${emp.profile.user.fullName}
+            </td>
+            <td><form:errors path="profile" cssClass="error" element="div"/></td>
 
         </tr>
         <tr>

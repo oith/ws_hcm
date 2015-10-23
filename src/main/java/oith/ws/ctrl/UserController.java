@@ -37,7 +37,7 @@ public class UserController extends _OithController {
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
     protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
-
+    //
     protected static final String ADD_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_create";
     protected static final String EDIT_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_edit";
     protected static final String SHOW_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_show";
@@ -55,8 +55,27 @@ public class UserController extends _OithController {
             GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
 
             conversionService.addConverter(new StringToRoleConverter(roleService));
-//            conversionService.addConverter(new RoleToStringConverter());
         }
+    }
+
+    private List<Client> getClients() {
+
+        List<Client> clients = new ArrayList();
+
+        for (Client col : clientService.findAll()) {
+            clients.add(col);
+        }
+        return clients;
+    }
+
+    private List<Role> getAuthorities() {
+
+        List<Role> roles = new ArrayList();
+
+        for (Role col : roleService.findAll()) {
+            roles.add(col);
+        }
+        return roles;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -64,8 +83,6 @@ public class UserController extends _OithController {
 
         //Client client = new Client();
         User user = new User();
-        //Set<Role> roles = getCommonRoles();
-        //user.setAuthorities(roles);
         model.addAttribute("genders", User.Gender.values());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
@@ -76,21 +93,16 @@ public class UserController extends _OithController {
     public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("genders", User.Gender.values());
             return ADD_FORM_VIEW;
         }
 
-        //Set<Role> roles = getCommonRoles();
-        //currObject.setAuthorities(roles);
         currObject.setAccountNonExpired(true);
         currObject.setAccountNonLocked(true);
         currObject.setCredentialsNonExpired(true);
         currObject.setEnabled(true);
 
         User user = userService.create(currObject);
-
-        //session.getSessionContext().getSession(LIST_VIEW)
-        //session.setAttribute("userId", user.getId());
-        //session.setAttribute("fullName", user.getDisplayName());
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, user.getId());
         return "redirect:/" + SHOW_FORM_VIEW;
     }
@@ -98,9 +110,13 @@ public class UserController extends _OithController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String showEditForm(ModelMap model, RedirectAttributes attributes) {
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
-        User user = userService.findById(userId);
+        Object authUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = null;
+
+        if (authUser instanceof UserDetailsMac) {
+            String userId = ((UserDetailsMac) authUser).getUserId();
+            user = userService.findById(userId);
+        }
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -115,8 +131,15 @@ public class UserController extends _OithController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
+        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = null;
+
+        UserDetailsMac authUser = null;
+        if (authUserObj instanceof UserDetailsMac) {
+            userId = ((UserDetailsMac) authUserObj).getUserId();
+            authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }
+
         currObject.setId(userId);
 
         if (bindingResult.hasErrors()) {
@@ -142,10 +165,14 @@ public class UserController extends _OithController {
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String showForm(ModelMap model, RedirectAttributes attributes) {
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
+        Object authUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        User user = userService.findById(userId);
+        User user = null;
+
+        if (authUser instanceof UserDetailsMac) {
+            String userId = ((UserDetailsMac) authUser).getUserId();
+            user = userService.findById(userId);
+        }
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -159,13 +186,18 @@ public class UserController extends _OithController {
     @RequestMapping(value = "/admin_create", method = RequestMethod.GET)
     public String showAdminCreateForm(ModelMap model) {
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String clientId = authUser.getClientId();
-        Client client = clientService.findById(clientId);
+        Object authUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Client client = null;
+
+        if (authUser instanceof UserDetailsMac) {
+            String clientId = ((UserDetailsMac) authUser).getClientId();//UserId();
+            client = clientService.findById(clientId);
+        }
 
         User user = new User(client);
         //Set<Role> roles = getCommonRoles();
         //user.setAuthorities(roles);
+        model.addAttribute("clients", getClients());
         model.addAttribute("genders", User.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
@@ -184,6 +216,7 @@ public class UserController extends _OithController {
     public String submitAdminCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("clients", getClients());
             model.addAttribute("genders", User.Gender.values());
             model.addAttribute("authorities", getAuthorities());
             return ADD_FORM_VIEW_ADMIN;
@@ -194,17 +227,6 @@ public class UserController extends _OithController {
         User user = userService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, user.getId());
         return "redirect:/" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
-    }
-
-    private List<Role> getAuthorities() {
-
-        List<Role> roles = new ArrayList();
-
-        for (Role col : roleService.findAll()) {
-            roles.add(col);
-        }
-
-        return roles;
     }
 
     @RequestMapping(value = "/admin_edit/{id}", method = RequestMethod.GET)
@@ -220,6 +242,7 @@ public class UserController extends _OithController {
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
 
+        model.addAttribute("clients", getClients());
         model.addAttribute("genders", User.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
@@ -236,13 +259,14 @@ public class UserController extends _OithController {
             RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("clients", getClients());
             model.addAttribute("genders", User.Gender.values());
             model.addAttribute("authorities", getAuthorities());
             return EDIT_FORM_VIEW_ADMIN;
         }
 
         try {
-            User user = userService.update(currObject, "fullName,gender,dob,username,password,authorities");
+            User user = userService.update(currObject, "client,fullName,gender,dob,username,password,authorities");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
         } catch (UserNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);

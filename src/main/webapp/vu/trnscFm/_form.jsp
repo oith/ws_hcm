@@ -26,15 +26,13 @@
             <td><form:label path="transDate"><spring:message code="transDate" text="Trans Date"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="transDate" type="date" required="true" id="datepicker_transDate" placeholder="DD/MM/YYYY" maxlength="10"/></td>
             <td><form:errors path="transDate" cssClass="error" element="div"/></td>
-
         </tr>
         <tr>
             <td><form:label path="accountHeadFm"><spring:message code="accountHeadFm" text="Account HeadFm"/><span class="required-indicator needed">*</span></form:label></td>
                 <td>
-                <form:select path="accountHeadFm" name="accountHeadFm" id="accountHeadFm" required="true">
-                    <form:option value="${null}" label="--Select--">  
-                        <form:options  itemValue="id" items="${accountHeadFms}"></form:options>
-                    </form:option>
+                <form:select path="accountHeadFm.id" name="accountHeadFm" id="accountHeadFm" required="true">
+                    <form:option value="${null}" label="--Select--"/>  
+                    <form:options itemValue="id" items="${accountHeadFms}"/>
                 </form:select>  
             </td>
             <td><form:errors path="accountHeadFm" cssClass="error" element="div"/></td>
@@ -58,15 +56,12 @@
         </tr>
         <tr>
             <td><form:label path="accountHeadFmOpposite"><spring:message code="accountHeadFmOpposite" text="Account Head Fm Opposite"/></form:label></td>
-
                 <td>
-                <form:select path="accountHeadFmOpposite" name="accountHeadFmOpposite" id="accountHeadFmOpposite" >
-                    <form:option value="${null}" label="--Select--">  
-                        <form:options items="${accountHeadFmOpposites}"></form:options>
-                    </form:option>
+                <form:select  path="accountHeadFmOpposite.id" name="accountHeadFmOpposite" id="accountHeadFmOpposite" >
+                    <form:option value="${null}"  label="--Select--"/>  
+                    <form:options itemValue="id" items="${accountHeadFms}"/>
                 </form:select>  
             </td>
-
             <td><form:errors path="accountHeadFmOpposite" cssClass="error" element="div"/></td>
         </tr>
         <tr>
