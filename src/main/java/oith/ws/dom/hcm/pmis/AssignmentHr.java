@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import oith.ws.dom.core.IPeriodical;
 import oith.ws.dom.core.User;
+import oith.ws.dom.core.hrm.Position;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
