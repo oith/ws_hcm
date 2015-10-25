@@ -8,12 +8,10 @@ Summary
 -------
 The project is a Maven archetype for Spring MVC 4 web application.
 
-Generated project characteristics
--------------------------
-* Java based conf Spring MVC 4 web application for Servlet 3.0 environment
-* Thymeleaf, Bootstrap
-* MongoDB (Spring Data Mongo)
-* Spring Security 3.2
+Quickstart
+----------
+* Install MongoDB (http://www.mongodb.org/downloads, unzip, run mkdir data, run bin/mongod --dbpath=data)
+* Run batch file
 
 Test on the browser
 -------------------
@@ -21,6 +19,13 @@ Test on the browser
 	http://localhost:9090/oith_ws_hcm
 
 Note: No additional services are required in order to start the application. Mongo DB configuration is in place but it is not used in the code.
+
+Generated project characteristics
+-------------------------
+* Java based conf Spring MVC 4 web application for Servlet 3.0 environment
+* Thymeleaf, Bootstrap
+* MongoDB (Spring Data Mongo)
+* Spring Security 3.2
 
 Creating a new project in Eclipse
 ----------------------------------
