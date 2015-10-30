@@ -1,9 +1,9 @@
 package oith.ws.service;
 
-import oith.ws.dom.hcm.pmis.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.EmpNotFoundException;
 import java.util.List;
+import oith.ws.dom.core.hrm.om.Emp;
 
 public interface EmpService {
 

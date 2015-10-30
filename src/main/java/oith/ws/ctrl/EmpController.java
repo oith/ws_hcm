@@ -1,17 +1,16 @@
 package oith.ws.ctrl;
 
 import oith.ws.util.StringToProfileConverter;
-import oith.ws.dom.hcm.pmis.Emp;
 import oith.ws.exception.EmpNotFoundException;
 import oith.ws.service.EmpService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.User;
+import oith.ws.dom.core.hrm.om.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.ProfileService;
 import oith.ws.service.UserDetailsMac;
-import oith.ws.util.StringToRoleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.security.core.context.SecurityContextHolder;

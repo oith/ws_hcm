@@ -3,7 +3,7 @@ package oith.ws.dom.hcm.core;
 import javax.validation.constraints.NotNull;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.User;
-import oith.ws.dom.hcm.pmis.Emp;
+import oith.ws.dom.core.hrm.om.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public abstract class AbstEmpAttach extends AbstDocAudit {

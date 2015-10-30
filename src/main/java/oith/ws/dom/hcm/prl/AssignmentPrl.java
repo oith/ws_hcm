@@ -5,8 +5,8 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import oith.ws.dom.core.IPeriodical;
 import oith.ws.dom.core.User;
-import oith.ws.dom.core.hrm.Grade;
-import oith.ws.dom.hcm.pmis.Emp;
+import oith.ws.dom.core.hrm.msl.Grade;
+import oith.ws.dom.core.hrm.om.Emp;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "AssignmentPrl")
@@ -30,7 +30,7 @@ public class AssignmentPrl extends AbstEmpAttach implements IPeriodical {
     }
 
     private Payroll payroll;
-    private Grade grade;
+   // private Grade grade;
     private Double basic;
     private Double gross;
     @NotNull
@@ -61,13 +61,7 @@ public class AssignmentPrl extends AbstEmpAttach implements IPeriodical {
         this.gross = gross;
     }
 
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
-    }
+  
 
     @Override
     public Date getStartDate() {

@@ -7,6 +7,7 @@ package oith.ws.dom.hcm.pmis;
 
 import java.util.Date;
 import oith.ws.dom.core.User;
+import oith.ws.dom.core.hrm.om.Emp;
 import oith.ws.dom.hcm.core.AbstEmpApp;
 
 /**

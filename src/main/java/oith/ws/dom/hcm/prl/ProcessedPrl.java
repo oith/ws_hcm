@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
 import oith.ws.dom.core.AbstDocProcessAudit;
 import oith.ws.dom.core.User;
-import oith.ws.dom.hcm.pmis.Emp;
+import oith.ws.dom.core.hrm.om.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Document(collection = "ProcessedPrl")

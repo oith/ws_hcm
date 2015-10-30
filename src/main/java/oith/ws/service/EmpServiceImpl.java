@@ -1,12 +1,11 @@
 package oith.ws.service;
 
-import oith.ws.dom.hcm.pmis.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.EmpNotFoundException;
 import oith.ws.repo.EmpRepository;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import oith.ws.dom.core.User;
+import oith.ws.dom.core.hrm.om.Emp;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

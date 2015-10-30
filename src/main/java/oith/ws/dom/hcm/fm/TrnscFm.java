@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.ICodable;
 import oith.ws.dom.core.User;
-import oith.ws.dom.hcm.pmis.Emp;
+import oith.ws.dom.core.hrm.om.Emp;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 

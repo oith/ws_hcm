@@ -5,11 +5,10 @@
  */
 package oith.ws.util;
 
-import oith.ws.dom.hcm.pmis.Emp;
+import oith.ws.dom.core.hrm.om.Emp;
 import oith.ws.service.EmpService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
 /**
  *

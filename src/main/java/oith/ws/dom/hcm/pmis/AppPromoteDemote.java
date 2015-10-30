@@ -6,6 +6,7 @@
 package oith.ws.dom.hcm.pmis;
 
 import oith.ws.dom.core.User;
+import oith.ws.dom.core.hrm.om.Emp;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
