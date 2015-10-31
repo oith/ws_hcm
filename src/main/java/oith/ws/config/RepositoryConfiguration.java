@@ -7,9 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
-import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
