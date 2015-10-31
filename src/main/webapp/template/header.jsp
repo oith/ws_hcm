@@ -6,8 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <script>
-    var contextPath = "<%=request.getContextPath()%>";
-</script>
+    var contextPath = "<%=request.getContextPath()%>";</script>
 
 <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico"/>
 
@@ -116,6 +115,19 @@
                         </div>
 
                     </sec:authorize>
+
+                    <div>
+                        <select  name="quickAccess" id="quickAccess">
+                            <option value="${null}" > --Select-- </option>
+                            <option value="/mm" >  Client</option>
+                            <option value="/ad" > Assigment </option>
+                            <option value="/jd" > Job </option>
+                            <!--<options items="{quickAccesss}"></options>-->
+
+                        </select>
+
+                        <input  type="text" size="10" maxlength="10"/>
+                    </div>
                 </div>
 
             </div>     

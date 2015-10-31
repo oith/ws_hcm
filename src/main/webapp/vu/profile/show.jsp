@@ -31,6 +31,17 @@
 
         <ol class="property-list hrIrGrdScr">
 
+            <c:if test="${profile.title!=null}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="title" text="title"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="title">
+                        <c:out value="${profile.title}"/>
+                    </span>
+                </li>
+            </c:if>
+
             <c:if test="${profile.user.fullName!=null && !profile.user.fullName.isEmpty()}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
@@ -122,7 +133,7 @@
                     </span>
                 </li>
             </c:if>
-                
+
             <c:set target="audit" property="audit" var="audit" value="${profile}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
 

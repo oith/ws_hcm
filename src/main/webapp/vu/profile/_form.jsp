@@ -52,6 +52,13 @@
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table"> 
         <tr>
+            <td><form:label path="title"><spring:message code="title" text="title"/></form:label></td>
+            <td><form:input path="title" type="text" size="30" maxlength="30"/></td>
+            <td><form:errors path="title" cssClass="error" element="div"/></td>
+        </tr>
+
+
+        <tr>
             <td><form:label path="firstName"><spring:message code="firstName" text="First Name"/></form:label></td>
             <td><form:input path="firstName" type="text" size="30" maxlength="30"/></td>
             <td><form:errors path="firstName" cssClass="error" element="div"/></td>
