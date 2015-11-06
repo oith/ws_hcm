@@ -21,7 +21,7 @@ import oith.ws.dom.core.hrm.Client;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.ClientService;
 import oith.ws.service.RoleService;
-import oith.ws.service.UserDetailsMac;
+import oith.ws.service.MacUserDetail;
 import oith.ws.util.StringToRoleConverter;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.web.bind.WebDataBinder;
@@ -113,8 +113,8 @@ public class UserController extends _OithController {
         Object authUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = null;
 
-        if (authUser instanceof UserDetailsMac) {
-            String userId = ((UserDetailsMac) authUser).getUserId();
+        if (authUser instanceof MacUserDetail) {
+            String userId = ((MacUserDetail) authUser).getUserId();
             user = userService.findById(userId);
         }
 
@@ -134,10 +134,10 @@ public class UserController extends _OithController {
         Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = null;
 
-        UserDetailsMac authUser = null;
-        if (authUserObj instanceof UserDetailsMac) {
-            userId = ((UserDetailsMac) authUserObj).getUserId();
-            authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = null;
+        if (authUserObj instanceof MacUserDetail) {
+            userId = ((MacUserDetail) authUserObj).getUserId();
+            authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         }
 
         currObject.setId(userId);
@@ -169,8 +169,8 @@ public class UserController extends _OithController {
 
         User user = null;
 
-        if (authUser instanceof UserDetailsMac) {
-            String userId = ((UserDetailsMac) authUser).getUserId();
+        if (authUser instanceof MacUserDetail) {
+            String userId = ((MacUserDetail) authUser).getUserId();
             user = userService.findById(userId);
         }
 
@@ -189,8 +189,8 @@ public class UserController extends _OithController {
         Object authUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Client client = null;
 
-        if (authUser instanceof UserDetailsMac) {
-            String clientId = ((UserDetailsMac) authUser).getClientId();//UserId();
+        if (authUser instanceof MacUserDetail) {
+            String clientId = ((MacUserDetail) authUser).getClientId();//UserId();
             client = clientService.findById(clientId);
         }
 

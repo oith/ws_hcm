@@ -51,7 +51,7 @@ import oith.ws.dom.core.ProfileEduDtl;
 import oith.ws.dom.core.ProfileJobDtl;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.UserNotFoundException;
-import oith.ws.service.UserDetailsMac;
+import oith.ws.service.MacUserDetail;
 
 @Controller
 @RequestMapping(value = "/profile")
@@ -86,7 +86,7 @@ public class ProfileController extends _OithAuditController {
 
         Profile profile = profileService.findById(profileId);
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileIdCurr = authUser.getProfileId();
 
         try {
@@ -119,7 +119,7 @@ public class ProfileController extends _OithAuditController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(ModelMap model, RedirectAttributes attributes) {
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
 
@@ -186,7 +186,7 @@ public class ProfileController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         currObject.setUser(super.getUserService().findById(authUser.getUserId()));
 
@@ -214,7 +214,7 @@ public class ProfileController extends _OithAuditController {
 
         Profile profile = profileService.findById(profileId);
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileIdCurr = authUser.getProfileId();
 
         try {
@@ -273,7 +273,7 @@ public class ProfileController extends _OithAuditController {
 
         Profile profile = profileService.findById(profileId);
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileIdCurr = authUser.getProfileId();
 
         try {
@@ -393,7 +393,7 @@ public class ProfileController extends _OithAuditController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String showEditForm(ModelMap model, RedirectAttributes attributes) {
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileId = authUser.getProfileId();
         Profile profile = profileService.findById(profileId);
 
@@ -413,7 +413,7 @@ public class ProfileController extends _OithAuditController {
             ModelMap model,
             RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileId = authUser.getProfileId();
 
         currObject.setId(profileId);
@@ -498,7 +498,7 @@ public class ProfileController extends _OithAuditController {
     public String showForm(ModelMap model, RedirectAttributes attributes) {
         //String profileId = (String) session.getAttribute("profileId");
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileId = authUser.getProfileId();
         Profile profile = profileService.findById(profileId);
 

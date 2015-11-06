@@ -34,7 +34,7 @@ public class ClientController extends _OithController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
 
-        // UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // String userId = authUser.getUserId();
         // User user = super.getUserService().findById(userId);
         model.addAttribute("clientCategorys", Client.ClientCategory.values());

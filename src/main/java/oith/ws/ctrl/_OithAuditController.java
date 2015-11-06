@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.User;
 import oith.ws.exception.UserNotFoundException;
-import oith.ws.service.UserDetailsMac;
+import oith.ws.service.MacUserDetail;
 import oith.ws.service.UserService;
 
 public abstract class _OithAuditController extends _OithController {
@@ -15,7 +15,7 @@ public abstract class _OithAuditController extends _OithController {
     private UserService userService;
 
     protected User getCurrUser() throws UserNotFoundException {
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
 
         if (userId == null) {

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import oith.ws.service.UserDetailsMac;
+import oith.ws.service.MacUserDetail;
 
 @Controller
 @RequestMapping(value = "/post")
@@ -44,7 +44,7 @@ public class PostController extends _OithAuditController {
     public String create(ModelMap model, RedirectAttributes attributes) {
 
         //chk if user in logged
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
 
         if (userId == null) {

@@ -27,6 +27,8 @@
 <head>
     <script type="text/javascript">
             jQuery(document).ready(function () {
+
+//    alert("clicked...");
     //initMenu();
     //showUserName();
     //showApplicantName();
@@ -48,6 +50,12 @@
                             }
                     });
             }
+
+//    jQuery(document).on('keyup', '#quickAccessUrl', function(){
+//    alert("clicked...");
+//            window.location.href = "my url..."
+//    });   
+
     </script>
 
 </head>   
@@ -117,16 +125,30 @@
                     </sec:authorize>
 
                     <div>
-                        <select  name="quickAccess" id="quickAccess">
-                            <option value="${null}" > --Select-- </option>
-                            <option value="/mm" >  Client</option>
-                            <option value="/ad" > Assigment </option>
-                            <option value="/jd" > Job </option>
-                            <!--<options items="{quickAccesss}"></options>-->
 
-                        </select>
+                        <sec:authorize access="isAuthenticated()">
+                            <sec:authentication var="favorites" property="principal.favorites"/>
+                            <sec:authentication var="paramsx" property="principal.params"/>
 
-                        <input  type="text" size="10" maxlength="10"/>
+                            favorites ${favorites}
+                            <br>
+                            paramsx ${paramsx}
+
+                            <select name="quickAccessx" id="quickAccessx" >
+                                <option value="{null}" >--Select--</option>
+                                <options itemValue="id" items="${paramsx}"></options>
+
+                                    <!--                            
+                                    <option value="/mm" >Client</option>
+                                    <option value="/ad" >Assigment</option>
+                                    <option value="/jd" >ob</option>
+                                    -->
+
+                                    <!--<options items="favorites" ></options>-->
+
+                            </select>
+                        </sec:authorize>
+                        <input id="quickAccessUrl" type="text" size="10" maxlength="10"/>
                     </div>
                 </div>
 

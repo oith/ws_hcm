@@ -12,7 +12,7 @@ import oith.ws.dom.hcm.fm.TrnscFm;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.AccountHeadFmService;
 import oith.ws.service.EmpService;
-import oith.ws.service.UserDetailsMac;
+import oith.ws.service.MacUserDetail;
 import oith.ws.util.StringToAccountHeadFmConverter;
 import oith.ws.util.StringToEmpConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +74,7 @@ public class TrnscFmController extends _OithAuditController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
 

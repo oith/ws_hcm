@@ -10,7 +10,7 @@ import oith.ws.dom.core.User;
 import oith.ws.dom.core.hrm.om.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.ProfileService;
-import oith.ws.service.UserDetailsMac;
+import oith.ws.service.MacUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,7 +55,7 @@ public class EmpController extends _OithAuditController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
 
-        UserDetailsMac authUser = (UserDetailsMac) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
 
