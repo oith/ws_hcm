@@ -109,6 +109,19 @@
                         </div>
 
                         <div>
+                            <sec:authentication var="favorites" property="principal.favorites"/>
+                            <sec:authentication var="params" property="principal.params"/>
+
+                            <!--favorites ${favorites}<br>params ${params}<br>-->
+
+                            <select name="quickAccessx" id="quickAccessx" >
+                                <c:forEach items="${favorites}" var="sss"  varStatus="loopStatus">
+                                    <option value="${sss}" >${sss}</option>
+                                </c:forEach>
+                            </select>
+                            <input id="quickAccessUrl" type="text" size="4" maxlength="4"/>
+                            <input type="checkbox" name="openMode" checked="" title="Open in New Page">Open in New Page</input>
+
                             <a href="${pageContext.request.contextPath}/logout" onclick="return confirm('Are you sure to logout?');" ><spring:message code="logout" text="Logout"/></a>
                         </div>
                     </sec:authorize>
@@ -124,32 +137,7 @@
 
                     </sec:authorize>
 
-                    <div>
 
-                        <sec:authorize access="isAuthenticated()">
-                            <sec:authentication var="favorites" property="principal.favorites"/>
-                            <sec:authentication var="paramsx" property="principal.params"/>
-
-                            favorites ${favorites}
-                            <br>
-                            paramsx ${paramsx}
-
-                            <select name="quickAccessx" id="quickAccessx" >
-                                <option value="{null}" >--Select--</option>
-                                <options itemValue="id" items="${paramsx}"></options>
-
-                                    <!--                            
-                                    <option value="/mm" >Client</option>
-                                    <option value="/ad" >Assigment</option>
-                                    <option value="/jd" >ob</option>
-                                    -->
-
-                                    <!--<options items="favorites" ></options>-->
-
-                            </select>
-                        </sec:authorize>
-                        <input id="quickAccessUrl" type="text" size="10" maxlength="10"/>
-                    </div>
                 </div>
 
             </div>     

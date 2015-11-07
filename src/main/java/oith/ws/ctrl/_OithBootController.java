@@ -5,9 +5,20 @@
  */
 package oith.ws.ctrl;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSFile;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
+import javax.imageio.ImageIO;
 import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.Post;
 import oith.ws.dom.core.Profile;
@@ -31,6 +42,7 @@ import oith.ws.service.RoleService;
 import oith.ws.service.TrnscFmService;
 import oith.ws.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +52,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/boot")
 public class _OithBootController extends _OithController {
 
+    @Autowired
+    private GridFsOperations gridFsTemplate;
     @Autowired
     private AccountHeadFmService accountHeadFmService;
     @Autowired
@@ -151,6 +165,9 @@ public class _OithBootController extends _OithController {
         user1.setCredentialsNonExpired(true);
         user1.setEnabled(true);
         user1.setAuthorities(new HashSet(Arrays.asList(role1, role2, role3)));
+        user1.setFavorites(new HashSet(Arrays.asList("Client", "Account Head", "Post")));
+        //user1.setParams(new HashMap(Arrays.asList("dfgdfg", "gdsgfsg", "fsfdsf")));
+
         user1.setClient(client4);
         userService.create(user1);
 
@@ -263,7 +280,7 @@ public class _OithBootController extends _OithController {
         profile1.setMiddleName("Mohammad");
         profile1.setLastName("Badiuzzaman");
         profile1.setNickName("Manik");
-        profile1.setProfilePicFile("5627f53e0100fb44e43b252e");
+        profile1.setProfilePicFile(imageHandle(new File("D:\\_OITH_OUTPUT\\oith_ws_hcm\\trunk\\sampleImage\\mac.jpg")));
         profile1.setContactInfo(null);
         profile1.setProfileEduDtls(null);
         profile1.setProfileJobDtls(null);
@@ -298,7 +315,7 @@ public class _OithBootController extends _OithController {
         profile3.setNickName("Babu");
         profile3.setProfilePicFile("5608f15b0100fbb2ecd22c3d");
         profile3.setContactInfo(null);
-        profile3.setUser(null);
+        profile3.setUser(user4);
         profileService.create(profile3);
 
         Profile profile4 = new Profile();
@@ -310,7 +327,7 @@ public class _OithBootController extends _OithController {
         profile4.setNickName("Reza");
         profile4.setProfilePicFile("5608f19b0100fbb2ecd22c5d");
         profile4.setContactInfo(null);
-        profile4.setUser(user6);
+        profile4.setUser(user5);
         profileService.create(profile4);
 
         Profile profile5 = new Profile();
@@ -325,7 +342,7 @@ public class _OithBootController extends _OithController {
         profile5.setProfileEduDtls(null);
         profile5.setProfileJobDtls(null);
         profile5.setUpdateDate(new java.util.Date(1443852993166L));
-        profile5.setUser(null);
+        profile5.setUser(user8);
         profile5.setUpdateByUser(null);
         profileService.create(profile5);
 
@@ -339,7 +356,7 @@ public class _OithBootController extends _OithController {
         profile6.setProfilePicFile("560bf3528f664717f4353e13");
         profile6.setProfileEduDtls(null);
         profile6.setProfileJobDtls(null);
-        profile6.setUser(null);
+        profile6.setUser(user7);
         profileService.create(profile6);
 
         RememberMeToken rememberMeToken1 = new RememberMeToken();
@@ -362,7 +379,7 @@ public class _OithBootController extends _OithController {
         accountHeadFm1.setId("562004ee8f66172d94d81a2a");
         accountHeadFm1.setCode("432");
         accountHeadFm1.setTitle("rrr");
-        accountHeadFm1.setClient(null);
+        accountHeadFm1.setClient(client4);
         accountHeadFm1.setAccNo(" dfgdf");
         accountHeadFm1.setActive(false);
         accountHeadFm1.setSlNo(1);
@@ -379,7 +396,7 @@ public class _OithBootController extends _OithController {
         accountHeadFm2.setCode("00001");
         accountHeadFm2.setTitle("Sefl Own ma");
         accountHeadFm2.setAccNo("1");
-        accountHeadFm2.setClient(null);
+        accountHeadFm2.setClient(client4);
         accountHeadFm2.setActive(true);
         accountHeadFm2.setSlNo(45);
         accountHeadFm2.setEmpRequired(true);
@@ -394,7 +411,7 @@ public class _OithBootController extends _OithController {
         accountHeadFm3.setCode("56756");
         accountHeadFm3.setTitle("ytry");
         accountHeadFm3.setAccNo("543543");
-        accountHeadFm3.setClient(null);
+        accountHeadFm3.setClient(client4);
         accountHeadFm3.setActive(true);
         accountHeadFm3.setSlNo(54);
         accountHeadFm3.setEmpRequired(true);
@@ -408,7 +425,7 @@ public class _OithBootController extends _OithController {
         accountHeadFm4.setId("56211d388f66472114e5f3b0");
         accountHeadFm4.setCode("00867");
         accountHeadFm4.setTitle("mac oith accx");
-        accountHeadFm4.setClient(null);
+        accountHeadFm4.setClient(client1);
         accountHeadFm4.setAccNo("6546");
         accountHeadFm4.setActive(true);
         accountHeadFm4.setSlNo(33);
@@ -432,7 +449,7 @@ public class _OithBootController extends _OithController {
         accountHeadFm5.setUpdateDate(new java.util.Date(1445455536789L));
         accountHeadFm5.setInsertByUser(null);
         accountHeadFm5.setUpdateByUser(null);
-        accountHeadFm5.setClient(null);
+        accountHeadFm5.setClient(client4);
         accountHeadFmService.create(accountHeadFm5);
 
         AccountHeadFm accountHeadFm6 = new AccountHeadFm();
@@ -714,5 +731,56 @@ public class _OithBootController extends _OithController {
         orgUnit4.setDescription("gfdg");
         orgUnitService.create(orgUnit4);
         return "index";
+    }
+
+    private String imageHandle(File file) {
+        String ret = null;
+        long size;
+
+        if ((file != null && (size = file.length()) > 0)) {
+
+            byte[] buf = new byte[(int) size];
+
+            try {
+                InputStream inputStream = new FileInputStream(file);
+                inputStream.read(buf);
+                inputStream.close();
+            } catch (Exception e) {
+            }
+
+            DBObject metaData = new BasicDBObject();
+            metaData.put("status", "active");
+            metaData.put("size", "big");
+
+            GridFSFile trt = gridFsTemplate.store(new ByteArrayInputStream(buf), file.getName(), "jpg", metaData);
+            ret = trt.getId().toString();
+
+            try {
+                BufferedImage bsrc = ImageIO.read(new ByteArrayInputStream(buf));//  new File(data));
+                BufferedImage bdest = new BufferedImage(45, 55, BufferedImage.TYPE_INT_RGB);
+                Graphics2D g = bdest.createGraphics();
+                AffineTransform at = AffineTransform.getScaleInstance((double) 45 / bsrc.getWidth(),
+                        (double) 55 / bsrc.getHeight());
+                g.drawRenderedImage(bsrc, at);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(bdest, "png", baos);
+                InputStream is = new ByteArrayInputStream(baos.toByteArray());
+
+                metaData = new BasicDBObject();
+                metaData.put("parent", trt.getId());
+                metaData.put("status", "active");
+                metaData.put("size", "small");
+                GridFSFile trtx = gridFsTemplate.store(is, file.getName(), "png", metaData);
+
+                //ret= trt.getId().toString();
+                System.out.println("done small image id: " + trtx.getId().toString());
+                //ImageIO.write(bdest, "jpg", filet);
+            } catch (Exception e) {
+                System.out.println("eeeeeeeee" + e);
+            }
+
+        }
+        return ret;
     }
 }
