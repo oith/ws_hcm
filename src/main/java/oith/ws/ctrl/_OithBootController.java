@@ -17,7 +17,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.Post;
@@ -166,7 +168,13 @@ public class _OithBootController extends _OithController {
         user1.setEnabled(true);
         user1.setAuthorities(new HashSet(Arrays.asList(role1, role2, role3)));
         user1.setFavorites(new HashSet(Arrays.asList("Client", "Account Head", "Post")));
-        //user1.setParams(new HashMap(Arrays.asList("dfgdfg", "gdsgfsg", "fsfdsf")));
+        
+        Map<String,String> hashMap=new HashMap();
+        hashMap.put("param1","value1");
+        hashMap.put("param2","value2");
+        hashMap.put("param3","value3");
+        hashMap.put("param4","value4");
+        user1.setParams(hashMap);
 
         user1.setClient(client4);
         userService.create(user1);

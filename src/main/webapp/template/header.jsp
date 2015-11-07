@@ -112,8 +112,9 @@
                             <sec:authentication var="favorites" property="principal.favorites"/>
                             <sec:authentication var="params" property="principal.params"/>
 
-                            <!--favorites ${favorites}<br>params ${params}<br>-->
-
+                            <!--favorites ${favorites}<br>-->
+                            params ${params}
+                            <br>
                             <select name="quickAccessx" id="quickAccessx" >
                                 <c:forEach items="${favorites}" var="sss"  varStatus="loopStatus">
                                     <option value="${sss}" >${sss}</option>
