@@ -1,12 +1,12 @@
 
+import oith.ws.dom.core.Client;
+import oith.ws.dom.core.Client.ClientCategory;
 import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.Post;
 import oith.ws.dom.core.Profile;
 import oith.ws.dom.core.RememberMeToken;
 import oith.ws.dom.core.Role;
 import oith.ws.dom.core.User;
-import oith.ws.dom.core.hrm.Client;
-import oith.ws.dom.core.hrm.Client.ClientCategory;
 import oith.ws.dom.core.hrm.om.Emp;
 import oith.ws.dom.core.hrm.om.OrgUnit;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
@@ -152,7 +152,6 @@ public class MacBootup {
         client1.setUserCreateUrl("ibc");
         client1.setLoginUrl("xbc");
         client1.setActive(true);
-        client1.setSlNo(1);
         client1.setRemarks("n/a man.");
         client1.setClientCategory(ClientCategory.DEMO);
         clientService.create(client1);
@@ -165,7 +164,6 @@ public class MacBootup {
         client2.setUserCreateUrl("oc");
         client2.setLoginUrl("obc");
         client2.setActive(true);
-        client2.setSlNo(1);
         client2.setRemarks("n/agv");
         client2.setClientCategory(ClientCategory.OITH);
         clientService.create(client2);
@@ -178,7 +176,6 @@ public class MacBootup {
         client3.setLoginUrl("abc3");
         client3.setUserCreateUrl("acx2");
         client3.setActive(true);
-        client3.setSlNo(1);
         client3.setRemarks("n/a man.m hib");
         client3.setClientCategory(ClientCategory.DEMO);
         clientService.create(client3);
@@ -191,7 +188,6 @@ public class MacBootup {
         client4.setLoginUrl("kbc");
         client4.setDomain("bdbiman");
         client4.setActive(true);
-        client4.setSlNo(2);
         client4.setRemarks("n/a.");
         client4.setClientCategory(ClientCategory.CORPORATE);
         clientService.create(client4);
@@ -585,7 +581,7 @@ public class MacBootup {
         user1.setId("55cef88a27b665569010f65c");
         user1.setUsername("mac");
         user1.setPassword("123");
-        user1.setFullName("Sheikh Mohammad Badiuzzaman Manik.");
+        user1.setFullName("Sheikh Mohammad Badiuzzaman Manik");
         user1.setGender(User.Gender.MALE);
         user1.setDob(new java.util.Date(421092000000L));
         user1.setAccountNonExpired(true);

@@ -1,4 +1,3 @@
-
 package oith.ws.ctrl;
 
 import com.mongodb.BasicDBObject;
@@ -17,13 +16,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import oith.ws.dom.core.Client;
 import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.Post;
 import oith.ws.dom.core.Profile;
 import oith.ws.dom.core.RememberMeToken;
 import oith.ws.dom.core.Role;
 import oith.ws.dom.core.User;
-import oith.ws.dom.core.hrm.Client;
 import oith.ws.dom.core.hrm.om.Emp;
 import oith.ws.dom.core.hrm.om.OrgUnit;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
@@ -39,6 +38,7 @@ import oith.ws.service.RememberMeTokenService;
 import oith.ws.service.RoleService;
 import oith.ws.service.TrnscFmService;
 import oith.ws.service.UserService;
+import oith.ws.util.MacTestBoot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Controller;
@@ -75,8 +75,51 @@ public class _OithBootController extends _OithController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/data", method = RequestMethod.GET)
-    public String index(ModelMap model) {
+    private final MacTestBoot macTestBoot = new MacTestBoot();
+
+    @RequestMapping(value = "/bootInit", method = RequestMethod.GET)
+    public String init(ModelMap model) {
+        //macTestBoot.setAccountHeadFmService(accountHeadFmService);
+        macTestBoot.setClientService(clientService);
+        macTestBoot.setEmpService(empService);
+        macTestBoot.setGridFsTemplate(gridFsTemplate);
+        macTestBoot.setLookupService(lookupService);
+        macTestBoot.setOrgUnitService(orgUnitService);
+        macTestBoot.setPostService(postService);
+        macTestBoot.setProfileService(profileService);
+        macTestBoot.setRememberMeTokenService(rememberMeTokenService);
+        macTestBoot.setRoleService(roleService);
+        //macTestBoot.setTrnscFmService(trnscFmService);
+        macTestBoot.setUserService(userService);
+        return "index";
+    }
+
+    @RequestMapping(value = "/dataA", method = RequestMethod.GET)
+    public String indexA(ModelMap model) {
+
+        macTestBoot.testA();
+        return "index";
+    }
+
+    @RequestMapping(value = "/dataB", method = RequestMethod.GET)
+    public String indexB(ModelMap model) {
+        macTestBoot.testB();
+        return "index";
+    }
+
+    @RequestMapping(value = "/dataC", method = RequestMethod.GET)
+    public String indexC(ModelMap model) {
+        macTestBoot.testC();
+        return "index";
+    }
+
+    @RequestMapping(value = "/dataD", method = RequestMethod.GET)
+    public String indexD(ModelMap model) {
+        macTestBoot.testD();
+        return "index";
+    }
+
+    public String noNeed(ModelMap model) {
 
         Client client1 = new Client();
         client1.setId("55cef88a27b665569010f650");
@@ -86,7 +129,6 @@ public class _OithBootController extends _OithController {
         client1.setUserCreateUrl("ibc");
         client1.setLoginUrl("xbc");
         client1.setActive(true);
-        client1.setSlNo(1);
         client1.setRemarks("n/a man.");
         client1.setClientCategory(Client.ClientCategory.DEMO);
         clientService.create(client1);
@@ -99,7 +141,6 @@ public class _OithBootController extends _OithController {
         client2.setUserCreateUrl("oc");
         client2.setLoginUrl("obc");
         client2.setActive(true);
-        client2.setSlNo(1);
         client2.setRemarks("n/agv");
         client2.setClientCategory(Client.ClientCategory.OITH);
         clientService.create(client2);
@@ -112,7 +153,6 @@ public class _OithBootController extends _OithController {
         client3.setLoginUrl("abc3");
         client3.setUserCreateUrl("acx2");
         client3.setActive(true);
-        client3.setSlNo(1);
         client3.setRemarks("n/a man.m hib");
         client3.setClientCategory(Client.ClientCategory.DEMO);
         clientService.create(client3);
@@ -125,7 +165,6 @@ public class _OithBootController extends _OithController {
         client4.setLoginUrl("kbc");
         client4.setDomain("bdbiman");
         client4.setActive(true);
-        client4.setSlNo(2);
         client4.setRemarks("n/a.");
         client4.setClientCategory(Client.ClientCategory.CORPORATE);
         clientService.create(client4);
@@ -164,12 +203,12 @@ public class _OithBootController extends _OithController {
         user1.setEnabled(true);
         user1.setAuthorities(new HashSet(Arrays.asList(role1, role2, role3)));
         user1.setFavorites(new HashSet(Arrays.asList("Client", "Account Head", "Post")));
-        
-        Map<String,String> hashMap=new HashMap();
-        hashMap.put("param1","value1");
-        hashMap.put("param2","value2");
-        hashMap.put("param3","value3");
-        hashMap.put("param4","value4");
+
+        Map<String, String> hashMap = new HashMap();
+        hashMap.put("param1", "value1");
+        hashMap.put("param2", "value2");
+        hashMap.put("param3", "value3");
+        hashMap.put("param4", "value4");
         user1.setParams(hashMap);
 
         user1.setClient(client4);

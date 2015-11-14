@@ -52,7 +52,7 @@
                     </li>
             </c:if>
 
-            <c:if test="${client.slNo!=null}">
+            <%--<c:if test="${client.slNo!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
                         <spring:message code="slNo" text="Sl No"/>: 
@@ -61,7 +61,7 @@
                         <c:out value="${client.slNo}"/>
                     </span>
                 </li>
-            </c:if>
+            </c:if>--%>
 
             <c:if test="${client.name!=null && !client.name.isEmpty()}">
                 <li class="fieldcontain first_item">

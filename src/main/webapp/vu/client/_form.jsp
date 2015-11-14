@@ -69,9 +69,9 @@
             <td><form:errors path="active" cssClass="error" element="div"/></td>
         </tr>
         <tr>
-            <td><form:label path="slNo"><spring:message code="slNo" text="Sl No"/></form:label></td>
+<%--            <td><form:label path="slNo"><spring:message code="slNo" text="Sl No"/></form:label></td>
             <td><form:input path="slNo" type="number" size="15" maxlength="15"/></td>
-            <td><form:errors path="slNo" cssClass="error" element="div"/></td>
+            <td><form:errors path="slNo" cssClass="error" element="div"/></td>--%>
             <td><form:label path="name"><spring:message code="name" text="Name"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="name" type="text" required="true" size="30" maxlength="100"/></td>
             <td><form:errors path="name" cssClass="error" element="div"/></td>

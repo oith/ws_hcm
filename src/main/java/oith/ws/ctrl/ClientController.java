@@ -5,7 +5,7 @@ import oith.ws.service.ClientService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
-import oith.ws.dom.core.hrm.Client;
+import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

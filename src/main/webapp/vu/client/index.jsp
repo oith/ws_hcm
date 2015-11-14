@@ -76,7 +76,7 @@
                         <td></td>
                         <td><spring:message code="code" text="Code"/></td>
                     <!--<td><spring:message code="active" text="Active"/></td>-->
-                        <td><spring:message code="slNo" text="Sl No"/></td>
+                        <!--<td><spring:message code="slNo" text="Sl No"/></td>-->
                         <td><spring:message code="name" text="Name"/></td>
 
                         <td><spring:message code="remarks" text="Remarks"/></td>
@@ -90,8 +90,8 @@
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/client/show/<c:out value="${client.id}"/>"><spring:message code="show.link.label"/></a></td>
                             <td><c:out value="${client.code}"/></td>
-                        <!--<td><c:if test="${client.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!client.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>-->
-                            <td><c:out value="${client.slNo}"/></td>
+                        <!--<td><c:if test="{client.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="{!client.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>-->
+                            <!--<td><c:out value="{client.slNo}"/></td>-->
                             <td><c:out value="${client.name}"/></td>
 
                             <td><c:out value="${client.remarks}"/></td>
