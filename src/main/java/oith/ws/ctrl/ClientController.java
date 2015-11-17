@@ -1,5 +1,6 @@
 package oith.ws.ctrl;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import oith.ws.exception.ClientNotFoundException;
 import oith.ws.service.ClientService;
 import java.util.ArrayList;
@@ -7,7 +8,15 @@ import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -30,6 +40,8 @@ public class ClientController extends _OithController {
 
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private GridFsOperations gridFsTemplate;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
@@ -156,5 +168,26 @@ public class ClientController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         }
         return "redirect:/" + LIST_VIEW;
+    }
+
+    @RequestMapping(value = "/getPhoto/{code}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<byte[]> getCodableDTO(@PathVariable("code") String code) {
+
+        System.out.println("finding getCodableDTO: code: " + code);
+
+        try {
+
+            //List<GridFSDBFile> result = gridFsTemplate.find(new Query().addCriteria(Criteria.where("filename").is(code)));
+            GridFSDBFile gridFsFile = gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("_id").is(code)));
+
+            final HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return new ResponseEntity<>(IOUtils.toByteArray(gridFsFile.getInputStream()), headers, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            System.out.println("eeeeeeeey get photo " + e);
+            return null;
+        }
     }
 }

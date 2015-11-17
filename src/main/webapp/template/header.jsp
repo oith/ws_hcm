@@ -68,8 +68,17 @@
 
                 <!--<div class="top-header">-->
                 <div>
-                    <img alt="oith_logo_left" align="left" src="<%=request.getContextPath()%>/resources/images/oith_logo_left.png"/>
-                    <!--<img alt="oith_logo_right" align="right" style="border:5px double black;" src="<%=request.getContextPath()%>/images/oith_logo_right.png"/>-->
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication var="params" property="principal.logoPicFile"/>
+                        <c:url var="macImage" value='/client/getPhoto/${params}' />
+                        <img id="imagePreview" align="left" height="100px" width="300px" src="${macImage}" alt="${macImage}"/>
+                    </sec:authorize>
+
+                    <sec:authorize access="isAnonymous()">
+                        <img id="imagePreview"  align="left" height="100px" width="300px" src="<%=request.getContextPath()%>/resources/images/oith_logo_left.png" alt="oith_logo_left"/>
+
+                    </sec:authorize>
+                   <!--<img alt="oith_logo_right" align="right" style="border:5px double black;" src="<%=request.getContextPath()%>/images/oith_logo_right.png"/>-->
                 </div>
                 <div id="flags" style="float: right">
                     <a href="?lang=">
