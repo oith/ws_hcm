@@ -110,10 +110,11 @@
                             <sec:authentication var="favorites" property="principal.favorites"/>
                             <sec:authentication var="params" property="principal.params"/>
 
-<%--                            favorites ${favorites}<br>
-                            params ${params}<br>--%>
-                            
+                            <%--                            favorites ${favorites}<br>
+                                                        params ${params}<br>--%>
+
                             <select name="quickAccessx" id="quickAccessx" class="form-control">
+                                <option value="${null}" >Get Quick Move</option>
                                 <c:forEach items="${favorites}" var="sss"  varStatus="loopStatus">
                                     <option value="${sss.address}" >${sss.menuType} - ${sss.text}</option>
                                 </c:forEach>
@@ -137,62 +138,57 @@
             </div>     
 
             <script>
-                jQuery(document).ready(function(){
-                          //  alert("ready...");
+                        jQuery(document).ready(function(){
+                //  alert("ready...");
                 });
-                        
-                $(document).on('change', '#quickAccessx', function () {
-                    
-                    var isNewWindow = $("#openMode").prop('checked');
-                    var quickAccessx = $('#quickAccessx').val();
-                    
-                    if (isNewWindow == '' || isNewWindow == null) {
-                        isNewWindow = '_self';
-                    }else{
-                        isNewWindow = '_blank';
-                    }
+                        $(document).on('change', '#quickAccessx', function () {
 
-                    if (quickAccessx != null || quickAccessx != "") {
-                        var urlToGo = $(this).val();
+                var isNewWindow = $("#openMode").prop('checked');
+                        var quickAccessx = $('#quickAccessx').val();
+                        if (isNewWindow == '' || isNewWindow == null) {
+                isNewWindow = '_self';
+                } else{
+                isNewWindow = '_blank';
+                }
+
+                if (quickAccessx != null || quickAccessx != "") {
+                var urlToGo = $(this).val();
                         window.open(urlToGo, isNewWindow);
 //                        window.location.href = urlToGo.toString();
-                    }
+                }
                 });
-                
-                $('#quickAccessUrl').on( 'keydown', function(event) {
-                    if(event.which == 13){                        
-                        var isNewWindow = $('#openMode').prop('checked');                    
+                        $('#quickAccessUrl').on('keydown', function(event) {
+                if (event.which == 13){
+                var isNewWindow = $('#openMode').prop('checked');
                         if (isNewWindow == '' || isNewWindow == null) {
-                            isNewWindow = '_self';
-                        }else{
-                            isNewWindow = '_blank';
-                        }
-                        var urlCode = $(this).val();
-                        if(urlCode.length == 4){
+                isNewWindow = '_self';
+                } else{
+                isNewWindow = '_blank';
+                }
+                var urlCode = $(this).val();
+                        if (urlCode.length == 4){
 //                            window.open("http://www.google.com", '_blank');
-                            goToQuickAccessUrl(urlCode, isNewWindow);
-                        }
-                    }
+                goToQuickAccessUrl(urlCode, isNewWindow);
+                }
+                }
                 });
+                        function goToQuickAccessUrl(urlCode, isNewWindow){
 
-    function goToQuickAccessUrl(urlCode,isNewWindow){
-        
-        //window.open('http://www.google.com', isNewWindow);
-        //window.open(urlToGo, isNewWindow);
-        
-        $.ajax({
-            url: contextPath+'/menu/'+urlCode,
-            type: "GET",
-            data: "",
-            async: false,
-            success: function (response) {
-                window.open(response, isNewWindow);
-            },
-            error: function (exception) {
-                alert('Sorry, An Internal Error Occurred...!\n(Error : header.jsp/goToQuickAccessUrl:ln=206)');
-            }
-        });
-        
-    }
+                        //window.open('http://www.google.com', isNewWindow);
+                        //window.open(urlToGo, isNewWindow);
 
-</script>   
+                        $.ajax({
+                        url: contextPath + '/menu/' + urlCode,
+                                type: "GET",
+                                data: "",
+                                async: false,
+                                success: function (response) {
+                                window.open(response, isNewWindow);
+                                },
+                                error: function (exception) {
+                                alert('Sorry, An Internal Error Occurred...!\n(Error : header.jsp/goToQuickAccessUrl:ln=206)');
+                                }
+                        });
+                        }
+
+            </script>   
