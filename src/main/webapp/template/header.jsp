@@ -5,51 +5,41 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<script>
-    var contextPath = "<%=request.getContextPath()%>";</script>
-
-<link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico"/>
-
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/oith.css"/> 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/styles.css"/> 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/menu.css" media="screen"/> 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery-ui.css"/> 
-
-<script src="<%=request.getContextPath()%>/resources/js/oith.js"></script>
-
-<!-- BOOTSTRAP CSS -->
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap.css"/>
-<!-- BOOTSTRAP JS -->
-<script src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/jquery-ui-1.10.2.js"></script> 
-
 <head>
-    <script type="text/javascript">
-            jQuery(document).ready(function () {
+    <script>var contextPath = "<%=request.getContextPath()%>";</script>
+    <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico"/>
 
-//    alert("clicked...");
-    //initMenu();
-    //showUserName();
-    //showApplicantName();
-    });
-            function showApplicantName() {
-            var controller = "HrIrAplc";
-                    var action = "getAplcTitle";
-                    $.ajax({
-                    type: "POST",
-                            url: "{request.contextPath} " / "+controller +" / "+action,
-                            dataType: 'JSON',
-                            success: function (d) {
-                            //                    document.getElementById('showApplicantTitle').innerHTML=d.message
-                            document.getElementById('showUserTitle').innerHTML = d.message
-                            },
-                            error: function (err) {
-                            alert("Sorry for Inconvenience, Please Login Again");
-                                    //                        window.location.href = 'createLink(controller:'HrIrAplc', action:'logout')}'
-                            }
-                    });
-            }
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery-ui.css"/> 
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/menu.css" media="screen"/> 
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/styles.css"/> 
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/oith.css"/> 
+
+    <script src="<%=request.getContextPath()%>/resources/js/jquery.min.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/js/jquery-ui-1.10.2.js"></script> 
+    <script src="<%=request.getContextPath()%>/resources/js/oith.js"></script>
+
+    <script type="text/javascript">
+
+
+                function showApplicantName() {
+                var controller = "HrIrAplc";
+                        var action = "getAplcTitle";
+                        $.ajax({
+                        type: "POST",
+                                url: "{request.contextPath} " / "+controller +" / "+action,
+                                dataType: 'JSON',
+                                success: function (d) {
+                                //                    document.getElementById('showApplicantTitle').innerHTML=d.message
+                                document.getElementById('showUserTitle').innerHTML = d.message
+                                },
+                                error: function (err) {
+                                alert("Sorry for Inconvenience, Please Login Again");
+                                        //                        window.location.href = 'createLink(controller:'HrIrAplc', action:'logout')}'
+                                }
+                        });
+                }
 
 //    jQuery(document).on('keyup', '#quickAccessUrl', function(){
 //    alert("clicked...");
@@ -76,7 +66,6 @@
 
                     <sec:authorize access="isAnonymous()">
                         <img id="imagePreview"  align="left" height="100px" width="300px" src="<%=request.getContextPath()%>/resources/images/oith_logo_left.png" alt="oith_logo_left"/>
-
                     </sec:authorize>
                    <!--<img alt="oith_logo_right" align="right" style="border:5px double black;" src="<%=request.getContextPath()%>/images/oith_logo_right.png"/>-->
                 </div>
@@ -121,34 +110,89 @@
                             <sec:authentication var="favorites" property="principal.favorites"/>
                             <sec:authentication var="params" property="principal.params"/>
 
-                            <!--favorites ${favorites}<br>-->
-                            params ${params}
-                            <br>
-                            <select name="quickAccessx" id="quickAccessx" >
+<%--                            favorites ${favorites}<br>
+                            params ${params}<br>--%>
+                            
+                            <select name="quickAccessx" id="quickAccessx" class="form-control">
                                 <c:forEach items="${favorites}" var="sss"  varStatus="loopStatus">
-                                    <option value="${sss}" >${sss}</option>
+                                    <option value="${sss.address}" >${sss.menuType} - ${sss.text}</option>
                                 </c:forEach>
                             </select>
-                            <input id="quickAccessUrl" type="text" size="4" maxlength="4"/>
-                            <input type="checkbox" name="openMode" checked="" title="Open in New Page">Open in New Page</input>
+                            <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="4" maxlength="4"/>
+                            <input name="openMode" id="openMode" type="checkbox" checked="" title="Open in New Page">Open in New Page</input>
 
                             <a href="${pageContext.request.contextPath}/logout" onclick="return confirm('Are you sure to logout?');" ><spring:message code="logout" text="Logout"/></a>
                         </div>
                     </sec:authorize>
 
                     <sec:authorize access="isAnonymous()">
-
                         <div>
                             <a href="${pageContext.request.contextPath}/user/create"><spring:message code="make.new.user" text="Make new user"/></a>
                         </div>
                         <div>
                             <a href="${pageContext.request.contextPath}/login"><spring:message code="login" text="Log In"/></a>
                         </div>
-
                     </sec:authorize>
-
-
                 </div>
-
             </div>     
 
+            <script>
+                jQuery(document).ready(function(){
+                          //  alert("ready...");
+                });
+                        
+                $(document).on('change', '#quickAccessx', function () {
+                    
+                    var isNewWindow = $("#openMode").prop('checked');
+                    var quickAccessx = $('#quickAccessx').val();
+                    
+                    if (isNewWindow == '' || isNewWindow == null) {
+                        isNewWindow = '_self';
+                    }else{
+                        isNewWindow = '_blank';
+                    }
+
+                    if (quickAccessx != null || quickAccessx != "") {
+                        var urlToGo = $(this).val();
+                        window.open(urlToGo, isNewWindow);
+//                        window.location.href = urlToGo.toString();
+                    }
+                });
+                
+                $('#quickAccessUrl').on( 'keydown', function(event) {
+                    if(event.which == 13){                        
+                        var isNewWindow = $('#openMode').prop('checked');                    
+                        if (isNewWindow == '' || isNewWindow == null) {
+                            isNewWindow = '_self';
+                        }else{
+                            isNewWindow = '_blank';
+                        }
+                        var urlCode = $(this).val();
+                        if(urlCode.length == 4){
+//                            window.open("http://www.google.com", '_blank');
+                            goToQuickAccessUrl(urlCode, isNewWindow);
+                        }
+                    }
+                });
+
+    function goToQuickAccessUrl(urlCode,isNewWindow){
+        
+        //window.open('http://www.google.com', isNewWindow);
+        //window.open(urlToGo, isNewWindow);
+        
+        $.ajax({
+            url: contextPath+'/menu/'+urlCode,
+            type: "GET",
+            data: "",
+            async: false,
+            success: function (response) {
+                window.open(response, isNewWindow);
+            },
+            error: function (exception) {
+                alert('Sorry, An Internal Error Occurred...!\n(Error : header.jsp/goToQuickAccessUrl:ln=206)');
+            }
+        });
+        
+    }
+
+</script>   
