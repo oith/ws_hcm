@@ -28,10 +28,12 @@ import oith.ws.dom.core.hrm.om.OrgUnit;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dom.hcm.fm.TrnscFm;
 import oith.ws.service.AccountHeadFmService;
+import oith.ws.service.AssociationService;
 import oith.ws.service.ClientService;
 import oith.ws.service.EmpService;
 import oith.ws.service.LookupService;
 import oith.ws.service.OrgUnitService;
+import oith.ws.service.PositionService;
 import oith.ws.service.PostService;
 import oith.ws.service.ProfileService;
 import oith.ws.service.RememberMeTokenService;
@@ -54,6 +56,12 @@ public class _OithBootController extends _OithController {
     private GridFsOperations gridFsTemplate;
     @Autowired
     private AccountHeadFmService accountHeadFmService;
+
+    @Autowired
+    private AssociationService associationService;
+    @Autowired
+    private PositionService positionService;
+
     @Autowired
     private ClientService clientService;
     @Autowired
@@ -80,6 +88,8 @@ public class _OithBootController extends _OithController {
     @RequestMapping(value = "/bootInit", method = RequestMethod.GET)
     public String init(ModelMap model) {
         //macTestBoot.setAccountHeadFmService(accountHeadFmService);
+        macTestBoot.setAssociationService(associationService);
+        macTestBoot.setPositionService(positionService);
         macTestBoot.setClientService(clientService);
         macTestBoot.setEmpService(empService);
         macTestBoot.setGridFsTemplate(gridFsTemplate);
