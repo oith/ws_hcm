@@ -55,9 +55,9 @@
             <td><form:errors path="emp" cssClass="error" element="div"/></td>
         </tr>
         <tr>
-            <td><form:label path="accountHeadFmOpposite"><spring:message code="accountHeadFmOpposite" text="Account Head Fm Opposite"/></form:label></td>
+            <td><form:label path="accountHeadFmOpposite"><spring:message code="accountHeadFmOpposite" text="Account Head Fm Opposite"/><span class="required-indicator needed">*</span></form:label></td>
                 <td>
-                <form:select  path="accountHeadFmOpposite.id" name="accountHeadFmOpposite" id="accountHeadFmOpposite" >
+                <form:select  path="accountHeadFmOpposite.id" name="accountHeadFmOpposite" id="accountHeadFmOpposite" required="true">
                     <form:option value="${null}"  label="--Select--"/>  
                     <form:options itemValue="id" items="${accountHeadFms}"/>
                 </form:select>  
