@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.User;
-import oith.ws.dom.hcm.fm.AccountHeadFm;
+import oith.ws.dom.core.hrm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
-import oith.ws.service.UserService;
 import oith.ws.service.MacUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,7 +39,7 @@ public class AccountHeadFmController extends _OithAuditController {
         MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
-        
+
         model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm(user));
         //model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm());
         return ADD_FORM_VIEW;
