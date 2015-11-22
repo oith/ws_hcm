@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.validation.Valid;
+import oith.ws.dom.core.Param;
 import oith.ws.dom.core.User;
-import oith.ws.dom.core.hrm.fm.AccountHeadFm;
-import oith.ws.dom.core.hrm.fm.TrnscFm;
+import oith.ws.dom.hcm.fm.AccountHeadFm;
+import oith.ws.dom.hcm.fm.TrnscFm;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.AccountHeadFmService;
 import oith.ws.service.EmpService;
@@ -77,7 +78,25 @@ public class TrnscFmController extends _OithAuditController {
         String userId = authUser.getUserId();
         User user = super.getUserService().findById(userId);
 
-        model.addAttribute(MODEL_ATTIRUTE, new TrnscFm(user));
+        TrnscFm trnscFm = new TrnscFm(user);
+
+        String ret = "";
+        for (Param col : authUser.getParams()) {
+            if (col.getController().equals("TrnscFm")
+                    && col.getAction().equals("create")
+                    && col.getKey().equals("narration")) {
+                ret = col.getValue();
+
+                trnscFm.setNarration(ret);
+                break;
+
+//                trnscFm.
+            }
+        }
+
+//model.addAttribute("narration", ret);
+        model.addAttribute(MODEL_ATTIRUTE, trnscFm);
+
         model.addAttribute("accountHeadFms", getAccountHeadFms());
 
         return ADD_FORM_VIEW;

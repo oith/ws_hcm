@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.User;
-import oith.ws.dom.core.hrm.om.Emp;
+import oith.ws.dom.hcm.om.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.ProfileService;
 import oith.ws.service.MacUserDetail;

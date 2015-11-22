@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.User;
-import oith.ws.dom.core.hrm.fm.AccountHeadFm;
+import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
 import oith.ws.service.MacUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
