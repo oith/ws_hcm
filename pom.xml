@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>oith.ws</groupId>
     <!--artifactId is used as context path of web project-->
-    <artifactId>oith_ws_hcm</artifactId>
+    <artifactId>oith_ws_web</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
-    <name>0 oith_ws_hcm</name>
+    <name>0 oith_ws_web</name>
     <description>Oith Framework Advance Intelligent</description>
     <licenses>
         <license>
