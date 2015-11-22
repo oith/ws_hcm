@@ -68,6 +68,17 @@
                     </span>
                 </li>
             </c:if>
+            <c:if test="${1==1}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="openInNewPage" text="Open In New Page"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="openInNewPage">
+                        <c:out value="${user.openInNewPage}"/>
+                    </span>
+                </li>
+            </c:if>
+
 
             <%--    
             <c:if test="${user.password!=null && !user.password.isEmpty()}">
@@ -101,7 +112,7 @@
                 </li>
             </c:if>
             --%>
-            
+
         </ol>
 
     </div>

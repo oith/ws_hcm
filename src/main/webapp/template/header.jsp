@@ -120,7 +120,10 @@
                                 </c:forEach>
                             </select>
                             <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="4" maxlength="4"/>
-                            <input name="openMode" id="openMode" type="checkbox" checked="" title="Open in New Page">Open in New Page</input>
+
+                            <sec:authentication var="openInNewPageLoc" property="principal.openInNewPage"/>
+
+                            <input type="checkbox" name="openInNewPage" id="openInNewPage" value="openInNewPage">&nbsp;&nbsp;Open in New Page</input>
 
                             <a href="${pageContext.request.contextPath}/logout" onclick="return confirm('Are you sure to logout?');" ><spring:message code="logout" text="Logout"/></a>
                         </div>
@@ -137,13 +140,21 @@
                 </div>
             </div>     
 
+
             <script>
+
                         jQuery(document).ready(function(){
                 //  alert("ready...");
+
+                $('#openInNewPage').prop('checked',${openInNewPageLoc});
                 });
+//                        $(document).on('click', '#openInNewPage', function () {
+//
+//                alert('jjjjjjjjjjj');
+//                });
                         $(document).on('change', '#quickAccessx', function () {
 
-                var isNewWindow = $("#openMode").prop('checked');
+                var isNewWindow = $("#openInNewPage").prop('checked');
                         var quickAccessx = $('#quickAccessx').val();
                         if (isNewWindow == '' || isNewWindow == null) {
                 isNewWindow = '_self';
@@ -154,12 +165,13 @@
                 if (quickAccessx != null || quickAccessx != "") {
                 var urlToGo = $(this).val();
                         window.open(urlToGo, isNewWindow);
+                         $('#quickAccessx').prop('selectedIndex',0);
 //                        window.location.href = urlToGo.toString();
                 }
                 });
                         $('#quickAccessUrl').on('keydown', function(event) {
                 if (event.which == 13){
-                var isNewWindow = $('#openMode').prop('checked');
+                var isNewWindow = $('#openInNewPage').prop('checked');
                         if (isNewWindow == '' || isNewWindow == null) {
                 isNewWindow = '_self';
                 } else{
@@ -184,6 +196,7 @@
                                 async: false,
                                 success: function (response) {
                                 window.open(response, isNewWindow);
+                                        $('#quickAccessUrl').val('');
                                 },
                                 error: function (exception) {
                                 alert('Sorry, An Internal Error Occurred...!\n(Error : header.jsp/goToQuickAccessUrl:ln=206)');

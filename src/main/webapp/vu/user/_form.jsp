@@ -40,6 +40,12 @@
             <td><form:label path="password"><spring:message code="password" text="Password"/></form:label></td>
             <td><form:password path="password" showPassword="true" size="30" maxlength="30"/></td>
             <td><form:errors path="password" cssClass="error" element="div"/></td>
+            
+          
+            <td><form:label path="openInNewPage"><spring:message code="openInNewPage" text="Open In New Page"/></form:label></td>
+            <td><form:checkbox path="openInNewPage"/></td>
+            <td><form:errors path="openInNewPage" cssClass="error" element="div"/></td>
+      
         </tr>
     </table>
 </div>   
