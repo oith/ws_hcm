@@ -78,6 +78,17 @@
                     </span>
                 </li>
             </c:if>
+            <c:if test="${user.lang!=null}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="lang" text="Language"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="lang">
+                        <c:out value="${user.lang}"/>
+                    </span>
+                </li>
+            </c:if>  
+
 
 
             <%--    

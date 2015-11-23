@@ -148,7 +148,7 @@ public class UserController extends _OithController {
         }
 
         try {//user name cant be update but admin can do
-            User user = userService.update(currObject, "fullName,gender,dob,password,openInNewPage");//username
+            User user = userService.update(currObject, "fullName,gender,dob,password,openInNewPage,lang");//username
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
 
             //session.setAttribute("userId", user.getId());
