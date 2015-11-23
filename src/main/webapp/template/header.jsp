@@ -109,6 +109,7 @@
                         <div>
                             <sec:authentication var="favorites" property="principal.favorites"/>
                             <sec:authentication var="params" property="principal.params"/>
+                            <sec:authentication var="lang" property="principal.lang"/>
 
                             <%--                            favorites ${favorites}<br>
                                                         params ${params}<br>--%>
@@ -147,6 +148,7 @@
                 //  alert("ready...");
 
                 $('#openInNewPage').prop('checked',${openInNewPageLoc});
+//                $('#openInNewPage').prop('checked',${lang});
                 });
 //                        $(document).on('click', '#openInNewPage', function () {
 //

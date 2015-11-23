@@ -132,12 +132,16 @@ public class UserController extends _OithController {
     public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
         String userId = null;
-
         MacUserDetail authUser = null;
         if (authUserObj instanceof MacUserDetail) {
             userId = ((MacUserDetail) authUserObj).getUserId();
             authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }
+
+        if (authUser == null) {
+            return EDIT_FORM_VIEW;
         }
 
         currObject.setId(userId);
@@ -155,7 +159,8 @@ public class UserController extends _OithController {
             //session.setAttribute("fullName", user.getDisplayName());
             authUser.setUserId(user.getId());
             authUser.setFullName(user.getFullName());
-            authUser.setOpenInNewPage(user.getOpenInNewPage()); 
+            authUser.setOpenInNewPage(user.getOpenInNewPage());
+            authUser.setLang(user.getLang());
 
             return "redirect:/" + SHOW_FORM_VIEW;
         } catch (UserNotFoundException e) {

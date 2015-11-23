@@ -25,8 +25,8 @@ public class _OithAclController {
         return "denied";
     }
 
-    @RequestMapping(value = "/menu", method = RequestMethod.GET)
-    public String menu(ModelMap map) {
-        return "menu";
-    }
+//    @RequestMapping(value = "/menu", method = RequestMethod.GET)
+//    public String menu(ModelMap map) {
+//        return "menu";
+//    }
 }
