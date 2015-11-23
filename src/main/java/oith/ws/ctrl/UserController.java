@@ -132,7 +132,7 @@ public class UserController extends _OithController {
     public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
+
         String userId = null;
         MacUserDetail authUser = null;
         if (authUserObj instanceof MacUserDetail) {
@@ -141,7 +141,7 @@ public class UserController extends _OithController {
         }
 
         if (authUser == null) {
-            return EDIT_FORM_VIEW;
+            return "noLoginState";
         }
 
         currObject.setId(userId);

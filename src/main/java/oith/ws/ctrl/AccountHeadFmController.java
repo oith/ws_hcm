@@ -5,6 +5,7 @@ import oith.ws.service.AccountHeadFmService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+import static oith.ws.ctrl.UserController.EDIT_FORM_VIEW;
 import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
@@ -36,8 +37,20 @@ public class AccountHeadFmController extends _OithAuditController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
+
+        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String userId = null;
+        MacUserDetail authUser = null;
+        if (authUserObj instanceof MacUserDetail) {
+            userId = ((MacUserDetail) authUserObj).getUserId();
+            authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }
+
+        if (authUser == null) {
+            return "noLoginState";
+        }
+
         User user = super.getUserService().findById(userId);
 
         model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm(user));
