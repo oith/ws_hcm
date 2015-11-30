@@ -4,6 +4,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import oith.ws.dom.core.AbstDocAudit;
+import oith.ws.dom.core.AbstDocClientAudit;
 import oith.ws.dom.core.User;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUserDetail;
@@ -30,14 +31,14 @@ public abstract class _OithAuditController extends _OithController {
         return user;
     }
 
-    protected void doAuditInsert(AbstDocAudit currObject) throws UserNotFoundException {
+    protected void doAuditInsert(AbstDocClientAudit currObject) throws UserNotFoundException {
         User user = getCurrUser();
         currObject.setClient(user.getClient());
         currObject.setInsertByUser(user);
         currObject.setInsertDate(new Date());
     }
 
-    protected void doAuditUpdate(AbstDocAudit currObject) throws UserNotFoundException {
+    protected void doAuditUpdate(AbstDocClientAudit currObject) throws UserNotFoundException {
         currObject.setUpdateByUser(getCurrUser());
         currObject.setUpdateDate(new Date());
     }

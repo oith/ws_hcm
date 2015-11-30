@@ -6,6 +6,7 @@ import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.UserService;
 import java.util.List;
 import javax.validation.Valid;
+import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -83,7 +84,7 @@ public class UserController extends _OithController {
 
         //Client client = new Client();
         User user = new User();
-        model.addAttribute("genders", User.Gender.values());
+        model.addAttribute("genders",  AllEnum.Gender.values());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return ADD_FORM_VIEW;
@@ -93,7 +94,7 @@ public class UserController extends _OithController {
     public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("genders", User.Gender.values());
+            model.addAttribute("genders", AllEnum.Gender.values());
             return ADD_FORM_VIEW;
         }
 
@@ -122,7 +123,7 @@ public class UserController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-        model.addAttribute("genders", User.Gender.values());
+        model.addAttribute("genders",  AllEnum.Gender.values());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return EDIT_FORM_VIEW;
@@ -147,7 +148,7 @@ public class UserController extends _OithController {
         currObject.setId(userId);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("genders", User.Gender.values());
+            model.addAttribute("genders",  AllEnum.Gender.values());
             return EDIT_FORM_VIEW;
         }
 
@@ -204,7 +205,7 @@ public class UserController extends _OithController {
         //Set<Role> roles = getCommonRoles();
         //user.setAuthorities(roles);
         model.addAttribute("clients", getClients());
-        model.addAttribute("genders", User.Gender.values());
+        model.addAttribute("genders",  AllEnum.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
@@ -223,7 +224,7 @@ public class UserController extends _OithController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("clients", getClients());
-            model.addAttribute("genders", User.Gender.values());
+            model.addAttribute("genders",  AllEnum.Gender.values());
             model.addAttribute("authorities", getAuthorities());
             return ADD_FORM_VIEW_ADMIN;
         }
@@ -249,7 +250,7 @@ public class UserController extends _OithController {
         }
 
         model.addAttribute("clients", getClients());
-        model.addAttribute("genders", User.Gender.values());
+        model.addAttribute("genders",  AllEnum.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
@@ -266,7 +267,7 @@ public class UserController extends _OithController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("clients", getClients());
-            model.addAttribute("genders", User.Gender.values());
+            model.addAttribute("genders",  AllEnum.Gender.values());
             model.addAttribute("authorities", getAuthorities());
             return EDIT_FORM_VIEW_ADMIN;
         }
@@ -329,7 +330,7 @@ public class UserController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-        model.addAttribute("genders", User.Gender.values());
+        model.addAttribute("genders",  AllEnum.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
         return SHOW_FORM_VIEW_ADMIN;

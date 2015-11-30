@@ -5,7 +5,6 @@ import oith.ws.service.AccountHeadFmService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
-import static oith.ws.ctrl.UserController.EDIT_FORM_VIEW;
 import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
