@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import oith.ws.dom.core.AbstDocAudit;
 import oith.ws.dom.core.AbstDocClientAudit;
+import oith.ws.dom.core.IAuditable;
 import oith.ws.dom.core.User;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUserDetail;
@@ -31,16 +32,22 @@ public abstract class _OithAuditController extends _OithController {
         return user;
     }
 
-    protected void doAuditInsert(AbstDocClientAudit currObject) throws UserNotFoundException {
+//    protected void doAuditInsert(AbstDocClientAudit currObject) throws UserNotFoundException {
+//        User user = getCurrUser();
+//        currObject.setClient(user.getClient());
+//        currObject.setInsertByUser(user);
+//        currObject.setInsertDate(new Date());
+//    }
+    protected void doAuditInsert(IAuditable currObject) throws UserNotFoundException {
         User user = getCurrUser();
-        currObject.setClient(user.getClient());
-        currObject.setInsertByUser(user);
-        currObject.setInsertDate(new Date());
+        //currObject.setClient(user.getClient());
+        currObject.getAuditor().setInsertByUser(user);
+        currObject.getAuditor().setInsertDate(new Date());
     }
 
-    protected void doAuditUpdate(AbstDocClientAudit currObject) throws UserNotFoundException {
-        currObject.setUpdateByUser(getCurrUser());
-        currObject.setUpdateDate(new Date());
+    protected void doAuditUpdate(IAuditable currObject) throws UserNotFoundException {
+        currObject.getAuditor().setUpdateByUser(getCurrUser());
+        currObject.getAuditor().setUpdateDate(new Date());
     }
 
     public UserService getUserService() {

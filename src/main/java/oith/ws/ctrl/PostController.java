@@ -63,7 +63,7 @@ public class PostController extends _OithAuditController {
 
         try {
             doAuditInsert(currObject);
-            currObject.setUser(currObject.getInsertByUser());
+            currObject.setUser(currObject.getAuditor().getInsertByUser());
         } catch (UserNotFoundException ex) {
             System.out.println("No user object found with id: " + ex);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
