@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -50,6 +52,7 @@ import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dom.core.ProfileEduDtl;
 import oith.ws.dom.core.ProfileJobDtl;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUserDetail;
 
@@ -101,7 +104,11 @@ public class ProfileController extends _OithAuditController {
                 }
             }
 
-            doAuditUpdate(profile);
+            try {
+                doAuditUpdate(profile);
+            } catch (NotLoggedInException ex) {
+                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             profileService.update(profile);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
@@ -171,7 +178,11 @@ public class ProfileController extends _OithAuditController {
         }
 
         try {
-            doAuditInsert(currObject);
+            try {
+                doAuditInsert(currObject);
+            } catch (NotLoggedInException ex) {
+                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (UserNotFoundException ex) {
             System.out.println("No user object found with id: " + ex);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -195,7 +206,11 @@ public class ProfileController extends _OithAuditController {
         }
 
         try {
-            doAuditInsert(currObject);
+            try {
+                doAuditInsert(currObject);
+            } catch (NotLoggedInException ex) {
+                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (UserNotFoundException ex) {
             System.out.println("No user object found with id: " + ex);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -251,6 +266,8 @@ public class ProfileController extends _OithAuditController {
                 System.out.println("No user object found with id: " + ex);
                 addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
                 return ADD_FORM_VIEW;
+            } catch (NotLoggedInException ex) {
+                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
             }
             profileService.update(profile);
             //profile = profileService.update(profile, "profileEduDtls");
@@ -305,7 +322,11 @@ public class ProfileController extends _OithAuditController {
             }
 
             try {
-                doAuditUpdate(profile);
+                try {
+                    doAuditUpdate(profile);
+                } catch (NotLoggedInException ex) {
+                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (UserNotFoundException ex) {
                 System.out.println("No user object found with id: " + ex);
                 addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -377,6 +398,8 @@ public class ProfileController extends _OithAuditController {
             System.out.println("No user object found with id: " + ex);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return ADD_FORM_VIEW;
+        } catch (NotLoggedInException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             Profile user = profileService.update(currObject, "firstName,middleName,lastName,nickName,profilePicFile,updateDate,updateByUser");
@@ -433,7 +456,11 @@ public class ProfileController extends _OithAuditController {
         }
 
         try {
-            doAuditUpdate(currObject);
+            try {
+                doAuditUpdate(currObject);
+            } catch (NotLoggedInException ex) {
+                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (UserNotFoundException ex) {
             System.out.println("No user object found with id: " + ex);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);

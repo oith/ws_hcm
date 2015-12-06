@@ -1,16 +1,17 @@
 package oith.ws.ctrl;
 
 import oith.ws.dom.core.Post;
-import oith.ws.dom.core.User;
 import oith.ws.exception.PostNotFoundException;
 import oith.ws.service.PostService;
-import oith.ws.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
-import static oith.ws.ctrl.LookupController.ADD_FORM_VIEW;
 import static oith.ws.ctrl._OithController.ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND;
+import oith.ws.dom.core.User;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,13 +42,11 @@ public class PostController extends _OithAuditController {
 
     //  public String showEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(ModelMap model, RedirectAttributes attributes) {
+    public String create(ModelMap model, RedirectAttributes attributes) throws UserNotFoundException, NotLoggedInException {
 
-        //chk if user in logged
-        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
-
-        if (userId == null) {
+       User user= super.getLoggedUser();
+        
+        if (user == null) {
             attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -68,6 +67,8 @@ public class PostController extends _OithAuditController {
             System.out.println("No user object found with id: " + ex);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return ADD_FORM_VIEW;
+        } catch (NotLoggedInException ex) {
+            Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (bindingResult.hasErrors()) {
