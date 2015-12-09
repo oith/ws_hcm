@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class _OithController {
 
+    
+    protected static final String ERROR_NOT_LOGGED_IN = "error.not.logged.in";
     protected static final String ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND = "error.message.deleted.not.found";
     protected static final String ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND = "error.message.edited.not.found";
 
@@ -22,6 +24,8 @@ public abstract class _OithController {
     protected static final String FEEDBACK_MESSAGE_KEY_EDITED = "feedback.message.edited";
 
     protected static final String REQUEST_MAPPING_LIST = "index";
+    protected static final String LOGIN = "login";
+    protected static final String REDIRECT_TO_LOGIN = "redirect:/login";
     protected static final String MODEL_ATTRIBUTE_SEARCH_CRITERIA = "searchCriteria";
 
     private static final String FLASH_ERROR_MESSAGE = "errorMessage";

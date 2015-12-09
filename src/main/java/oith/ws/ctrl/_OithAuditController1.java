@@ -19,7 +19,7 @@ import oith.ws.service.ProfileService;
 import oith.ws.service.UserService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-public abstract class _OithAuditController extends _OithController {
+public abstract class _OithAuditController1 extends _OithController {
 
     @Autowired
     private UserService userService;
