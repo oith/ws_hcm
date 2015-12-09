@@ -23,7 +23,7 @@ import oith.ws.exception.UserNotFoundException;
 
 @Controller
 @RequestMapping(value = "/lookup")
-public class LookupController extends _OithAuditController {
+public class LookupController extends _OithClientAuditController {
 
     protected static final String MODEL_ATTIRUTE = "lookup";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -57,7 +57,7 @@ public class LookupController extends _OithAuditController {
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
         }
-        
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
             return ADD_FORM_VIEW;
@@ -72,24 +72,20 @@ public class LookupController extends _OithAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        Lookup currObjectLocal;
-
+        Client client;
         try {
-            currObjectLocal = lookupService.findById(id, super.getLoggedClient());
-        } catch (NotLoggedInException notLoggedInException) {
-            attributes.addFlashAttribute("flashMessage", notLoggedInException + "Please login to post, man!");
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
-        } catch (ClientNotFoundException ex) {
-            System.out.println("No user object found with id: " + ex);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return EDIT_FORM_VIEW;
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
+
+        Lookup currObjectLocal = lookupService.findById(id, client);
 
         if (currObjectLocal == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
+
         model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
         return EDIT_FORM_VIEW;
     }
@@ -102,23 +98,25 @@ public class LookupController extends _OithAuditController {
             ModelMap model,
             RedirectAttributes attributes) {
 
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
             return EDIT_FORM_VIEW;
         }
 
         try {
-            Lookup currObjectLocal = lookupService.findById(id, super.getLoggedClient());
-            super.doAuditUpdate(currObjectLocal);
+            Lookup currObjectLocal = lookupService.findById(id, client);
+            //super.doAuditUpdate(currObjectLocal);
             currObject.setAuditor(currObjectLocal.getAuditor());
-        } catch (NotLoggedInException notLoggedInException) {
-            attributes.addFlashAttribute("flashMessage", notLoggedInException + "Please login to post, man!");
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
-        } catch (UserNotFoundException | ClientNotFoundException ex) {
-            System.out.println("No user object found with id: " + ex);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return EDIT_FORM_VIEW;
+
+            super.update(currObject);
+        } catch (Exception e) {
         }
 
         try {
@@ -138,7 +136,7 @@ public class LookupController extends _OithAuditController {
         Client client;
         try {
             client = super.getLoggedClient();
-        } catch (NotLoggedInException | ClientNotFoundException ex) {
+        } catch (NotLoggedInException ex) {
             attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -170,7 +168,7 @@ public class LookupController extends _OithAuditController {
         Client client;
         try {
             client = super.getLoggedClient();
-        } catch (NotLoggedInException | ClientNotFoundException ex) {
+        } catch (NotLoggedInException ex) {
             attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -199,7 +197,7 @@ public class LookupController extends _OithAuditController {
         Client client;
         try {
             client = super.getLoggedClient();
-        } catch (NotLoggedInException | ClientNotFoundException ex) {
+        } catch (NotLoggedInException ex) {
             attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -222,7 +220,7 @@ public class LookupController extends _OithAuditController {
         Client client;
         try {
             client = super.getLoggedClient();
-        } catch (NotLoggedInException | ClientNotFoundException ex) {
+        } catch (NotLoggedInException ex) {
             attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return createRedirectViewPath(REQUEST_MAPPING_LIST);

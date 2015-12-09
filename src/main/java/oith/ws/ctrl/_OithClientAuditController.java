@@ -19,81 +19,27 @@ import oith.ws.service.ProfileService;
 import oith.ws.service.UserService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-public abstract class _OithAuditController1 extends _OithController {
-
+public abstract class _OithClientAuditController extends _OithAuditController {
+    
     @Autowired
     private UserService userService;
     @Autowired
     private ClientService clientService;
     @Autowired
     private ProfileService profileService;
-
-    public void checkLoggedPrincipal() throws NotLoggedInException {
-
-        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (!(authUserObj instanceof MacUserDetail) || authUserObj == null) {
-            throw new NotLoggedInException();
-        }
-
-    }
-
-    public MacUserDetail getLoggedPrincipal() throws NotLoggedInException {
-
-        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (authUserObj instanceof MacUserDetail) {
-            return (MacUserDetail) authUserObj;
-        }
-
-        throw new NotLoggedInException();
-    }
-
+    
     public Client getLoggedClient() throws NotLoggedInException {
         MacUserDetail authUser = getLoggedPrincipal();
         Client client = clientService.findById(authUser.getClientId());
         return client;
     }
-
-    protected User getLoggedUser() throws NotLoggedInException {
-        MacUserDetail authUser = getLoggedPrincipal();
-        User user = userService.findById(authUser.getUserId());
-        return user;
-    }
-
+    
     protected Profile getLoggedProfile() throws NotLoggedInException, ProfileNotFoundException {
         MacUserDetail authUser = getLoggedPrincipal();
         Profile profile = profileService.findById(authUser.getProfileId());
         return profile;
     }
-
-    protected void doAuditInsert(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
-        Auditor auditor = currObject.getAuditor();
-        if (auditor == null) {
-            currObject.setAuditor(new Auditor(getLoggedUser(), new Date()));
-        }
-    }
-
-    protected void doAuditUpdate(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
-        Auditor auditor = currObject.getAuditor();
-
-        if (auditor == null) {
-            currObject.setAuditor(new Auditor(getLoggedUser(), new Date()));
-        }
-
-        currObject.getAuditor().setUpdateByUser(getLoggedUser());
-        currObject.getAuditor().setUpdateDate(new Date());
-
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
+    
     void create(RedirectAttributes attributes) {
         try {
             checkLoggedPrincipal();
@@ -102,21 +48,16 @@ public abstract class _OithAuditController1 extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             // return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-
+        
     }
-
+    
     void save(AbstDocClientAudit currObject, RedirectAttributes attributes) throws NotLoggedInException {
-
+        
         MacUserDetail authUser = getLoggedPrincipal();
         Client client = clientService.findById(authUser.getClientId());
         currObject.setClient(client);
-
-            //doAuditInsert(currObject);
-        Auditor auditor = currObject.getAuditor();
-        if (auditor == null) {
-            User user = userService.findById(authUser.getUserId());
-            currObject.setAuditor(new Auditor(user, new Date()));
-        }
+        
+        super.save(currObject, attributes);
     }
-
+    
 }

@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
-import static oith.ws.ctrl._OithController.ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND;
 import oith.ws.dom.core.User;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,11 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import oith.ws.service.MacUserDetail;
 
 @Controller
 @RequestMapping(value = "/post")
-public class PostController extends _OithAuditController {
+public class PostController extends _OithClientAuditController {
 
     protected static final String MODEL_ATTIRUTE = "post";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -44,8 +41,8 @@ public class PostController extends _OithAuditController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) throws UserNotFoundException, NotLoggedInException {
 
-       User user= super.getLoggedUser();
-        
+        User user = super.getLoggedUser();
+
         if (user == null) {
             attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -61,14 +58,9 @@ public class PostController extends _OithAuditController {
     public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
         try {
-            doAuditInsert(currObject);
-            currObject.setUser(currObject.getAuditor().getInsertByUser());
-        } catch (UserNotFoundException ex) {
-            System.out.println("No user object found with id: " + ex);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return ADD_FORM_VIEW;
-        } catch (NotLoggedInException ex) {
-            Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
+            super.save(currObject, attributes);
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
 
         if (bindingResult.hasErrors()) {

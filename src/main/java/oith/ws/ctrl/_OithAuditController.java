@@ -6,14 +6,12 @@ import oith.ws.dom.core.AbstDocClientAudit;
 import oith.ws.dom.core.Auditor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IAuditable;
 import oith.ws.dom.core.Profile;
 import oith.ws.dom.core.User;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.ProfileNotFoundException;
 import oith.ws.exception.UserNotFoundException;
-import oith.ws.service.ClientService;
 import oith.ws.service.MacUserDetail;
 import oith.ws.service.ProfileService;
 import oith.ws.service.UserService;
@@ -23,10 +21,6 @@ public abstract class _OithAuditController extends _OithController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private ClientService clientService;
-    @Autowired
-    private ProfileService profileService;
 
     public void checkLoggedPrincipal() throws NotLoggedInException {
 
@@ -49,43 +43,18 @@ public abstract class _OithAuditController extends _OithController {
         throw new NotLoggedInException();
     }
 
-    public Client getLoggedClient() throws NotLoggedInException {
-        MacUserDetail authUser = getLoggedPrincipal();
-        Client client = clientService.findById(authUser.getClientId());
-        return client;
-    }
-
     protected User getLoggedUser() throws NotLoggedInException {
         MacUserDetail authUser = getLoggedPrincipal();
         User user = userService.findById(authUser.getUserId());
         return user;
     }
 
-    protected Profile getLoggedProfile() throws NotLoggedInException, ProfileNotFoundException {
-        MacUserDetail authUser = getLoggedPrincipal();
-        Profile profile = profileService.findById(authUser.getProfileId());
-        return profile;
-    }
-
-    protected void doAuditInsert(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
-        Auditor auditor = currObject.getAuditor();
-        if (auditor == null) {
-            currObject.setAuditor(new Auditor(getLoggedUser(), new Date()));
-        }
-    }
-
-    protected void doAuditUpdate(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
-        Auditor auditor = currObject.getAuditor();
-
-        if (auditor == null) {
-            currObject.setAuditor(new Auditor(getLoggedUser(), new Date()));
-        }
-
-        currObject.getAuditor().setUpdateByUser(getLoggedUser());
-        currObject.getAuditor().setUpdateDate(new Date());
-
-    }
-
+//    protected void doAuditInsert(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
+//        Auditor auditor = currObject.getAuditor();
+//        if (auditor == null) {
+//            currObject.setAuditor(new Auditor(getLoggedUser(), new Date()));
+//        }
+//    }
     public UserService getUserService() {
         return userService;
     }
@@ -105,13 +74,13 @@ public abstract class _OithAuditController extends _OithController {
 
     }
 
-    void save(AbstDocClientAudit currObject, RedirectAttributes attributes) throws NotLoggedInException {
+    void save(IAuditable currObject, RedirectAttributes attributes) throws NotLoggedInException {
 
         MacUserDetail authUser = getLoggedPrincipal();
-        Client client = clientService.findById(authUser.getClientId());
-        currObject.setClient(client);
+        //Client client = clientService.findById(authUser.getClientId());
+        //currObject.setClient(client);
 
-            //doAuditInsert(currObject);
+        //doAuditInsert(currObject);
         Auditor auditor = currObject.getAuditor();
         if (auditor == null) {
             User user = userService.findById(authUser.getUserId());
@@ -119,4 +88,18 @@ public abstract class _OithAuditController extends _OithController {
         }
     }
 
+    protected void update(IAuditable currObject) throws NotLoggedInException {
+        Auditor auditor = currObject.getAuditor();
+
+        MacUserDetail authUser = getLoggedPrincipal();
+        User user = userService.findById(authUser.getUserId());
+
+        if (auditor == null) {
+            currObject.setAuditor(new Auditor(user, new Date()));
+        }
+
+        currObject.getAuditor().setUpdateByUser(user);
+        currObject.getAuditor().setUpdateDate(new Date());
+
+    }
 }
