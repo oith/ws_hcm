@@ -5,9 +5,13 @@ import oith.ws.service.AccountHeadFmService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+import static oith.ws.ctrl._OithController.REDIRECT_TO_LOGIN;
+import oith.ws.dom.core.Client;
+import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.MacUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/accountHeadFm")
-public class AccountHeadFmController extends _OithAuditController {
+public class AccountHeadFmController extends _OithClientAuditController {
 
     protected static final String MODEL_ATTIRUTE = "accountHeadFm";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -62,15 +66,16 @@ public class AccountHeadFmController extends _OithAuditController {
             BindingResult bindingResult,
             RedirectAttributes attributes) {
 
+        try {
+            super.save(currObject, attributes);
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+        
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
         }
-
-        try {
-            super.doAuditInsert(currObject);
-        } catch (Exception e) {
-        }
-
+        
         AccountHeadFm accountHeadFm = accountHeadFmService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, accountHeadFm.getId());
         return "redirect:/" + SHOW_FORM_VIEW + "/" + accountHeadFm.getId();
@@ -97,14 +102,26 @@ public class AccountHeadFmController extends _OithAuditController {
             ModelMap model,
             RedirectAttributes attributes) {
 
+             Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+        
         if (bindingResult.hasErrors()) {
             return EDIT_FORM_VIEW;
         }
 
-        try {
-            super.doAuditUpdate(currObject);
+         try {
+            AccountHeadFm currObjectLocal = accountHeadFmService.findById(id, client);
+            //super.doAuditUpdate(currObjectLocal);
+            currObject.setAuditor(currObjectLocal.getAuditor());
+
+            super.update(currObject);
         } catch (Exception e) {
         }
+        
         try {
             AccountHeadFm accountHeadFm = accountHeadFmService.update(currObject, "active,empRequired,slNo,accNo,code,description,title,updateByUser,updateDate");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, accountHeadFm.getId());
@@ -121,9 +138,9 @@ public class AccountHeadFmController extends _OithAuditController {
         List<AccountHeadFm> accountHeadFms;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            accountHeadFms = accountHeadFmService.search(searchCriteria);
+            accountHeadFms = accountHeadFmService.search(searchCriteria,null);
         } else {
-            accountHeadFms = accountHeadFmService.findAll(searchCriteria);
+            accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria,null);
         }
         model.addAttribute(MODEL_ATTRIBUTES, accountHeadFms);
         model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
@@ -142,7 +159,7 @@ public class AccountHeadFmController extends _OithAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(5);
 
-        List<AccountHeadFm> accountHeadFms = accountHeadFmService.findAll(searchCriteria);
+        List<AccountHeadFm> accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria,null);
 
         model.addAttribute(MODEL_ATTRIBUTES, accountHeadFms);
         model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);

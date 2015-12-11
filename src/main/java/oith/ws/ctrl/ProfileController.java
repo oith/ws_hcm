@@ -104,15 +104,15 @@ public class ProfileController extends _OithAuditController {
                 }
             }
 
-            try {
-                doAuditUpdate(profile);
-            } catch (NotLoggedInException ex) {
-                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                doAuditUpdate(profile);
+//            } catch (NotLoggedInException ex) {
+//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
 
             profileService.update(profile);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | UserNotFoundException | ProfileNotFoundException e) {
+        } catch (Exception e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
         }
 
@@ -177,17 +177,17 @@ public class ProfileController extends _OithAuditController {
             return "profile/admin_create";
         }
 
-        try {
-            try {
-                doAuditInsert(currObject);
-            } catch (NotLoggedInException ex) {
-                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (UserNotFoundException ex) {
-            System.out.println("No user object found with id: " + ex);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return "profile/admin_create";
-        }
+//        try {
+//            try {
+//                doAuditInsert(currObject);
+//            } catch (NotLoggedInException ex) {
+//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } catch (UserNotFoundException ex) {
+//            System.out.println("No user object found with id: " + ex);
+//            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+//            return "profile/admin_create";
+//        }
 
         Profile profile = profileService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, profile.getId());
@@ -206,12 +206,12 @@ public class ProfileController extends _OithAuditController {
         }
 
         try {
-            try {
-                doAuditInsert(currObject);
-            } catch (NotLoggedInException ex) {
-                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (UserNotFoundException ex) {
+//            try {
+//                doAuditInsert(currObject);
+//            } catch (NotLoggedInException ex) {
+//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+        } catch (Exception ex) {
             System.out.println("No user object found with id: " + ex);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return ADD_FORM_VIEW;
@@ -260,15 +260,15 @@ public class ProfileController extends _OithAuditController {
                 }
             }
 
-            try {
-                doAuditUpdate(profile);
-            } catch (UserNotFoundException ex) {
-                System.out.println("No user object found with id: " + ex);
-                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-                return ADD_FORM_VIEW;
-            } catch (NotLoggedInException ex) {
-                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                doAuditUpdate(profile);
+//            } catch (UserNotFoundException ex) {
+//                System.out.println("No user object found with id: " + ex);
+//                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+//                return ADD_FORM_VIEW;
+//            } catch (NotLoggedInException ex) {
+//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
             profileService.update(profile);
             //profile = profileService.update(profile, "profileEduDtls");
             //profile = profileRepository.save(profile);
@@ -321,17 +321,17 @@ public class ProfileController extends _OithAuditController {
                 }
             }
 
-            try {
-                try {
-                    doAuditUpdate(profile);
-                } catch (NotLoggedInException ex) {
-                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (UserNotFoundException ex) {
-                System.out.println("No user object found with id: " + ex);
-                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-                return ADD_FORM_VIEW;
-            }
+//            try {
+//                try {
+//                    doAuditUpdate(profile);
+//                } catch (NotLoggedInException ex) {
+//                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            } catch (UserNotFoundException ex) {
+//                System.out.println("No user object found with id: " + ex);
+//                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+//                return ADD_FORM_VIEW;
+//            }
 
             profileService.update(profile);
             //profile = profileService.update(profile, "profileEduDtls");
@@ -392,15 +392,15 @@ public class ProfileController extends _OithAuditController {
             return EDIT_FORM_VIEW_ADMIN;
         }
         imageHandle(request, currObject);
-        try {
-            doAuditUpdate(currObject);
-        } catch (UserNotFoundException ex) {
-            System.out.println("No user object found with id: " + ex);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return ADD_FORM_VIEW;
-        } catch (NotLoggedInException ex) {
-            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            doAuditUpdate(currObject);
+//        } catch (UserNotFoundException ex) {
+//            System.out.println("No user object found with id: " + ex);
+//            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+//            return ADD_FORM_VIEW;
+//        } catch (NotLoggedInException ex) {
+//            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         try {
             Profile user = profileService.update(currObject, "firstName,middleName,lastName,nickName,profilePicFile,updateDate,updateByUser");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
@@ -455,17 +455,17 @@ public class ProfileController extends _OithAuditController {
             return EDIT_FORM_VIEW;
         }
 
-        try {
-            try {
-                doAuditUpdate(currObject);
-            } catch (NotLoggedInException ex) {
-                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (UserNotFoundException ex) {
-            System.out.println("No user object found with id: " + ex);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return ADD_FORM_VIEW;
-        }
+//        try {
+//            try {
+//                doAuditUpdate(currObject);
+//            } catch (NotLoggedInException ex) {
+//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } catch (UserNotFoundException ex) {
+//            System.out.println("No user object found with id: " + ex);
+//            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+//            return ADD_FORM_VIEW;
+//        }
 
         try {
             Profile profile = profileService.update(currObject, "permanentAddress,presentAddress,contactInfo,org,firstName,lastName,middleName,nickName,profilePicFile,user,updateDate,updateByUser");

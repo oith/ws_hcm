@@ -167,7 +167,7 @@
                 if (quickAccessx != null || quickAccessx != "") {
                 var urlToGo = $(this).val();
                         window.open(urlToGo, isNewWindow);
-                         $('#quickAccessx').prop('selectedIndex',0);
+                        $('#quickAccessx').prop('selectedIndex', 0);
 //                        window.location.href = urlToGo.toString();
                 }
                 });
@@ -180,7 +180,7 @@
                 isNewWindow = '_blank';
                 }
                 var urlCode = $(this).val();
-                        if (urlCode.length == 4){
+                        if (urlCode.length == 3){
 //                            window.open("http://www.google.com", '_blank');
                 goToQuickAccessUrl(urlCode, isNewWindow);
                 }

@@ -5,10 +5,11 @@ import oith.ws.exception.LookupNotFoundException;
 import oith.ws.service.LookupService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.ClientNotFoundException;
 import oith.ws.exception.NotLoggedInException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import oith.ws.exception.UserNotFoundException;
 
 @Controller
 @RequestMapping(value = "/lookup")
@@ -79,15 +79,20 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        Lookup currObjectLocal = lookupService.findById(id, client);
+        try {
+            Lookup currObjectLocal = lookupService.findById(id, client);
 
-        if (currObjectLocal == null) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            if (currObjectLocal == null) {
+                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+                return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            }
+
+            model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            return EDIT_FORM_VIEW;
+
+        } catch (LookupNotFoundException ex) {
+            return LIST_VIEW;
         }
-
-        model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
-        return EDIT_FORM_VIEW;
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
@@ -112,9 +117,7 @@ public class LookupController extends _OithClientAuditController {
 
         try {
             Lookup currObjectLocal = lookupService.findById(id, client);
-            //super.doAuditUpdate(currObjectLocal);
             currObject.setAuditor(currObjectLocal.getAuditor());
-
             super.update(currObject);
         } catch (Exception e) {
         }
@@ -176,7 +179,7 @@ public class LookupController extends _OithClientAuditController {
 
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
-        searchCriteria.setPageSize(5);
+        searchCriteria.setPageSize(10);
 
         List<Lookup> lookups = lookupService.findAllByClient(searchCriteria, client);
 
@@ -203,14 +206,17 @@ public class LookupController extends _OithClientAuditController {
             return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
 
-        Lookup lookup = lookupService.findById(id, client);
+        try {
+            Lookup lookup = lookupService.findById(id, client);
 
-        if (lookup == null) {
-
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            if (lookup == null) {
+                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+                return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            }
+            model.addAttribute(MODEL_ATTIRUTE, lookup);
+        } catch (Exception e) {
         }
-        model.addAttribute(MODEL_ATTIRUTE, lookup);
+
         return SHOW_FORM_VIEW;
     }
 

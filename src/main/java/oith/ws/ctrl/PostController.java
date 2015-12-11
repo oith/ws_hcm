@@ -75,15 +75,19 @@ public class PostController extends _OithClientAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        Post post = postService.findById(id);
+        try {
+            Post post = postService.findById(id, null);
 
-        if (post == null) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            if (post == null) {
+                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+                return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            }
+            model.addAttribute(MODEL_ATTIRUTE, post);
+        } catch (PostNotFoundException ex) {
+            Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        model.addAttribute(MODEL_ATTIRUTE, post);
-
         return EDIT_FORM_VIEW;
+
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
@@ -117,9 +121,9 @@ public class PostController extends _OithClientAuditController {
         List<Post> posts;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            posts = postService.search(searchCriteria);
+            posts = postService.search(searchCriteria, null);
         } else {
-            posts = postService.findAll(searchCriteria);
+            posts = postService.findAllByClient(searchCriteria, null);
         }
         model.addAttribute(MODEL_ATTRIBUTES, posts);
         model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
@@ -138,7 +142,7 @@ public class PostController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Post> posts = postService.findAll(searchCriteria);
+        List<Post> posts = postService.findAllByClient(searchCriteria, null);
 
         model.addAttribute(MODEL_ATTRIBUTES, posts);
         model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
@@ -154,13 +158,19 @@ public class PostController extends _OithClientAuditController {
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        Post post = postService.findById(id);
+        Post post;
+        try {
+            post = postService.findById(id, null);
 
-        if (post == null) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            if (post == null) {
+                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+                return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            }
+            model.addAttribute(MODEL_ATTIRUTE, post);
+        } catch (PostNotFoundException ex) {
+            Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        model.addAttribute(MODEL_ATTIRUTE, post);
+
         return SHOW_FORM_VIEW;
     }
 
