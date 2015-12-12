@@ -282,7 +282,7 @@ public class UserController extends _OithController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
         List<User> users;
@@ -293,7 +293,7 @@ public class UserController extends _OithController {
             users = userService.findAll(searchCriteria);
         }
         model.addAttribute(MODEL_ATTRIBUTES, users);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -312,7 +312,7 @@ public class UserController extends _OithController {
         List<User> users = userService.findAll(searchCriteria);
 
         model.addAttribute(MODEL_ATTRIBUTES, users);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
