@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class _OithController {
 
-    
     protected static final String ERROR_NOT_LOGGED_IN = "error.not.logged.in";
     protected static final String ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND = "error.message.deleted.not.found";
     protected static final String ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND = "error.message.edited.not.found";
@@ -23,14 +22,15 @@ public abstract class _OithController {
     protected static final String FEEDBACK_MESSAGE_KEY_DELETED = "feedback.message.deleted";
     protected static final String FEEDBACK_MESSAGE_KEY_EDITED = "feedback.message.edited";
 
-    protected static final String REQUEST_MAPPING_LIST = "index";
+    protected static final String INDEX = "index";
     protected static final String LOGIN = "login";
-    protected static final String REDIRECT_TO_LOGIN = "redirect:/login";
-    protected static final String MODEL_ATTRIBUTE_SEARCH_CRITERIA = "searchCriteria";
 
-    private static final String FLASH_ERROR_MESSAGE = "errorMessage";
-    private static final String FLASH_FEEDBACK_MESSAGE = "feedbackMessage";
+    protected static final String SEARCH_CRITERIA = "searchCriteria";
+
+    private static final String ERROR_MESSAGE = "errorMessage";
+    private static final String FEEDBACK_MESSAGE = "feedbackMessage";
     private static final String VIEW_REDIRECT_PREFIX = "redirect:";
+    protected static final String REDIRECT_TO_LOGIN = VIEW_REDIRECT_PREFIX + "/login";
 
     @Resource
     private MessageSource messageSource;
@@ -53,7 +53,7 @@ public abstract class _OithController {
     protected void addErrorMessage(RedirectAttributes model, String code, Object... params) {
         Locale current = LocaleContextHolder.getLocale();
         String localizedErrorMessage = messageSource.getMessage(code, params, current);
-        model.addFlashAttribute(FLASH_ERROR_MESSAGE, localizedErrorMessage);
+        model.addFlashAttribute(ERROR_MESSAGE, localizedErrorMessage);
     }
 
     /**
@@ -68,7 +68,7 @@ public abstract class _OithController {
     protected void addFeedbackMessage(RedirectAttributes model, String code, Object... params) {
         Locale current = LocaleContextHolder.getLocale();
         String localizedFeedbackMessage = messageSource.getMessage(code, params, current);
-        model.addFlashAttribute(FLASH_FEEDBACK_MESSAGE, localizedFeedbackMessage);
+        model.addFlashAttribute(FEEDBACK_MESSAGE, localizedFeedbackMessage);
     }
 
     protected String multipartFileHandlerx(MultipartHttpServletRequest request, String col) {
