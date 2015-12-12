@@ -74,7 +74,7 @@ public class ClientController extends _OithController {
 
         if (client == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            return createRedirectViewPath(INDEX);
         }
         model.addAttribute(MODEL_ATTIRUTE, client);
 
@@ -104,7 +104,7 @@ public class ClientController extends _OithController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
         List<Client> orgs;
@@ -115,7 +115,7 @@ public class ClientController extends _OithController {
             orgs = clientService.findAll(searchCriteria);
         }
         model.addAttribute(MODEL_ATTRIBUTES, orgs);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -134,7 +134,7 @@ public class ClientController extends _OithController {
         List<Client> orgs = clientService.findAll(searchCriteria);
 
         model.addAttribute(MODEL_ATTRIBUTES, orgs);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -151,7 +151,7 @@ public class ClientController extends _OithController {
 
         if (client == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            return createRedirectViewPath(INDEX);
         }
 
         model.addAttribute(MODEL_ATTIRUTE, client);
