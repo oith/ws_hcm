@@ -5,9 +5,7 @@ import oith.ws.service.AccountHeadFmService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
-import static oith.ws.ctrl._OithController.REDIRECT_TO_LOGIN;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.User;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
@@ -71,11 +69,11 @@ public class AccountHeadFmController extends _OithClientAuditController {
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
         }
-        
+
         if (bindingResult.hasErrors()) {
             return ADD_FORM_VIEW;
         }
-        
+
         AccountHeadFm accountHeadFm = accountHeadFmService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, accountHeadFm.getId());
         return "redirect:/" + SHOW_FORM_VIEW + "/" + accountHeadFm.getId();
@@ -88,7 +86,7 @@ public class AccountHeadFmController extends _OithClientAuditController {
 
         if (accountHeadFm == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            return createRedirectViewPath(INDEX);
         }
         model.addAttribute(MODEL_ATTIRUTE, accountHeadFm);
 
@@ -102,26 +100,26 @@ public class AccountHeadFmController extends _OithClientAuditController {
             ModelMap model,
             RedirectAttributes attributes) {
 
-             Client client;
+        Client client;
         try {
             client = super.getLoggedClient();
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
         }
-        
+
         if (bindingResult.hasErrors()) {
             return EDIT_FORM_VIEW;
         }
 
-         try {
+        try {
             AccountHeadFm currObjectLocal = accountHeadFmService.findById(id, client);
             //super.doAuditUpdate(currObjectLocal);
             currObject.setAuditor(currObjectLocal.getAuditor());
 
             super.update(currObject);
-        } catch (Exception e) {
+        } catch (AccountHeadFmNotFoundException | NotLoggedInException e) {
         }
-        
+
         try {
             AccountHeadFm accountHeadFm = accountHeadFmService.update(currObject, "active,empRequired,slNo,accNo,code,description,title,updateByUser,updateDate");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, accountHeadFm.getId());
@@ -132,18 +130,18 @@ public class AccountHeadFmController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
         List<AccountHeadFm> accountHeadFms;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            accountHeadFms = accountHeadFmService.search(searchCriteria,null);
+            accountHeadFms = accountHeadFmService.search(searchCriteria, null);
         } else {
-            accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria,null);
+            accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria, null);
         }
         model.addAttribute(MODEL_ATTRIBUTES, accountHeadFms);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -159,10 +157,10 @@ public class AccountHeadFmController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(5);
 
-        List<AccountHeadFm> accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria,null);
+        List<AccountHeadFm> accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria, null);
 
         model.addAttribute(MODEL_ATTRIBUTES, accountHeadFms);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -179,7 +177,7 @@ public class AccountHeadFmController extends _OithClientAuditController {
 
         if (accountHeadFm == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            return createRedirectViewPath(INDEX);
         }
 
         model.addAttribute(MODEL_ATTIRUTE, accountHeadFm);
