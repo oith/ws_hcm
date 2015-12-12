@@ -83,7 +83,7 @@ public class EmpController extends _OithAuditController {
 
         if (emp == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            return createRedirectViewPath(INDEX);
         }
         model.addAttribute(MODEL_ATTIRUTE, emp);
 
@@ -113,7 +113,7 @@ public class EmpController extends _OithAuditController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
         List<Emp> emps;
@@ -124,7 +124,7 @@ public class EmpController extends _OithAuditController {
             emps = empService.findAll(searchCriteria);
         }
         model.addAttribute(MODEL_ATTRIBUTES, emps);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -143,7 +143,7 @@ public class EmpController extends _OithAuditController {
         List<Emp> emps = empService.findAll(searchCriteria);
 
         model.addAttribute(MODEL_ATTRIBUTES, emps);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -160,7 +160,7 @@ public class EmpController extends _OithAuditController {
 
         if (emp == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            return createRedirectViewPath(INDEX);
         }
 
         model.addAttribute(MODEL_ATTIRUTE, emp);
