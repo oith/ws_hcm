@@ -20,44 +20,29 @@ import oith.ws.service.UserService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class _OithClientAuditController extends _OithAuditController {
-    
-    @Autowired
-    private UserService userService;
+
     @Autowired
     private ClientService clientService;
     @Autowired
     private ProfileService profileService;
-    
+
     public Client getLoggedClient() throws NotLoggedInException {
         MacUserDetail authUser = getLoggedPrincipal();
         Client client = clientService.findById(authUser.getClientId());
         return client;
     }
-    
+
     protected Profile getLoggedProfile() throws NotLoggedInException, ProfileNotFoundException {
         MacUserDetail authUser = getLoggedPrincipal();
         Profile profile = profileService.findById(authUser.getProfileId());
         return profile;
     }
-    
-    void create(RedirectAttributes attributes) {
-        try {
-            checkLoggedPrincipal();
-        } catch (NotLoggedInException e) {
-            attributes.addFlashAttribute("flashMessage", "Please login, man!");
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            // return createRedirectViewPath(REQUEST_MAPPING_LIST);
-        }
-        
-    }
-    
+
     void save(AbstDocClientAudit currObject, RedirectAttributes attributes) throws NotLoggedInException {
-        
-        MacUserDetail authUser = getLoggedPrincipal();
+
+        MacUserDetail authUser = super.save(currObject, attributes);
         Client client = clientService.findById(authUser.getClientId());
         currObject.setClient(client);
-        
-        super.save(currObject, attributes);
     }
-    
+
 }
