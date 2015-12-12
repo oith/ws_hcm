@@ -22,15 +22,6 @@ public abstract class _OithAuditController extends _OithController {
     @Autowired
     private UserService userService;
 
-    public void checkLoggedPrincipal() throws NotLoggedInException {
-
-        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (!(authUserObj instanceof MacUserDetail) || authUserObj == null) {
-            throw new NotLoggedInException();
-        }
-
-    }
 
     public MacUserDetail getLoggedPrincipal() throws NotLoggedInException {
 
@@ -63,29 +54,16 @@ public abstract class _OithAuditController extends _OithController {
         this.userService = userService;
     }
 
-    void create(RedirectAttributes attributes) {
-        try {
-            checkLoggedPrincipal();
-        } catch (NotLoggedInException e) {
-            attributes.addFlashAttribute("flashMessage", "Please login, man!");
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            // return createRedirectViewPath(REQUEST_MAPPING_LIST);
-        }
 
-    }
-
-    void save(IAuditable currObject, RedirectAttributes attributes) throws NotLoggedInException {
+    protected MacUserDetail save(IAuditable currObject, RedirectAttributes attributes) throws NotLoggedInException {
 
         MacUserDetail authUser = getLoggedPrincipal();
-        //Client client = clientService.findById(authUser.getClientId());
-        //currObject.setClient(client);
-
-        //doAuditInsert(currObject);
         Auditor auditor = currObject.getAuditor();
         if (auditor == null) {
             User user = userService.findById(authUser.getUserId());
             currObject.setAuditor(new Auditor(user, new Date()));
         }
+        return authUser;
     }
 
     protected void update(IAuditable currObject) throws NotLoggedInException {
