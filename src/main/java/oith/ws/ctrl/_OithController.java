@@ -30,13 +30,15 @@ public abstract class _OithController {
 
     protected static final String INDEX = "index";
     protected static final String LOGIN = "login";
-    protected static final String NOT_FOUND = "notFound";
 
     protected static final String SEARCH_CRITERIA = "searchCriteria";
     private static final String ERROR_MESSAGE = "errorMessage";
     private static final String FEEDBACK_MESSAGE = "feedbackMessage";
     protected static final String REDIRECT = "redirect:";
-    protected static final String REDIRECT_TO_LOGIN = REDIRECT + "/login";
+    
+    protected static final String REDIRECT_TO_LOGIN = "/login";
+    
+    protected static final String NOT_FOUND = REDIRECT + "/index";
 
     @Resource
     private MessageSource messageSource;
@@ -98,5 +100,4 @@ public abstract class _OithController {
         return builder.toString();
     }
 
-   
 }

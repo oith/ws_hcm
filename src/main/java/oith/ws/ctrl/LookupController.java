@@ -5,9 +5,12 @@ import oith.ws.exception.LookupNotFoundException;
 import oith.ws.service.LookupService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -84,6 +87,8 @@ public class LookupController extends _OithClientAuditController {
             return EDIT_FORM_VIEW;
         } catch (LookupNotFoundException ex) {
             return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
         }
     }
 
@@ -115,6 +120,8 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         } catch (LookupNotFoundException ex) {
             return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
         }
 
         try {
@@ -201,6 +208,8 @@ public class LookupController extends _OithClientAuditController {
             return SHOW_FORM_VIEW;
         } catch (LookupNotFoundException ex) {
             return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
         }
     }
 
@@ -219,6 +228,8 @@ public class LookupController extends _OithClientAuditController {
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (LookupNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
         }
         return REDIRECT + "/" + LIST_VIEW;
     }

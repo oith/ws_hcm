@@ -102,9 +102,20 @@ public abstract class _OithAuditController extends _OithController {
                             Method method = kkk.getDeclaredMethod("set" + coll, Double.class);
                             method.invoke(abstDoc, new Double(ret));
                         } else if (valueType == Param.ValueType.DATE) {
-                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                            Method method = kkk.getDeclaredMethod("set" + coll, Date.class);
-                            method.invoke(abstDoc, sdf.parse(ret));
+
+                            if (ret.equalsIgnoreCase("SYSDATE")) {
+                                Date now = new Date();
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                ret = sdf.format(now);
+
+                                Method method = kkk.getDeclaredMethod("set" + coll, Date.class);
+                                method.invoke(abstDoc, sdf.parse(ret));
+                            } else {
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                Method method = kkk.getDeclaredMethod("set" + coll, Date.class);
+                                method.invoke(abstDoc, sdf.parse(ret));
+                            }
+
                         } else if (valueType == Param.ValueType.REF) {
                             //refs.put(coll, ret);
 
