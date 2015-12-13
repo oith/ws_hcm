@@ -28,14 +28,25 @@
             <td><form:errors path="transDate" cssClass="error" element="div"/></td>
         </tr>
         <tr>
+            <%--   gggg ${accountHeadFm}
+               <c:set var="accountHeadFm" value="566c61bf2e0def5007379710" />--%>
+
             <td><form:label path="accountHeadFm"><spring:message code="accountHeadFm" text="Account HeadFm"/><span class="required-indicator needed">*</span></form:label></td>
                 <td>
-                <form:select path="accountHeadFm.id" name="accountHeadFm" id="accountHeadFm" required="true">
-                    <form:option value="${null}" label="--Select--"/>  
-                    <form:options itemValue="id" items="${accountHeadFms}"/>
-                </form:select>  
-            </td>
-            <td><form:errors path="accountHeadFm" cssClass="error" element="div"/></td>
+
+                <form:select path="accountHeadFm.id" name="accountHeadFm" id="accountHeadFm" required="true"  >
+            <option value="${null}">-- Select --</option>
+            <c:forEach items="${accountHeadFms}" var="category">
+                <option 
+                    <c:if test="${category.id.equals(accountHeadFm)}">selected="selected"</c:if>    
+                    value="${category.id}">${category} 
+                </option>
+            </c:forEach>
+        </form:select>
+
+
+        </td>
+        <td><form:errors path="accountHeadFm" cssClass="error" element="div"/></td>
         </tr>
         <tr>
             <td><form:label path="amount"><spring:message code="amount" text="Amount"/><span class="required-indicator needed">*</span></form:label></td>
