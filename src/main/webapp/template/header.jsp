@@ -116,11 +116,21 @@
 
                             <select name="quickAccessx" id="quickAccessx" class="form-control">
                                 <option value="${null}" >Get Quick Move</option>
-                                <c:forEach items="${favorites}" var="sss"  varStatus="loopStatus">
-                                    <option value="${sss.address}" >${sss.menuType} - ${sss.text}</option>
+                               
+                                
+                                <c:forEach items="${favorites}" var="sss" varStatus="loopStatus">
+                                    <c:choose >
+                                        <c:when test='${sss.menuType.toString().equals("ACTION")}'>
+                                            <option value="/oith_ws_hcm${sss.address}" >${sss.menuType} - ${sss.text}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${sss.address}" >${sss.menuType} - ${sss.text}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+
                                 </c:forEach>
                             </select>
-                            <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="4" maxlength="4"/>
+                            <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="3" maxlength="4"/>
 
                             <sec:authentication var="openInNewPageLoc" property="principal.openInNewPage"/>
 
