@@ -109,7 +109,6 @@ public class ProfileController extends _OithAuditController {
 //            } catch (NotLoggedInException ex) {
 //                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-
             profileService.update(profile);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
         } catch (Exception e) {
@@ -188,7 +187,6 @@ public class ProfileController extends _OithAuditController {
 //            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
 //            return "profile/admin_create";
 //        }
-
         Profile profile = profileService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, profile.getId());
 
@@ -332,7 +330,6 @@ public class ProfileController extends _OithAuditController {
 //                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
 //                return ADD_FORM_VIEW;
 //            }
-
             profileService.update(profile);
             //profile = profileService.update(profile, "profileEduDtls");
             //profile = profileRepository.save(profile);
@@ -466,7 +463,6 @@ public class ProfileController extends _OithAuditController {
 //            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
 //            return ADD_FORM_VIEW;
 //        }
-
         try {
             Profile profile = profileService.update(currObject, "permanentAddress,presentAddress,contactInfo,org,firstName,lastName,middleName,nickName,profilePicFile,user,updateDate,updateByUser");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
@@ -478,7 +474,7 @@ public class ProfileController extends _OithAuditController {
     }
 
     @RequestMapping(value = {"", "/index"}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
         System.out.println("Searching profiles with search criteria: " + searchCriteria);
 
         String searchTerm = searchCriteria.getSearchTerm();
@@ -490,7 +486,7 @@ public class ProfileController extends _OithAuditController {
             profiles = profileService.findAll(searchCriteria);
         }
         model.addAttribute(MODEL_ATTRIBUTES, profiles);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -511,7 +507,7 @@ public class ProfileController extends _OithAuditController {
         System.out.println("showList:" + profiles);
 
         model.addAttribute(MODEL_ATTRIBUTES, profiles);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {

@@ -46,7 +46,7 @@ public class PostController extends _OithClientAuditController {
         if (user == null) {
             attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(REQUEST_MAPPING_LIST);
+            return createRedirectViewPath(INDEX);
         }
 
         model.addAttribute(MODEL_ATTIRUTE, new Post());
@@ -80,7 +80,7 @@ public class PostController extends _OithClientAuditController {
 
             if (post == null) {
                 addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-                return createRedirectViewPath(REQUEST_MAPPING_LIST);
+                return createRedirectViewPath(INDEX);
             }
             model.addAttribute(MODEL_ATTIRUTE, post);
         } catch (PostNotFoundException ex) {
@@ -115,7 +115,7 @@ public class PostController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         String searchTerm = searchCriteria.getSearchTerm();
         List<Post> posts;
@@ -126,7 +126,7 @@ public class PostController extends _OithClientAuditController {
             posts = postService.findAllByClient(searchCriteria, null);
         }
         model.addAttribute(MODEL_ATTRIBUTES, posts);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -145,7 +145,7 @@ public class PostController extends _OithClientAuditController {
         List<Post> posts = postService.findAllByClient(searchCriteria, null);
 
         model.addAttribute(MODEL_ATTRIBUTES, posts);
-        model.addAttribute(MODEL_ATTRIBUTE_SEARCH_CRITERIA, searchCriteria);
+        model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
         for (int i = 0; i < searchCriteria.getTotalPages(); i++) {
@@ -164,7 +164,7 @@ public class PostController extends _OithClientAuditController {
 
             if (post == null) {
                 addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-                return createRedirectViewPath(REQUEST_MAPPING_LIST);
+                return createRedirectViewPath(INDEX);
             }
             model.addAttribute(MODEL_ATTIRUTE, post);
         } catch (PostNotFoundException ex) {
