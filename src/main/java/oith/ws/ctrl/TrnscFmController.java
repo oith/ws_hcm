@@ -6,18 +6,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.validation.Valid;
-import oith.ws.dom.core.Param;
-import oith.ws.dom.core.User;
+import static oith.ws.ctrl._OithController.REDIRECT_TO_LOGIN;
+import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dom.hcm.fm.TrnscFm;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.AccountHeadFmService;
 import oith.ws.service.EmpService;
-import oith.ws.service.MacUserDetail;
 import oith.ws.util.StringToEmpConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -32,7 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/trnscFm")
-public class TrnscFmController extends _OithAuditController {
+public class TrnscFmController extends _OithClientAuditController {
 
     protected static final String MODEL_ATTIRUTE = "trnscFm";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -43,10 +42,8 @@ public class TrnscFmController extends _OithAuditController {
 
     @Autowired
     private TrnscFmService trnscFmService;
-
     @Autowired
     private AccountHeadFmService accountHeadFmService;
-
     @Autowired
     private EmpService empService;
 
@@ -74,29 +71,19 @@ public class TrnscFmController extends _OithAuditController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
 
-        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
-        User user = super.getUserService().findById(userId);
-
-        TrnscFm trnscFm = new TrnscFm(user);
-
-        String ret = "";
-        for (Param col : authUser.getParams()) {
-            if (col.getController().equals("TrnscFm")
-                    && col.getAction().equals("create")
-                    && col.getKey().equals("narration")) {
-                ret = col.getValue();
-
-                trnscFm.setNarration(ret);
-                break;
-
-//                trnscFm.
-            }
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
 
-//model.addAttribute("narration", ret);
-        model.addAttribute(MODEL_ATTIRUTE, trnscFm);
+        TrnscFm trnscFm = new TrnscFm(client);
 
+        setUserParam(trnscFm, "create", model);
+//model.addAttribute("narration", ret);
+
+        model.addAttribute(MODEL_ATTIRUTE, trnscFm);
         model.addAttribute("accountHeadFms", getAccountHeadFms());
 
         return ADD_FORM_VIEW;
@@ -107,7 +94,6 @@ public class TrnscFmController extends _OithAuditController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("accountHeadFms", getAccountHeadFms());
-
             return ADD_FORM_VIEW;
         }
 
@@ -220,4 +206,5 @@ public class TrnscFmController extends _OithAuditController {
         }
         return "redirect:/" + LIST_VIEW;
     }
+
 }
