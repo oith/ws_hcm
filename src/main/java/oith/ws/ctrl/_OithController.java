@@ -1,12 +1,18 @@
 package oith.ws.ctrl;
 
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import javax.annotation.Resource;
+import oith.ws.dom.core.AbstDoc;
+import oith.ws.dom.core.Param;
+import oith.ws.dom.core.Param.ValueType;
+import oith.ws.service.MacUserDetail;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -24,13 +30,13 @@ public abstract class _OithController {
 
     protected static final String INDEX = "index";
     protected static final String LOGIN = "login";
+    protected static final String NOT_FOUND = "notFound";
 
     protected static final String SEARCH_CRITERIA = "searchCriteria";
-
     private static final String ERROR_MESSAGE = "errorMessage";
     private static final String FEEDBACK_MESSAGE = "feedbackMessage";
-    private static final String VIEW_REDIRECT_PREFIX = "redirect:";
-    protected static final String REDIRECT_TO_LOGIN = VIEW_REDIRECT_PREFIX + "/login";
+    protected static final String REDIRECT = "redirect:";
+    protected static final String REDIRECT_TO_LOGIN = REDIRECT + "/login";
 
     @Resource
     private MessageSource messageSource;
@@ -87,9 +93,10 @@ public abstract class _OithController {
      */
     protected String createRedirectViewPath(String path) {
         StringBuilder builder = new StringBuilder();
-        builder.append(VIEW_REDIRECT_PREFIX);
+        builder.append(REDIRECT);
         builder.append(path);
         return builder.toString();
     }
 
+   
 }
