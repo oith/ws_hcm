@@ -18,39 +18,72 @@
 <form:errors path="*" cssClass="errorblock" element="div" />
 
 <div>   
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="username"><spring:message code="username" text="User Name"/></form:label>
+                <form:input path="username" class="form-control" type="text" size="30" maxlength="30"/>
+                <form:errors path="username" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="fullName"><spring:message code="fullName" text="Full Name"/></form:label>
+                <form:input path="fullName" class="form-control" type="text" size="50" maxlength="50"/>
+                <form:errors path="fullName" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
-        <tr>
-            <td><form:label path="username"><spring:message code="username" text="User Name"/></form:label></td>
-            <td><form:input path="username" type="text" size="30" maxlength="30"/></td>
-            <td><form:errors path="username" cssClass="error" element="div"/></td>
-            <td><form:label path="fullName"><spring:message code="fullName" text="Full Name"/></form:label></td>
-            <td><form:input path="fullName" type="text" size="50" maxlength="50"/></td>
-            <td><form:errors path="fullName" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="gender"><spring:message code="gender" text="Gender"/></form:label></td>
-            <td><form:select path="gender" items="${genders}"/></td>  
-            <td><form:errors path="gender" cssClass="error" element="div"/></td>
-            <td><form:label path="dob"><spring:message code="dob" text="Dob"/></form:label></td>
-            <td><form:input path="dob" id="datepicker_dob" placeholder="DD/MM/YYYY" /></td>
-            <td><form:errors path="dob" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="password"><spring:message code="password" text="Password"/></form:label></td>
-            <td><form:password path="password" showPassword="true" size="30" maxlength="30"/></td>
-            <td><form:errors path="password" cssClass="error" element="div"/></td>
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="gender"><spring:message code="gender" text="Gender"/></form:label>
+                <form:select path="gender" class="form-control" items="${genders}"/>  
+                <form:errors path="gender" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="dob"><spring:message code="dob" text="Dob"/></form:label>
+                <form:input path="dob" class="form-control" id="datepicker_dob" placeholder="DD/MM/YYYY" />
+                <form:errors path="dob" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
 
-            <td><form:label path="openInNewPage"><spring:message code="openInNewPage" text="Open In New Page"/></form:label></td>
-            <td><form:checkbox path="openInNewPage"/></td>
-            <td><form:errors path="openInNewPage" cssClass="error" element="div"/></td>
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="password"><spring:message code="password" text="Password"/></form:label>
+                <form:password path="password" class="form-control" showPassword="true" size="30" maxlength="30"/>
+                <form:errors path="password" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="openInNewPage"><spring:message code="openInNewPage" text="Open In New Page"/></form:label>
+                <form:checkbox path="openInNewPage"/>
+                <form:errors path="openInNewPage" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
-        </tr>
-        <tr>
-            <td><form:label path="lang"><spring:message code="lang" text="Language"/></form:label></td>
-            <td><form:input path="lang" type="text" size="20" maxlength="20"/></td>
-            <td><form:errors path="lang" cssClass="error" element="div"/></td>
-        </tr>
-    </table>
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="lang"><spring:message code="lang" text="Language"/></form:label>
+                <form:input path="lang" class="form-control" type="text" size="20" maxlength="20"/>
+                <form:errors path="lang" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+
+            </div>
+        </div>  
+    </div>  
+
+
 </div>   

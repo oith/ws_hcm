@@ -1,4 +1,4 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.core;
 
 import java.util.ArrayList;
 import oith.ws.dom.core.User;

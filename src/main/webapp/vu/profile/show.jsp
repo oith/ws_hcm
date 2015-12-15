@@ -137,7 +137,9 @@
             <c:set target="audit" property="audit" var="audit" value="${profile}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
 
-        </ol>
+        </ol> 
+        <div><jsp:include page="profileEduDtls.jsp" /></div>
+        <div><jsp:include page="profileJobDtls.jsp" /></div>
         <div><jsp:include page="profileEduDtls.jsp" /></div>
         <div><jsp:include page="profileJobDtls.jsp" /></div>
     </div>

@@ -1,12 +1,11 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.core;
 
+import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Lookup;
 import oith.ws.exception.LookupNotFoundException;
 import oith.ws.service.LookupService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
@@ -116,12 +115,10 @@ public class LookupController extends _OithClientAuditController {
             Lookup currObjectLocal = lookupService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
-        } catch (NotLoggedInException e) {
+        } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
         } catch (LookupNotFoundException ex) {
             return NOT_FOUND;
-        } catch (InAppropriateClientException ex) {
-            return REDIRECT_TO_LOGIN;
         }
 
         try {

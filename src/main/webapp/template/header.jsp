@@ -22,13 +22,12 @@
 
     <script type="text/javascript">
 
-
                 function showApplicantName() {
                 var controller = "HrIrAplc";
                         var action = "getAplcTitle";
                         $.ajax({
                         type: "POST",
-                                url: "{request.contextPath} " / "+controller +" / "+action,
+                                url: "{request.contextPath}" / "+controller +" / "+action,
                                 dataType: 'JSON',
                                 success: function (d) {
                                 //                    document.getElementById('showApplicantTitle').innerHTML=d.message
@@ -40,12 +39,7 @@
                                 }
                         });
                 }
-
-//    jQuery(document).on('keyup', '#quickAccessUrl', function(){
-//    alert("clicked...");
-//            window.location.href = "my url..."
-//    });   
-
+  
     </script>
 
 </head>   
@@ -111,8 +105,10 @@
                             <sec:authentication var="params" property="principal.params"/>
                             <sec:authentication var="lang" property="principal.lang"/>
 
-                            <%--                            favorites ${favorites}<br>
-                                                        params ${params}<br>--%>
+                            <%--
+favorites ${favorites}<br>
+params ${params}<br>
+                            --%>
 
                             <select name="quickAccessx" id="quickAccessx" class="form-control">
                                 <option value="${null}" >Get Quick Move</option>
@@ -121,7 +117,7 @@
                                 <c:forEach items="${favorites}" var="sss" varStatus="loopStatus">
                                     <c:choose >
                                         <c:when test='${sss.menuType.toString().equals("ACTION")}'>
-                                            <option value="/oith_ws_hcm${sss.address}" >${sss.menuType} - ${sss.text}</option>
+                                            <option value="<%=request.getContextPath()%>${sss.address}" >${sss.menuType} - ${sss.text}</option>
                                         </c:when>
                                         <c:otherwise>
                                             <option value="${sss.address}" >${sss.menuType} - ${sss.text}</option>
@@ -130,7 +126,7 @@
 
                                 </c:forEach>
                             </select>
-                            <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="3" maxlength="4"/>
+                            <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="3" maxlength="3"/>
 
                             <sec:authentication var="openInNewPageLoc" property="principal.openInNewPage"/>
 
@@ -155,15 +151,11 @@
             <script>
 
                         jQuery(document).ready(function(){
-                //  alert("ready...");
+           
 
                 $('#openInNewPage').prop('checked',${openInNewPageLoc});
 //                $('#openInNewPage').prop('checked',${lang});
                 });
-//                        $(document).on('click', '#openInNewPage', function () {
-//
-//                alert('jjjjjjjjjjj');
-//                });
                         $(document).on('change', '#quickAccessx', function () {
 
                 var isNewWindow = $("#openInNewPage").prop('checked');
@@ -207,7 +199,8 @@
                                 data: "",
                                 async: false,
                                 success: function (response) {
-                                window.open(response, isNewWindow);
+                                    
+                                window.open(contextPath+response, isNewWindow);
                                         $('#quickAccessUrl').val('');
                                 },
                                 error: function (exception) {

@@ -1,12 +1,12 @@
 package oith.ws.ctrl;
 
+import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.exception.TrnscFmNotFoundException;
 import oith.ws.service.TrnscFmService;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.validation.Valid;
-import static oith.ws.ctrl._OithController.REDIRECT_TO_LOGIN;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dom.hcm.fm.TrnscFm;

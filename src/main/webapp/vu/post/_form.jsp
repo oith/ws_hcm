@@ -60,17 +60,21 @@
 <form:hidden path="id"/>
 <form:hidden path="user.id"/>
 <div>   
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
-        <tr>
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="subject"><spring:message code="subject" text="Subject"/></form:label>
+                <form:textarea path="subject" class="form-control" type="text" size="30" maxlength="500"/>
+                <form:errors path="subject" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="content"><spring:message code="content" text="Content"/></form:label>
+                <form:textarea path="content" class="form-control" type="text" size="30" maxlength="500"/>
+                <form:errors path="content" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
-            <td><form:label path="subject"><spring:message code="subject" text="Subject"/></form:label></td>
-            <td><form:textarea path="subject" type="text" size="30" maxlength="500"/></td>
-            <td><form:errors path="subject" cssClass="error" element="div"/></td>
-            <td><form:label path="content"><spring:message code="content" text="Content"/></form:label></td>
-            <td><form:textarea path="content" type="text" size="30" maxlength="500"/></td>
-            <td><form:errors path="content" cssClass="error" element="div"/></td>
-        </tr>
-
-
-    </table>
 </div>   

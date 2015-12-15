@@ -17,12 +17,6 @@
 <script src="<%=request.getContextPath()%>/resources/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/jquery-ui-1.10.2.js"></script> 
 
-
-<!--<link type="text/css" href="/resources/css/styles.css" rel="stylesheet">
-<link type="text/css" href="/resources/css/jquery-ui.css" rel="stylesheet"/>
-<script src="/resources/js/jquery.min.js"></script>
-<script src="/resources/js/jquery-ui-1.10.2.js"></script> -->
-
 <title><spring:message code="project.title" text="OITH Home"/></title>
 
 <tiles:insertDefinition name="defaultTemplate" />

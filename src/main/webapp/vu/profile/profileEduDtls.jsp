@@ -65,7 +65,7 @@
                     </div>
                 </div>
 
-                <form:form action="${pageContext.request.contextPath}/profileEduDtl/edit" enctype="multipart/form-data" commandName="profileEduDtl" method="POST">
+                <form:form action="${pageContext.request.contextPath}/profile/profileEduDtl/edit" enctype="multipart/form-data" commandName="profileEduDtl" method="POST">
 
                     <!--modal-body-->
                     <div class="modal-body">

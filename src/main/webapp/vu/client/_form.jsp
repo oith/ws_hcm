@@ -59,51 +59,77 @@
 <form:errors path="*" cssClass="errorblock" element="div"/>
 
 <div>   
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
-        <tr>
-            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="code" type="text" required="true" size="30" maxlength="20"/></td>
-            <td><form:errors path="code" cssClass="error" element="div"/></td>
-            <td><form:label path="active"><spring:message code="active" text="Active"/></form:label></td>
-            <td><form:checkbox path="active"/></td>
-            <td><form:errors path="active" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-<%--            <td><form:label path="slNo"><spring:message code="slNo" text="Sl No"/></form:label></td>
-            <td><form:input path="slNo" type="number" size="15" maxlength="15"/></td>
-            <td><form:errors path="slNo" cssClass="error" element="div"/></td>--%>
-            <td><form:label path="name"><spring:message code="name" text="Name"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="name" type="text" required="true" size="30" maxlength="100"/></td>
-            <td><form:errors path="name" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="domain"><spring:message code="domain" text="domain"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="domain" type="text" required="true" size="20" maxlength="20"/></td>
-            <td><form:errors path="domain" cssClass="error" element="div"/></td>
-            <td><form:label path="loginUrl"><spring:message code="loginUrl" text="loginUrl"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="loginUrl" type="text" required="true" size="30" maxlength="100"/></td>
-            <td><form:errors path="loginUrl" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="userCreateUrl"><spring:message code="userCreateUrl" text="userCreateUrl"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="userCreateUrl" type="text" required="true" size="30" maxlength="100"/></td>
-            <td><form:errors path="userCreateUrl" cssClass="error" element="div"/></td>
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label>
+                <form:input path="code" class="form-control" type="text" required="true" size="30" maxlength="20"/>
+                <form:errors path="code" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="active"><spring:message code="active" text="Active"/></form:label>
+                <form:checkbox path="active"/>
+                <form:errors path="active" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
-            <td><form:label path="remarks"><spring:message code="remarks" text="Remarks"/></form:label></td>
-            <td><form:textarea path="remarks" type="text" size="30" maxlength="500"/></td>
-            <td><form:errors path="remarks" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="clientCategory"><spring:message code="clientCategory" text="Client Category"/><span class="required-indicator needed">*</span></form:label></td>
-                <td>
-                <form:select path="clientCategory" name="clientCategory" id="clientCategory" required="true">
+
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="name"><spring:message code="name" text="Name"/><span class="required-indicator needed">*</span></form:label>
+                <form:input path="name" class="form-control" type="text" required="true" size="30" maxlength="100"/>
+                <form:errors path="name" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="domain"><spring:message code="domain" text="Domain"/><span class="required-indicator needed">*</span></form:label>
+                <form:input path="domain" class="form-control" type="text" required="true" size="20" maxlength="20"/>
+                <form:errors path="domain" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
+
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="loginUrl"><spring:message code="loginUrl" text="Login Url"/><span class="required-indicator needed">*</span></form:label>
+                <form:input path="loginUrl" class="form-control" type="text" required="true" size="30" maxlength="100"/>
+                <form:errors path="loginUrl" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="userCreateUrl"><spring:message code="userCreateUrl" text="User Create Url"/><span class="required-indicator needed">*</span></form:label>
+                <form:input path="userCreateUrl" class="form-control" type="text" required="true" size="30" maxlength="100"/>
+                <form:errors path="userCreateUrl" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
+            
+    <div class="row">  
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="remarks"><spring:message code="remarks" text="Remarks"/></form:label>
+                <form:textarea path="remarks" class="form-control" type="text" size="30" maxlength="500"/>
+                <form:errors path="remarks" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="clientCategory"><spring:message code="clientCategory" text="Client Category"/><span class="required-indicator needed">*</span></form:label>
+                <form:select path="clientCategory" class="form-control" name="clientCategory" id="clientCategory" required="true">
                     <form:option value="${null}" label="--Select--">  
                         <form:options items="${clientCategorys}"></form:options>
                     </form:option>
                 </form:select>
-            </td>
-            <td><form:errors path="clientCategory" cssClass="error" element="div"/></td>
-        </tr>
+                <form:errors path="clientCategory" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
-    </table>
 </div>   

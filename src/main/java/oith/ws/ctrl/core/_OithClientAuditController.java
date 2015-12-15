@@ -1,4 +1,4 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.core;
 
 import oith.ws.dom.core.AbstDocClientAudit;
 import org.springframework.beans.factory.annotation.Autowired;

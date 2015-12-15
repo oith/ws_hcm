@@ -1,4 +1,4 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.core;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;

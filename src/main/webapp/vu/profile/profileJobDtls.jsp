@@ -25,8 +25,8 @@
                         <td class="not_show">go to</td>
                         <td>Edit</td>
                         <td><spring:message code="org" text="Organization"/></td>
-                        <td><spring:message code="fromDate" text="From Date"/></td>
-                        <td><spring:message code="toDate" text="To Date"/></td>
+                        <td><spring:message code="startDate" text="Start Date"/></td>
+                        <td><spring:message code="endDate" text="End Date"/></td>
                         <td><spring:message code="remarks" text="Remarks"/></td>
                         <td><spring:message code="slNo" text="Sl No"/></td>
                         <td><spring:message code="erese" text="Erase"/></td>
@@ -34,16 +34,24 @@
                 </thead>
                 <tbody>
                     <c:forEach items="${profile.profileJobDtls}" var="profileJobDtl"  varStatus="loopStatus">
+
                         <tr  class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td class="not_show"><c:out value="${profileJobDtl.embdId}"/></td>
                             <td><button id="${profile.id}~${profileJobDtl.embdId}" type="button" value="${profile.id}~${profileJobDtl.embdId}" data-toggle="modal" data-target="#myModalJob"><spring:message code="edit.link.label" text="Edit"/></button></td>
                             <td><c:out value="${profileJobDtl.org}"/></td>
-                            <td><fmt:formatDate value="${profileJobDtl.fromDate}" type="date" pattern="dd/MM/yyyy"/></td>
-                            <td><fmt:formatDate value="${profileJobDtl.toDate}" type="date" pattern="dd/MM/yyyy"/></td>
+
+                            <c:set var="kkk" value="${profile.user.dob}"/>
+                              
+                            <td><fmt:formatDate value="${profileJobDtl.startDate}" type="date" pattern="dd/MM/yyyy"/></td>
+                            <td><fmt:formatDate value="${profileJobDtl.endDate}" type="date" pattern="dd/MM/yyyy"/></td>
+                          
                             <td><c:out value="${profileJobDtl.remarks}"/></td>
                             <td><c:out value="${profileJobDtl.slNo}"/></td>
                             <td><button class="job_dtl_del" type="button" class="btn btn-danger" value="ProfileJobDtls~${profile.id}~${profileJobDtl.embdId}">Erase</button></td>
-                        </tr>
+                        </tr> 
+
+
+
                     </c:forEach>
                 </tbody>
             </table>
@@ -70,7 +78,7 @@
                 <!--modal-body-->
                 <div class="modal-body">
                     <h2><spring:message code="ProfileJobDtl" text="Profile Job"/></h2>
-                    <form action="${pageContext.request.contextPath}/profileJobDtl/edit" enctype="multipart/form-data" commandName="profileJobDtl" method="POST">
+                    <form action="${pageContext.request.contextPath}/profile/profileJobDtl/edit" enctype="multipart/form-data" commandName="profileJobDtl" method="POST">
                         <div class="col-xs-6">
                             <div class="form-group">
                                 <label>Profile ID</label>

@@ -50,34 +50,58 @@
 <%--<form:hidden path="id"/>--%>
 
 <div>   
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table"> 
-        <tr>
-            <td><form:label path="title"><spring:message code="title" text="title"/></form:label></td>
-            <td><form:input path="title" type="text" size="30" maxlength="30"/></td>
-            <td><form:errors path="title" cssClass="error" element="div"/></td>
-        </tr>
+
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="title"><spring:message code="title" text="title"/></form:label>
+                <form:select path="title" class="form-control" name="title" id="title" required="true">
+                        <form:options items="${titles}"></form:options>
+                </form:select>
+                <form:errors path="title" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="firstName"><spring:message code="firstName" text="First Name"/></form:label>
+                <form:input path="firstName" class="form-control" type="text" size="30" maxlength="30"/>
+                <form:errors path="firstName" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
+
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="middleName"><spring:message code="middleName" text="Middle Name"/></form:label>
+                <form:input path="middleName" class="form-control" type="text" size="30" maxlength="30"/>
+                <form:errors path="middleName" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="lastName"><spring:message code="lastName" text="Last Name"/></form:label>
+                <form:input path="lastName" class="form-control" type="text" size="30" maxlength="30"/>
+                <form:errors path="lastName" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
 
-        <tr>
-            <td><form:label path="firstName"><spring:message code="firstName" text="First Name"/></form:label></td>
-            <td><form:input path="firstName" type="text" size="30" maxlength="30"/></td>
-            <td><form:errors path="firstName" cssClass="error" element="div"/></td>
-            <td><form:label path="middleName"><spring:message code="middleName" text="Middle Name"/></form:label></td>
-            <td><form:input path="middleName" type="text" size="30" maxlength="30"/></td>
-            <td><form:errors path="middleName" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="lastName"><spring:message code="lastName" text="Last Name"/></form:label></td>
-            <td><form:input path="lastName" type="text" size="30" maxlength="30"/></td>
-            <td><form:errors path="lastName" cssClass="error" element="div"/></td>
-            <td><form:label path="nickName"><spring:message code="nickName" text="Nick Name"/></form:label></td>
-            <td><form:input path="nickName" type="text" size="30" maxlength="30"/></td>
-            <td><form:errors path="nickName" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="profilePicFile"><spring:message code="profilePicFile" text="profile Pic File"/></form:label></td>
-                <td>
-                    <!--<img height="110px" width="90px" alt="${profile.profilePicFile}" src="<%=request.getContextPath()%>/pics/${profile.profilePicFile}"/>-->
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+
+                <form:label path="nickName"><spring:message code="nickName" text="Nick Name"/></form:label>
+                <form:input path="nickName" class="form-control" type="text" size="30" maxlength="30"/>
+                <form:errors path="nickName" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="profilePicFile"><spring:message code="profilePicFile" text="profile Pic File"/></form:label>
+
+    <!--<img height="110px" width="90px" alt="${profile.profilePicFile}" src="<%=request.getContextPath()%>/pics/${profile.profilePicFile}"/>-->
 
                 <c:url var="macImage" value="/profile/getPhoto/${profile.profilePicFile}" />
                 <!--<div id="preview">-->
@@ -86,8 +110,13 @@
 
                 <form:hidden path="profilePicFile"/>
                 <input id="profilePicFileOBJ" name="profilePicFileOBJ" type="file" accept="image/*"/>
-            </td> 
-            <td><form:errors path="profilePicFile" cssClass="error" element="div"/></td>
-        </tr>
-    </table>
+
+                <form:errors path="profilePicFile" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
+
+
+
+
 </div>   

@@ -1,4 +1,4 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.core;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import static oith.ws.ctrl._OithController.FEEDBACK_MESSAGE_KEY_EDITED;
+import static oith.ws.ctrl.core._OithController.FEEDBACK_MESSAGE_KEY_EDITED;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dom.core.ProfileEduDtl;
 import oith.ws.dom.core.ProfileJobDtl;
@@ -399,7 +399,7 @@ public class ProfileController extends _OithAuditController {
 //            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
         try {
-            Profile user = profileService.update(currObject, "firstName,middleName,lastName,nickName,profilePicFile,updateDate,updateByUser");
+            Profile user = profileService.update(currObject, "title,firstName,middleName,lastName,nickName,profilePicFile,updateDate,updateByUser");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
             return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + user.getId();
 
@@ -464,7 +464,7 @@ public class ProfileController extends _OithAuditController {
 //            return ADD_FORM_VIEW;
 //        }
         try {
-            Profile profile = profileService.update(currObject, "permanentAddress,presentAddress,contactInfo,org,firstName,lastName,middleName,nickName,profilePicFile,user,updateDate,updateByUser");
+            Profile profile = profileService.update(currObject, "title,permanentAddress,presentAddress,contactInfo,org,firstName,lastName,middleName,nickName,profilePicFile,user,updateDate,updateByUser");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
         } catch (ProfileNotFoundException e) {
             System.out.println("No profile was found with id: " + profileId);

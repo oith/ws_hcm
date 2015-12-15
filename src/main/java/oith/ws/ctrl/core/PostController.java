@@ -1,5 +1,6 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.core;
 
+import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Post;
 import oith.ws.exception.PostNotFoundException;
 import oith.ws.service.PostService;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
+import oith.ws.dom.core.Client;
 import oith.ws.dom.core.User;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.NotLoggedInException;
@@ -138,13 +140,20 @@ public class PostController extends _OithClientAuditController {
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
     public String list(ModelMap model) {
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Post> posts = postService.findAllByClient(searchCriteria, null);
+        List<Post> lookups = postService.findAllByClient(searchCriteria, client);
 
-        model.addAttribute(MODEL_ATTRIBUTES, posts);
+        model.addAttribute(MODEL_ATTRIBUTES, lookups);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
