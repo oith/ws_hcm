@@ -19,70 +19,111 @@
 <form:errors path="*" cssClass="errorblock" element="div" />
 
 <div>   
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
-        <tr>
-            <td><form:label path="client"><spring:message code="client" text="Client"/></form:label></td>
-                <td>
-                <form:select path="client.id" name="client" id="client" required="true">
-                    <form:option value="${null}" label="--Select--"/>  
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="client"><spring:message code="client" text="Client"/></form:label>
+                <form:select path="client.id" class="form-control" name="client" id="client" required="true"> 
                     <form:options itemValue="id" itemLabel="name" items="${clients}"/>
                 </form:select>  
-            </td>
-            <td><form:errors path="client" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="username"><spring:message code="username" text="User Name"/></form:label></td>
-            <td><form:input path="username" type="text" size="30" maxlength="30"/></td>
-            <td><form:errors path="username" cssClass="error" element="div"/></td>
-            <td><form:label path="fullName"><spring:message code="fullName" text="Full Name"/></form:label></td>
-            <td><form:input path="fullName" type="text" size="50" maxlength="50"/></td>
-            <td><form:errors path="fullName" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="gender"><spring:message code="gender" text="Gender"/></form:label></td>
-            <td><form:select path="gender" items="${genders}"/></td>   
-            <td><form:errors path="gender" cssClass="error" element="div"/></td>
+                <form:errors path="client" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="username"><spring:message code="username" text="User Name"/></form:label>
+                <form:input path="username" class="form-control" type="text" size="30" maxlength="30"/>
+                <form:errors path="username" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
-            <td><form:label path="dob"><spring:message code="dob" text="Dob"/></form:label></td>
-            <td><form:input path="dob" id="datepicker_dob" placeholder="DD/MM/YYYY" /></td>
-            <td><form:errors path="dob" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="password"><spring:message code="password" text="Password"/></form:label></td>
-            <td><form:password path="password" showPassword="true" size="30" maxlength="30"/></td>
-            <td><form:errors path="password" cssClass="error" element="div"/></td>
-            <td><form:label path="enabled"><spring:message code="enabled" text="Enabled"/></form:label></td>
-            <td><form:checkbox path="enabled"/></td>
-            <td><form:errors path="enabled" cssClass="error" element="div"/></td>
-        </tr>
-
-        <tr>
-            <td><form:label path="accountNonExpired"><spring:message code="accountNonExpired" text="Account Non Expired"/></form:label></td>
-            <td><form:checkbox path="accountNonExpired"/></td>
-            <td><form:errors path="accountNonExpired" cssClass="error" element="div"/></td>
-            <td><form:label path="accountNonLocked"><spring:message code="accountNonLocked" text="Account Non Locked"/></form:label></td>
-            <td><form:checkbox path="accountNonLocked"/></td>
-            <td><form:errors path="accountNonLocked" cssClass="error" element="div"/></td>
-
-        </tr>
-        <tr>
-            <td><form:label path="credentialsNonExpired"><spring:message code="credentialsNonExpired" text="Credentials Non Expired"/></form:label></td>
-            <td><form:checkbox path="credentialsNonExpired"/></td>
-            <td><form:errors path="credentialsNonExpired" cssClass="error" element="div"/></td>
-        </tr>
-        <tr> 
-            <td><form:label path="authorities"><spring:message code="authorities" text="Authorities"/></form:label></td>
-                <td>
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="fullName"><spring:message code="fullName" text="Full Name"/></form:label>
+                <form:input path="fullName" class="form-control" type="text" size="50" maxlength="50"/>
+                <form:errors path="fullName" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="gender"><spring:message code="gender" text="Gender"/></form:label>
+                <form:select path="gender" class="form-control" items="${genders}"/>   
+                <form:errors path="gender" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="dob"><spring:message code="dob" text="Dob"/></form:label>
+                <form:input path="dob" class="form-control" id="datepicker_dob" placeholder="DD/MM/YYYY" />
+                <form:errors path="dob" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="password"><spring:message code="password" text="Password"/></form:label>
+                <form:password path="password" class="form-control" showPassword="true" size="30" maxlength="30"/>
+                <form:errors path="password" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="enabled"><spring:message code="enabled" text="Enabled"/></form:label>
+                <form:checkbox path="enabled"/>
+                <form:errors path="enabled" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="accountNonExpired"><spring:message code="accountNonExpired" text="Account Non Expired"/></form:label>
+                <form:checkbox path="accountNonExpired"/>
+                <form:errors path="accountNonExpired" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="accountNonLocked"><spring:message code="accountNonLocked" text="Account Non Locked"/></form:label>
+                <form:checkbox path="accountNonLocked"/>
+                <form:errors path="accountNonLocked" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="credentialsNonExpired"><spring:message code="credentialsNonExpired" text="Credentials Non Expired"/></form:label>
+                <form:checkbox path="credentialsNonExpired"/>
+                <form:errors path="credentialsNonExpired" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="authorities"><spring:message code="authorities" text="Authorities"/></form:label>
                 <form:select path="authorities" 
+                             class="form-control"
                              name="authorities" 
                              id="authorities" 
                              items="${authorities}" 
                              itemValue="id" 
                              itemLabel="name"
                              multiple="true"/>
-            </td>   
-            <td><form:errors path="authorities" cssClass="error" element="div"/></td>
-        </tr>
-    </table>
+                <form:errors path="authorities" cssClass="error" element="div"/>
+            </div>
+        </div>             
+        <div class="col-xs-6">
+            <div class="form-group">
+
+            </div>
+        </div>  
+    </div>  
+
+
 </div>   
 

@@ -19,7 +19,7 @@
 <c:if test="${not empty profile.profileJobDtls}">
     <div style=" padding-top: 10px; padding-bottom: 10px">
         <div id="div_ProfileJobDtls" style="margin: auto; overflow-x: scroll">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="style-table">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
                 <thead style="color: white; background-color: #967ADC; text-align: center; font-weight: bold">
                     <tr>
                         <td class="not_show">go to</td>

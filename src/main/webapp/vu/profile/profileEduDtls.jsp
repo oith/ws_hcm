@@ -18,7 +18,7 @@
 
 <c:if test="${not empty profile.profileEduDtls}">
     <div id="div_ProfileEduDtls" style="margin: auto; overflow-x: scroll; padding-top: 10px">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="style-table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
             <thead style="color: white; background-color: #4A89DC; text-align: center">
                 <tr>
                     <td class="not_show">go to</td>
