@@ -1,0 +1,1 @@
+java -jar target/oith_ws_core-1.0.0.jar
