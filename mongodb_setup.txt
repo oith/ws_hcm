@@ -1,0 +1,1 @@
+MONGO_HOME\bin>mongod.exe --dbpath C:\data\db
