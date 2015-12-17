@@ -31,7 +31,21 @@
 
 <tiles:putAttribute name="body">
 
-    <h1><spring:message code="welcome.to.oith" text="Welcome to OITH"/></h1>
+    <sec:authorize access="isAuthenticated()">
+        <div>
+            <sec:authentication property="principal" />
+        </div>
+        
+        <div>
+            <c:forEach var="listValue" items="${lists}">
+                <a href="${pageContext.request.contextPath}${listValue}">
+                    <spring:message code="${listValue}" text="${listValue}"/>
+                </a>
+            </c:forEach>
+        </div>
+    </sec:authorize>               
+    <%--    
+        <h1><spring:message code="welcome.to.oith" text="Welcome to OITH"/></h1>
 
     <h4><spring:message code="welcome.to.moto.oith" text="An easiest way to java WEB application development!!!"/></h4>
 
@@ -40,16 +54,8 @@
                         this is the default page, feel free to modify it to either redirect to a controller or display whatever
                         content you may choose. Below is a list of controllers that are currently deployed in this application,
                         click on each to execute its default action:"/>
-    </p>
+    </p>--%>
 
-    <p>
-        <c:forEach var="listValue" items="${lists}">
-            <a href="${pageContext.request.contextPath}${listValue}">
-                <spring:message code="${listValue}" text="${listValue}"/>
-            </a><br/>
-        </c:forEach>
-
-    </p>
 
 </tiles:putAttribute>
 

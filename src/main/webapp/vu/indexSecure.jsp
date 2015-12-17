@@ -24,7 +24,21 @@
 
 <tiles:putAttribute name="body">
 
-    <h1><spring:message code="welcome.to.secure.oith" text="Welcome to Secure OITH"/></h1>
+    <sec:authorize access="isAuthenticated()">
+        <div>
+            <sec:authentication property="principal" />
+        </div>
+
+        <div>
+            <c:forEach var="listValue" items="${lists}">
+                <a href="${pageContext.request.contextPath}${listValue}">
+                    <spring:message code="${listValue}" text="${listValue}"/>
+                </a>
+            </c:forEach>
+        </div>
+    </sec:authorize>  
+
+    <%--    <h1><spring:message code="welcome.to.secure.oith" text="Welcome to Secure OITH"/></h1>
 
     <h4><spring:message code="welcome.to.moto.oith" text="An easiest way to java WEB application development!!!"/></h4>
 
@@ -49,7 +63,7 @@
             </a><br/>
         </c:forEach>
 
-    </p>
+    </p>--%>
 
 </tiles:putAttribute>
 

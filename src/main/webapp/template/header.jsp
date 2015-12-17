@@ -59,7 +59,7 @@
                     </sec:authorize>
 
                     <sec:authorize access="isAnonymous()">
-                        <img id="imagePreview"  align="left" height="100px" width="300px" src="<%=request.getContextPath()%>/resources/images/oith_logo_left.png" alt="oith_logo_left"/>
+                        <img id="imagePreview" align="left" height="80px" width="200px" src="<%=request.getContextPath()%>/resources/images/oith_logo.png" alt="oith_logo"/>
                     </sec:authorize>
                    <!--<img alt="oith_logo_right" align="right" style="border:5px double black;" src="<%=request.getContextPath()%>/images/oith_logo_right.png"/>-->
                 </div>
