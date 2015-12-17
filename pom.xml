@@ -32,31 +32,6 @@
         <main.basedir>${basedir}/../..</main.basedir>
     </properties>
     
-    <repositories>
-        <repository>
-            <id>spring-maven-milestone</id>
-            <name>Spring Maven Milestone Repository</name>
-            <url>http://maven.springframework.org/milestone</url>
-        </repository>
-        
-
-        <repository>
-            <id>spring-milestone</id>
-            <name>Spring Maven MILESTONE Repository</name>
-            <url>http://repo.spring.io/libs-milestone</url>
-        </repository>
-
-    </repositories>
-    
-    
-<!--    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-releases</id>
-            <name>Spring Releases</name>
-            <url>https://repo.spring.io/libs-release</url>
-        </pluginRepository>
-    </pluginRepositories>-->
-    
     <dependencyManagement>
         <dependencies>
             <!--An added benefit of using the BOM is that you no longer need to specify the <version> attribute when depending on Spring Framework artifacts:-->
