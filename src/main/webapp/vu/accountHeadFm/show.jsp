@@ -21,19 +21,19 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/accountHeadFm/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="accountHeadFm" text="Account Head Fm"/></a> |
-        <a href="${pageContext.request.contextPath}/accountHeadFm/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="accountHeadFm" text="Account Head Fm"/></a>
+        <a href="${pageContext.request.contextPath}/accountHeadFm/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="accountHeadFm" text="AccountHeadFm"/></a> |
+        <a href="${pageContext.request.contextPath}/accountHeadFm/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="accountHeadFm" text="AccountHeadFm"/></a>
     </div>
 
     <h1><spring:message code="show.page.title"/></h1>
     <div>
         <form:hidden path="id"/>
-        <ol class="property-list hrIrGrdScr">
+        <ol class="property-list">
 
-            <c:if test="${accountHeadFm.code!=null && !accountHeadFm.code.isEmpty()}">
+            <c:if test="${accountHeadFm.code!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="code" text="Code"/>: 
+                        <spring:message code="code" text="CODE"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="code">
                         <c:out value="${accountHeadFm.code}"/>
@@ -41,10 +41,10 @@
                 </li>
             </c:if>
 
-            <c:if test="${accountHeadFm.title!=null && !accountHeadFm.title.isEmpty()}">
+            <c:if test="${accountHeadFm.title!=null}">
                 <li class="fieldcontain first_item">
-                    <span id="name" class="property-label">
-                        <spring:message code="title" text="title"/>: 
+                    <span id="title" class="property-label">
+                        <spring:message code="title" text="TITLE"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="title">
                         <c:out value="${accountHeadFm.title}"/>
@@ -52,10 +52,10 @@
                 </li>
             </c:if>
 
-            <c:if test="${accountHeadFm.accNo!=null && !accountHeadFm.accNo.isEmpty()}">
+            <c:if test="${accountHeadFm.accNo!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="accNo" text="Account No"/>: 
+                        <spring:message code="accNo" text="ACCNO"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="accNo">
                         <c:out value="${accountHeadFm.accNo}"/>
@@ -63,53 +63,52 @@
                 </li>
             </c:if>
 
-
-
             <c:if test="${accountHeadFm.active!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="active" text="Active ?"/>: 
+                        <spring:message code="active" text="ACTIVE"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="active">
                         <c:out value="${accountHeadFm.active}"/>
                     </span>
                 </li>
-            </c:if> 
-            <c:if test="${accountHeadFm.empRequired!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="empRequired" text="Employee Required ?"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="empRequired">
-                        <c:out value="${accountHeadFm.empRequired}"/>
-                    </span>
-                </li>
-            </c:if> 
+            </c:if>
 
             <c:if test="${accountHeadFm.slNo!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="slNo" text="Sl No"/>: 
+                        <spring:message code="slNo" text="SLNO"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="slNo">
                         <c:out value="${accountHeadFm.slNo}"/>
                     </span>
                 </li>
-            </c:if> 
-            <c:if test="${accountHeadFm.description!=null && !accountHeadFm.description.isEmpty()}">
+            </c:if>
+
+            <c:if test="${accountHeadFm.empRequired!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="description" text="Description"/>: 
+                        <spring:message code="empRequired" text="EMPREQUIRED"/>: 
+                    </span>
+                    <span class="property-value" aria-labelledby="empRequired">
+                        <c:out value="${accountHeadFm.empRequired}"/>
+                    </span>
+                </li>
+            </c:if>
+
+            <c:if test="${accountHeadFm.description!=null}">
+                <li class="fieldcontain first_item">
+                    <span id="title" class="property-label">
+                        <spring:message code="description" text="DESCRIPTION"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="description">
                         <c:out value="${accountHeadFm.description}"/>
                     </span>
                 </li>
-            </c:if> 
+            </c:if>
 
             <c:set target="audit" property="audit" var="audit" value="${accountHeadFm}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
-
         </ol>
 
     </div>

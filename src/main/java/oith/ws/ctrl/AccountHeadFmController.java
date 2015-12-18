@@ -1,19 +1,17 @@
 package oith.ws.ctrl;
 
 import oith.ws.ctrl.core._OithClientAuditController;
+import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.exception.AccountHeadFmNotFoundException;
 import oith.ws.service.AccountHeadFmService;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.core.User;
-import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
-import oith.ws.service.MacUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -38,32 +36,22 @@ public class AccountHeadFmController extends _OithClientAuditController {
     private AccountHeadFmService accountHeadFmService;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
+    public String create(ModelMap model, RedirectAttributes attributes) {
 
-        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        String userId = null;
-        MacUserDetail authUser = null;
-        if (authUserObj instanceof MacUserDetail) {
-            userId = ((MacUserDetail) authUserObj).getUserId();
-            authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
 
-        if (authUser == null) {
-            return "noLoginState";
-        }
-
-        User user = super.getUserService().findById(userId);
-
-        model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm(user));
-        //model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm());
+        //   model.addAttribute("accountHeadFmKeywords", AccountHeadFm.AccountHeadFmKeyword.values());
+        model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm(client));
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid AccountHeadFm currObject,
-            BindingResult bindingResult,
-            RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid AccountHeadFm currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         try {
             super.save(currObject, attributes);
@@ -72,30 +60,40 @@ public class AccountHeadFmController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
+            //    model.addAttribute("accountHeadFmKeywords", AccountHeadFm.AccountHeadFmKeyword.values());
             return ADD_FORM_VIEW;
         }
 
-        AccountHeadFm accountHeadFm = accountHeadFmService.create(currObject);
-        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, accountHeadFm.getId());
-        return "redirect:/" + SHOW_FORM_VIEW + "/" + accountHeadFm.getId();
+        AccountHeadFm currObjectLocal = accountHeadFmService.create(currObject);
+        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
+
+        return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        AccountHeadFm accountHeadFm = accountHeadFmService.findById(id);
-
-        if (accountHeadFm == null) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(INDEX);
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
-        model.addAttribute(MODEL_ATTIRUTE, accountHeadFm);
 
-        return EDIT_FORM_VIEW;
+        try {
+            AccountHeadFm currObjectLocal = accountHeadFmService.findById(id, client);
+            model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            return EDIT_FORM_VIEW;
+        } catch (AccountHeadFmNotFoundException ex) {
+            return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String update(@PathVariable("id") String id,
+    public String update(
+            @PathVariable("id") String id,
             @ModelAttribute(MODEL_ATTIRUTE) @Valid AccountHeadFm currObject,
             BindingResult bindingResult,
             ModelMap model,
@@ -109,37 +107,48 @@ public class AccountHeadFmController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
+            //         model.addAttribute("accountHeadFmKeywords", AccountHeadFm.AccountHeadFmKeyword.values());
             return EDIT_FORM_VIEW;
         }
 
         try {
             AccountHeadFm currObjectLocal = accountHeadFmService.findById(id, client);
-            //super.doAuditUpdate(currObjectLocal);
             currObject.setAuditor(currObjectLocal.getAuditor());
-
             super.update(currObject);
-        } catch (AccountHeadFmNotFoundException | NotLoggedInException e) {
+        } catch (NotLoggedInException | InAppropriateClientException e) {
+            return REDIRECT_TO_LOGIN;
+        } catch (AccountHeadFmNotFoundException ex) {
+            return NOT_FOUND;
         }
 
         try {
-            AccountHeadFm accountHeadFm = accountHeadFmService.update(currObject, "active,empRequired,slNo,accNo,code,description,title,updateByUser,updateDate");
-            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, accountHeadFm.getId());
+            //accountHeadFm = accountHeadFmService.update(currObject);
+            AccountHeadFm currObjectLocal = accountHeadFmService.update(currObject, "accNo,active,code,description,empRequired,slNo,title,auditor");
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
+            return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (AccountHeadFmNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+            return EDIT_FORM_VIEW;
         }
-        return "redirect:/" + SHOW_FORM_VIEW + "/" + id;
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model, RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
 
         String searchTerm = searchCriteria.getSearchTerm();
         List<AccountHeadFm> accountHeadFms;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            accountHeadFms = accountHeadFmService.search(searchCriteria, null);
+            accountHeadFms = accountHeadFmService.search(searchCriteria, client);
         } else {
-            accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria, null);
+            accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria, client);
         }
         model.addAttribute(MODEL_ATTRIBUTES, accountHeadFms);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -150,15 +159,24 @@ public class AccountHeadFmController extends _OithClientAuditController {
         }
         model.addAttribute("pages", pages);
         return LIST_VIEW;
+
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
-    public String list(ModelMap model) {
+    public String list(ModelMap model, RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
-        searchCriteria.setPageSize(5);
+        searchCriteria.setPageSize(10);
 
-        List<AccountHeadFm> accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria, null);
+        List<AccountHeadFm> accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria, client);
 
         model.addAttribute(MODEL_ATTRIBUTES, accountHeadFms);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -174,26 +192,43 @@ public class AccountHeadFmController extends _OithClientAuditController {
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        AccountHeadFm accountHeadFm = accountHeadFmService.findById(id);
-
-        if (accountHeadFm == null) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(INDEX);
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, accountHeadFm);
-        return SHOW_FORM_VIEW;
+        try {
+            AccountHeadFm currObjectLocal = accountHeadFmService.findById(id, client);
+            model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            return SHOW_FORM_VIEW;
+        } catch (AccountHeadFmNotFoundException ex) {
+            return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
+        Client client;
         try {
-            AccountHeadFm deleted = accountHeadFmService.delete(id);
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        try {
+            AccountHeadFm deleted = accountHeadFmService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (AccountHeadFmNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
         }
-        return "redirect:/" + LIST_VIEW;
+        return REDIRECT + "/" + LIST_VIEW;
     }
+
 }

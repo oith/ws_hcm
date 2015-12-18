@@ -106,7 +106,6 @@
     <a href="${pageContext.request.contextPath}/lookup/edit/<c:out value="${lookup.id}"/>"><spring:message code="edit.link.label"/></a> |
     <a href="${pageContext.request.contextPath}/lookup/delete/<c:out value="${lookup.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a>
 
-
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">

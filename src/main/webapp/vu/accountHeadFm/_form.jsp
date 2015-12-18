@@ -9,45 +9,90 @@
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui-1.10.2.js"></script> 
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#datepicker_initDate").datepicker({dateFormat: 'dd/mm/yy', changeMonth: true, changeYear: true, yearRange: '1950:2050'});
-    });
-</script>
-
 <form:errors path="*" cssClass="errorblock" element="div" />
-<form:hidden path="id"/>
-<div>   
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
-        <tr>
-            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="code" type="text" required="true" size="10" maxlength="10"/></td>
-            <td><form:errors path="code" cssClass="error" element="div"/></td>
-            <td><form:label path="title"><spring:message code="title" text="title"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="title" type="text" required="true" size="30" maxlength="30"/></td>
-            <td><form:errors path="title" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="empRequired"><spring:message code="empRequired" text="Employee Required ?"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:checkbox path="empRequired"/></td>
-            <td><form:errors path="empRequired" cssClass="error" element="div"/></td>
-            <td><form:label path="active"><spring:message code="active" text="Active ?"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:checkbox path="active"/></td>
-            <td><form:errors path="active" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="accNo"><spring:message code="accNo" text="Account No"/></form:label></td>
-            <td><form:input path="accNo" type="text" required="true" size="20" maxlength="20"/></td>
-            <td><form:errors path="accNo" cssClass="error" element="div"/></td>
+<!--<div class="container">-->  
 
-            <td><form:label path="description"><spring:message code="description" text="Description"/></form:label></td>
-            <td><form:textarea path="description" type="text" cols="20" rows="2" maxlength="500"/></td>
-            <td><form:errors path="description" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="slNo"><spring:message code="slNo" text="slNo"/></form:label></td>
-            <td><form:input path="slNo" type="number" min="1" max="100"/></td>
-            <td><form:errors path="slNo" cssClass="error" element="div"/></td>      
-        </tr>
-    </table>
-</div>   
+<div class="row">     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="code"><spring:message code="code" text="code"/><span class="required-indicator needed">*</span></form:label>
+            <form:input path="code" class="form-control" type="text" required="true" maxlength="10"/>
+            <form:errors path="code" cssClass="error" element="div"/>
+        </div>
+    </div>   
+     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="title"><spring:message code="title" text="title"/><span class="required-indicator needed">*</span></form:label>
+            <form:input path="title" class="form-control" type="text" required="true" maxlength="100"/>
+            <form:errors path="title" cssClass="error" element="div"/>
+        </div>
+    </div>   
+</div>
+<div class="row">     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="accNo"><spring:message code="accNo" text="accNo"/><span class="required-indicator needed">*</span></form:label>
+            <form:input path="accNo" class="form-control" type="text" required="true" maxlength="20"/>
+            <form:errors path="accNo" cssClass="error" element="div"/>
+        </div>
+    </div>   
+     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="active"><spring:message code="active" text="active"/></form:label>
+            <form:checkbox path="active"/>
+            <form:errors path="active" cssClass="error" element="div"/>
+        </div>
+    </div>   
+</div>
+<div class="row">     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="slNo"><spring:message code="slNo" text="slNo"/></form:label>
+            <form:input path="slNo" class="form-control" type="number" min="0" max="50"/>
+            <form:errors path="slNo" cssClass="error" element="div"/>
+        </div>
+    </div>   
+     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="empRequired"><spring:message code="empRequired" text="empRequired"/></form:label>
+            <form:checkbox path="empRequired"/>
+            <form:errors path="empRequired" cssClass="error" element="div"/>
+        </div>
+    </div>   
+</div>
+<div class="row">     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="description"><spring:message code="description" text="description"/></form:label>
+            <form:textarea path="description" class="form-control" type="text" maxlength="500"/>
+            <form:errors path="description" cssClass="error" element="div"/>
+        </div>
+    </div>   
+</div>
+  
+
+          
+<%--
+
+accountHeadFm
+
+<form:label path="slNo"><spring:message code="slNo" text="sl No"/><span class="required-indicator needed">*</span></form:label>
+
+<form:select path="accountHeadFmKeyword" class="form-control" name="accountHeadFmKeyword" id="accountHeadFmKeyword" required="true">
+<form:options items="${accountHeadFmKeywords}"></form:options>
+</form:select>
+
+<form:input path="fieldAttribute" class="form-control" type="text" required="true" size="30" maxlength="100"/>
+
+<form:input path="slNo" class="form-control" type="number" size="15" maxlength="15"/>
+
+<form:textarea path="remarks" class="form-control" type="text" size="30" maxlength="500"/>
+
+<form:checkbox path="active"/>
+
+<form:errors path="active" cssClass="error" element="div"/>
+
+--%>
