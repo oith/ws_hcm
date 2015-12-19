@@ -3,25 +3,38 @@ package oith.ws.ctrl.core;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import oith.ws.dom.core.AbstDoc;
 import oith.ws.dom.core.Auditor;
+import oith.ws.dom.core.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import oith.ws.dom.core.IAuditable;
+import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.Param;
 import oith.ws.dom.core.User;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.MacUserDetail;
 import oith.ws.service.UserService;
-import org.springframework.ui.ModelMap;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class _OithAuditController extends _OithController {
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MongoOperations mongoTemplate;
 
     public MacUserDetail getLoggedPrincipal() throws NotLoggedInException {
 
@@ -80,8 +93,10 @@ public abstract class _OithAuditController extends _OithController {
 
     }
 
-    protected void setUserParam(AbstDoc abstDoc, String action, ModelMap refs) {
+    protected void setUserParam(AbstDoc abstDoc, String action) {
 
+        
+ 
         try {
             Class kkk = abstDoc.getClass();
             MacUserDetail authUser = getLoggedPrincipal();
@@ -90,50 +105,60 @@ public abstract class _OithAuditController extends _OithController {
                 if (col.getController().equals(kkk.getSimpleName())
                         && col.getAction().equals(action) //create
                         ) {
-                    //col.getKey().equals("narration")
-
-                    Param.ValueType valueType = col.getValueType();
-                    String ret = col.getValue();
-
                     try {
-                        String coll = col.getKey();
+                        Param.ValueType paramValueType = col.getValueType();
+                        String paramValue = col.getValue();
+                        String paramProperty = col.getProperty();
 
-                        if (valueType == Param.ValueType.NUMBER) {
-                            Method method = kkk.getDeclaredMethod("set" + coll, Double.class);
-                            method.invoke(abstDoc, new Double(ret));
-                        } else if (valueType == Param.ValueType.DATE) {
+                        Object val = null;
+                        Method method;
 
-                            if (ret.equalsIgnoreCase("SYSDATE")) {
+                        if (paramValueType == Param.ValueType.NUMBER) {
+                            method = kkk.getDeclaredMethod("set" + paramProperty, Double.class);
+                            val = new Double(paramValue);
+                        } else if (paramValueType == Param.ValueType.DATE) {
+
+                            if (paramValue.equalsIgnoreCase("SYSDATE")) {
                                 Date now = new Date();
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                ret = sdf.format(now);
-
-                                Method method = kkk.getDeclaredMethod("set" + coll, Date.class);
-                                method.invoke(abstDoc, sdf.parse(ret));
-                            } else {
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                Method method = kkk.getDeclaredMethod("set" + coll, Date.class);
-                                method.invoke(abstDoc, sdf.parse(ret));
+                                paramValue = sdf.format(now);
                             }
 
-                        } else if (valueType == Param.ValueType.REF) {
-                            //refs.put(coll, ret);
+                            method = kkk.getDeclaredMethod("set" + paramProperty, Date.class);
+                            val = sdf.parse(paramValue);
+                        } else if (paramValueType == Param.ValueType.REF) {
 
-                            refs.addAttribute(coll, ret);
-                            // Method method = kkk.getDeclaredMethod("set" + coll, AbstDoc.class);
-                            // method.invoke(abstDoc, accountHeadFmService.findById(ret));
+                            //Class iiii = Class.forName("oith.ws.dom.hcm.fm.AccountHeadFm");
+                            Class iiii = Class.forName(col.getClassName());
+                            method = kkk.getDeclaredMethod("set" + paramProperty, iiii);
+                            val = mongoTemplate.findById(paramValue, iiii);
+
+                        } else if (paramValueType == Param.ValueType.ENUM) {
+
+                            //Class iiii = Class.forName("oith.ws.dom.hcm.fm.TrnscFm$Sign");
+                            Class iiii = Class.forName(col.getClassName());
+
+                            for (Object col1 : iiii.getEnumConstants()) {
+                                if (col1.toString().equals(paramValue)) {
+                                    val = col1;
+                                    break;
+                                }
+                            }
+
+                            method = kkk.getDeclaredMethod("set" + paramProperty, iiii);
+
                         } else {
-                            Method method = kkk.getDeclaredMethod("set" + coll, String.class);
-                            method.invoke(abstDoc, ret);
+                            method = kkk.getDeclaredMethod("set" + paramProperty, String.class);
+                            val = paramValue;
                         }
 
+                        method.invoke(abstDoc, val);
                     } catch (Exception e) {
-                        System.out.println(" set parma mac err: " + e);
+                        System.out.println("set param loop mac err: " + e);
                     }
                 }
             }
-        } catch (NotLoggedInException ex) {
-            Logger.getLogger(_OithAuditController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            System.out.println("set param mac err: " + ex);
         }
     }
 }

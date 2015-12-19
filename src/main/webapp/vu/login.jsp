@@ -38,19 +38,36 @@
                 </c:if>
 
                 <table>
-                    <tr><td><label for="username"><spring:message code="username" text="User ID"/></label></td><td><input id="username" type="text" name="username" /></td></tr>
-                    <tr><td><label for="password"><spring:message code="password" text="Password"/></label></td><td><input id="password" type="password" name="password" /></td></tr>
-                    <tr><td><input type='checkbox' name='_spring_security_remember_me'/><spring:message code="remember.me.on.this.computer" text="Remember me on this computer."/></td></tr>
+                    <tr>
+                        <td>
+                            <label for="username"><spring:message code="username" text="User ID"/></label>
+                        </td>
+                        <td>
+                            <input id="username" class="form-control" type="text" name="username" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password"><spring:message code="password" text="Password"/></label>
+                        </td>
+                        <td>
+                            <input id="password" class="form-control" type="password" name="password" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type='checkbox' name='_spring_security_remember_me'/><spring:message code="remember.me.on.this.computer" text="Remember me on this computer."/>
+                        </td>
+                    </tr>
 
                     <tr>
                         <td colspan="1" align="right">
                             <a href="${pageContext.request.contextPath}/index"><spring:message code="home" text="Home"/></a>
-
                         </td>
-                        <td colspan="2" align="right"><input type="submit" value=<spring:message code="login" text="Login"/> /></td>
+                        <td colspan="2" align="right"><input type="submit" value=<spring:message code="login" text="Login"/> />
+                        </td>
                     </tr>
                 </table>
-
 
                 <input type="hidden"                        
                        name="${_csrf.parameterName}"

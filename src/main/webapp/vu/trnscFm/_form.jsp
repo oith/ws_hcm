@@ -9,77 +9,108 @@
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui-1.10.2.js"></script> 
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#datepicker_transDate").datepicker({dateFormat: 'dd/mm/yy', changeMonth: true, changeYear: true, yearRange: '1950:2050'});
-    });
-</script>
-
 <form:errors path="*" cssClass="errorblock" element="div" />
-<form:hidden path="id"/>
-<div>   
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
-        <tr>
-            <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="code" type="text" required="true" size="30" maxlength="20"/></td>
-            <td><form:errors path="code" cssClass="error" element="div"/></td>
-            <td><form:label path="transDate"><spring:message code="transDate" text="Trans Date"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="transDate" type="date" required="true" id="datepicker_transDate" placeholder="DD/MM/YYYY" maxlength="10"/></td>
-            <td><form:errors path="transDate" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <%--   gggg ${accountHeadFm}
-               <c:set var="accountHeadFm" value="566c61bf2e0def5007379710" />--%>
+<!--<div class="container">-->  
 
-            <td><form:label path="accountHeadFm"><spring:message code="accountHeadFm" text="Account HeadFm"/><span class="required-indicator needed">*</span></form:label></td>
-                <td>
+<div class="row">     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="code"><spring:message code="code" text="code"/><span class="required-indicator needed">*</span></form:label>
+            <form:input path="code" class="form-control" type="text" required="true" maxlength="10"/>
+            <form:errors path="code" cssClass="error" element="div"/>
+        </div>
+    </div>   
+     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="transDate"><spring:message code="transDate" text="transDate"/><span class="required-indicator needed">*</span></form:label>
+            <form:input path="transDate" class="form-control" type="date" id="datepicker_transDate" placeholder="DD/MM/YYYY" required="true" maxlength="10"/>
+            <form:errors path="transDate" cssClass="error" element="div"/>
+        </div>
+    </div>   
+</div>
+<div class="row">     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="accountHeadFm"><spring:message code="accountHeadFm" text="accountHeadFm"/><span class="required-indicator needed">*</span></form:label>
+            <form:select path="accountHeadFm.id" class="form-control" name="accountHeadFm" id="accountHeadFm" required="true" >
+                <form:options items="${accountHeadFms}" itemValue="id"></form:options>
+            </form:select>
+            <form:errors path="accountHeadFm" cssClass="error" element="div"/>
+        </div>
+    </div>   
+     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="sign"><spring:message code="sign" text="sign"/><span class="required-indicator needed">*</span></form:label>
+            <form:select path="sign" class="form-control" name="sign" id="sign" required="true" >
+                <form:options items="${signs}" ></form:options>
+            </form:select>
+            <form:errors path="sign" cssClass="error" element="div"/>
+        </div>
+    </div>   
+</div>
+<div class="row">     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="amount"><spring:message code="amount" text="amount"/><span class="required-indicator needed">*</span></form:label>
+            <form:input path="amount" class="form-control" type="number" required="true" min="1" max="100000"/>
+            <form:errors path="amount" cssClass="error" element="div"/>
+        </div>
+    </div>   
+     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="accountHeadFmOpposite"><spring:message code="accountHeadFmOpposite" text="accountHeadFmOpposite"/><span class="required-indicator needed">*</span></form:label>
+            <form:select path="accountHeadFmOpposite.id" class="form-control" name="accountHeadFmOpposite" id="accountHeadFmOpposite" required="true" >
+                <form:options items="${accountHeadFmOpposites}" itemValue="id"></form:options>
+            </form:select>
+            <form:errors path="accountHeadFmOpposite" cssClass="error" element="div"/>
+        </div>
+    </div>   
+</div>
+<div class="row">     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="emp"><spring:message code="emp" text="emp"/></form:label>
+            <form:select path="emp.id" class="form-control" name="emp" id="emp" >
+                <form:options items="${emps}" itemValue="id"></form:options>
+            </form:select>
+            <form:errors path="emp" cssClass="error" element="div"/>
+        </div>
+    </div>   
+     
+    <div class="col-xs-6">
+        <div class="form-group">
+            <form:label path="narration"><spring:message code="narration" text="narration"/></form:label>
+            <form:textarea path="narration" class="form-control" type="text" maxlength="500"/>
+            <form:errors path="narration" cssClass="error" element="div"/>
+        </div>
+    </div>   
+</div>
+  
 
-                <form:select path="accountHeadFm.id" name="accountHeadFm" id="accountHeadFm" required="true"  >
-            <option value="${null}">-- Select --</option>
-            <c:forEach items="${accountHeadFms}" var="category">
-                <option 
-                    <c:if test="${category.id.equals(accountHeadFm)}">selected="selected"</c:if>    
-                    value="${category.id}">${category} 
-                </option>
-            </c:forEach>
-        </form:select>
+          
+<%--
 
+trnscFm
 
-        </td>
-        <td><form:errors path="accountHeadFm" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="amount"><spring:message code="amount" text="Amount"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:input path="amount" type="number" required="true" min="1" max="100000"/></td>
-            <td><form:errors path="amount" cssClass="error" element="div"/></td>      
-            <td><form:label path="sign"><spring:message code="sign" text="Sign"/><span class="required-indicator needed">*</span></form:label></td>
-            <td><form:select path="sign" name="sign" id="sign" >
-                    <form:option value="DR" label="Debit"/>
-                    <form:option value="CR" label="Credit"/>
-                </form:select></td>
-            <td><form:errors path="sign" cssClass="error" element="div"/></td>
-        </tr> 
+<form:label path="slNo"><spring:message code="slNo" text="sl No"/><span class="required-indicator needed">*</span></form:label>
 
-        <tr>
-            <td><form:label path="emp"><spring:message code="emp" text="Employee"/></form:label></td>
-            <td><form:input path="emp" type="text" size="20" maxlength="20"/></td>
-            <td><form:errors path="emp" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="accountHeadFmOpposite"><spring:message code="accountHeadFmOpposite" text="Account Head Fm Opposite"/><span class="required-indicator needed">*</span></form:label></td>
-                <td>
-                <form:select  path="accountHeadFmOpposite.id" name="accountHeadFmOpposite" id="accountHeadFmOpposite" required="true">
-                    <form:option value="${null}"  label="--Select--"/>  
-                    <form:options itemValue="id" items="${accountHeadFms}"/>
-                </form:select>  
-            </td>
-            <td><form:errors path="accountHeadFmOpposite" cssClass="error" element="div"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="narration"><spring:message code="narration" text="Narration"/></form:label></td>
-            <td><form:textarea path="narration" type="text" cols="20" rows="2" maxlength="500"/></td>
-            <td><form:errors path="narration" cssClass="error" element="div"/></td>
-        </tr>
+<form:select path="trnscFmKeyword" class="form-control" name="trnscFmKeyword" id="trnscFmKeyword" required="true">
+<form:options items="${trnscFmKeywords}"></form:options>
+</form:select>
 
-    </table>
-</div>   
+<form:input path="transDate" type="date" required="true" id="datepicker_transDate" placeholder="DD/MM/YYYY" maxlength="10"/>
+           
+<form:input path="fieldAttribute" class="form-control" type="text" required="true" size="30" maxlength="100"/>
+
+<form:input path="slNo" class="form-control" type="number" size="15" maxlength="15"/>
+
+<form:textarea path="remarks" class="form-control" type="text" size="30" maxlength="500"/>
+
+<form:checkbox path="active"/>
+
+<form:errors path="active" cssClass="error" element="div"/>
+
+--%>

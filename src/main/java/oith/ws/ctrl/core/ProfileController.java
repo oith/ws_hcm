@@ -48,17 +48,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import static oith.ws.ctrl.core._OithController.FEEDBACK_MESSAGE_KEY_EDITED;
+import static oith.ws.ctrl.core._OithController.REDIRECT_TO_LOGIN;
+import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dom.core.ProfileEduDtl;
 import oith.ws.dom.core.ProfileJobDtl;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.NotLoggedInException;
-import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUserDetail;
 
 @Controller
 @RequestMapping(value = "/profile")
-public class ProfileController extends _OithAuditController {
+public class ProfileController extends _OithClientAuditController {
 
     protected static final String MODEL_ATTIRUTE = "profile";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -77,7 +78,6 @@ public class ProfileController extends _OithAuditController {
     @Autowired
     private GridFsOperations gridFsTemplate;
 
-    //profile/det/del/ProfileEduDtls~55cef88a27b665569010f85c~4
     @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
     public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
 
@@ -87,7 +87,12 @@ public class ProfileController extends _OithAuditController {
         String profileId = aaa[1];
         Integer id = Integer.parseInt(aaa[2]);
 
-        Profile profile = profileService.findById(profileId);
+        Profile profile = null;
+        try {
+            profile = profileService.findById(profileId);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileIdCurr = authUser.getProfileId();
@@ -104,11 +109,6 @@ public class ProfileController extends _OithAuditController {
                 }
             }
 
-//            try {
-//                doAuditUpdate(profile);
-//            } catch (NotLoggedInException ex) {
-//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
             profileService.update(profile);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
         } catch (Exception e) {
@@ -225,7 +225,12 @@ public class ProfileController extends _OithAuditController {
     @RequestMapping(value = "/profileEduDtl/edit", method = RequestMethod.POST)
     public String submitEditDetailEduForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileEduDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
-        Profile profile = profileService.findById(profileId);
+        Profile profile = null;
+        try {
+            profile = profileService.findById(profileId);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileIdCurr = authUser.getProfileId();
@@ -258,18 +263,7 @@ public class ProfileController extends _OithAuditController {
                 }
             }
 
-//            try {
-//                doAuditUpdate(profile);
-//            } catch (UserNotFoundException ex) {
-//                System.out.println("No user object found with id: " + ex);
-//                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-//                return ADD_FORM_VIEW;
-//            } catch (NotLoggedInException ex) {
-//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
             profileService.update(profile);
-            //profile = profileService.update(profile, "profileEduDtls");
-            //profile = profileRepository.save(profile);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ProfileNotFoundException e) {
             System.out.println("No profile was found err: " + e);
@@ -286,7 +280,12 @@ public class ProfileController extends _OithAuditController {
     @RequestMapping(value = "/profileJobDtl/edit", method = RequestMethod.POST)
     public String submitEditDetailJobForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileJobDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
-        Profile profile = profileService.findById(profileId);
+        Profile profile = null;
+        try {
+            profile = profileService.findById(profileId);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileIdCurr = authUser.getProfileId();
@@ -319,17 +318,6 @@ public class ProfileController extends _OithAuditController {
                 }
             }
 
-//            try {
-//                try {
-//                    doAuditUpdate(profile);
-//                } catch (NotLoggedInException ex) {
-//                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            } catch (UserNotFoundException ex) {
-//                System.out.println("No user object found with id: " + ex);
-//                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-//                return ADD_FORM_VIEW;
-//            }
             profileService.update(profile);
             //profile = profileService.update(profile, "profileEduDtls");
             //profile = profileRepository.save(profile);
@@ -365,7 +353,12 @@ public class ProfileController extends _OithAuditController {
             ModelMap model,
             RedirectAttributes attributes) {
 
-        Profile user = profileService.findById(id);
+        Profile user = null;
+        try {
+            user = profileService.findById(id);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -415,7 +408,12 @@ public class ProfileController extends _OithAuditController {
 
         MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileId = authUser.getProfileId();
-        Profile profile = profileService.findById(profileId);
+        Profile profile = null;
+        try {
+            profile = profileService.findById(profileId);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (profile == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -452,19 +450,8 @@ public class ProfileController extends _OithAuditController {
             return EDIT_FORM_VIEW;
         }
 
-//        try {
-//            try {
-//                doAuditUpdate(currObject);
-//            } catch (NotLoggedInException ex) {
-//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        } catch (UserNotFoundException ex) {
-//            System.out.println("No user object found with id: " + ex);
-//            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-//            return ADD_FORM_VIEW;
-//        }
         try {
-            Profile profile = profileService.update(currObject, "title,permanentAddress,presentAddress,contactInfo,org,firstName,lastName,middleName,nickName,profilePicFile,user,updateDate,updateByUser");
+            Profile profile = profileService.update(currObject, "title,firstName,middleName,lastName,nickName,nid,profilePicFile,chestSize,height,weight,bloodGroup,maritalSts,religion,marriageDate,noOfChild");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
         } catch (ProfileNotFoundException e) {
             System.out.println("No profile was found with id: " + profileId);
@@ -475,15 +462,20 @@ public class ProfileController extends _OithAuditController {
 
     @RequestMapping(value = {"", "/index"}, method = RequestMethod.POST)
     public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
-        System.out.println("Searching profiles with search criteria: " + searchCriteria);
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
 
         String searchTerm = searchCriteria.getSearchTerm();
         List<Profile> profiles;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            profiles = profileService.search(searchCriteria);
+            profiles = profileService.search(searchCriteria, client);
         } else {
-            profiles = profileService.findAll(searchCriteria);
+            profiles = profileService.findAllByClient(searchCriteria, client);
         }
         model.addAttribute(MODEL_ATTRIBUTES, profiles);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -498,11 +490,19 @@ public class ProfileController extends _OithAuditController {
 
     @RequestMapping(value = {"", "/index"}, method = RequestMethod.GET)
     public String showList(ModelMap model) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Profile> profiles = profileService.findAll(searchCriteria);
+        List<Profile> profiles = profileService.findAllByClient(searchCriteria, client);
 
         System.out.println("showList:" + profiles);
 
@@ -523,7 +523,12 @@ public class ProfileController extends _OithAuditController {
 
         MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String profileId = authUser.getProfileId();
-        Profile profile = profileService.findById(profileId);
+        Profile profile = null;
+        try {
+            profile = profileService.findById(profileId);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (profile == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -534,7 +539,12 @@ public class ProfileController extends _OithAuditController {
 
     @RequestMapping(value = "/admin_show/{id}", method = RequestMethod.GET)
     public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
-        Profile user = profileService.findById(id);
+        Profile user = null;
+        try {
+            user = profileService.findById(id);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -547,7 +557,12 @@ public class ProfileController extends _OithAuditController {
 
     @RequestMapping(value = "/operator_show/{id}", method = RequestMethod.GET)
     public String showOperForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
-        Profile user = profileService.findById(id);
+        Profile user = null;
+        try {
+            user = profileService.findById(id);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);

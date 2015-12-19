@@ -4,10 +4,12 @@ import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.exception.TrnscFmNotFoundException;
 import oith.ws.service.TrnscFmService;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
+import oith.ws.dom.hcm.def.os.op.Emp;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dom.hcm.fm.TrnscFm;
 import oith.ws.dto._SearchDTO;
@@ -56,16 +58,32 @@ public class TrnscFmController extends _OithClientAuditController {
             conversionService.addConverter(new StringToEmpConverter(empService));
         }
     }
+    
+//http://www.hotstar.com/tv/comedy-classes/1652/parde-ke-peeche/1000078428
 
-    private List<AccountHeadFm> getAccountHeadFms() {
-
-        List<AccountHeadFm> accountHeadFms = new LinkedList();
-
-        for (AccountHeadFm col : accountHeadFmService.findAll()) {
-            accountHeadFms.add(col);
-            //phones.put(col.getId(), col.getCode() + "-" + col.getTitle());
+    private void allComboSetup(ModelMap model) {
+        Client client = null;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
         }
-        return accountHeadFms;
+
+        List signs = Arrays.asList(TrnscFm.Sign.values());
+
+        List emps = new LinkedList();
+        for (Emp col : empService.findAll()) {
+            emps.add(col);
+        }
+
+        List accountHeadFms = new LinkedList();
+        for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
+            accountHeadFms.add(col);
+        }
+
+        model.addAttribute("signs", signs);
+        model.addAttribute("emps", emps);
+        model.addAttribute("accountHeadFmOpposites", accountHeadFms);
+        model.addAttribute("accountHeadFms", accountHeadFms);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -79,12 +97,9 @@ public class TrnscFmController extends _OithClientAuditController {
         }
 
         TrnscFm trnscFm = new TrnscFm(client);
-
-        setUserParam(trnscFm, "create", model);
-//model.addAttribute("narration", ret);
-
+        setUserParam(trnscFm, "create");
         model.addAttribute(MODEL_ATTIRUTE, trnscFm);
-        model.addAttribute("accountHeadFms", getAccountHeadFms());
+        allComboSetup(model);
 
         return ADD_FORM_VIEW;
     }
@@ -93,7 +108,7 @@ public class TrnscFmController extends _OithClientAuditController {
     public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid TrnscFm currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("accountHeadFms", getAccountHeadFms());
+            allComboSetup(model);
             return ADD_FORM_VIEW;
         }
 
@@ -111,7 +126,7 @@ public class TrnscFmController extends _OithClientAuditController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return createRedirectViewPath(INDEX);
         }
-        model.addAttribute("accountHeadFms", getAccountHeadFms());
+        allComboSetup(model);
         model.addAttribute(MODEL_ATTIRUTE, trnscFm);
 
         return EDIT_FORM_VIEW;
@@ -127,7 +142,7 @@ public class TrnscFmController extends _OithClientAuditController {
             MultipartHttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("accountHeadFms", getAccountHeadFms());
+            allComboSetup(model);
             return EDIT_FORM_VIEW;
         }
 
