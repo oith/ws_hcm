@@ -6,21 +6,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<tiles:insertDefinition name="defaultTemplate"/>
+<tiles:insertDefinition name="defaultTemplate" />
 
 <tiles:putAttribute name="header">
-    <jsp:include page="/template/header.jsp"/>
+    <jsp:include page="/template/header.jsp" />
 </tiles:putAttribute>
 
 <tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp"/>--%>
+    <%--<jsp:include page="/template/menu.jsp" />--%>
 </tiles:putAttribute>
-
-<c:if test="${flashMessage != null}">
-    <div id="flashMessage" align="center">
-        ${flashMessage}
-    </div>
-</c:if>
 
 <tiles:putAttribute name="body">
 
@@ -41,30 +35,28 @@
             <tr>
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
                 <td><form:input path="searchTerm" type="text" id="txtSearch" size="20"/></td>
-                <td><form:label path="searchTerm"><spring:message code="foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false"/></form:label></td>
-            </tr>
+                <td><form:label path="searchTerm"><spring:message code="foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false" /></form:label></td>
+                </tr>
 
-            <tr>
-                <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
+                <tr>
+                    <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
                 <td><form:select path="pageSize">
-                        <%--<form:option value="2" label="2"/>--%>
-                        <%--<form:option value="3" label="3"/>--%>
-                        <form:option value="5" label="5"/>
-                        <form:option value="10" label="10"/>
-                        <form:option value="20" label="20"/>
-                        <form:option value="50" label="50"/>
-                        <form:option value="100" label="100"/>
-                        <form:option value="200" label="200"/>
-                        <form:option value="500" label="500"/>
-                        <form:option value="1000" label="1000"/>
-                        <%--   <form:options items="${pageSize}"/>--%>
+                        <form:option value="5" label="5" />
+                        <form:option value="10" label="10" />
+                        <form:option value="20" label="20" />
+                        <form:option value="50" label="50" />
+                        <form:option value="100" label="100" />
+                        <form:option value="200" label="200" />
+                        <form:option value="500" label="500" />
+                        <form:option value="1000" label="1000" />
+                        <%--   <form:options items="${pageSize}" />--%>
                     </form:select></td>
             </tr>
             <tr>
                 <td><form:label path="page"><spring:message code="label.page"/>:</form:label></td>
                 <td><form:select path="page">
-                        <%--<form:option value="-1" label="...Select..."/>--%>
-                        <form:options items="${pages}"/>
+                        <%--<form:option value="-1" label="...Select..." />--%>
+                        <form:options items="${pages}" />
                     </form:select></td>
             </tr>
         </table>
@@ -75,14 +67,28 @@
     </form:form>
 
     <c:if test="${posts.size()!=0}">
+
         <div style="margin: auto; overflow-x: scroll; padding-top: 5px">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="style-table">
+
                 <thead>
                     <tr>
                         <td></td>
-                        <td><spring:message code="code" text="subject"/></td>
-                        <td><spring:message code="slNo" text="content"/></td>
-                        <td><spring:message code="name" text="user"/></td>
+                        <td><spring:message code="insertByUser" text="Insert By User"/></td>
+                        <td><spring:message code="insertDate" text="Insert Date"/></td>
+                        <td><spring:message code="subject" text="Subject"/></td>
+                        <td><spring:message code="content" text="Content"/></td>
+
+                        
+                        <%--   
+                        <td><spring:message code="code" text="Code"/></td>
+                        <td><spring:message code="active" text="Active"/></td>
+                        <td><spring:message code="slNo" text="Sl No"/></td>
+                        <td><spring:message code="name" text="Name"/></td>
+                        <td><spring:message code="remarks" text="Remarks"/></td>
+                        <td><spring:message code="postKeyword" text="Post Keyword"/></td>
+                        --%>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -90,9 +96,19 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/post/show/<c:out value="${post.id}"/>"><spring:message code="show.link.label"/></a></td>
-                            <td><c:out value="${post.subject}"/></td>
-                            <td><c:out value="${post.content}"/></td>
-                            <td><c:out value="${post.user.fullName}"/></td>
+                                <td><c:out value="${post.auditor.insertByUser}"/></td>
+                                <td><c:out value="${post.auditor.insertDate}"/></td>
+                                <td><c:out value="${post.subject}"/></td>
+                                <td><c:out value="${post.content}"/></td>
+
+                                <%--
+                                <td><c:out value="${post.code}"/></td>
+                                <td><c:if test="${post.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!post.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
+                                <td><c:out value="${post.slNo}"/></td>
+                                <td><c:out value="${post.name}"/></td>
+                                <td><c:out value="${post.remarks}"/></td>
+                                <td><c:out value="${post.postKeyword}"/></td>
+                                --%>
 
                             <td><a href="${pageContext.request.contextPath}/post/edit/<c:out value="${post.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/post/delete/<c:out value="${post.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
@@ -115,5 +131,5 @@
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp"/>
+    <jsp:include page="/template/footer.jsp" />
 </tiles:putAttribute>    

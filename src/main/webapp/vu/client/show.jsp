@@ -30,7 +30,7 @@
         <form:hidden path="id"/>
         <ol class="property-list hrIrGrdScr">
 
-            <c:if test="${client.code!=null && !client.code.isEmpty()}">
+            <c:if test="${client.code!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
                         <spring:message code="code" text="Code"/>: 
@@ -64,9 +64,7 @@
                 </li>
             </c:if>
 
-             
-            
-            <c:if test="${client.name!=null && !client.name.isEmpty()}">
+            <c:if test="${client.name!=null}">
                 <li class="fieldcontain first_item">
                     <span id="name" class="property-label">
                         <spring:message code="name" text="Name"/>: 
@@ -78,7 +76,7 @@
             </c:if>
 
 
-            <c:if test="${client.domain!=null && !client.domain.isEmpty()}">
+            <c:if test="${client.domain!=null}">
                 <li class="fieldcontain first_item">
                     <span id="domain" class="property-label">
                         <spring:message code="domain" text="domain"/>: 
@@ -89,7 +87,7 @@
                 </li>
             </c:if>
 
-            <c:if test="${client.loginUrl!=null && !client.loginUrl.isEmpty()}">
+            <c:if test="${client.loginUrl!=null}">
                 <li class="fieldcontain first_item">
                     <span id="loginUrl" class="property-label">
                         <spring:message code="loginUrl" text="loginUrl"/>: 
@@ -99,7 +97,7 @@
                     </span>
                 </li>
             </c:if>
-            <c:if test="${client.userCreateUrl!=null && !client.userCreateUrl.isEmpty()}">
+            <c:if test="${client.userCreateUrl!=null}">
                 <li class="fieldcontain first_item">
                     <span id="userCreateUrl" class="property-label">
                         <spring:message code="userCreateUrl" text="userCreateUrl"/>: 
@@ -109,7 +107,7 @@
                     </span>
                 </li>
             </c:if>
-            <c:if test="${client.remarks!=null && !client.remarks.isEmpty()}">
+            <c:if test="${client.remarks!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
                         <spring:message code="remarks" text="Remarks"/>: 

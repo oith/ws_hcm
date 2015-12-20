@@ -6,14 +6,11 @@ import oith.ws.exception.PostNotFoundException;
 import oith.ws.service.PostService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.core.User;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
-import oith.ws.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -39,25 +35,45 @@ public class PostController extends _OithClientAuditController {
     @Autowired
     private PostService postService;
 
-    //  public String showEditForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    private void allComboSetup(ModelMap model) {
+        Client client = null;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+        }
+
+        //List signs = Arrays.asList(TrnscFm.Sign.values());
+        //List emps = new LinkedList();
+        //for (Emp col : empService.findAll()) {
+        //    emps.add(col);
+        //}
+        //List accountHeadFms = new LinkedList();
+        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
+        //    accountHeadFms.add(col);
+        //}
+        //model.addAttribute("signs", signs);
+        //model.addAttribute("emps", emps);
+        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
+        //model.addAttribute("accountHeadFms", accountHeadFms);
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(ModelMap model, RedirectAttributes attributes) throws UserNotFoundException, NotLoggedInException {
+    public String create(ModelMap model, RedirectAttributes attributes) {
 
-        User user = super.getLoggedUser();
-
-        if (user == null) {
-            attributes.addFlashAttribute("flashMessage", "Please login to post, man!");
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return createRedirectViewPath(INDEX);
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
 
         model.addAttribute(MODEL_ATTIRUTE, new Post());
-
+        allComboSetup(model);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         try {
             super.save(currObject, attributes);
@@ -66,66 +82,96 @@ public class PostController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
+            allComboSetup(model);
             return ADD_FORM_VIEW;
         }
 
-        Post post = postService.create(currObject);
-        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, post.getId());
-        return "redirect:/" + SHOW_FORM_VIEW + "/" + post.getId();
+        Post currObjectLocal = postService.create(currObject);
+        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
+
+        return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
+        Client client;
         try {
-            Post post = postService.findById(id, null);
-
-            if (post == null) {
-                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-                return createRedirectViewPath(INDEX);
-            }
-            model.addAttribute(MODEL_ATTIRUTE, post);
-        } catch (PostNotFoundException ex) {
-            Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
-        return EDIT_FORM_VIEW;
 
+        try {
+            Post currObjectLocal = postService.findById(id, client);
+            model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            allComboSetup(model);
+            return EDIT_FORM_VIEW;
+        } catch (PostNotFoundException ex) {
+            return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String edit(
+    public String update(
             @PathVariable("id") String id,
             @ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject,
-            BindingResult bindingResult, ModelMap model,
-            RedirectAttributes attributes,
-            MultipartHttpServletRequest request) {
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
 
         if (bindingResult.hasErrors()) {
+            allComboSetup(model);
             return EDIT_FORM_VIEW;
         }
 
-        Post post = null;
+        try {
+            Post currObjectLocal = postService.findById(id, client);
+            currObject.setAuditor(currObjectLocal.getAuditor());
+            super.update(currObject);
+        } catch (NotLoggedInException | InAppropriateClientException e) {
+            return REDIRECT_TO_LOGIN;
+        } catch (PostNotFoundException ex) {
+            return NOT_FOUND;
+        }
 
         try {
-            //currObject.setUser(userService.findByUsername("mac"));
-            post = postService.update(currObject);
-            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, post.getId());
+            //post = postService.update(currObject);
+            Post currObjectLocal = postService.update(currObject, "auditor,subject,content");
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
+            return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (PostNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+            return EDIT_FORM_VIEW;
         }
-        return "redirect:/" + SHOW_FORM_VIEW + "/" + post.getId();
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model, RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
 
         String searchTerm = searchCriteria.getSearchTerm();
         List<Post> posts;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            posts = postService.search(searchCriteria, null);
+            posts = postService.search(searchCriteria, client);
         } else {
-            posts = postService.findAllByClient(searchCriteria, null);
+            posts = postService.findAllByClient(searchCriteria, client);
         }
         model.addAttribute(MODEL_ATTRIBUTES, posts);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -136,10 +182,12 @@ public class PostController extends _OithClientAuditController {
         }
         model.addAttribute("pages", pages);
         return LIST_VIEW;
+
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
-    public String list(ModelMap model) {
+    public String list(ModelMap model, RedirectAttributes attributes) {
+
         Client client;
         try {
             client = super.getLoggedClient();
@@ -151,9 +199,9 @@ public class PostController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Post> lookups = postService.findAllByClient(searchCriteria, client);
+        List<Post> posts = postService.findAllByClient(searchCriteria, client);
 
-        model.addAttribute(MODEL_ATTRIBUTES, lookups);
+        model.addAttribute(MODEL_ATTRIBUTES, posts);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -167,31 +215,43 @@ public class PostController extends _OithClientAuditController {
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        Post post;
+        Client client;
         try {
-            post = postService.findById(id, null);
-
-            if (post == null) {
-                addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-                return createRedirectViewPath(INDEX);
-            }
-            model.addAttribute(MODEL_ATTIRUTE, post);
-        } catch (PostNotFoundException ex) {
-            Logger.getLogger(PostController.class.getName()).log(Level.SEVERE, null, ex);
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
 
-        return SHOW_FORM_VIEW;
+        try {
+            Post currObjectLocal = postService.findById(id, client);
+            model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            return SHOW_FORM_VIEW;
+        } catch (PostNotFoundException ex) {
+            return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
 
+        Client client;
         try {
-            Post deleted = postService.delete(id);
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        try {
+            Post deleted = postService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (PostNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
         }
-        return "redirect:/" + LIST_VIEW;
+        return REDIRECT + "/" + LIST_VIEW;
     }
+
 }
