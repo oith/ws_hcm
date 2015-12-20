@@ -1,10 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
+<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet"/>
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui-1.10.2.js"></script> 
@@ -75,7 +75,18 @@
             </div>
         </div>  
     </div>  
-
+    <div class="row">            
+        <div class="col-xs-6">
+            <div class="form-group">
+                <form:label path="logoPicFile"><spring:message code="logoPicFile" text="logoPicFile"/></form:label>
+                <c:url var="macImage" value="/client/getPhoto/${client.logoPicFile}"/>
+                <img id="imagePreview" height="80px" width="200px" src="${macImage}" alt="${macImage}"/>
+                <form:hidden path="logoPicFile"/>
+                <input id="logoPicFileOBJ" name="logoPicFileOBJ" type="file" accept="image/*"/>
+                <form:errors path="logoPicFile" cssClass="error" element="div"/>
+            </div>
+        </div>  
+    </div>  
 
     <div class="row">            
         <div class="col-xs-6">
@@ -110,7 +121,7 @@
             </div>
         </div>  
     </div>  
-            
+
     <div class="row">  
         <div class="col-xs-6">
             <div class="form-group">

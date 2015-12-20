@@ -1,13 +1,14 @@
 package oith.ws.ctrl.core;
 
-import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Lookup;
 import oith.ws.exception.LookupNotFoundException;
 import oith.ws.service.LookupService;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
+import oith.ws.dom.hcm.def.os.op.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
@@ -35,6 +36,29 @@ public class LookupController extends _OithClientAuditController {
     @Autowired
     private LookupService lookupService;
 
+    private void allComboSetup(ModelMap model) {
+        Client client = null;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+        }
+
+        Lookup.LookupKeyword[] lookupKeywords = Lookup.LookupKeyword.values();
+        //List emps = new LinkedList();
+        //for (Emp col : empService.findAll()) {
+        //    emps.add(col);
+        //}
+
+        //List accountHeadFms = new LinkedList();
+        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
+        //    accountHeadFms.add(col);
+        //}
+        //model.addAttribute("signs", signs);
+        model.addAttribute("lookupKeywords", lookupKeywords);
+        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
+        //model.addAttribute("accountHeadFms", accountHeadFms);
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {
 
@@ -45,7 +69,7 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
+        allComboSetup(model);
         model.addAttribute(MODEL_ATTIRUTE, new Lookup(client));
         return ADD_FORM_VIEW;
     }
@@ -60,7 +84,7 @@ public class LookupController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
+            allComboSetup(model);
             return ADD_FORM_VIEW;
         }
 
@@ -83,6 +107,7 @@ public class LookupController extends _OithClientAuditController {
         try {
             Lookup currObjectLocal = lookupService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            allComboSetup(model);
             return EDIT_FORM_VIEW;
         } catch (LookupNotFoundException ex) {
             return NOT_FOUND;
@@ -107,7 +132,7 @@ public class LookupController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("lookupKeywords", Lookup.LookupKeyword.values());
+            allComboSetup(model);
             return EDIT_FORM_VIEW;
         }
 

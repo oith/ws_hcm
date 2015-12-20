@@ -1,18 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<tiles:insertDefinition name="defaultTemplate" />
+<tiles:insertDefinition name="defaultTemplate"/>
 
 <tiles:putAttribute name="header">
-    <jsp:include page="/template/header.jsp" />
+    <jsp:include page="/template/header.jsp"/>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp" />--%>
+    <%--<jsp:include page="/template/menu.jsp"/>--%>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="body">
@@ -43,7 +43,7 @@
                             <label for="username"><spring:message code="username" text="User ID"/></label>
                         </td>
                         <td>
-                            <input id="username" class="form-control" type="text" name="username" />
+                            <input id="username" class="form-control" type="text" name="username"/>
                         </td>
                     </tr>
                     <tr>
@@ -51,7 +51,7 @@
                             <label for="password"><spring:message code="password" text="Password"/></label>
                         </td>
                         <td>
-                            <input id="password" class="form-control" type="password" name="password" />
+                            <input id="password" class="form-control" type="password" name="password"/>
                         </td>
                     </tr>
                     <tr>
@@ -78,7 +78,7 @@
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp" />
+    <jsp:include page="/template/footer.jsp"/>
 </tiles:putAttribute>    
 
 

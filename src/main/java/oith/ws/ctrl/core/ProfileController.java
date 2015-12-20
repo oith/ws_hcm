@@ -49,8 +49,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import static oith.ws.ctrl.core._OithController.FEEDBACK_MESSAGE_KEY_EDITED;
 import static oith.ws.ctrl.core._OithController.REDIRECT_TO_LOGIN;
+import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
+import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.ProfileEduDtl;
 import oith.ws.dom.core.ProfileJobDtl;
 import oith.ws.dto._SearchDTO;
@@ -77,6 +79,34 @@ public class ProfileController extends _OithClientAuditController {
     private ProfileService profileService;
     @Autowired
     private GridFsOperations gridFsTemplate;
+    
+    private void allComboSetup(ModelMap model) {
+        Client client = null;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+        }
+
+        AllEnum.BloodGroup[] bloodGroups = AllEnum.BloodGroup.values();
+        AllEnum.MaritalSts[] maritalStss = AllEnum.MaritalSts.values();
+        AllEnum.Religion[] religions = AllEnum.Religion.values();
+        
+        //List emps = new LinkedList();
+        //for (Emp col : empService.findAll()) {
+        //    emps.add(col);
+        //}
+
+        //List accountHeadFms = new LinkedList();
+        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
+        //    accountHeadFms.add(col);
+        //}
+        //model.addAttribute("signs", signs);
+        model.addAttribute("bloodGroups", bloodGroups);
+        model.addAttribute("maritalStss,", maritalStss);
+        model.addAttribute("religions", religions);
+        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
+        //model.addAttribute("accountHeadFms", accountHeadFms);
+    }
 
     @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
     public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
@@ -419,6 +449,7 @@ public class ProfileController extends _OithClientAuditController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
+        allComboSetup(model);
         model.addAttribute(MODEL_ATTIRUTE, profile);
 
         return EDIT_FORM_VIEW;

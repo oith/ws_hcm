@@ -1,9 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <head>
     <script>var contextPath = "<%=request.getContextPath()%>";</script>
@@ -86,7 +86,7 @@
 
                         <div>
                             <spring:message code="welcome.label" text="Welcome"/>
-                            <a href="${pageContext.request.contextPath}/user/show"><sec:authentication property="principal.fullName" /></a>
+                            <a href="${pageContext.request.contextPath}/user/show"><sec:authentication property="principal.fullName"/></a>
                         </div>
 
                         <div>

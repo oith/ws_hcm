@@ -1,17 +1,17 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<tiles:insertDefinition name="defaultTemplate" />
+<tiles:insertDefinition name="defaultTemplate"/>
 
 <tiles:putAttribute name="header">
-    <jsp:include page="/template/header.jsp" />
+    <jsp:include page="/template/header.jsp"/>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp" />--%>
+    <%--<jsp:include page="/template/menu.jsp"/>--%>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="body">
@@ -25,7 +25,7 @@
     <div>
         <form:form action="${pageContext.request.contextPath}/user/admin_edit/${user.id}" commandName="user" method="POST">
             <form:hidden path="id"/>
-            <jsp:include page="_admin_form.jsp" />
+            <jsp:include page="_admin_form.jsp"/>
             <div>
                 <a href="${pageContext.request.contextPath}/user/admin_show/${user.id}"><spring:message code="show.link.label"/></a>
                 <input type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
@@ -41,5 +41,5 @@
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp" />
+    <jsp:include page="/template/footer.jsp"/>
 </tiles:putAttribute>  

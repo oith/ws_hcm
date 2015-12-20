@@ -1,18 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<tiles:insertDefinition name="defaultTemplate" />
+<tiles:insertDefinition name="defaultTemplate"/>
 
 <tiles:putAttribute name="header">
-    <jsp:include page="/template/header.jsp" />
+    <jsp:include page="/template/header.jsp"/>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp" />--%>
+    <%--<jsp:include page="/template/menu.jsp"/>--%>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="body">
@@ -74,7 +74,7 @@
                 </li>
             </c:if>
             <c:set target="audit" property="audit" var="audit" value="${org}" scope="request"/>
-            <jsp:include page="../_auditShow.jsp" flush="true" />
+            <jsp:include page="../_auditShow.jsp" flush="true"/>
 
         </ol>
 
@@ -86,5 +86,5 @@
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp" />
+    <jsp:include page="/template/footer.jsp"/>
 </tiles:putAttribute>    

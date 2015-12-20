@@ -5,10 +5,10 @@
 <tiles-definitions>
  
     <definition name="defaultTemplate" template="/template/template.jsp">
-        <put-attribute name="header" value="/template/header.jsp" />
-        <put-attribute name="menu" value="/template/menu.jsp" />
-        <put-attribute name="body" value="/template/body.jsp" />
-        <put-attribute name="footer" value="/template/footer.jsp" />
+        <put-attribute name="header" value="/template/header.jsp"/>
+        <put-attribute name="menu" value="/template/menu.jsp"/>
+        <put-attribute name="body" value="/template/body.jsp"/>
+        <put-attribute name="footer" value="/template/footer.jsp"/>
     </definition>
  
 </tiles-definitions>

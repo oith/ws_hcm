@@ -110,6 +110,7 @@ public class LoanAppController extends _OithClientAuditController {
         try {
             LoanApp currObjectLocal = loanAppService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            allComboSetup(model);
             return EDIT_FORM_VIEW;
         } catch (LoanAppNotFoundException ex) {
             return NOT_FOUND;

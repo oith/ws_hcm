@@ -1,18 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<tiles:insertDefinition name="defaultTemplate" />
+<tiles:insertDefinition name="defaultTemplate"/>
 
 <tiles:putAttribute name="header">
-    <jsp:include page="/template/header.jsp" />
+    <jsp:include page="/template/header.jsp"/>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp" />--%>
+    <%--<jsp:include page="/template/menu.jsp"/>--%>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="body">
@@ -52,17 +52,20 @@
                     </li>
             </c:if>
 
-            <%--<c:if test="${client.slNo!=null}">
+          <c:if test="${client.logoPicFile!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="slNo" text="Sl No"/>: 
+                        <spring:message code="logoPicFile" text="logoPicFile"/>: 
                     </span>
-                    <span class="property-value" aria-labelledby="slNo">
-                        <c:out value="${client.slNo}"/>
+                    <span class="property-value" aria-labelledby="logoPicFile">
+                        <c:url var="macImage" value="/profile/getPhoto/${client.logoPicFile}"/>
+                        <img id="imagePreview" src="${macImage}" alt="${macImage}"/>
                     </span>
                 </li>
-            </c:if>--%>
+            </c:if>
 
+             
+            
             <c:if test="${client.name!=null && !client.name.isEmpty()}">
                 <li class="fieldcontain first_item">
                     <span id="name" class="property-label">
@@ -128,7 +131,7 @@
                 </li>
             </c:if>
             <%--<c:set target="audit" property="audit" var="audit" value="${client}" scope="request"/>--%>
-            <%--<jsp:include page="../_auditShow.jsp" flush="true" />--%>
+            <%--<jsp:include page="../_auditShow.jsp" flush="true"/>--%>
         </ol>
 
     </div>
@@ -140,5 +143,5 @@
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp" />
+    <jsp:include page="/template/footer.jsp"/>
 </tiles:putAttribute>    

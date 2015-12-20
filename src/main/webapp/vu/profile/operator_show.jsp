@@ -1,20 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
+<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet"/>
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
 
-<tiles:insertDefinition name="defaultTemplate" />
+<tiles:insertDefinition name="defaultTemplate"/>
 
 <tiles:putAttribute name="header">
-    <jsp:include page="/template/header.jsp" />
+    <jsp:include page="/template/header.jsp"/>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp" />--%>
+    <%--<jsp:include page="/template/menu.jsp"/>--%>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="body">
@@ -117,17 +117,17 @@
                         <spring:message code="profilePicFile" text="Profile Pic File"/>: 
                     </span>
                     <span class="property-value" aria-labelledby="profilePicFile">
-                        <c:url var="macImage" value="/profile/getPhoto/${profile.profilePicFile}" />
+                        <c:url var="macImage" value="/profile/getPhoto/${profile.profilePicFile}"/>
                         <img id="imagePreview" height="110px" width="90px" src="${macImage}" alt="${macImage}"/>
                     </span>
                 </li>
             </c:if>
 
             <c:set target="audit" property="audit" var="audit" value="${profile}" scope="request"/>
-            <jsp:include page="../_auditShow.jsp" flush="true" />
+            <jsp:include page="../_auditShow.jsp" flush="true"/>
         </ol>
-        <div><jsp:include page="profileEduDtls_operator.jsp" /></div>
-        <div><jsp:include page="profileJobDtls_operator.jsp" /></div>
+        <div><jsp:include page="profileEduDtls_operator.jsp"/></div>
+        <div><jsp:include page="profileJobDtls_operator.jsp"/></div>
     </div>
 
     <!--<a href="${pageContext.request.contextPath}/profile/admin_edit/${profile.id}"><spring:message code="edit.link.label" text="Edit"/></a> |-->
@@ -137,6 +137,6 @@
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp" />
+    <jsp:include page="/template/footer.jsp"/>
 </tiles:putAttribute>    
 

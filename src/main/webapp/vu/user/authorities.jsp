@@ -1,8 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <head>
     <meta charset="utf-8">
@@ -90,12 +90,12 @@
                             <div class="form-group">
                                 <spring:message code="edu" text="Role"/>
 
-                          
+
                                 <select name="authorities" id="authorities" class="form-control" >
-                                    <!--<option value="" label="...." />-->
+                                    <!--<option value="" label="...."/>-->
                                     <!--<option value="55cef88a27b665569010fccc">USER</option>-->
                                     <!--<option value="55cef88a27b665569010fccd">ADMIN</option>-->
-                                    <options items="${authorities}" />
+                                    <options items="${authorities}"/>
                                 </select>
                             </div>
                         </div>

@@ -1,10 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
+<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet"/>
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui-1.10.2.js"></script> 
@@ -15,7 +15,7 @@
     });
 </script>
 
-<form:errors path="*" cssClass="errorblock" element="div" />
+<form:errors path="*" cssClass="errorblock" element="div"/>
 <%--<form:hidden path="id"/>--%>
 
 <div class="row">     
@@ -76,7 +76,7 @@
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="profilePicFile"><spring:message code="profilePicFile" text="profile Pic File"/></form:label>
-            <c:url var="macImage" value="/profile/getPhoto/${profile.profilePicFile}" />
+            <c:url var="macImage" value="/profile/getPhoto/${profile.profilePicFile}"/>
             <img id="imagePreview" height="110px" width="90px" src="${macImage}" alt="${macImage}"/>
             <form:hidden path="profilePicFile"/>
             <input id="profilePicFileOBJ" name="profilePicFileOBJ" type="file" accept="image/*"/>
@@ -88,7 +88,7 @@
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="chestSize"><spring:message code="chestSize" text="chestSize"/></form:label>
-            <form:input path="chestSize" class="form-control" type="number" />
+            <form:input path="chestSize" class="form-control" type="number"/>
             <form:errors path="chestSize" cssClass="error" element="div"/>
         </div>
     </div>   
@@ -96,7 +96,7 @@
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="height"><spring:message code="height" text="height"/></form:label>
-            <form:input path="height" class="form-control" type="number" />
+            <form:input path="height" class="form-control" type="number"/>
             <form:errors path="height" cssClass="error" element="div"/>
         </div>
     </div>   
@@ -110,11 +110,12 @@
         </div>
     </div>   
 
+<%--<%= ${bloodGroups}[0].toString()=%>--%>
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="bloodGroup"><spring:message code="bloodGroup" text="bloodGroup"/></form:label>
             <form:select path="bloodGroup" class="form-control" name="bloodGroup" id="bloodGroup" >
-                <form:options items="${bloodGroups}" ></form:options>
+                <form:options items="${bloodGroups}" itemLabel="title"></form:options>
             </form:select>
             <form:errors path="bloodGroup" cssClass="error" element="div"/>
         </div>

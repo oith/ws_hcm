@@ -1,10 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
+<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet"/>
 <link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery-ui-1.10.2.js"></script> 
@@ -16,7 +16,7 @@
     });
 </script>
 
-<form:errors path="*" cssClass="errorblock" element="div" />
+<form:errors path="*" cssClass="errorblock" element="div"/>
 <div>   
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="head-table">
         <tr>
@@ -33,10 +33,10 @@
         </tr>
         <tr>
             <td><form:label path="doj"><spring:message code="doj" text="Date of Join"/></form:label></td>
-            <td><form:input path="doj" id="datepicker_doj" placeholder="DD/MM/YYYY" /></td>
+            <td><form:input path="doj" id="datepicker_doj" placeholder="DD/MM/YYYY"/></td>
             <td><form:errors path="doj" cssClass="error" element="div"/></td>
             <td><form:label path="doe"><spring:message code="doe" text="Date of Expired"/></form:label></td>
-            <td><form:input path="doe" id="datepicker_doe" placeholder="DD/MM/YYYY" /></td>
+            <td><form:input path="doe" id="datepicker_doe" placeholder="DD/MM/YYYY"/></td>
             <td><form:errors path="doe" cssClass="error" element="div"/></td>
         </tr>
 

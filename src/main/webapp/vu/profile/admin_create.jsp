@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -6,14 +6,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<tiles:insertDefinition name="defaultTemplate" />
+<tiles:insertDefinition name="defaultTemplate"/>
 
 <tiles:putAttribute name="header">
-    <jsp:include page="/template/header.jsp" />
+    <jsp:include page="/template/header.jsp"/>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp" />--%>
+    <%--<jsp:include page="/template/menu.jsp"/>--%>
 </tiles:putAttribute>
 admin create from user
 <tiles:putAttribute name="body">
@@ -29,7 +29,7 @@ admin create from user
         <form:form action="${pageContext.request.contextPath}/profile/admin_create" enctype="multipart/form-data" commandName="profile" method="POST">
             <input type="hidden" id="userId" value="${userId}" name="userId"/>
             <%--<form:hidden path="user"/>--%>
-            <jsp:include page="_admin_form.jsp" />
+            <jsp:include page="_admin_form.jsp"/>
             <div>
                 <input type="submit" value="<spring:message code="create.page.submit.label"/>"/>
             </div>
@@ -39,5 +39,5 @@ admin create from user
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp" />
+    <jsp:include page="/template/footer.jsp"/>
 </tiles:putAttribute> 
