@@ -79,7 +79,7 @@ public class ProfileController extends _OithClientAuditController {
     private ProfileService profileService;
     @Autowired
     private GridFsOperations gridFsTemplate;
-    
+
     private void allComboSetup(ModelMap model) {
         Client client = null;
         try {
@@ -90,12 +90,11 @@ public class ProfileController extends _OithClientAuditController {
         AllEnum.BloodGroup[] bloodGroups = AllEnum.BloodGroup.values();
         AllEnum.MaritalSts[] maritalStss = AllEnum.MaritalSts.values();
         AllEnum.Religion[] religions = AllEnum.Religion.values();
-        
+
         //List emps = new LinkedList();
         //for (Emp col : empService.findAll()) {
         //    emps.add(col);
         //}
-
         //List accountHeadFms = new LinkedList();
         //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
         //    accountHeadFms.add(col);
@@ -253,7 +252,7 @@ public class ProfileController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/profileEduDtl/edit", method = RequestMethod.POST)
-    public String submitEditDetailEduForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileEduDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    public String submitEditDetailEduForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileEduDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         Profile profile = null;
         try {
@@ -308,7 +307,7 @@ public class ProfileController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/profileJobDtl/edit", method = RequestMethod.POST)
-    public String submitEditDetailJobForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileJobDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
+    public String submitEditDetailJobForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileJobDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         Profile profile = null;
         try {

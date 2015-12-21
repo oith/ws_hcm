@@ -12,8 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
-<spring:message code="profileEduDtls" text="Profile Education Details"/> | 
-<button id="edu_crt" type="button" data-toggle="modal" data-target="#myModalEdu"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="ProfileEduDtl" text="Profile Education"/></button>
+<button id="edu_crt" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalEdu"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="ProfileEduDtl" text="Profile Education"/></button>
 
 
 <c:if test="${not empty profile.profileEduDtls}">
@@ -35,12 +34,12 @@
 
                     <tr  class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                         <td class="not_show"><c:out value="${profileEduDtl.embdId}"/></td>
-                        <td><button id="${profile.id}~${profileEduDtl.embdId}" type="button" value="${profile.id}~${profileEduDtl.embdId}" data-toggle="modal" data-target="#myModalEdu"><spring:message code="edit.link.label" text="Edit"/></button></td>
+                        <td><button id="${profile.id}~${profileEduDtl.embdId}" type="button" class="btn btn-info" value="${profile.id}~${profileEduDtl.embdId}" data-toggle="modal" data-target="#myModalEdu" class="btn btn-primary"><spring:message code="edit.link.label" text="Edit"/></button></td>
                         <td><c:out value="${profileEduDtl.edu}"/></td>
                         <td><c:out value="${profileEduDtl.passingYear}"/></td>
                         <td><c:out value="${profileEduDtl.remarks}"/></td>
                         <td><c:out value="${profileEduDtl.slNo}"/></td>
-                        <td><button class="edu_dtl_del" type="button" class="btn btn-danger" value="ProfileEduDtls~${profile.id}~${profileEduDtl.embdId}">Erase</button></td>
+                        <td><button type="button" class="edu_dtl_del btn btn-warning" value="ProfileEduDtls~${profile.id}~${profileEduDtl.embdId}">Erase</button></td>
                     </tr>
 
                 </c:forEach>
@@ -56,84 +55,62 @@
 
             <!-- Modal content-->
             <div class="modal-content">
+          
+                <form:form action="${pageContext.request.contextPath}/profile/profileEduDtl/edit" commandName="profileEduDtl" method="POST" class="form-horizontal">
 
-                <!--modal-header-->                
-                <div class="modal-header" style="background-color: #5D9CEC">    <!--UI Ref: https://bootstrapbay.com/blog/bootstrap-ui-kit/-->
-                    <div class="form-group">
-                        <h4 class="modal-title col-md-6" style="float: left">OITH Header</h4>
-                        <button type="button" class="close col-md-6" data-dismiss="modal" style="float: right; text-align: right; color: red">&times;</button>
+                    <!--modal-header-->                
+                    <div class="modal-header" style="background-color: #5D9CEC">    <!--UI Ref: https://bootstrapbay.com/blog/bootstrap-ui-kit/-->
+                        <div class="form-group">
+                            <h4 class="modal-title col-md-6" style="float: left">
+                                <spring:message code="ProfileEduDtl" text="Profile Education"/>
+                            </h4>
+                            <button type="button" class="close col-md-6" data-dismiss="modal" style="float: right; text-align: right; color: red">&times;</button>
+                        </div>
                     </div>
-                </div>
 
-                <form:form action="${pageContext.request.contextPath}/profile/profileEduDtl/edit" enctype="multipart/form-data" commandName="profileEduDtl" method="POST">
 
                     <!--modal-body-->
                     <div class="modal-body">
-                        <!--<div class="container">-->
-                        <h2><spring:message code="ProfileEduDtl" text="Profile Education"/></h2>
+
+                        <input type="hidden" name="profileId" id="profileId" value="${profile.id}" >
+                        <input type="hidden" name="embdId" id="edu_id" value="" >
 
                         <div class="col-xs-6">
-                            <div class="form-group">
-                                <label>Profile ID</label>
-                                <input type="text" name="profileId" id="profileId" class="form-control" value="${profile.id}" >
-                            </div>
+                            <spring:message code="edu" text="Education"/>
+                            <input type="text" name="edu" id="edu" class="form-control" value="" >
                         </div>
 
                         <div class="col-xs-6">
-                            <div class="form-group">
-                                <label>ID</label>
-                                <input type="text" name="embdId" id="edu_id" class="form-control" value="" >
-                            </div>
+                            <label>Passing Year</label>
+                            <input type="number" name="passingYear" id="passingYear" class="form-control" value="" >
                         </div>
 
                         <div class="col-xs-6">
-                            <div class="form-group">
-                                <spring:message code="edu" text="Education"/>
-                                <input type="text" name="edu" id="edu" class="form-control" value="" >
-                            </div>
+                            <spring:message code="remarks" text="Remarks"/>
+                            <input type="text" name="remarks" id="edu_remarks" class="form-control" value="" >
                         </div>
 
                         <div class="col-xs-6">
-                            <div class="form-group">
-                                <label>Passing Year</label>
-                                <input type="number" name="passingYear" id="passingYear" class="form-control" value="" >
-                            </div>
+                            <spring:message code="slNo" text="Sl No"/>
+                            <input type="number" name="slNo" id="edu_slNo" class="form-control" value="" >
                         </div>
 
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <spring:message code="remarks" text="Remarks"/>
-                                <input type="text" name="remarks" id="edu_remarks" class="form-control" value="" >
-                            </div>
+                        <div style="padding-left: 15px" class="form-group">
+                         <!--<input style="display: none" type="submit" class="btn btn-primary" value="<spring:message code="create.page.submit.label" text='Save'/>"/>-->
                         </div>
+                    </div>
 
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <spring:message code="slNo" text="Sl No"/>
-                                <input type="number" name="slNo" id="edu_slNo" class="form-control" value="" >
-                            </div>
-                        </div>
-                    </div>   
-                                
-                    <div style="padding-left: 15px">                        
+                    <!--modal-footer-->
+                    
+                    <div class="modal-footer" style="background-color: #4FC1E9">
                         <input type="submit" class="btn btn-primary" value="<spring:message code="create.page.submit.label" text="Save"/>"/>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>    
                     </div>
 
                 </form:form>
-                <!--modal-footer-->
-                <div class="modal-footer" style="background-color: #4FC1E9">
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Save</button>-->
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>    
-
-
-                </div>
-
             </div>
-
-
         </div>
     </div>
-
 </div>
 <!--========================================================================================================================================-->
 <style>
@@ -190,16 +167,16 @@
             async: false,
             success: function (response) {
                 $("#div_ProfileEduDtls").load(location.href + " #div_ProfileEduDtls>*", "");
-//                alert("Data deleted successfully!");
+                //                alert("Data deleted successfully!");
                 setTimeout(function () {
                     alert("Data deleted successfully!");
                 }, 200);
             },
             error: function (exception) {
                 alert(
-                    "Sorry, an error occurred! Please try again later\n" +
-                    "(ProfileEduDtls/Erase)"
-                );
+                        "Sorry, an error occurred! Please try again later\n" +
+                        "(ProfileEduDtls/Erase)"
+                        );
             }
         });
     });

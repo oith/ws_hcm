@@ -148,17 +148,6 @@
                 </li>
             </c:if>
 
-            <c:if test="${profile.profilePicFile!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="profilePicFile" text="PROFILEPICFILE"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="profilePicFile">
-                        <c:out value="${profile.profilePicFile}"/>
-                    </span>
-                </li>
-            </c:if>
-
             <c:if test="${profile.contactInfo!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
@@ -295,8 +284,6 @@
             <jsp:include page="../_auditShow.jsp" flush="true"/>
 
         </ol> 
-        <div><jsp:include page="profileEduDtls.jsp"/></div>
-        <div><jsp:include page="profileJobDtls.jsp"/></div>
         <div><jsp:include page="profileEduDtls.jsp"/></div>
         <div><jsp:include page="profileJobDtls.jsp"/></div>
     </div>
