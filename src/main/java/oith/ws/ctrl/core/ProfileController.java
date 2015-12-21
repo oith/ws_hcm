@@ -251,7 +251,7 @@ public class ProfileController extends _OithClientAuditController {
         return "redirect:/" + SHOW_FORM_VIEW;
     }
 
-    @RequestMapping(value = "/profileEduDtl/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/profileEduDtls/edit", method = RequestMethod.POST)
     public String submitEditDetailEduForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileEduDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         Profile profile = null;
