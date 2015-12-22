@@ -75,7 +75,6 @@ params ${params}<br>
                             <select name="quickAccessx" id="quickAccessx" class="form-control">
                                 <option value="${null}" >Get Quick Move</option>
 
-
                                 <c:forEach items="${favorites}" var="sss" varStatus="loopStatus">
                                     <c:choose >
                                         <c:when test='${sss.menuType.toString().equals("ACTION")}'>
@@ -85,7 +84,6 @@ params ${params}<br>
                                             <option value="${sss.address}" >${sss.menuType} - ${sss.text}</option>
                                         </c:otherwise>
                                     </c:choose>
-
                                 </c:forEach>
                             </select>
                             <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="3" maxlength="3"/>
@@ -112,7 +110,6 @@ params ${params}<br>
             <script>var contextPath = "<%=request.getContextPath()%>";</script>
             <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico"/>
 
-
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.5/bootstrap.css"/>
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.5/bootstrap-datetimepicker.min"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.css"/> 
@@ -120,7 +117,6 @@ params ${params}<br>
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/oith/oith-1.0.0.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/oith/oith-styles-1.0.0.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/utility/animate-3.5.0.css"/> 
-
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.css"/> 
 
             <script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery.min.js"></script>
