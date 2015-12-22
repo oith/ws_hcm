@@ -12,6 +12,7 @@ import com.mongodb.gridfs.GridFSFile;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyDescriptor;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -52,7 +53,6 @@ import static oith.ws.ctrl.core._OithController.REDIRECT_TO_LOGIN;
 import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
-import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.ProfileEduDtl;
 import oith.ws.dom.core.ProfileJobDtl;
 import oith.ws.dto._SearchDTO;
@@ -103,8 +103,6 @@ public class ProfileController extends _OithClientAuditController {
         model.addAttribute("bloodGroups", bloodGroups);
         model.addAttribute("maritalStss,", maritalStss);
         model.addAttribute("religions", religions);
-        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
-        //model.addAttribute("accountHeadFms", accountHeadFms);
     }
 
     @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
@@ -112,7 +110,7 @@ public class ProfileController extends _OithClientAuditController {
 
         String aaa[] = dets.split("~");
 
-        String method = "get" + aaa[0];
+        String field = aaa[0];
         String profileId = aaa[1];
         Integer id = Integer.parseInt(aaa[2]);
 
@@ -128,8 +126,9 @@ public class ProfileController extends _OithClientAuditController {
 
         try {
 
-            Method mm = Profile.class.getDeclaredMethod(method);
-            Set<IEmbdDetail> jjj = (Set<IEmbdDetail>) mm.invoke(profile);
+            PropertyDescriptor pd = new PropertyDescriptor(field, Profile.class);
+            Method getter = pd.getReadMethod();//Profile.class.getDeclaredMethod(method);
+            Set<IEmbdDetail> jjj = (Set<IEmbdDetail>) getter.invoke(profile);
 
             for (IEmbdDetail col : jjj) {
                 if (col.getEmbdId().equals(id)) {
@@ -141,6 +140,7 @@ public class ProfileController extends _OithClientAuditController {
             profileService.update(profile);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
         } catch (Exception e) {
+            System.out.println("1111 yyyyyyyyyyyyyyyyyy" + e);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
         }
 
@@ -306,7 +306,7 @@ public class ProfileController extends _OithClientAuditController {
         }
     }
 
-    @RequestMapping(value = "/profileJobDtl/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/profileJobDtls/edit", method = RequestMethod.POST)
     public String submitEditDetailJobForm(@ModelAttribute("profileId") String profileId, @ModelAttribute(MODEL_ATTIRUTE) @Valid ProfileJobDtl currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         Profile profile = null;

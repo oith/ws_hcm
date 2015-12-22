@@ -111,7 +111,7 @@ params ${params}<br>
             <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico"/>
 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.5/bootstrap.css"/>
-            <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.5/bootstrap-datetimepicker.min"/> 
+            <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.5/bootstrap-datetimepicker.min.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/jquery.dataTables.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/oith/oith-1.0.0.css"/> 
@@ -119,7 +119,7 @@ params ${params}<br>
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/utility/animate-3.5.0.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.css"/> 
 
-            <script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery.min.js"></script>
+            <script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js"></script>
             <script src="<%=request.getContextPath()%>/resources/js/bootstrap/bootstrap-3.3.5.js"></script>
             <script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.js"></script>
             <script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.jqueryui.js"></script>
@@ -130,26 +130,6 @@ params ${params}<br>
 
             <script type="text/javascript">
 
-//                                  function showApplicantName() {
-//                                  var controller = "HrIrAplc";
-//                                          var action = "getAplcTitle";
-//                                          $.ajax({
-//                                          type: "POST",
-//                                                  url: "{request.contextPath}" / "+controller +" / "+action,
-//                                                  dataType: 'JSON',
-//                                                  success: function (d) {
-//                                                  //                    document.getElementById('showApplicantTitle').innerHTML=d.message
-//                                                  document.getElementById('showUserTitle').innerHTML = d.message
-//                                                  },
-//                                                  error: function (err) {
-//                                                  alert("Sorry for Inconvenience, Please Login Again");
-//                                                          //                        window.location.href = 'createLink(controller:'HrIrAplc', action:'logout')}'
-//                                                  }
-//                                          });
-//                                  }
-
-
-
                 jQuery(document).ready(function () {
                     $('#openInNewPage').prop('checked',${openInNewPageLoc});
 //                $('#openInNewPage').prop('checked',${lang});
@@ -158,23 +138,25 @@ params ${params}<br>
 
                     var isNewWindow = $("#openInNewPage").prop('checked');
                     var quickAccessx = $('#quickAccessx').val();
-                    if (isNewWindow.empty() || isNewWindow === null) {
+
+                    if (isNewWindow === '' || isNewWindow === null) {
                         isNewWindow = '_self';
                     } else {
                         isNewWindow = '_blank';
                     }
 
-                    if (quickAccessx !== null || !quickAccessx.empty()) {
+                    if (quickAccessx !== null || quickAccessx !== '') {
                         var urlToGo = $(this).val();
                         window.open(urlToGo, isNewWindow);
                         $('#quickAccessx').prop('selectedIndex', 0);
-//                        window.location.href = urlToGo.toString();
                     }
                 });
                 $('#quickAccessUrl').on('keydown', function (event) {
                     if (event.which === 13) {
+
                         var isNewWindow = $('#openInNewPage').prop('checked');
-                        if (isNewWindow === null || isNewWindow.empty()) {
+
+                        if (isNewWindow === null || isNewWindow === '') {
                             isNewWindow = '_self';
                         } else {
                             isNewWindow = '_blank';

@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
-<button id="profileEduDtls_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileEduDtls_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="ProfileEduDtl" text="Profile Education"/></button>
+<button id="profileEduDtls_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileEduDtls_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profileEduDtls" text="PROFILEEDUDTLS"/></button>
 
 <c:if test="${not empty profile.profileEduDtls}">
     <div id="div_profileEduDtls" style="margin: auto; overflow-x: scroll; padding-top: 10px">
@@ -26,12 +26,6 @@
                     <th><spring:message code="passingYear" text="passingYear"/></th>
                     <th><spring:message code="remarks" text="remarks"/></th>
 
-                    <%--
-                    <th><spring:message code="edu" text="Education"/></th>
-                    <th><spring:message code="passingYear" text="Passing Year"/></th>
-                    <th><spring:message code="remarks" text="Remarks"/></th>
-                    <th><spring:message code="slNo" text="Sl No"/></th>
-                    --%>
                     <th></th>
                 </tr>
             </thead>
@@ -45,12 +39,6 @@
                         <td><c:out value="${profileEduDtls.passingYear}"/></td>
                         <td><c:out value="${profileEduDtls.remarks}"/></td>
 
-                        <%--
-                        <td><c:out value="${profileEduDtls.edu}"/></td>
-                        <td><c:out value="${profileEduDtls.passingYear}"/></td>
-                        <td><c:out value="${profileEduDtls.remarks}"/></td>
-                        <td><c:out value="${profileEduDtls.slNo}"/></td>
-                        --%>
                         <td><button type="button" class="profileEduDtls_del btn btn-warning" value="profileEduDtls~${profile.id}~${profileEduDtls.embdId}">Erase</button></td>
                     </tr>
                 </c:forEach>
@@ -82,7 +70,6 @@
 
                         <input type="hidden" name="profileId" id="profileId" value="${profile.id}" >
                         <input type="hidden" name="embdId" id="profileEduDtls_id" value="" >
-
                         <div class="col-xs-6">
                             <spring:message code="edu" text="edu"/>
                             <input type="text" name="edu" id="profileEduDtls_edu" class="form-control" value="" >
@@ -100,33 +87,10 @@
                             <input type="text" name="remarks" id="profileEduDtls_remarks" class="form-control" value="" >
                         </div>
 
-                        <%--
-                        <div class="col-xs-6">
-                            <spring:message code="edu" text="Education"/>
-                            <input type="text" name="edu" id="profileEduDtls_edu" class="form-control" value="" >
-                        </div>
-
-                        <div class="col-xs-6">
-                            <label>Passing Year</label>
-                            <input type="number" name="passingYear" id="profileEduDtls_passingYear" class="form-control" value="" >
-                        </div>
-
-                        <div class="col-xs-6">
-                            <spring:message code="remarks" text="Remarks"/>
-                            <input type="text" name="remarks" id="profileEduDtls_remarks" class="form-control" value="" >
-                        </div>
-
-                        <div class="col-xs-6">
-                            <spring:message code="slNo" text="Sl No"/>
-                            <input type="number" name="slNo" id="profileEduDtls_slNo" class="form-control" value="" >
-                        </div>
-                        --%>
-                        
                         <div style="padding-left: 15px" class="form-group"></div>
                     </div>
 
                     <!--modal-footer-->
-
                     <div class="modal-footer" style="background-color: #4FC1E9">
                         <input type="submit" class="btn btn-primary" value="<spring:message code="create.page.submit.label" text="Save"/>"/>
                         <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>    
@@ -161,10 +125,6 @@
         $("#profileEduDtls_passingYear").val($("td:eq(4)", this).text());
         $("#profileEduDtls_remarks").val($("td:eq(5)", this).text());
 
-        //$("#profileEduDtls_edu").val($("td:eq(2)", this).text());
-        //$("#profileEduDtls_passingYear").val($("td:eq(3)", this).text());
-        //$("#profileEduDtls_remarks").val($("td:eq(4)", this).text());
-        //$("#profileEduDtls_slNo").val($("td:eq(5)", this).text());
     });
 
     $(document).on("click", "#profileEduDtls_create", function () {
@@ -174,10 +134,6 @@
         $("#profileEduDtls_passingYear").val("");
         $("#profileEduDtls_remarks").val("");
 
-        //$("#profileEduDtls_edu").val("");
-        //$("#profileEduDtls_passingYear").val("");
-        //$("#profileEduDtls_remarks").val("");
-        //$("#profileEduDtls_slNo").val("");
     });
 
     $(document).on("click", ".profileEduDtls_del", function () {
