@@ -10,7 +10,6 @@
         <div class="menu">
             <tiles:insertAttribute name="menu"/>
         </div>
-      
         <div class="body">
             <tiles:insertAttribute name="body"/>
         </div>

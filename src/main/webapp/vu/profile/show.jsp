@@ -284,8 +284,8 @@
             <jsp:include page="../_auditShow.jsp" flush="true"/>
 
         </ol> 
-        <div><jsp:include page="profileEduDtls.jsp"/></div>
-        <div><jsp:include page="profileJobDtls.jsp"/></div>
+        <div><jsp:include page="_profileEduDtls.jsp"/></div>
+        <div><jsp:include page="_profileJobDtls.jsp"/></div>
     </div>
 
     <a href="${pageContext.request.contextPath}/profile/edit"><spring:message code="edit.link.label" text="Edit"/></a> |
