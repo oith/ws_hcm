@@ -84,7 +84,7 @@ public class UserController extends _OithController {
 
         //Client client = new Client();
         User user = new User();
-        model.addAttribute("genders",  AllEnum.Gender.values());
+        model.addAttribute("genders", AllEnum.Gender.values());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return ADD_FORM_VIEW;
@@ -123,7 +123,7 @@ public class UserController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-        model.addAttribute("genders",  AllEnum.Gender.values());
+        model.addAttribute("genders", AllEnum.Gender.values());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return EDIT_FORM_VIEW;
@@ -148,21 +148,23 @@ public class UserController extends _OithController {
         currObject.setId(userId);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("genders",  AllEnum.Gender.values());
+            model.addAttribute("genders", AllEnum.Gender.values());
             return EDIT_FORM_VIEW;
         }
 
         try {//user name cant be update but admin can do
-            User user = userService.update(currObject, "fullName,gender,dob,password,openInNewPage,lang");//username
+            User user = userService.update(currObject, "fullName,gender,dob,password,envs");//username
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, user.getId());
 
             //session.setAttribute("userId", user.getId());
             //session.setAttribute("fullName", user.getDisplayName());
             authUser.setUserId(user.getId());
             authUser.setFullName(user.getFullName());
-            authUser.setOpenInNewPage(user.getOpenInNewPage());
-            authUser.setLang(user.getLang());
 
+            authUser.setEnvs(user.getEnvs());
+
+            //authUser.setOpenInNewPage(user.getOpenInNewPage());
+            //authUser.setLang(user.getLang());
             return "redirect:/" + SHOW_FORM_VIEW;
         } catch (UserNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -205,7 +207,7 @@ public class UserController extends _OithController {
         //Set<Role> roles = getCommonRoles();
         //user.setAuthorities(roles);
         model.addAttribute("clients", getClients());
-        model.addAttribute("genders",  AllEnum.Gender.values());
+        model.addAttribute("genders", AllEnum.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
@@ -224,7 +226,7 @@ public class UserController extends _OithController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("clients", getClients());
-            model.addAttribute("genders",  AllEnum.Gender.values());
+            model.addAttribute("genders", AllEnum.Gender.values());
             model.addAttribute("authorities", getAuthorities());
             return ADD_FORM_VIEW_ADMIN;
         }
@@ -250,7 +252,7 @@ public class UserController extends _OithController {
         }
 
         model.addAttribute("clients", getClients());
-        model.addAttribute("genders",  AllEnum.Gender.values());
+        model.addAttribute("genders", AllEnum.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
 
@@ -267,7 +269,7 @@ public class UserController extends _OithController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("clients", getClients());
-            model.addAttribute("genders",  AllEnum.Gender.values());
+            model.addAttribute("genders", AllEnum.Gender.values());
             model.addAttribute("authorities", getAuthorities());
             return EDIT_FORM_VIEW_ADMIN;
         }
@@ -330,7 +332,7 @@ public class UserController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-        model.addAttribute("genders",  AllEnum.Gender.values());
+        model.addAttribute("genders", AllEnum.Gender.values());
         model.addAttribute("authorities", getAuthorities());
         model.addAttribute(MODEL_ATTIRUTE, user);
         return SHOW_FORM_VIEW_ADMIN;

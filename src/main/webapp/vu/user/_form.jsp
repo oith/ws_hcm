@@ -61,23 +61,23 @@
                 <form:errors path="password" cssClass="error" element="div"/>
             </div>
         </div>             
-        <div class="col-xs-6">
+<%--        <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="openInNewPage"><spring:message code="openInNewPage" text="Open In New Page"/></form:label>
                 <form:checkbox path="openInNewPage"/>
                 <form:errors path="openInNewPage" cssClass="error" element="div"/>
             </div>
-        </div>  
+        </div>  --%>
     </div>  
 
     <div class="row">            
-        <div class="col-xs-6">
+<%--        <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="lang"><spring:message code="lang" text="Language"/></form:label>
                 <form:input path="lang" class="form-control" type="text" size="20" maxlength="20"/>
                 <form:errors path="lang" cssClass="error" element="div"/>
             </div>
-        </div>             
+        </div>             --%>
         <div class="col-xs-6">
             <div class="form-group">
 

@@ -65,12 +65,7 @@
                         <div>
                             <sec:authentication var="favorites" property="principal.favorites"/>
                             <sec:authentication var="params" property="principal.params"/>
-                            <sec:authentication var="lang" property="principal.lang"/>
-
-                            <%--
-favorites ${favorites}<br>
-params ${params}<br>
-                            --%>
+                          
 
                             <select name="quickAccessx" id="quickAccessx" class="form-control">
                                 <option value="${null}" >Get Quick Move</option>
@@ -88,7 +83,11 @@ params ${params}<br>
                             </select>
                             <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="3" maxlength="3"/>
 
-                            <sec:authentication var="openInNewPageLoc" property="principal.openInNewPage"/>
+                            <c:set var="OPEN_IN_NEW_PAGE" value="<%=oith.ws.dom.core.EnvField.OPEN_IN_NEW_PAGE%>"/>
+
+                            <sec:authentication var="envs" property="principal.envs"/>
+
+                            <c:set var="openInNewPageLoc" value="${envs.get(OPEN_IN_NEW_PAGE)}"/>
 
                             <input type="checkbox" name="openInNewPage" id="openInNewPage" value="openInNewPage">&nbsp;&nbsp;Open in New Page</input>
 
@@ -119,7 +118,8 @@ params ${params}<br>
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/utility/animate-3.5.0.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.css"/> 
 
-            <script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js"></script>
+            <script src="../resources/js/jquery/jquery-1.11.3/jquery-min.js"></script>
+            <!--<script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js"></script>-->
             <script src="<%=request.getContextPath()%>/resources/js/bootstrap/bootstrap-3.3.5.js"></script>
             <script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.js"></script>
             <script src="<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.jqueryui.js"></script>
@@ -130,9 +130,10 @@ params ${params}<br>
 
             <script type="text/javascript">
 
-                jQuery(document).ready(function () {
+                $(document).ready(function () {
+                    alert("ooooooottthhhii");
                     $('#openInNewPage').prop('checked',${openInNewPageLoc});
-//                $('#openInNewPage').prop('checked',${lang});
+//                $('#openInNewPage').prop('checked',{lang});
                 });
                 $(document).on('change', '#quickAccessx', function () {
 
@@ -188,4 +189,6 @@ params ${params}<br>
                         }
                     });
                 }
+                
+               
             </script>

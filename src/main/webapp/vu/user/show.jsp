@@ -68,28 +68,37 @@
                     </span>
                 </li>
             </c:if>
-            <c:if test="${1==1}">
+            <%--            <c:if test="${1==1}">
+                            <li class="fieldcontain first_item">
+                                <span id="title" class="property-label">
+                                    <spring:message code="openInNewPage" text="Open In New Page"/>: 
+                                </span>
+                                <span class="property-value" aria-labelledby="openInNewPage">
+                                    <c:out value="${user.openInNewPage}"/>
+                                </span>
+                            </li>
+                        </c:if>
+                        <c:if test="${user.lang!=null}">
+                            <li class="fieldcontain first_item">
+                                <span id="title" class="property-label">
+                                    <spring:message code="lang" text="Language"/>: 
+                                </span>
+                                <span class="property-value" aria-labelledby="lang">
+                                    <c:out value="${user.lang}"/>
+                                </span>
+                            </li>
+                        </c:if>  --%>
+
+            <c:if test="${user.envs!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="openInNewPage" text="Open In New Page"/>: 
+                        <spring:message code="envs" text="Environment"/>: 
                     </span>
-                    <span class="property-value" aria-labelledby="openInNewPage">
-                        <c:out value="${user.openInNewPage}"/>
-                    </span>
-                </li>
-            </c:if>
-            <c:if test="${user.lang!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="lang" text="Language"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="lang">
-                        <c:out value="${user.lang}"/>
+                    <span class="property-value" aria-labelledby="envs">
+                        <c:out value="${user.envs}"/>
                     </span>
                 </li>
-            </c:if>  
-
-
+            </c:if> 
 
             <%--    
             <c:if test="${user.password!=null && !user.password.isEmpty()}">
@@ -133,4 +142,5 @@
 
 <tiles:putAttribute name="footer">
     <jsp:include page="/template/footer.jsp"/>
-</tiles:putAttribute>    
+</tiles:putAttribute>   
+

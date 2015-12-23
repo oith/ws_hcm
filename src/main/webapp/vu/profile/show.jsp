@@ -296,3 +296,5 @@
     <jsp:include page="/template/footer.jsp"/>
 </tiles:putAttribute>    
 
+<!--<script src="../resources/js/jquery/jquery-1.11.3/jquery-min.js"></script>-->
+
