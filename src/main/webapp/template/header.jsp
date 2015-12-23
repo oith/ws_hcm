@@ -131,7 +131,6 @@
             <script type="text/javascript">
 
                 $(document).ready(function () {
-                    alert("ooooooottthhhii");
                     $('#openInNewPage').prop('checked',${openInNewPageLoc});
 //                $('#openInNewPage').prop('checked',{lang});
                 });
