@@ -133,7 +133,12 @@
             </c:if>
             --%>
 
+            <c:set target="audit" property="audit" var="audit" value="${user}" scope="request"/>
+            <%--<jsp:include page="../_auditShow.jsp" flush="true" />--%>
         </ol>
+        <div><jsp:include page="_authorities.jsp"/></div>
+        <div><jsp:include page="_favorites.jsp"/></div>
+        <div><jsp:include page="_params.jsp"/></div>
 
     </div>
 

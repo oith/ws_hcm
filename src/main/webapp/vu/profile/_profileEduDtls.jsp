@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <head>
     <meta charset="utf-8">
@@ -25,6 +26,7 @@
                     <th><spring:message code="grade" text="grade"/></th>
                     <th><spring:message code="passingYear" text="passingYear"/></th>
                     <th><spring:message code="remarks" text="remarks"/></th>
+                    <th><spring:message code="slNo" text="slNo"/></th>
 
                     <th></th>
                 </tr>
@@ -38,6 +40,7 @@
                         <td><c:out value="${profileEduDtls.grade}"/></td>
                         <td><c:out value="${profileEduDtls.passingYear}"/></td>
                         <td><c:out value="${profileEduDtls.remarks}"/></td>
+                        <td><c:out value="${profileEduDtls.slNo}"/></td>
 
                         <td><button type="button" class="profileEduDtls_del btn btn-warning" value="profileEduDtls~${profile.id}~${profileEduDtls.embdId}">Erase</button></td>
                     </tr>
@@ -59,7 +62,7 @@
                     <div class="modal-header" style="background-color: #5D9CEC">
                         <div class="form-group">
                             <h4 class="modal-title col-md-6" style="float: left">
-                                <spring:message code="ProfileEduDtl" text="Profile Education"/>
+                                <spring:message code="profileEduDtls" text="PROFILEEDUDTLS"/>
                             </h4>
                             <button type="button" class="close col-md-6" data-dismiss="modal" style="float: right; text-align: right; color: red">&times;</button>
                         </div>
@@ -85,6 +88,10 @@
                         <div class="col-xs-6">
                             <spring:message code="remarks" text="remarks"/>
                             <input type="text" name="remarks" id="profileEduDtls_remarks" class="form-control" value="" >
+                        </div>
+                        <div class="col-xs-6">
+                            <spring:message code="slNo" text="slNo"/>
+                            <input type="text" name="slNo" id="profileEduDtls_slNo" class="form-control" value="" >
                         </div>
 
                         <div style="padding-left: 15px" class="form-group"></div>
@@ -124,6 +131,7 @@
         $("#profileEduDtls_grade").val($("td:eq(3)", this).text());
         $("#profileEduDtls_passingYear").val($("td:eq(4)", this).text());
         $("#profileEduDtls_remarks").val($("td:eq(5)", this).text());
+        $("#profileEduDtls_slNo").val($("td:eq(6)", this).text());
 
     });
 
@@ -133,6 +141,7 @@
         $("#profileEduDtls_grade").val("");
         $("#profileEduDtls_passingYear").val("");
         $("#profileEduDtls_remarks").val("");
+        $("#profileEduDtls_slNo").val("");
 
     });
 
