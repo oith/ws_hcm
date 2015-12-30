@@ -1,4 +1,4 @@
-package oith.ws.ctrl.core;
+package oith.ws.ctrl;
 
 import oith.ws.dom.fin.entry.Voucher;
 import oith.ws.exception.VoucherNotFoundException;
@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
+import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.fin.entry.VoucherDtl;
 import oith.ws.dom.hcm.def.es.CompanyCode;

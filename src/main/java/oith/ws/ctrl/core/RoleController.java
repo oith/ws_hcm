@@ -66,7 +66,7 @@ public class RoleController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Role());
+        model.addAttribute(MODEL_ATTIRUTE, new Role(client));
         allComboSetup(model);
         return ADD_FORM_VIEW;
     }
@@ -145,7 +145,7 @@ public class RoleController extends _OithClientAuditController {
 
         try {
             //role = roleService.update(currObject);
-            Role currObjectLocal = roleService.update(currObject, "auditor,code,name,desc");
+            Role currObjectLocal = roleService.update(currObject, "code,name,desc");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (RoleNotFoundException e) {
