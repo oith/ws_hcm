@@ -1,9 +1,8 @@
 package oith.ws.ctrl.core;
 
-import oith.ws.ctrl.core._OithClientAuditController;
-import oith.ws.dom.core.Post;
-import oith.ws.exception.PostNotFoundException;
-import oith.ws.service.PostService;
+import oith.ws.dom.core.Role;
+import oith.ws.exception.RoleNotFoundException;
+import oith.ws.service.RoleService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -22,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/post")
-public class PostController extends _OithClientAuditController {
+@RequestMapping(value = "/role")
+public class RoleController extends _OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "post";
+    protected static final String MODEL_ATTIRUTE = "role";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
@@ -33,7 +32,7 @@ public class PostController extends _OithClientAuditController {
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
-    private PostService postService;
+    private RoleService roleService;
 
     private void allComboSetup(ModelMap model) {
         Client client = null;
@@ -67,13 +66,13 @@ public class PostController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Post());
+        model.addAttribute(MODEL_ATTIRUTE, new Role());
         allComboSetup(model);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Role currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         try {
             super.save(currObject, attributes);
@@ -86,7 +85,7 @@ public class PostController extends _OithClientAuditController {
             return ADD_FORM_VIEW;
         }
 
-        Post currObjectLocal = postService.create(currObject);
+        Role currObjectLocal = roleService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -103,11 +102,11 @@ public class PostController extends _OithClientAuditController {
         }
 
         try {
-            Post currObjectLocal = postService.findById(id, client);
+            Role currObjectLocal = roleService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model);
             return EDIT_FORM_VIEW;
-        } catch (PostNotFoundException ex) {
+        } catch (RoleNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -117,7 +116,7 @@ public class PostController extends _OithClientAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Role currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes) {
@@ -135,21 +134,21 @@ public class PostController extends _OithClientAuditController {
         }
 
         try {
-            Post currObjectLocal = postService.findById(id, client);
+            Role currObjectLocal = roleService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (PostNotFoundException ex) {
+        } catch (RoleNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            //post = postService.update(currObject);
-            Post currObjectLocal = postService.update(currObject, "auditor,subject,content,comments");
+            //role = roleService.update(currObject);
+            Role currObjectLocal = roleService.update(currObject, "auditor,code,name,desc");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
-        } catch (PostNotFoundException e) {
+        } catch (RoleNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return EDIT_FORM_VIEW;
         }
@@ -166,14 +165,14 @@ public class PostController extends _OithClientAuditController {
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Post> posts;
+        List<Role> roles;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            posts = postService.search(searchCriteria, client);
+            roles = roleService.search(searchCriteria, client);
         } else {
-            posts = postService.findAllByClient(searchCriteria, client);
+            roles = roleService.findAllByClient(searchCriteria, client);
         }
-        model.addAttribute(MODEL_ATTRIBUTES, posts);
+        model.addAttribute(MODEL_ATTRIBUTES, roles);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -199,9 +198,9 @@ public class PostController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Post> posts = postService.findAllByClient(searchCriteria, client);
+        List<Role> roles = roleService.findAllByClient(searchCriteria, client);
 
-        model.addAttribute(MODEL_ATTRIBUTES, posts);
+        model.addAttribute(MODEL_ATTRIBUTES, roles);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -223,10 +222,10 @@ public class PostController extends _OithClientAuditController {
         }
 
         try {
-            Post currObjectLocal = postService.findById(id, client);
+            Role currObjectLocal = roleService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (PostNotFoundException ex) {
+        } catch (RoleNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -244,9 +243,9 @@ public class PostController extends _OithClientAuditController {
         }
 
         try {
-            Post deleted = postService.delete(id, client);
+            Role deleted = roleService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (PostNotFoundException e) {
+        } catch (RoleNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
