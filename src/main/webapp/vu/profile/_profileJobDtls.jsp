@@ -13,7 +13,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
-<button id="profileJobDtls_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileJobDtls_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profileJobDtls" text="PROFILEJOBDTLS"/></button>
+<button id="profileJobDtls_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileJobDtls_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profileJobDtls" text="Profile Job Dtls"/></button>
 
 <c:if test="${not empty profile.profileJobDtls}">
     <div id="div_profileJobDtls" style="margin: auto; overflow-x: scroll; padding-top: 10px">
@@ -22,11 +22,12 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th><spring:message code="org" text="org"/></th>
-                    <th><spring:message code="startDate" text="startDate"/></th>
-                    <th><spring:message code="endDate" text="endDate"/></th>
-                    <th><spring:message code="remarks" text="remarks"/></th>
-                    <th><spring:message code="slNo" text="slNo"/></th>
+                    <th><spring:message code="org" text="Org"/></th>
+                    <th><spring:message code="startDate" text="Start Date"/></th>
+                    <th><spring:message code="endDate" text="End Date"/></th>
+                    <th><spring:message code="remarks" text="Remarks"/></th>
+                    <th><spring:message code="slNo" text="Sl No"/></th>
+                    <th><spring:message code="embdId" text="Embd Id"/></th>
 
                     <th></th>
                 </tr>
@@ -41,6 +42,7 @@
                         <td><fmt:formatDate value="${profileJobDtls.endDate}" type="date" pattern="dd/MM/yyyy"/></td>
                         <td><c:out value="${profileJobDtls.remarks}"/></td>
                         <td><c:out value="${profileJobDtls.slNo}"/></td>
+                        <td><c:out value="${profileJobDtls.embdId}"/></td>
 
                         <td><button type="button" class="profileJobDtls_del btn btn-warning" value="profileJobDtls~${profile.id}~${profileJobDtls.embdId}">Erase</button></td>
                     </tr>
@@ -62,7 +64,7 @@
                     <div class="modal-header" style="background-color: #5D9CEC">
                         <div class="form-group">
                             <h4 class="modal-title col-md-6" style="float: left">
-                                <spring:message code="profileJobDtls" text="PROFILEJOBDTLS"/>
+                                <spring:message code="profileJobDtls" text="Profile Job Dtls"/>
                             </h4>
                             <button type="button" class="close col-md-6" data-dismiss="modal" style="float: right; text-align: right; color: red">&times;</button>
                         </div>
@@ -74,24 +76,28 @@
                         <input type="hidden" name="profileId" id="profileId" value="${profile.id}" >
                         <input type="hidden" name="embdId" id="profileJobDtls_id" value="" >
                         <div class="col-xs-6">
-                            <spring:message code="org" text="org"/>
+                            <spring:message code="org" text="Org"/>
                             <input type="text" name="org" id="profileJobDtls_org" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="startDate" text="startDate"/>
+                            <spring:message code="startDate" text="Start Date"/>
                             <input type="text" name="startDate" id="profileJobDtls_startDate" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="endDate" text="endDate"/>
+                            <spring:message code="endDate" text="End Date"/>
                             <input type="text" name="endDate" id="profileJobDtls_endDate" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="remarks" text="remarks"/>
+                            <spring:message code="remarks" text="Remarks"/>
                             <input type="text" name="remarks" id="profileJobDtls_remarks" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="slNo" text="slNo"/>
+                            <spring:message code="slNo" text="Sl No"/>
                             <input type="text" name="slNo" id="profileJobDtls_slNo" class="form-control" value="" >
+                        </div>
+                        <div class="col-xs-6">
+                            <spring:message code="embdId" text="Embd Id"/>
+                            <input type="text" name="embdId" id="profileJobDtls_embdId" class="form-control" value="" >
                         </div>
 
                         <div style="padding-left: 15px" class="form-group"></div>
@@ -132,6 +138,7 @@
         $("#profileJobDtls_endDate").val($("td:eq(4)", this).text());
         $("#profileJobDtls_remarks").val($("td:eq(5)", this).text());
         $("#profileJobDtls_slNo").val($("td:eq(6)", this).text());
+        $("#profileJobDtls_embdId").val($("td:eq(7)", this).text());
 
     });
 
@@ -142,6 +149,7 @@
         $("#profileJobDtls_endDate").val("");
         $("#profileJobDtls_remarks").val("");
         $("#profileJobDtls_slNo").val("");
+        $("#profileJobDtls_embdId").val("");
 
     });
 

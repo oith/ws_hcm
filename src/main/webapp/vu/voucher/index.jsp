@@ -24,12 +24,12 @@
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/post/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="post" text="Post"/></a>
+        <a href="${pageContext.request.contextPath}/voucher/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="voucher" text="Voucher"/></a>
     </div>
 
     <h1><spring:message code="list.page.title"/></h1>
 
-    <form:form action="${pageContext.request.contextPath}/post/index" commandName="searchCriteria" method="POST">
+    <form:form action="${pageContext.request.contextPath}/voucher/index" commandName="searchCriteria" method="POST">
 
         <table>
             <tr>
@@ -66,7 +66,7 @@
         </div>
     </form:form>
 
-    <c:if test="${posts.size()!=0}">
+    <c:if test="${vouchers.size()!=0}">
 
         <div style="margin: auto; overflow-x: scroll; padding-top: 5px">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="style-table">
@@ -74,10 +74,18 @@
                 <thead>
                     <tr>
                         <td></td>
-                        <td><spring:message code="auditor" text="auditor"/></td>
-                        <td><spring:message code="subject" text="subject"/></td>
-                        <td><spring:message code="content" text="content"/></td>
-                        <td><spring:message code="comments" text="comments"/></td>
+                        <td><spring:message code="auditor" text="Auditor"/></td>
+                        <td><spring:message code="code" text="Code"/></td>
+                        <td><spring:message code="appDate" text="App Date"/></td>
+                        <td><spring:message code="remarks" text="Remarks"/></td>
+                        <td><spring:message code="transDate" text="Trans Date"/></td>
+                        <td><spring:message code="currency" text="Currency"/></td>
+                        <td><spring:message code="periodAcc" text="Period Acc"/></td>
+                        <td><spring:message code="companyCode" text="Company Code"/></td>
+                        <td><spring:message code="chequeInfo" text="Cheque Info"/></td>
+                        <td><spring:message code="voucherDtls" text="Voucher Dtls"/></td>
+                        <td><spring:message code="narration" text="Narration"/></td>
+                        <td><spring:message code="isDeleted" text="Is Deleted"/></td>
 
                         
                         <%--   
@@ -86,32 +94,40 @@
                         <td><spring:message code="slNo" text="Sl No"/></td>
                         <td><spring:message code="name" text="Name"/></td>
                         <td><spring:message code="remarks" text="Remarks"/></td>
-                        <td><spring:message code="postKeyword" text="Post Keyword"/></td>
+                        <td><spring:message code="voucherKeyword" text="Voucher Keyword"/></td>
                         --%>
 
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${posts}" var="post"  varStatus="loopStatus">
+                    <c:forEach items="${vouchers}" var="voucher"  varStatus="loopStatus">
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
-                            <td><a href="${pageContext.request.contextPath}/post/show/<c:out value="${post.id}"/>"><spring:message code="show.link.label"/></a></td>
-                                <td><c:out value="${post.auditor}"/></td>
-                                <td><c:out value="${post.subject}"/></td>
-                                <td><c:out value="${post.content}"/></td>
-                                <td><c:out value="${post.comments}"/></td>
+                            <td><a href="${pageContext.request.contextPath}/voucher/show/<c:out value="${voucher.id}"/>"><spring:message code="show.link.label"/></a></td>
+                                <td><c:out value="${voucher.auditor}"/></td>
+                                <td><c:out value="${voucher.code}"/></td>
+                                <td><fmt:formatDate value="${voucher.appDate}" type="date" pattern="dd/MM/yyyy EEEEE hh:mm a"/></td>
+                                <td><c:out value="${voucher.remarks}"/></td>
+                                <td><fmt:formatDate value="${voucher.transDate}" type="date" pattern="dd/MM/yyyy EEEEE hh:mm a"/></td>
+                                <td><c:out value="${voucher.currency}"/></td>
+                                <td><c:out value="${voucher.periodAcc}"/></td>
+                                <td><c:out value="${voucher.companyCode}"/></td>
+                                <td><c:out value="${voucher.chequeInfo}"/></td>
+                                <td><c:out value="${voucher.voucherDtls}"/></td>
+                                <td><c:out value="${voucher.narration}"/></td>
+                                <td><c:out value="${voucher.isDeleted}"/></td>
 
                                 <%--
-                                <td><c:out value="${post.code}"/></td>
-                                <td><c:if test="${post.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!post.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                <td><c:out value="${post.slNo}"/></td>
-                                <td><c:out value="${post.name}"/></td>
-                                <td><c:out value="${post.remarks}"/></td>
-                                <td><c:out value="${post.postKeyword}"/></td>
+                                <td><c:out value="${voucher.code}"/></td>
+                                <td><c:if test="${voucher.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!voucher.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
+                                <td><c:out value="${voucher.slNo}"/></td>
+                                <td><c:out value="${voucher.name}"/></td>
+                                <td><c:out value="${voucher.remarks}"/></td>
+                                <td><c:out value="${voucher.voucherKeyword}"/></td>
                                 --%>
 
-                            <td><a href="${pageContext.request.contextPath}/post/edit/<c:out value="${post.id}"/>"><spring:message code="edit.link.label"/></a></td>
-                            <td><a href="${pageContext.request.contextPath}/post/delete/<c:out value="${post.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/voucher/edit/<c:out value="${voucher.id}"/>"><spring:message code="edit.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/voucher/delete/<c:out value="${voucher.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -119,10 +135,10 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${posts}"></util:pagination>
+            <util:pagination thispage="${vouchers}"></util:pagination>
         </div>-->
     </c:if>
-    <c:if test="${empty posts}">
+    <c:if test="${empty vouchers}">
         <p>
             <spring:message code="list.page.label.no.data.found" text="No data found"/>
         </p>

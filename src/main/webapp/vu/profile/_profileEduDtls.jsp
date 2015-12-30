@@ -13,7 +13,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
-<button id="profileEduDtls_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileEduDtls_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profileEduDtls" text="PROFILEEDUDTLS"/></button>
+<button id="profileEduDtls_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileEduDtls_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profileEduDtls" text="Profile Edu Dtls"/></button>
 
 <c:if test="${not empty profile.profileEduDtls}">
     <div id="div_profileEduDtls" style="margin: auto; overflow-x: scroll; padding-top: 10px">
@@ -22,11 +22,12 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th><spring:message code="edu" text="edu"/></th>
-                    <th><spring:message code="grade" text="grade"/></th>
-                    <th><spring:message code="passingYear" text="passingYear"/></th>
-                    <th><spring:message code="remarks" text="remarks"/></th>
-                    <th><spring:message code="slNo" text="slNo"/></th>
+                    <th><spring:message code="edu" text="Edu"/></th>
+                    <th><spring:message code="grade" text="Grade"/></th>
+                    <th><spring:message code="passingYear" text="Passing Year"/></th>
+                    <th><spring:message code="remarks" text="Remarks"/></th>
+                    <th><spring:message code="slNo" text="Sl No"/></th>
+                    <th><spring:message code="embdId" text="Embd Id"/></th>
 
                     <th></th>
                 </tr>
@@ -41,6 +42,7 @@
                         <td><c:out value="${profileEduDtls.passingYear}"/></td>
                         <td><c:out value="${profileEduDtls.remarks}"/></td>
                         <td><c:out value="${profileEduDtls.slNo}"/></td>
+                        <td><c:out value="${profileEduDtls.embdId}"/></td>
 
                         <td><button type="button" class="profileEduDtls_del btn btn-warning" value="profileEduDtls~${profile.id}~${profileEduDtls.embdId}">Erase</button></td>
                     </tr>
@@ -62,7 +64,7 @@
                     <div class="modal-header" style="background-color: #5D9CEC">
                         <div class="form-group">
                             <h4 class="modal-title col-md-6" style="float: left">
-                                <spring:message code="profileEduDtls" text="PROFILEEDUDTLS"/>
+                                <spring:message code="profileEduDtls" text="Profile Edu Dtls"/>
                             </h4>
                             <button type="button" class="close col-md-6" data-dismiss="modal" style="float: right; text-align: right; color: red">&times;</button>
                         </div>
@@ -74,24 +76,28 @@
                         <input type="hidden" name="profileId" id="profileId" value="${profile.id}" >
                         <input type="hidden" name="embdId" id="profileEduDtls_id" value="" >
                         <div class="col-xs-6">
-                            <spring:message code="edu" text="edu"/>
+                            <spring:message code="edu" text="Edu"/>
                             <input type="text" name="edu" id="profileEduDtls_edu" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="grade" text="grade"/>
+                            <spring:message code="grade" text="Grade"/>
                             <input type="text" name="grade" id="profileEduDtls_grade" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="passingYear" text="passingYear"/>
+                            <spring:message code="passingYear" text="Passing Year"/>
                             <input type="text" name="passingYear" id="profileEduDtls_passingYear" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="remarks" text="remarks"/>
+                            <spring:message code="remarks" text="Remarks"/>
                             <input type="text" name="remarks" id="profileEduDtls_remarks" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="slNo" text="slNo"/>
+                            <spring:message code="slNo" text="Sl No"/>
                             <input type="text" name="slNo" id="profileEduDtls_slNo" class="form-control" value="" >
+                        </div>
+                        <div class="col-xs-6">
+                            <spring:message code="embdId" text="Embd Id"/>
+                            <input type="text" name="embdId" id="profileEduDtls_embdId" class="form-control" value="" >
                         </div>
 
                         <div style="padding-left: 15px" class="form-group"></div>
@@ -132,6 +138,7 @@
         $("#profileEduDtls_passingYear").val($("td:eq(4)", this).text());
         $("#profileEduDtls_remarks").val($("td:eq(5)", this).text());
         $("#profileEduDtls_slNo").val($("td:eq(6)", this).text());
+        $("#profileEduDtls_embdId").val($("td:eq(7)", this).text());
 
     });
 
@@ -142,6 +149,7 @@
         $("#profileEduDtls_passingYear").val("");
         $("#profileEduDtls_remarks").val("");
         $("#profileEduDtls_slNo").val("");
+        $("#profileEduDtls_embdId").val("");
 
     });
 

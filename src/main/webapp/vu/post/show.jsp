@@ -55,6 +55,7 @@
             <c:set target="audit" property="audit" var="audit" value="${post}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
         </ol>
+        <div><jsp:include page="_comments.jsp"/></div>
 
     </div>
 

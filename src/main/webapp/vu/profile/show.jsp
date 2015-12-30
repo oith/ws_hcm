@@ -29,7 +29,7 @@
     <div>
         <%--<form:hidden path="id"/>--%>
 
-        <ol class="property-list hrIrGrdScr">
+        <ol class="property-list ">
 
             <c:if test="${profile.title!=null}">
                 <li class="fieldcontain first_item">
