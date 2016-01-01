@@ -79,8 +79,8 @@
                                     </c:choose>
                                 </c:forEach>
                             </select>
-                                
-                            <input name="quickAccessUrl" id="quickAccessUrl" class="form-control" type="text" size="3" maxlength="3"/>
+
+                            <input id="quickAccessUrl" name="quickAccessUrl" class="form-control" type="text" size="3" maxlength="3"/>
 
                             <c:set var="OPEN_IN_NEW_PAGE" value="<%=oith.ws.dom.core.EnvField.OPEN_IN_NEW_PAGE%>"/>
 
@@ -88,7 +88,7 @@
 
                             <c:set var="openInNewPageLoc" value="${envs.get(OPEN_IN_NEW_PAGE)}"/>
 
-                            <input type="checkbox" name="openInNewPage" id="openInNewPage" value="openInNewPage">&nbsp;&nbsp;Open in New Page</input>
+                            <label><input id="openInNewPage" name="openInNewPage" type="checkbox">&nbsp;&nbsp;Open in New Page</label>
 
                             <a href="${pageContext.request.contextPath}/logout" onclick="return confirm('Are you sure to logout?');" ><spring:message code="logout" text="Logout"/></a>
                         </div>

@@ -27,34 +27,26 @@
 
     <h1><spring:message code="show.page.title"/></h1>
     <div>
-        <form:hidden path="id"/>
-        <ol class="property-list">
+        <%--<form:hidden path="id"/>--%>
+        <dl class="dl-horizontal">
 
             <c:if test="${post.subject!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="subject" text="SUBJECT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="subject">
-                        <c:out value="${post.subject}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="subject" text="Subject"/></dt>
+                <dd>
+                    <c:out value="${post.subject}"/>
+                </dd>
             </c:if>
 
             <c:if test="${post.content!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="content" text="CONTENT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="content">
-                        <c:out value="${post.content}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="content" text="Content"/></dt>
+                <dd>
+                    <c:out value="${post.content}"/>
+                </dd>
             </c:if>
           
             <c:set target="audit" property="audit" var="audit" value="${post}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
-        </ol>
+        </dl>
         <div><jsp:include page="_comments.jsp"/></div>
 
     </div>

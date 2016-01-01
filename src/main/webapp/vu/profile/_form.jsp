@@ -20,7 +20,8 @@
 
 <!--<div class="container">-->   
 <fieldset>
-<!--    <legend>oiiiithhhh</legend>-->
+    
+    <!--<legend>oiiiithhhh</legend>-->
 
     <div class="row">     
         <div class="col-xs-6">
@@ -81,9 +82,9 @@
             <div class="form-group">
                 <form:label path="profilePicFile"><spring:message code="profilePicFile" text="profile Pic File"/></form:label>
                 <c:url var="macImage" value="/profile/getPhoto/${profile.profilePicFile}"/>
-                <img id="imagePreview" height="110px" width="90px" src="${macImage}" alt="${macImage}"/>
+                <img class="img-rounded" id="imagePreview" height="110px" width="90px" src="${macImage}" alt="${macImage}"/>
                 <form:hidden path="profilePicFile"/>
-                <input id="profilePicFileOBJ" name="profilePicFileOBJ" type="file" accept="image/*"/>
+                <input  id="profilePicFileOBJ" name="profilePicFileOBJ" type="file" accept="image/*"/>
                 <form:errors path="profilePicFile" cssClass="error" element="div"/>
             </div>
         </div>  

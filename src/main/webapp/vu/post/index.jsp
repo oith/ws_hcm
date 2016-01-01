@@ -34,13 +34,13 @@
         <table>
             <tr>
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
-                <td><form:input path="searchTerm" type="text" id="txtSearch" size="20"/></td>
+                <td><form:input path="searchTerm" class="form-control" type="text" id="txtSearch" size="20"/></td>
                 <td><form:label path="searchTerm"><spring:message code="foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false" /></form:label></td>
                 </tr>
 
                 <tr>
                     <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
-                <td><form:select path="pageSize">
+                <td><form:select path="pageSize" class="form-control">
                         <form:option value="5" label="5" />
                         <form:option value="10" label="10" />
                         <form:option value="20" label="20" />
@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <td><form:label path="page"><spring:message code="label.page"/>:</form:label></td>
-                <td><form:select path="page">
+                <td><form:select path="page" class="form-control">
                         <%--<form:option value="-1" label="...Select..." />--%>
                         <form:options items="${pages}" />
                     </form:select></td>
@@ -62,22 +62,24 @@
         </table>
 
         <div>
-            <input type="submit" value="<spring:message code="search.form.submit.label"/>"/>
+	    <button type="submit" class="btn btn-info">
+	         <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
+	    </button>
         </div>
     </form:form>
 
     <c:if test="${posts.size()!=0}">
 
-        <div style="margin: auto; overflow-x: scroll; padding-top: 5px">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="style-table">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover table-condensed">
 
                 <thead>
                     <tr>
                         <td></td>
-                        <td><spring:message code="auditor" text="auditor"/></td>
-                        <td><spring:message code="subject" text="subject"/></td>
-                        <td><spring:message code="content" text="content"/></td>
-                        <td><spring:message code="comments" text="comments"/></td>
+                        <th><spring:message code="auditor" text="Auditor"/></th>
+                        <th><spring:message code="subject" text="Subject"/></th>
+                        <th><spring:message code="content" text="Content"/></th>
+                        <th><spring:message code="comments" text="Comments"/></th>
 
                         
                         <%--   

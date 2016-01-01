@@ -16,9 +16,9 @@
 <button id="profileEduDtls_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileEduDtls_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profileEduDtls" text="Profile Edu Dtls"/></button>
 
 <c:if test="${not empty profile.profileEduDtls}">
-    <div id="div_profileEduDtls" style="margin: auto; overflow-x: scroll; padding-top: 10px">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
-            <thead style="color: white; background-color: #4A89DC; text-align: center">
+    <div class="table-responsive">          
+        <table class="table">
+            <thead>
                 <tr>
                     <th></th>
                     <th></th>

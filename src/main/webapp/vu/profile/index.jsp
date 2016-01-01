@@ -23,7 +23,7 @@
     <script>window.jQuery || document.write('<script src="<%=request.getContextPath()%>/js/jquery-1.7.2.min.js"><\/script>')</script>
 
     <div>   
-        <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
+        <a href="${pageContext.request.contextPath}/"><span class="glyphicon glyphicon-home"></span><spring:message code="home"/></a> |
         <a href="${pageContext.request.contextPath}/profile/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="profile" text="Profile"/></a>
     </div>
 
@@ -62,7 +62,9 @@
         </table>
 
         <div>
-            <input type="submit" value="<spring:message code="search.form.submit.label"/>"/>
+	    <button type="submit" class="btn btn-info">
+	         <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
+	    </button>
         </div>
     </form:form>
 
@@ -148,7 +150,7 @@
                                 --%>
 
                             <td><a href="${pageContext.request.contextPath}/profile/edit/<c:out value="${profile.id}"/>"><spring:message code="edit.link.label"/></a></td>
-                            <td><a href="${pageContext.request.contextPath}/profile/delete/<c:out value="${profile.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/profile/delete/<c:out value="${profile.id}"/>" onclick="return confirm('Are you sure to delete?');" ><span class="glyphicon glyphicon-trash"></span><spring:message code="delete.link.label"/></a></td>
                         </tr>
                     </c:forEach>
                 </tbody>

@@ -15,7 +15,7 @@
 <div class="row">     
     <div class="col-xs-6">
         <div class="form-group">
-            <form:label path="subject"><spring:message code="subject" text="subject"/><span class="required-indicator needed">*</span></form:label>
+            <form:label path="subject"><spring:message code="subject" text="Subject"/><span class="required-indicator needed">*</span></form:label>
             <form:input path="subject" class="form-control" type="text" required="true" maxlength="100"/>
             <form:errors path="subject" cssClass="error" element="div"/>
         </div>
@@ -23,7 +23,7 @@
      
     <div class="col-xs-6">
         <div class="form-group">
-            <form:label path="content"><spring:message code="content" text="content"/><span class="required-indicator needed">*</span></form:label>
+            <form:label path="content"><spring:message code="content" text="Content"/><span class="required-indicator needed">*</span></form:label>
             <form:textarea path="content" class="form-control" type="text" required="true" maxlength="500"/>
             <form:errors path="content" cssClass="error" element="div"/>
         </div>
