@@ -30,7 +30,7 @@
         <form:form action="${pageContext.request.contextPath}/post/create" commandName="post" method="POST">
         <jsp:include page="_form.jsp" />
         <div>
-            <input type="submit" value="<spring:message code="create.page.submit.label"/>"/>
+            <input class="btn btn-primary" type="submit" value="<spring:message code="create.page.submit.label"/>"/>
         </div>
         </form:form>
     </div>

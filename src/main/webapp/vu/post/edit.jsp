@@ -30,7 +30,7 @@
             <jsp:include page="_form.jsp" />
             <div>
                 <a href="${pageContext.request.contextPath}/post/show/${post.id}"><spring:message code="show.link.label"/></a>
-                <input type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
+                <input class="btn btn-primary" type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
             </div>
         </form:form>
     </div>

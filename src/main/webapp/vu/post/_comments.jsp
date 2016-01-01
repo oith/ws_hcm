@@ -13,18 +13,18 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
-<button id="comments_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#comments_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="comments" text="COMMENTS"/></button>
+<button id="comments_create" type="button" class="btn btn-primary" data-toggle="modal" data-target="#comments_modal"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="comments" text="Comments"/></button>
 
 <c:if test="${not empty post.comments}">
-    <div id="div_comments" style="margin: auto; overflow-x: scroll; padding-top: 10px">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
-            <thead style="color: white; background-color: #4A89DC; text-align: center">
+    <div class="table-responsive">          
+        <table class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
                 <tr>
                     <th></th>
                     <th></th>
-                    <th><spring:message code="content" text="content"/></th>
-                    <th><spring:message code="auditor" text="auditor"/></th>
-                    <th><spring:message code="id" text="id"/></th>
+                    <th><spring:message code="content" text="Content"/></th>
+                    <th><spring:message code="auditor" text="Auditor"/></th>
+                    <th><spring:message code="id" text="Id"/></th>
 
                     <th></th>
                 </tr>
@@ -58,7 +58,7 @@
                     <div class="modal-header" style="background-color: #5D9CEC">
                         <div class="form-group">
                             <h4 class="modal-title col-md-6" style="float: left">
-                                <spring:message code="comments" text="COMMENTS"/>
+                                <spring:message code="comments" text="Comments"/>
                             </h4>
                             <button type="button" class="close col-md-6" data-dismiss="modal" style="float: right; text-align: right; color: red">&times;</button>
                         </div>
@@ -70,15 +70,15 @@
                         <input type="hidden" name="postId" id="postId" value="${post.id}" >
                         <input type="hidden" name="embdId" id="comments_id" value="" >
                         <div class="col-xs-6">
-                            <spring:message code="content" text="content"/>
+                            <spring:message code="content" text="Content"/>
                             <input type="text" name="content" id="comments_content" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="auditor" text="auditor"/>
+                            <spring:message code="auditor" text="Auditor"/>
                             <input type="text" name="auditor" id="comments_auditor" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="id" text="id"/>
+                            <spring:message code="id" text="Id"/>
                             <input type="text" name="id" id="comments_id" class="form-control" value="" >
                         </div>
 
