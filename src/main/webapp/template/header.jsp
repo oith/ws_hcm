@@ -105,10 +105,13 @@
                 </div>
             </div>     
 
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
             <script>var contextPath = "<%=request.getContextPath()%>"</script>
             <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico"/>
 
-            <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.5/bootstrap.css"/>
+            <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.5/bootstrap.min.css"/>
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.5/bootstrap-datetimepicker.min.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.css"/> 
             <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/jquery.dataTables.css"/> 

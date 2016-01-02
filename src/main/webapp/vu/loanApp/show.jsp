@@ -1,18 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<tiles:insertDefinition name="defaultTemplate"/>
+<tiles:insertDefinition name="defaultTemplate" />
 
 <tiles:putAttribute name="header">
-    <jsp:include page="/template/header.jsp"/>
+    <jsp:include page="/template/header.jsp" />
 </tiles:putAttribute>
 
 <tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp"/>--%>
+    <%--<jsp:include page="/template/menu.jsp" />--%>
 </tiles:putAttribute>
 
 <tiles:putAttribute name="body">
@@ -27,199 +27,191 @@
 
     <h1><spring:message code="show.page.title"/></h1>
     <div>
-        <form:hidden path="id"/>
-        <ol class="property-list">
+        <%--<form:hidden path="id"/>--%>
+        <dl class="dl-horizontal">
 
             <c:if test="${loanApp.emp!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="emp" text="EMP"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="emp">
-                        <c:out value="${loanApp.emp}"/>
-                    </span>
-                </li>
-            </c:if>
+                <dt><spring:message code="emp" text="Emp"/></dt>
+                <dd>
+                    <c:if test="${loanApp.emp.profile!=null}">
+                    <dt><spring:message code="profile" text="Profile"/></dt>
+                    <dd>
+                        <c:out value="${loanApp.emp.profile}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${loanApp.emp.doj!=null}">
+                    <dt><spring:message code="doj" text="Doj"/></dt>
+                    <dd>
+                        <fmt:formatDate value="${loanApp.emp.doj}" type="date" pattern="dd/MM/yyyy"/>
+                    </dd>
+                </c:if>
+                <c:if test="${loanApp.emp.doe!=null}">
+                    <dt><spring:message code="doe" text="Doe"/></dt>
+                    <dd>
+                        <fmt:formatDate value="${loanApp.emp.doe}" type="date" pattern="dd/MM/yyyy"/>
+                    </dd>
+                </c:if>
 
-            <c:if test="${loanApp.appDate!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="appDate" text="APPDATE"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="appDate">
-                        <c:out value="${loanApp.appDate}"/>
-                    </span>
-                </li>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.code!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="code" text="CODE"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="code">
-                        <c:out value="${loanApp.code}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="code" text="Code"/></dt>
+                <dd>
+                    <c:out value="${loanApp.code}"/>
+                </dd>
+            </c:if>
+
+            <c:if test="${loanApp.appDate!=null}">
+                <dt><spring:message code="appDate" text="App Date"/></dt>
+                <dd>
+                    <fmt:formatDate value="${loanApp.appDate}" type="date" pattern="dd/MM/yyyy"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.remarks!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="remarks" text="REMARKS"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="remarks">
-                        <c:out value="${loanApp.remarks}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="remarks" text="Remarks"/></dt>
+                <dd>
+                    <c:out value="${loanApp.remarks}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.approval!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="approval" text="APPROVAL"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="approval">
-                        <c:out value="${loanApp.approval}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="approval" text="Approval"/></dt>
+                <dd>
+                    <c:if test="${loanApp.approval.submitDate!=null}">
+                    <dt><spring:message code="submitDate" text="Submit Date"/></dt>
+                    <dd>
+                        <fmt:formatDate value="${loanApp.approval.submitDate}" type="date" pattern="dd/MM/yyyy"/>
+                    </dd>
+                </c:if>
+                <c:if test="${loanApp.approval.originatedBy!=null}">
+                    <dt><spring:message code="originatedBy" text="Originated By"/></dt>
+                    <dd>
+                        <c:out value="${loanApp.approval.originatedBy}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${loanApp.approval.approvedBy!=null}">
+                    <dt><spring:message code="approvedBy" text="Approved By"/></dt>
+                    <dd>
+                        <c:out value="${loanApp.approval.approvedBy}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${loanApp.approval.checkedBy!=null}">
+                    <dt><spring:message code="checkedBy" text="Checked By"/></dt>
+                    <dd>
+                        <c:out value="${loanApp.approval.checkedBy}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${loanApp.approval.recommendBy!=null}">
+                    <dt><spring:message code="recommendBy" text="Recommend By"/></dt>
+                    <dd>
+                        <c:out value="${loanApp.approval.recommendBy}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${loanApp.approval.notifiedTo!=null}">
+                    <dt><spring:message code="notifiedTo" text="Notified To"/></dt>
+                    <dd>
+                        <c:out value="${loanApp.approval.notifiedTo}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${loanApp.approval.submittedBy!=null}">
+                    <dt><spring:message code="submittedBy" text="Submitted By"/></dt>
+                    <dd>
+                        <c:out value="${loanApp.approval.submittedBy}"/>
+                    </dd>
+                </c:if>
+
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.appliedAmount!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="appliedAmount" text="APPLIEDAMOUNT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="appliedAmount">
-                        <c:out value="${loanApp.appliedAmount}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="appliedAmount" text="Applied Amount"/></dt>
+                <dd>
+                    <c:out value="${loanApp.appliedAmount}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.sanctionAmount!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="sanctionAmount" text="SANCTIONAMOUNT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="sanctionAmount">
-                        <c:out value="${loanApp.sanctionAmount}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="sanctionAmount" text="Sanction Amount"/></dt>
+                <dd>
+                    <c:out value="${loanApp.sanctionAmount}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.installmentAmount!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="installmentAmount" text="INSTALLMENTAMOUNT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="installmentAmount">
-                        <c:out value="${loanApp.installmentAmount}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="installmentAmount" text="Installment Amount"/></dt>
+                <dd>
+                    <c:out value="${loanApp.installmentAmount}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.interestPct!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="interestPct" text="INTERESTPCT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="interestPct">
-                        <c:out value="${loanApp.interestPct}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="interestPct" text="Interest Pct"/></dt>
+                <dd>
+                    <c:out value="${loanApp.interestPct}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.remainingAmount!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="remainingAmount" text="REMAININGAMOUNT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="remainingAmount">
-                        <c:out value="${loanApp.remainingAmount}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="remainingAmount" text="Remaining Amount"/></dt>
+                <dd>
+                    <c:out value="${loanApp.remainingAmount}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.lastInstallmentAmount!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="lastInstallmentAmount" text="LASTINSTALLMENTAMOUNT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="lastInstallmentAmount">
-                        <c:out value="${loanApp.lastInstallmentAmount}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="lastInstallmentAmount" text="Last Installment Amount"/></dt>
+                <dd>
+                    <c:out value="${loanApp.lastInstallmentAmount}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.lastInterestAmount!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="lastInterestAmount" text="LASTINTERESTAMOUNT"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="lastInterestAmount">
-                        <c:out value="${loanApp.lastInterestAmount}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="lastInterestAmount" text="Last Interest Amount"/></dt>
+                <dd>
+                    <c:out value="${loanApp.lastInterestAmount}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.lastTouchPayrollPeriod!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="lastTouchPayrollPeriod" text="LASTTOUCHPAYROLLPERIOD"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="lastTouchPayrollPeriod">
-                        <c:out value="${loanApp.lastTouchPayrollPeriod}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="lastTouchPayrollPeriod" text="Last Touch Payroll Period"/></dt>
+                <dd>
+
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.sanctionDate!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="sanctionDate" text="SANCTIONDATE"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="sanctionDate">
-                        <c:out value="${loanApp.sanctionDate}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="sanctionDate" text="Sanction Date"/></dt>
+                <dd>
+                    <fmt:formatDate value="${loanApp.sanctionDate}" type="date" pattern="dd/MM/yyyy"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.loanType!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="loanType" text="LOANTYPE"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="loanType">
-                        <c:out value="${loanApp.loanType}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="loanType" text="Loan Type"/></dt>
+                <dd>
+                    <c:out value="${loanApp.loanType}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.loanStatus!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="loanStatus" text="LOANSTATUS"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="loanStatus">
-                        <c:out value="${loanApp.loanStatus}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="loanStatus" text="Loan Status"/></dt>
+                <dd>
+                    <c:out value="${loanApp.loanStatus}"/>
+                </dd>
             </c:if>
 
             <c:if test="${loanApp.reasonForLoan!=null}">
-                <li class="fieldcontain first_item">
-                    <span id="title" class="property-label">
-                        <spring:message code="reasonForLoan" text="REASONFORLOAN"/>: 
-                    </span>
-                    <span class="property-value" aria-labelledby="reasonForLoan">
-                        <c:out value="${loanApp.reasonForLoan}"/>
-                    </span>
-                </li>
+                <dt><spring:message code="reasonForLoan" text="Reason For Loan"/></dt>
+                <dd>
+                    <c:out value="${loanApp.reasonForLoan}"/>
+                </dd>
             </c:if>
-          
+
             <c:set target="audit" property="audit" var="audit" value="${loanApp}" scope="request"/>
-            <jsp:include page="../_auditShow.jsp" flush="true"/>
-        </ol>
+            <jsp:include page="../_auditShow.jsp" flush="true" />
+        </dl>
 
     </div>
 
@@ -229,5 +221,5 @@
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp"/>
+    <jsp:include page="/template/footer.jsp" />
 </tiles:putAttribute>    

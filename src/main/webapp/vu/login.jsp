@@ -56,15 +56,13 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type='checkbox' name='_spring_security_remember_me'/><spring:message code="remember.me.on.this.computer" text="Remember me on this computer."/>
+                            <label><input type="checkbox" name='_spring_security_remember_me' value="">&nbsp;&nbsp;<spring:message code="remember.me.on.this.computer" text="Remember me on this computer."/></label>
                         </td>
                     </tr>
 
                     <tr>
-                        <td colspan="1" align="right">
-                            <a href="${pageContext.request.contextPath}/index"><spring:message code="home" text="Home"/></a>
-                        </td>
-                        <td colspan="2" align="right"><input type="submit" value=<spring:message code="login" text="Login"/> />
+                        <td colspan="2" align="right">
+                            <input type="submit" value=<spring:message code="login" text="Login"/> />
                         </td>
                     </tr>
                 </table>
@@ -73,6 +71,7 @@
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
             </div>
+            <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
         </form>
 
 </tiles:putAttribute>  
