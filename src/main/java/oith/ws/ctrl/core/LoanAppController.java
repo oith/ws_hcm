@@ -48,7 +48,7 @@ public class LoanAppController extends _OithClientAuditController {
 
         //List signs = Arrays.asList(TrnscFm.Sign.values());
         List emps = new LinkedList();
-        for (Emp col : empService.findAll()) {
+        for (Emp col : empService.findAllByClient(client)) {
             emps.add(col);
         }
 
@@ -58,6 +58,7 @@ public class LoanAppController extends _OithClientAuditController {
         //}
         //model.addAttribute("signs", signs);
         model.addAttribute("emps", emps);
+        model.addAttribute("approvals", null);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
         //model.addAttribute("accountHeadFms", accountHeadFms);
     }
