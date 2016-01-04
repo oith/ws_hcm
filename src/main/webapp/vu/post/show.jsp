@@ -52,6 +52,7 @@
     </div>
 
     <a href="${pageContext.request.contextPath}/post/edit/<c:out value="${post.id}"/>"><spring:message code="edit.link.label"/></a> |
+    <a href="${pageContext.request.contextPath}/post/copy/<c:out value="${post.id}"/>"><spring:message code="copy.link.label"/></a> |
     <a href="${pageContext.request.contextPath}/post/delete/<c:out value="${post.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a>
 
 </tiles:putAttribute>  

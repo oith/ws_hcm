@@ -6,10 +6,12 @@ import oith.ws.service.PostService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+import oith.ws.dom.core.Auditor;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
+import oith.ws.service.MacUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,37 +198,28 @@ public class PostController extends _OithClientAuditController {
 
         if (bindingResult.hasErrors()) {
             allComboSetup(model);
-            return COPY_FORM_VIEW+"ggggggg";
+            return COPY_FORM_VIEW;
         }
 
-//        try {
-//            Post currObjectLocal = postService.findById(id, client);
-//            currObject.setAuditor(currObjectLocal.getAuditor());
-//            super.update(currObject);
-//        } catch (NotLoggedInException | InAppropriateClientException e) {
-//            return REDIRECT_TO_LOGIN;
-//        } catch (PostNotFoundException ex) {
-//            return NOT_FOUND;
-//        }
-        // String idx = ObjectId.get().toString();
-        //currObject.setId(idx);
-        //System.out.println("uuuuuuuuuuuuuuuu kkkkkkk 1044: " + idx + " currObject: " + currObject+" id: "+id);
         try {
-            //post = postService.update(currObject);
-            Post gg = new Post();
-         //   PropertyUtils.copyProperties(currObject,gg);
-           // String idx = ObjectId.get().toString();
-            //gg.setId(idx);
+            Post currObjectLocal = postService.findById(id, client);
+            currObject.setAuditor(currObjectLocal.getAuditor());
+            super.update(currObject);
+        } catch (NotLoggedInException | InAppropriateClientException e) {
+            return REDIRECT_TO_LOGIN;
+        } catch (PostNotFoundException ex) {
+            return NOT_FOUND;
+        }
 
-            Post currObjectLocal = postService.create(gg);
-
-            //System.out.println("uuuuuuuuuuuuuuuu yyyyyyy 1044: " + idx + " currObject: " + currObject + " ggg " + currObjectLocal);
-            //Post currObjectLocal = postService.update(currObject, "auditor,subject,content,comments");
+        try {
+            Post currObjectLocal = new Post(client);
+            MacUtils.copyProperties(currObjectLocal, currObject, "auditor,subject,content,comments");
+            currObjectLocal = postService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return COPY_FORM_VIEW+"oooooo"+e;
+            return COPY_FORM_VIEW;
         }
     }
 
