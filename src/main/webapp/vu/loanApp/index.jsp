@@ -76,6 +76,7 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th><spring:message code="auditor" text="Auditor"/></th>
                         <th><spring:message code="emp" text="Emp"/></th>
                         <th><spring:message code="code" text="Code"/></th>
                         <th><spring:message code="appDate" text="App Date"/></th>
@@ -94,16 +95,6 @@
                         <th><spring:message code="loanStatus" text="Loan Status"/></th>
                         <th><spring:message code="reasonForLoan" text="Reason For Loan"/></th>
 
-                        
-                        <%--   
-                        <td><spring:message code="code" text="Code"/></td>
-                        <td><spring:message code="active" text="Active"/></td>
-                        <td><spring:message code="slNo" text="Sl No"/></td>
-                        <td><spring:message code="name" text="Name"/></td>
-                        <td><spring:message code="remarks" text="Remarks"/></td>
-                        <td><spring:message code="loanAppKeyword" text="LoanApp Keyword"/></td>
-                        --%>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -111,6 +102,7 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/loanApp/show/<c:out value="${loanApp.id}"/>"><spring:message code="show.link.label"/></a></td>
+                                <td><c:out value="${loanApp.auditor}"/></td>
                                 <td><c:out value="${loanApp.emp}"/></td>
                                 <td><c:out value="${loanApp.code}"/></td>
                                 <td><fmt:formatDate value="${loanApp.appDate}" type="date" pattern="dd/MM/yyyy"/></td>
@@ -130,15 +122,11 @@
                                 <td><c:out value="${loanApp.reasonForLoan}"/></td>
 
                                 <%--
-                                <td><c:out value="${loanApp.code}"/></td>
                                 <td><c:if test="${loanApp.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!loanApp.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                <td><c:out value="${loanApp.slNo}"/></td>
-                                <td><c:out value="${loanApp.name}"/></td>
-                                <td><c:out value="${loanApp.remarks}"/></td>
-                                <td><c:out value="${loanApp.loanAppKeyword}"/></td>
                                 --%>
 
                             <td><a href="${pageContext.request.contextPath}/loanApp/edit/<c:out value="${loanApp.id}"/>"><spring:message code="edit.link.label"/></a></td>
+                            <td><a href="${pageContext.request.contextPath}/loanApp/copy/<c:out value="${loanApp.id}"/>"><spring:message code="copy.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/loanApp/delete/<c:out value="${loanApp.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
                         </tr>
                     </c:forEach>

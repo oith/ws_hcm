@@ -16,21 +16,21 @@
 
 <tiles:putAttribute name="body">
 
-    <title><spring:message code="project.title.edit" text="Edit"/></title>
+    <title><spring:message code="project.title.copy"/></title>
 
     <div>   
         <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
         <a href="${pageContext.request.contextPath}/post/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="post" text="Post"/></a> |
         <a href="${pageContext.request.contextPath}/post/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="post" text="Post"/></a>
     </div>
-    <h1><spring:message code="copy.page.title" text="Copy"/></h1>
+    <h1><spring:message code="copy.page.title"/></h1>
     <div>
         <form:form action="${pageContext.request.contextPath}/post/copy/${post.id}" commandName="post" method="POST">
             <form:hidden path="id"/>
             <jsp:include page="_form.jsp" />
             <div>
                 <a href="${pageContext.request.contextPath}/post/show/${post.id}"><spring:message code="show.link.label"/></a>
-                <input class="btn btn-primary" type="submit" value="<spring:message code="copy.page.submit.label" text="Copy"/>"/>
+                <input class="btn btn-primary" type="submit" value="<spring:message code="copy.page.submit.label"/>"/>
             </div>
         </form:form>
     </div>

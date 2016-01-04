@@ -33,24 +33,24 @@
             <c:if test="${loanApp.emp!=null}">
                 <dt><spring:message code="emp" text="Emp"/></dt>
                 <dd>
-                    <c:if test="${loanApp.emp.profile!=null}">
-                    <dt><spring:message code="profile" text="Profile"/></dt>
-                    <dd>
-                        <c:out value="${loanApp.emp.profile}"/>
-                    </dd>
-                </c:if>
-                <c:if test="${loanApp.emp.doj!=null}">
-                    <dt><spring:message code="doj" text="Doj"/></dt>
-                    <dd>
-                        <fmt:formatDate value="${loanApp.emp.doj}" type="date" pattern="dd/MM/yyyy"/>
-                    </dd>
-                </c:if>
-                <c:if test="${loanApp.emp.doe!=null}">
-                    <dt><spring:message code="doe" text="Doe"/></dt>
-                    <dd>
-                        <fmt:formatDate value="${loanApp.emp.doe}" type="date" pattern="dd/MM/yyyy"/>
-                    </dd>
-                </c:if>
+                                <c:if test="${loanApp.emp.profile!=null}">
+                <dt><spring:message code="profile" text="Profile"/></dt>
+                <dd>
+                    <c:out value="${loanApp.emp.profile}"/>
+                </dd>
+            </c:if>
+            <c:if test="${loanApp.emp.doj!=null}">
+                <dt><spring:message code="doj" text="Doj"/></dt>
+                <dd>
+                    <fmt:formatDate value="${loanApp.emp.doj}" type="date" pattern="dd/MM/yyyy"/>
+                </dd>
+            </c:if>
+            <c:if test="${loanApp.emp.doe!=null}">
+                <dt><spring:message code="doe" text="Doe"/></dt>
+                <dd>
+                    <fmt:formatDate value="${loanApp.emp.doe}" type="date" pattern="dd/MM/yyyy"/>
+                </dd>
+            </c:if>
 
                 </dd>
             </c:if>
@@ -79,48 +79,48 @@
             <c:if test="${loanApp.approval!=null}">
                 <dt><spring:message code="approval" text="Approval"/></dt>
                 <dd>
-                    <c:if test="${loanApp.approval.submitDate!=null}">
-                    <dt><spring:message code="submitDate" text="Submit Date"/></dt>
-                    <dd>
-                        <fmt:formatDate value="${loanApp.approval.submitDate}" type="date" pattern="dd/MM/yyyy"/>
-                    </dd>
-                </c:if>
-                <c:if test="${loanApp.approval.originatedBy!=null}">
-                    <dt><spring:message code="originatedBy" text="Originated By"/></dt>
-                    <dd>
-                        <c:out value="${loanApp.approval.originatedBy}"/>
-                    </dd>
-                </c:if>
-                <c:if test="${loanApp.approval.approvedBy!=null}">
-                    <dt><spring:message code="approvedBy" text="Approved By"/></dt>
-                    <dd>
-                        <c:out value="${loanApp.approval.approvedBy}"/>
-                    </dd>
-                </c:if>
-                <c:if test="${loanApp.approval.checkedBy!=null}">
-                    <dt><spring:message code="checkedBy" text="Checked By"/></dt>
-                    <dd>
-                        <c:out value="${loanApp.approval.checkedBy}"/>
-                    </dd>
-                </c:if>
-                <c:if test="${loanApp.approval.recommendBy!=null}">
-                    <dt><spring:message code="recommendBy" text="Recommend By"/></dt>
-                    <dd>
-                        <c:out value="${loanApp.approval.recommendBy}"/>
-                    </dd>
-                </c:if>
-                <c:if test="${loanApp.approval.notifiedTo!=null}">
-                    <dt><spring:message code="notifiedTo" text="Notified To"/></dt>
-                    <dd>
-                        <c:out value="${loanApp.approval.notifiedTo}"/>
-                    </dd>
-                </c:if>
-                <c:if test="${loanApp.approval.submittedBy!=null}">
-                    <dt><spring:message code="submittedBy" text="Submitted By"/></dt>
-                    <dd>
-                        <c:out value="${loanApp.approval.submittedBy}"/>
-                    </dd>
-                </c:if>
+                                <c:if test="${loanApp.approval.submitDate!=null}">
+                <dt><spring:message code="submitDate" text="Submit Date"/></dt>
+                <dd>
+                    <fmt:formatDate value="${loanApp.approval.submitDate}" type="date" pattern="dd/MM/yyyy"/>
+                </dd>
+            </c:if>
+            <c:if test="${loanApp.approval.originatedBy!=null}">
+                <dt><spring:message code="originatedBy" text="Originated By"/></dt>
+                <dd>
+                    <c:out value="${loanApp.approval.originatedBy}"/>
+                </dd>
+            </c:if>
+            <c:if test="${loanApp.approval.approvedBy!=null}">
+                <dt><spring:message code="approvedBy" text="Approved By"/></dt>
+                <dd>
+                    <c:out value="${loanApp.approval.approvedBy}"/>
+                </dd>
+            </c:if>
+            <c:if test="${loanApp.approval.checkedBy!=null}">
+                <dt><spring:message code="checkedBy" text="Checked By"/></dt>
+                <dd>
+                    <c:out value="${loanApp.approval.checkedBy}"/>
+                </dd>
+            </c:if>
+            <c:if test="${loanApp.approval.recommendBy!=null}">
+                <dt><spring:message code="recommendBy" text="Recommend By"/></dt>
+                <dd>
+                    <c:out value="${loanApp.approval.recommendBy}"/>
+                </dd>
+            </c:if>
+            <c:if test="${loanApp.approval.notifiedTo!=null}">
+                <dt><spring:message code="notifiedTo" text="Notified To"/></dt>
+                <dd>
+                    <c:out value="${loanApp.approval.notifiedTo}"/>
+                </dd>
+            </c:if>
+            <c:if test="${loanApp.approval.submittedBy!=null}">
+                <dt><spring:message code="submittedBy" text="Submitted By"/></dt>
+                <dd>
+                    <c:out value="${loanApp.approval.submittedBy}"/>
+                </dd>
+            </c:if>
 
                 </dd>
             </c:if>
@@ -177,7 +177,7 @@
             <c:if test="${loanApp.lastTouchPayrollPeriod!=null}">
                 <dt><spring:message code="lastTouchPayrollPeriod" text="Last Touch Payroll Period"/></dt>
                 <dd>
-
+                    
                 </dd>
             </c:if>
 
@@ -208,7 +208,7 @@
                     <c:out value="${loanApp.reasonForLoan}"/>
                 </dd>
             </c:if>
-
+          
             <c:set target="audit" property="audit" var="audit" value="${loanApp}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
         </dl>
@@ -216,6 +216,7 @@
     </div>
 
     <a href="${pageContext.request.contextPath}/loanApp/edit/<c:out value="${loanApp.id}"/>"><spring:message code="edit.link.label"/></a> |
+    <a href="${pageContext.request.contextPath}/loanApp/copy/<c:out value="${loanApp.id}"/>"><spring:message code="copy.link.label"/></a> |
     <a href="${pageContext.request.contextPath}/loanApp/delete/<c:out value="${loanApp.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a>
 
 </tiles:putAttribute>  

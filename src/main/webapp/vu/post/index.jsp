@@ -75,21 +75,11 @@
 
                 <thead>
                     <tr>
-                        <td></td>
+                        <th></th>
                         <th><spring:message code="auditor" text="Auditor"/></th>
                         <th><spring:message code="subject" text="Subject"/></th>
                         <th><spring:message code="content" text="Content"/></th>
                         <th><spring:message code="comments" text="Comments"/></th>
-
-                        
-                        <%--   
-                        <td><spring:message code="code" text="Code"/></td>
-                        <td><spring:message code="active" text="Active"/></td>
-                        <td><spring:message code="slNo" text="Sl No"/></td>
-                        <td><spring:message code="name" text="Name"/></td>
-                        <td><spring:message code="remarks" text="Remarks"/></td>
-                        <td><spring:message code="postKeyword" text="Post Keyword"/></td>
-                        --%>
 
                     </tr>
                 </thead>
@@ -104,12 +94,7 @@
                                 <td><c:out value="${post.comments}"/></td>
 
                                 <%--
-                                <td><c:out value="${post.code}"/></td>
                                 <td><c:if test="${post.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!post.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                <td><c:out value="${post.slNo}"/></td>
-                                <td><c:out value="${post.name}"/></td>
-                                <td><c:out value="${post.remarks}"/></td>
-                                <td><c:out value="${post.postKeyword}"/></td>
                                 --%>
 
                             <td><a href="${pageContext.request.contextPath}/post/edit/<c:out value="${post.id}"/>"><spring:message code="edit.link.label"/></a></td>
