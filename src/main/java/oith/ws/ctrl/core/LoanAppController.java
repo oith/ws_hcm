@@ -13,6 +13,7 @@ import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.EmpService;
+import oith.ws.service.MacUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,11 +32,13 @@ public class LoanAppController extends _OithClientAuditController {
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    protected static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
     protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
     private LoanAppService loanAppService;
+
     @Autowired
     private EmpService empService;
 
@@ -58,7 +61,6 @@ public class LoanAppController extends _OithClientAuditController {
         //}
         //model.addAttribute("signs", signs);
         model.addAttribute("emps", emps);
-        model.addAttribute("approvals", null);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
         //model.addAttribute("accountHeadFms", accountHeadFms);
     }
@@ -73,7 +75,7 @@ public class LoanAppController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new LoanApp());
+        model.addAttribute(MODEL_ATTIRUTE, new LoanApp(client));
         allComboSetup(model);
         return ADD_FORM_VIEW;
     }
@@ -152,12 +154,78 @@ public class LoanAppController extends _OithClientAuditController {
 
         try {
             //loanApp = loanAppService.update(currObject);
-            LoanApp currObjectLocal = loanAppService.update(currObject, "auditor,emp,appDate,code,remarks,approval,appliedAmount,sanctionAmount,installmentAmount,interestPct,remainingAmount,lastInstallmentAmount,lastInterestAmount,lastTouchPayrollPeriod,sanctionDate,loanType,loanStatus,reasonForLoan");
+            LoanApp currObjectLocal = loanAppService.update(currObject, "auditor,emp,code,appDate,remarks,approval,appliedAmount,sanctionAmount,installmentAmount,interestPct,remainingAmount,lastInstallmentAmount,lastInterestAmount,lastTouchPayrollPeriod,sanctionDate,loanType,loanStatus,reasonForLoan");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
-        } catch (LoanAppNotFoundException e) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+        } catch (Exception e) {
+            errorHandler(bindingResult, e);
+            allComboSetup(model);
             return EDIT_FORM_VIEW;
+        }
+    }
+
+    @RequestMapping(value = "/copy/{id}", method = RequestMethod.GET)
+    public String copy(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        try {
+            LoanApp currObjectLocal = loanAppService.findById(id, client);
+            model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            allComboSetup(model);
+            return COPY_FORM_VIEW;
+        } catch (LoanAppNotFoundException ex) {
+            return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
+    }
+
+    @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
+    public String copied(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid LoanApp currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        if (bindingResult.hasErrors()) {
+            allComboSetup(model);
+            return COPY_FORM_VIEW;
+        }
+
+        try {
+            LoanApp currObjectLocal = loanAppService.findById(id, client);
+            currObject.setAuditor(currObjectLocal.getAuditor());
+            super.update(currObject);
+        } catch (NotLoggedInException | InAppropriateClientException e) {
+            return REDIRECT_TO_LOGIN;
+        } catch (LoanAppNotFoundException ex) {
+            return NOT_FOUND;
+        }
+
+        try {
+            LoanApp currObjectLocal = new LoanApp(client);
+            MacUtils.copyProperties(currObjectLocal, currObject, "auditor,emp,code,appDate,remarks,approval,appliedAmount,sanctionAmount,installmentAmount,interestPct,remainingAmount,lastInstallmentAmount,lastInterestAmount,lastTouchPayrollPeriod,sanctionDate,loanType,loanStatus,reasonForLoan");
+            currObjectLocal = loanAppService.create(currObjectLocal);
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
+            return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
+        } catch (Exception e) {
+            errorHandler(bindingResult, e);
+            allComboSetup(model);
+            return COPY_FORM_VIEW;
         }
     }
 

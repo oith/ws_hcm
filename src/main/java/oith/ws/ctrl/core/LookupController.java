@@ -1,17 +1,17 @@
 package oith.ws.ctrl.core;
 
+import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Lookup;
 import oith.ws.exception.LookupNotFoundException;
 import oith.ws.service.LookupService;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.hcm.def.os.op.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
+import oith.ws.service.MacUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,6 +30,7 @@ public class LookupController extends _OithClientAuditController {
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    protected static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
     protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
@@ -43,7 +44,8 @@ public class LookupController extends _OithClientAuditController {
         } catch (NotLoggedInException e) {
         }
 
-        Lookup.LookupKeyword[] lookupKeywords = Lookup.LookupKeyword.values();
+        //List signs = Arrays.asList(TrnscFm.Sign.values());
+
         //List emps = new LinkedList();
         //for (Emp col : empService.findAll()) {
         //    emps.add(col);
@@ -53,11 +55,13 @@ public class LookupController extends _OithClientAuditController {
         //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
         //    accountHeadFms.add(col);
         //}
+
         //model.addAttribute("signs", signs);
-        model.addAttribute("lookupKeywords", lookupKeywords);
+        //model.addAttribute("emps", emps);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
         //model.addAttribute("accountHeadFms", accountHeadFms);
     }
+
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {
@@ -69,8 +73,8 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        allComboSetup(model);
         model.addAttribute(MODEL_ATTIRUTE, new Lookup(client));
+        allComboSetup(model);
         return ADD_FORM_VIEW;
     }
 
@@ -148,12 +152,76 @@ public class LookupController extends _OithClientAuditController {
 
         try {
             //lookup = lookupService.update(currObject);
-            Lookup currObjectLocal = lookupService.update(currObject, "code,name,active,slNo,remarks,lookupKeyword,auditor");
+            Lookup currObjectLocal = lookupService.update(currObject, "auditor,code,lookupKeyword,name,active,slNo,remarks");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
-        } catch (LookupNotFoundException e) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+        } catch (Exception e) {
+            errorHandler(bindingResult, e);
             return EDIT_FORM_VIEW;
+        }
+    }
+
+    @RequestMapping(value = "/copy/{id}", method = RequestMethod.GET)
+    public String copy(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        try {
+            Lookup currObjectLocal = lookupService.findById(id, client);
+            model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            allComboSetup(model);
+            return COPY_FORM_VIEW;
+        } catch (LookupNotFoundException ex) {
+            return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
+    }
+
+    @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
+    public String copied(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        if (bindingResult.hasErrors()) {
+            allComboSetup(model);
+            return COPY_FORM_VIEW;
+        }
+
+        try {
+            Lookup currObjectLocal = lookupService.findById(id, client);
+            currObject.setAuditor(currObjectLocal.getAuditor());
+            super.update(currObject);
+        } catch (NotLoggedInException | InAppropriateClientException e) {
+            return REDIRECT_TO_LOGIN;
+        } catch (LookupNotFoundException ex) {
+            return NOT_FOUND;
+        }
+
+        try {
+            Lookup currObjectLocal = new Lookup(client);
+            MacUtils.copyProperties(currObjectLocal, currObject, "auditor,code,lookupKeyword,name,active,slNo,remarks");
+            currObjectLocal = lookupService.create(currObjectLocal);
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
+            return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
+        } catch (Exception e) {
+            errorHandler(bindingResult, e);
+            return COPY_FORM_VIEW;
         }
     }
 

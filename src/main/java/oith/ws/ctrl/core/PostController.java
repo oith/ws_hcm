@@ -1,19 +1,17 @@
 package oith.ws.ctrl.core;
 
+import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Post;
 import oith.ws.exception.PostNotFoundException;
 import oith.ws.service.PostService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
-import oith.ws.dom.core.Auditor;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.MacUtils;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,19 +45,23 @@ public class PostController extends _OithClientAuditController {
         }
 
         //List signs = Arrays.asList(TrnscFm.Sign.values());
+
         //List emps = new LinkedList();
         //for (Emp col : empService.findAll()) {
         //    emps.add(col);
         //}
+
         //List accountHeadFms = new LinkedList();
         //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
         //    accountHeadFms.add(col);
         //}
+
         //model.addAttribute("signs", signs);
         //model.addAttribute("emps", emps);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
         //model.addAttribute("accountHeadFms", accountHeadFms);
     }
+
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {

@@ -1,18 +1,16 @@
 package oith.ws.ctrl.core;
 
-import java.lang.reflect.Method;
+import org.springframework.dao.DuplicateKeyException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import javax.annotation.Resource;
-import oith.ws.dom.core.AbstDoc;
-import oith.ws.dom.core.Param;
-import oith.ws.dom.core.Param.ValueType;
-import oith.ws.service.MacUserDetail;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -23,6 +21,7 @@ public abstract class _OithController {
     protected static final String ERROR_NOT_LOGGED_IN = "error.not.logged.in";
     protected static final String ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND = "error.message.deleted.not.found";
     protected static final String ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND = "error.message.edited.not.found";
+    protected static final String ERROR_MESSAGE_KEY_COPIED_WAS_NOT_FOUND = "error.message.copied.not.found";
 
     protected static final String FEEDBACK_MESSAGE_KEY_CREATED = "feedback.message.created";
     protected static final String FEEDBACK_MESSAGE_KEY_DELETED = "feedback.message.deleted";
@@ -36,9 +35,9 @@ public abstract class _OithController {
     private static final String ERROR_MESSAGE = "errorMessage";
     private static final String FEEDBACK_MESSAGE = "feedbackMessage";
     protected static final String REDIRECT = "redirect:";
-    
+
     protected static final String REDIRECT_TO_LOGIN = "/login";
-    
+
     protected static final String NOT_FOUND = REDIRECT + "/index";
 
     @Resource
@@ -101,4 +100,22 @@ public abstract class _OithController {
         return builder.toString();
     }
 
+    protected void errorHandler(BindingResult bindingResult, Exception e) {
+
+        if (e instanceof DuplicateKeyException) {
+            DuplicateKeyException uuu = (DuplicateKeyException) e;
+
+            String hhh = uuu.getCause().getMessage();
+
+            int kk = hhh.lastIndexOf(": \"");
+            if (kk != -1) {
+                hhh = hhh.substring(kk + 3, hhh.length() - 4);
+            }
+
+            ObjectError yyyy = new ObjectError(bindingResult.getObjectName(), "Duplicate record notification for value '" + hhh + "'");
+            //FieldError yyyy=   new FieldError(bindingResult.getObjectName(), "code", e.getMessage()+" real val: "+ uuu.getRootCause()+" hhhh"+ val);
+
+            bindingResult.addError(yyyy);
+        }
+    }
 }
