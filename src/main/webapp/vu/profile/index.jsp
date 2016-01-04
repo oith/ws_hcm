@@ -63,7 +63,7 @@
 
         <div>
 	    <button type="submit" class="btn btn-info">
-	         <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
+	         <span class="fa fa-search"></span><spring:message code="search.form.submit.label"/>
 	    </button>
         </div>
     </form:form>

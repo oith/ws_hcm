@@ -1,6 +1,5 @@
 package oith.ws.ctrl.core;
 
-import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Post;
 import oith.ws.exception.PostNotFoundException;
 import oith.ws.service.PostService;
@@ -11,6 +10,8 @@ import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +30,7 @@ public class PostController extends _OithClientAuditController {
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    protected static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
     protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
@@ -152,6 +154,79 @@ public class PostController extends _OithClientAuditController {
         } catch (PostNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return EDIT_FORM_VIEW;
+        }
+    }
+
+    @RequestMapping(value = "/copy/{id}", method = RequestMethod.GET)
+    public String copy(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        try {
+            Post currObjectLocal = postService.findById(id, client);
+            model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
+            allComboSetup(model);
+            return COPY_FORM_VIEW;
+        } catch (PostNotFoundException ex) {
+            return NOT_FOUND;
+        } catch (InAppropriateClientException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
+    }
+
+    @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
+    public String copied(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        if (bindingResult.hasErrors()) {
+            allComboSetup(model);
+            return COPY_FORM_VIEW+"ggggggg";
+        }
+
+//        try {
+//            Post currObjectLocal = postService.findById(id, client);
+//            currObject.setAuditor(currObjectLocal.getAuditor());
+//            super.update(currObject);
+//        } catch (NotLoggedInException | InAppropriateClientException e) {
+//            return REDIRECT_TO_LOGIN;
+//        } catch (PostNotFoundException ex) {
+//            return NOT_FOUND;
+//        }
+        // String idx = ObjectId.get().toString();
+        //currObject.setId(idx);
+        //System.out.println("uuuuuuuuuuuuuuuu kkkkkkk 1044: " + idx + " currObject: " + currObject+" id: "+id);
+        try {
+            //post = postService.update(currObject);
+            Post gg = new Post();
+         //   PropertyUtils.copyProperties(currObject,gg);
+           // String idx = ObjectId.get().toString();
+            //gg.setId(idx);
+
+            Post currObjectLocal = postService.create(gg);
+
+            //System.out.println("uuuuuuuuuuuuuuuu yyyyyyy 1044: " + idx + " currObject: " + currObject + " ggg " + currObjectLocal);
+            //Post currObjectLocal = postService.update(currObject, "auditor,subject,content,comments");
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
+            return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
+        } catch (Exception e) {
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+            return COPY_FORM_VIEW+"oooooo"+e;
         }
     }
 

@@ -27,6 +27,7 @@ public abstract class _OithController {
     protected static final String FEEDBACK_MESSAGE_KEY_CREATED = "feedback.message.created";
     protected static final String FEEDBACK_MESSAGE_KEY_DELETED = "feedback.message.deleted";
     protected static final String FEEDBACK_MESSAGE_KEY_EDITED = "feedback.message.edited";
+    protected static final String FEEDBACK_MESSAGE_KEY_COPIED = "feedback.message.copied";
 
     protected static final String INDEX = "index";
     protected static final String LOGIN = "login";
