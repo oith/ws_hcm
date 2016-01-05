@@ -2,7 +2,6 @@ package oith.ws.ctrl.core;
 
 import oith.ws.dom.hcm.prl.LoanApp;
 import oith.ws.exception.LoanAppNotFoundException;
-import oith.ws.service.LoanAppService;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +11,6 @@ import oith.ws.dom.hcm.def.os.op.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
-import oith.ws.service.EmpService;
 import oith.ws.service.MacUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,10 +35,10 @@ public class LoanAppController extends _OithClientAuditController {
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
-    private LoanAppService loanAppService;
+    private oith.ws.service.LoanAppService loanAppService;
 
     @Autowired
-    private EmpService empService;
+    private oith.ws.service.EmpService empService;
 
     private void allComboSetup(ModelMap model) {
         Client client = null;
@@ -49,21 +47,23 @@ public class LoanAppController extends _OithClientAuditController {
         } catch (NotLoggedInException e) {
         }
 
-        //List signs = Arrays.asList(TrnscFm.Sign.values());
+        //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
+
         List emps = new LinkedList();
         for (Emp col : empService.findAllByClient(client)) {
             emps.add(col);
         }
+        model.addAttribute("emps", emps);
 
         //List accountHeadFms = new LinkedList();
         //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
         //    accountHeadFms.add(col);
         //}
-        //model.addAttribute("signs", signs);
-        model.addAttribute("emps", emps);
-        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
         //model.addAttribute("accountHeadFms", accountHeadFms);
+
+        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
+
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {
@@ -256,7 +256,6 @@ public class LoanAppController extends _OithClientAuditController {
         }
         model.addAttribute("pages", pages);
         return LIST_VIEW;
-
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
@@ -327,5 +326,4 @@ public class LoanAppController extends _OithClientAuditController {
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-
 }

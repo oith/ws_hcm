@@ -1,9 +1,7 @@
 package oith.ws.ctrl.core;
 
-import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Lookup;
 import oith.ws.exception.LookupNotFoundException;
-import oith.ws.service.LookupService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -35,7 +33,8 @@ public class LookupController extends _OithClientAuditController {
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
-    private LookupService lookupService;
+    private oith.ws.service.LookupService lookupService;
+
 
     private void allComboSetup(ModelMap model) {
         Client client = null;
@@ -44,22 +43,21 @@ public class LookupController extends _OithClientAuditController {
         } catch (NotLoggedInException e) {
         }
 
-        //List signs = Arrays.asList(TrnscFm.Sign.values());
+        //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
 
         //List emps = new LinkedList();
-        //for (Emp col : empService.findAll()) {
+        //for (Emp col : empService.findAllByClient(client)) {
         //    emps.add(col);
         //}
+        //model.addAttribute("emps", emps);
 
         //List accountHeadFms = new LinkedList();
         //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
         //    accountHeadFms.add(col);
         //}
-
-        //model.addAttribute("signs", signs);
-        //model.addAttribute("emps", emps);
-        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
         //model.addAttribute("accountHeadFms", accountHeadFms);
+
+        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
 
 
@@ -157,6 +155,7 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
             errorHandler(bindingResult, e);
+            allComboSetup(model);
             return EDIT_FORM_VIEW;
         }
     }
@@ -221,6 +220,7 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
             errorHandler(bindingResult, e);
+            allComboSetup(model);
             return COPY_FORM_VIEW;
         }
     }
@@ -252,7 +252,6 @@ public class LookupController extends _OithClientAuditController {
         }
         model.addAttribute("pages", pages);
         return LIST_VIEW;
-
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
@@ -323,5 +322,4 @@ public class LookupController extends _OithClientAuditController {
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-
 }
