@@ -30,6 +30,13 @@
         <%--<form:hidden path="id"/>--%>
         <dl class="dl-horizontal">
 
+            <c:if test="${profile.code!=null}">
+                <dt><spring:message code="code" text="Code"/></dt>
+                <dd>
+                    <c:out value="${profile.code}"/>
+                </dd>
+            </c:if>
+
             <c:if test="${profile.title!=null}">
                 <dt><spring:message code="title" text="Title"/></dt>
                 <dd>
@@ -196,7 +203,7 @@
             <c:if test="${profile.user.dob!=null}">
                 <dt><spring:message code="dob" text="Dob"/></dt>
                 <dd>
-                    <c:out value="${profile.user.dob}"/>
+                    <fmt:formatDate value="${profile.user.dob}" type="date" pattern="dd/MM/yyyy"/>
                 </dd>
             </c:if>
             <c:if test="${profile.user.accountNonExpired!=null}">
@@ -302,7 +309,7 @@
             <c:if test="${profile.marriageDate!=null}">
                 <dt><spring:message code="marriageDate" text="Marriage Date"/></dt>
                 <dd>
-                    <c:out value="${profile.marriageDate}"/>
+                    <fmt:formatDate value="${profile.marriageDate}" type="date" pattern="dd/MM/yyyy"/>
                 </dd>
             </c:if>
 
