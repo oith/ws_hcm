@@ -106,6 +106,8 @@ public abstract class _OithController {
             DuplicateKeyException uuu = (DuplicateKeyException) e;
 
             String hhh = uuu.getCause().getMessage();
+            
+            System.out.println("err dup key: "+hhh);
 
             int kk = hhh.lastIndexOf(": \"");
             if (kk != -1) {
