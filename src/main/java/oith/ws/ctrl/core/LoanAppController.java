@@ -48,7 +48,6 @@ public class LoanAppController extends _OithClientAuditController {
         }
 
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
-
         List emps = new LinkedList();
         for (Emp col : empService.findAllByClient(client)) {
             emps.add(col);
@@ -60,13 +59,11 @@ public class LoanAppController extends _OithClientAuditController {
         //    accountHeadFms.add(col);
         //}
         //model.addAttribute("accountHeadFms", accountHeadFms);
-
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
 
-
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(ModelMap model, RedirectAttributes attributes) {
+    public String create(ModelMap model) {
 
         Client client;
         try {
@@ -81,7 +78,11 @@ public class LoanAppController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid LoanApp currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
+    public String save(
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid LoanApp currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes) {
 
         try {
             super.save(currObject, attributes);
@@ -101,7 +102,7 @@ public class LoanAppController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String edit(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    public String edit(@PathVariable("id") String id, ModelMap model) {
 
         Client client;
         try {
@@ -165,7 +166,7 @@ public class LoanAppController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.GET)
-    public String copy(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    public String copy(@PathVariable("id") String id, ModelMap model) {
 
         Client client;
         try {
@@ -230,7 +231,7 @@ public class LoanAppController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
-    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model, RedirectAttributes attributes) {
+    public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
         Client client;
         try {
@@ -259,7 +260,7 @@ public class LoanAppController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
-    public String list(ModelMap model, RedirectAttributes attributes) {
+    public String list(ModelMap model) {
 
         Client client;
         try {
@@ -286,7 +287,7 @@ public class LoanAppController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/show/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    public String show(@PathVariable("id") String id, ModelMap model) {
 
         Client client;
         try {

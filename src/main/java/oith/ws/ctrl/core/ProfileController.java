@@ -2,7 +2,6 @@ package oith.ws.ctrl.core;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import oith.ws.dom.core.ContactInfo;
 import oith.ws.dom.core.Profile;
 import oith.ws.dom.core.User;
 import oith.ws.exception.ProfileNotFoundException;
@@ -21,6 +20,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,108 +70,125 @@ public class ProfileController extends _OithClientAuditController {
     protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
-//
     protected static final String EDIT_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_edit";
     protected static final String SHOW_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_show";
     protected static final String SHOW_FORM_VIEW_OPERATOR = MODEL_ATTIRUTE + "/operator_show";
 
     @Autowired
     private ProfileService profileService;
+
     @Autowired
     private GridFsOperations gridFsTemplate;
 
     private void allComboSetup(ModelMap model) {
-        Client client = null;
-        try {
-            client = super.getLoggedClient();
-        } catch (NotLoggedInException e) {
-        }
-
-        AllEnum.BloodGroup[] bloodGroups = AllEnum.BloodGroup.values();
-        AllEnum.MaritalSts[] maritalStss = AllEnum.MaritalSts.values();
-        AllEnum.Religion[] religions = AllEnum.Religion.values();
-
-        //List emps = new LinkedList();
-        //for (Emp col : empService.findAll()) {
-        //    emps.add(col);
-        //}
-        //List accountHeadFms = new LinkedList();
-        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
-        //    accountHeadFms.add(col);
-        //}
-        //model.addAttribute("signs", signs);
-        model.addAttribute("bloodGroups", bloodGroups);
-        model.addAttribute("maritalStss,", maritalStss);
-        model.addAttribute("religions", religions);
-    }
-
-    @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
-    public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
-
-        String aaa[] = dets.split("~");
-
-        String field = aaa[0];
-        String profileId = aaa[1];
-        Integer id = Integer.parseInt(aaa[2]);
-
-        Profile profile = null;
-        try {
-            profile = profileService.findById(profileId);
-        } catch (ProfileNotFoundException ex) {
-            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String profileIdCurr = authUser.getProfileId();
-
-        try {
-
-            PropertyDescriptor pd = new PropertyDescriptor(field, Profile.class);
-            Method getter = pd.getReadMethod();//Profile.class.getDeclaredMethod(method);
-            Set<IEmbdDetail> jjj = (Set<IEmbdDetail>) getter.invoke(profile);
-
-            for (IEmbdDetail col : jjj) {
-                if (col.getEmbdId().equals(id)) {
-                    jjj.remove(col);
-                    break;
-                }
-            }
-
-            profileService.update(profile);
-            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
-        } catch (Exception e) {
-            System.out.println("1111 yyyyyyyyyyyyyyyyyy" + e);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-        }
-
-        if (profileIdCurr.equals(profileId)) {
-            return "redirect:/profile/show";
-        } else {
-            return "redirect:/profile/admin_show/" + profileId;
-        }
+        model.addAttribute("bloodGroups", AllEnum.BloodGroup.values());
+        model.addAttribute("maritalStss,", AllEnum.MaritalSts.values());
+        model.addAttribute("religions", AllEnum.Religion.values());
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(ModelMap model, RedirectAttributes attributes) {
 
-        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = authUser.getUserId();
-        User user = super.getUserService().findById(userId);
-
-        if (user == null) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            //return createRedirectViewPath(REQUEST_MAPPING_LIST);
+        User user;
+        try {
+            user = super.getLoggedUser();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
         }
 
         Profile profile = profileService.findByUser(user);
         if (profile == null) {
             profile = new Profile(user);
             model.addAttribute(MODEL_ATTIRUTE, profile);
+            allComboSetup(model);
 
             return ADD_FORM_VIEW;
         } else {
             return "redirect:/" + SHOW_FORM_VIEW;
         }
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String submitCreateForm(
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes,
+            MultipartHttpServletRequest request) {
+
+        try {
+            super.save(currObject, attributes);
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        if (bindingResult.hasErrors()) {
+            allComboSetup(model);
+            return ADD_FORM_VIEW;
+        }
+
+        int code = new Random().nextInt(999999);
+        currObject.setCode(String.format("%06d", code));
+
+        Profile currObjectLocal = profileService.create(currObject);
+        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
+
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        authUser.setProfileId(currObjectLocal.getId());
+
+        return REDIRECT + "/" + SHOW_FORM_VIEW;
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String showEditForm(ModelMap model, RedirectAttributes attributes) {
+
+        Profile profile = null;
+        try {
+            profile = super.getLoggedProfile();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        } catch (ProfileNotFoundException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        model.addAttribute(MODEL_ATTIRUTE, profile);
+        allComboSetup(model);
+        return EDIT_FORM_VIEW;
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String submitEditForm(
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject,
+            BindingResult bindingResult,
+            ModelMap model,
+            RedirectAttributes attributes, MultipartHttpServletRequest request) {
+
+        Profile profile = null;
+        try {
+            profile = super.getLoggedProfile();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        } catch (ProfileNotFoundException ex) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        currObject.setId(profile.getId());
+
+        imageHandle(request, currObject);
+
+        if (bindingResult.hasErrors()) {
+            allComboSetup(model);
+            return EDIT_FORM_VIEW;
+        }
+
+        try {
+            Profile currObjectLocal = profileService.update(currObject, "title,firstName,middleName,lastName,nickName,nid,profilePicFile,chestSize,height,weight,bloodGroup,maritalSts,religion,marriageDate,noOfChild");
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
+        } catch (ProfileNotFoundException e) {
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+        }
+        return REDIRECT + "/" + SHOW_FORM_VIEW;
     }
 
     @RequestMapping(value = "/admin_show_4m_user/{id}", method = RequestMethod.GET)
@@ -205,50 +222,10 @@ public class ProfileController extends _OithClientAuditController {
             return "profile/admin_create";
         }
 
-//        try {
-//            try {
-//                doAuditInsert(currObject);
-//            } catch (NotLoggedInException ex) {
-//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        } catch (UserNotFoundException ex) {
-//            System.out.println("No user object found with id: " + ex);
-//            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-//            return "profile/admin_create";
-//        }
         Profile profile = profileService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, profile.getId());
 
         return "redirect:/" + "" + SHOW_FORM_VIEW_ADMIN + "/" + profile.getId();
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
-        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        currObject.setUser(super.getUserService().findById(authUser.getUserId()));
-
-        if (bindingResult.hasErrors()) {
-            return ADD_FORM_VIEW;
-        }
-
-        try {
-//            try {
-//                doAuditInsert(currObject);
-//            } catch (NotLoggedInException ex) {
-//                Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-        } catch (Exception ex) {
-            System.out.println("No user object found with id: " + ex);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            return ADD_FORM_VIEW;
-        }
-
-        Profile profile = profileService.create(currObject);
-        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, profile.getId());
-        authUser.setProfileId(profile.getId());
-
-        return "redirect:/" + SHOW_FORM_VIEW;
     }
 
     @RequestMapping(value = "/profileEduDtls/edit", method = RequestMethod.POST)
@@ -429,65 +406,6 @@ public class ProfileController extends _OithClientAuditController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return null;
         }
-
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String showEditForm(ModelMap model, RedirectAttributes attributes) {
-
-        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String profileId = authUser.getProfileId();
-        Profile profile = null;
-        try {
-            profile = profileService.findById(profileId);
-        } catch (ProfileNotFoundException ex) {
-            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (profile == null) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-            //return createRedirectViewPath(REQUEST_MAPPING_LIST);
-        }
-        allComboSetup(model);
-        model.addAttribute(MODEL_ATTIRUTE, profile);
-
-        return EDIT_FORM_VIEW;
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String submitEditForm(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject,
-            BindingResult bindingResult,
-            ModelMap model,
-            RedirectAttributes attributes, MultipartHttpServletRequest request) {
-
-        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String profileId = authUser.getProfileId();
-
-        currObject.setId(profileId);
-
-        ContactInfo contactInfo = new ContactInfo();
-        contactInfo.setWeb("www.oith.org");
-        contactInfo.setMobile("036128763");
-        contactInfo.setPhone("9666676");
-        contactInfo.setEmail("anis.php@gmail.com");
-        currObject.setContactInfo(contactInfo);
-
-        imageHandle(request, currObject);
-
-        if (bindingResult.hasErrors()) {
-            System.out.println("Edit profile form contains validation errors. Rendering form view." + bindingResult.getFieldError());
-            return EDIT_FORM_VIEW;
-        }
-
-        try {
-            Profile profile = profileService.update(currObject, "title,firstName,middleName,lastName,nickName,nid,profilePicFile,chestSize,height,weight,bloodGroup,maritalSts,religion,marriageDate,noOfChild");
-            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
-        } catch (ProfileNotFoundException e) {
-            System.out.println("No profile was found with id: " + profileId);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-        }
-        return "redirect:/" + SHOW_FORM_VIEW;
     }
 
     @RequestMapping(value = {"", "/index"}, method = RequestMethod.POST)
@@ -624,6 +542,49 @@ public class ProfileController extends _OithClientAuditController {
         }
     }
 
+    @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
+    public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
+
+        String aaa[] = dets.split("~");
+
+        String field = aaa[0];
+        String profileId = aaa[1];
+        Integer id = Integer.parseInt(aaa[2]);
+
+        Profile profile = null;
+        try {
+            profile = profileService.findById(profileId);
+        } catch (ProfileNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        MacUserDetail authUser = (MacUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String profileIdCurr = authUser.getProfileId();
+
+        try {
+            PropertyDescriptor pd = new PropertyDescriptor(field, Profile.class);
+            Method getter = pd.getReadMethod();//Profile.class.getDeclaredMethod(method);
+            Set<IEmbdDetail> jjj = (Set<IEmbdDetail>) getter.invoke(profile);
+
+            for (IEmbdDetail col : jjj) {
+                if (col.getEmbdId().equals(id)) {
+                    jjj.remove(col);
+                    break;
+                }
+            }
+            profileService.update(profile);
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, profileId);
+        } catch (Exception e) {
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+        }
+
+        if (profileIdCurr.equals(profileId)) {
+            return "redirect:/profile/show";
+        } else {
+            return "redirect:/profile/admin_show/" + profileId;
+        }
+    }
+
     @RequestMapping(value = "/getPhoto/small/{code}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<byte[]> getCodableDTOSmall(@PathVariable("code") String code) {
@@ -642,7 +603,6 @@ public class ProfileController extends _OithClientAuditController {
             System.out.println("eeeeeeeey get photo " + e);
             return null;
         }
-
     }
 
     private void imageHandle(MultipartHttpServletRequest request, Profile currObject) {
