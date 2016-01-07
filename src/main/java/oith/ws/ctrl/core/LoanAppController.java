@@ -12,10 +12,14 @@ import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.MacUtils;
+import oith.ws.util.StringToEmpConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +43,16 @@ public class LoanAppController extends _OithClientAuditController {
 
     @Autowired
     private oith.ws.service.EmpService empService;
+
+    @InitBinder
+    void registerConverters(WebDataBinder binder) {
+        if (binder.getConversionService() instanceof GenericConversionService) {
+            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
+
+            //conversionService.addConverter(new StringToAccountHeadFmConverter(accountHeadFmService));
+            conversionService.addConverter(new StringToEmpConverter(empService));
+        }
+    }
 
     private void allComboSetup(ModelMap model) {
         Client client = null;
