@@ -6,11 +6,14 @@ import oith.ws.exception.EmpNotFoundException;
 import oith.ws.service.EmpService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
+import oith.ws.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -79,6 +82,8 @@ public class EmpController extends _OithClientAuditController {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(EmpController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (bindingResult.hasErrors()) {
@@ -142,6 +147,8 @@ public class EmpController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         } catch (EmpNotFoundException ex) {
             return NOT_FOUND;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(EmpController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {

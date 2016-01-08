@@ -20,6 +20,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import oith.ws.dom.core.Role;
 import oith.ws.dto._SearchDTO;
+import oith.ws.dom.core.User;
+import oith.ws.dom.core.Role;
+import oith.ws.dom.core.ShortCut;
+import oith.ws.dom.core.Param;
+
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.validation.Valid;
+import oith.ws.ctrl.core._OithClientAuditController;
+import oith.ws.dom.core.Client;
+import oith.ws.dom.core.IEmbdDetail;
+import oith.ws.dto._SearchDTO;
+import oith.ws.exception.UserNotFoundException;
+import oith.ws.exception.InAppropriateClientException;
+import oith.ws.exception.NotLoggedInException;
+import oith.ws.exception.ReportNotFoundException;
+import oith.ws.service.MacUtils;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import oith.ws.service.ClientService;
 import oith.ws.service.RoleService;
 import oith.ws.service.MacUserDetail;
@@ -30,7 +66,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 @Controller
 @RequestMapping(value = "/user")
-public class UserController extends _OithController {
+public class UserController extends _OithClientAuditController {
 
     protected static final String MODEL_ATTIRUTE = "user";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -116,7 +152,11 @@ public class UserController extends _OithController {
 
         if (authUser instanceof MacUserDetail) {
             String userId = ((MacUserDetail) authUser).getUserId();
-            user = userService.findById(userId);
+            try {
+                user = userService.findById(userId);
+            } catch (UserNotFoundException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         if (user == null) {
@@ -180,7 +220,11 @@ public class UserController extends _OithController {
 
         if (authUser instanceof MacUserDetail) {
             String userId = ((MacUserDetail) authUser).getUserId();
-            user = userService.findById(userId);
+            try {
+                user = userService.findById(userId);
+            } catch (UserNotFoundException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         if (user == null) {
@@ -244,7 +288,12 @@ public class UserController extends _OithController {
             ModelMap model,
             RedirectAttributes attributes) {
 
-        User user = userService.findById(id);
+        User user = null;
+        try {
+            user = userService.findById(id);
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -286,13 +335,20 @@ public class UserController extends _OithController {
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.POST)
     public String search(@ModelAttribute(SEARCH_CRITERIA) _SearchDTO searchCriteria, ModelMap model) {
 
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
         String searchTerm = searchCriteria.getSearchTerm();
         List<User> users;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            users = userService.search(searchCriteria);
+            users = userService.search(searchCriteria, client);
         } else {
-            users = userService.findAll(searchCriteria);
+            users = userService.findAllByClient(searchCriteria, client);
         }
         model.addAttribute(MODEL_ATTRIBUTES, users);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -306,12 +362,20 @@ public class UserController extends _OithController {
     }
 
     @RequestMapping(value = {"/", "/index", ""}, method = RequestMethod.GET)
-    public String showList(ModelMap model) {
+    public String list(ModelMap model) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
         _SearchDTO searchCriteria = new _SearchDTO();
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<User> users = userService.findAll(searchCriteria);
+        List<User> users = userService.findAllByClient(searchCriteria, client);
 
         model.addAttribute(MODEL_ATTRIBUTES, users);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -326,7 +390,12 @@ public class UserController extends _OithController {
 
     @RequestMapping(value = "/admin_show/{id}", method = RequestMethod.GET)
     public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
-        User user = userService.findById(id);
+        User user = null;
+        try {
+            user = userService.findById(id);
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -348,5 +417,140 @@ public class UserController extends _OithController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         }
         return "redirect:/" + "" + LIST_VIEW;
+    }
+
+    @RequestMapping(value = "/favorites/edit/{id}", method = RequestMethod.POST)
+    public String favoritesModal(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid ShortCut currObject,
+            RedirectAttributes attributes) {
+
+        User objOrignal;
+        try {
+            objOrignal = userService.findById(id);
+        } catch (UserNotFoundException ex) {
+            return NOT_FOUND;
+        }
+
+        try {
+            if (objOrignal.getFavorites() == null) {
+                objOrignal.setFavorites(new LinkedHashSet<ShortCut>());
+            }
+
+            if (currObject.getEmbdId() == null) {//new detail
+
+                int mx = -1;
+                for (ShortCut col : objOrignal.getFavorites()) {
+                    mx = Math.max(col.getEmbdId(), mx);
+                }
+
+                currObject.setEmbdId(mx + 1);
+                objOrignal.getFavorites().add(currObject);
+
+            } else {//update
+
+                for (ShortCut col : objOrignal.getFavorites()) {
+                    if (col.getEmbdId().equals(currObject.getEmbdId())) {
+                        PropertyUtils.copyProperties(col, currObject);
+                        break;
+                    }
+                }
+            }
+
+            userService.update(objOrignal);
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObject.getEmbdId());
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | UserNotFoundException e) {
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+        }
+        return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + id;
+    }
+
+    @RequestMapping(value = "/params/edit", method = RequestMethod.POST)
+    public String paramsModal(
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Param currObject,
+            RedirectAttributes attributes) {
+
+        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String userId = null;
+        if (authUserObj instanceof MacUserDetail) {
+            userId = ((MacUserDetail) authUserObj).getUserId();
+        }
+
+        User objOrignal;
+        try {
+            objOrignal = userService.findById(userId);
+        } catch (UserNotFoundException ex) {
+            return NOT_FOUND;
+        }
+        
+        //currObject.setId(userId);
+
+        try {
+            if (objOrignal.getParams() == null) {
+                objOrignal.setParams(new LinkedHashSet<Param>());
+            }
+
+            if (currObject.getEmbdId() == null) {//new detail
+
+                int mx = -1;
+                for (Param col : objOrignal.getParams()) {
+                    mx = Math.max(col.getEmbdId(), mx);
+                }
+
+                currObject.setEmbdId(mx + 1);
+                objOrignal.getParams().add(currObject);
+
+            } else {//update
+
+                for (Param col : objOrignal.getParams()) {
+                    if (col.getEmbdId().equals(currObject.getEmbdId())) {
+                        PropertyUtils.copyProperties(col, currObject);
+                        break;
+                    }
+                }
+            }
+
+            userService.update(objOrignal);
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObject.getEmbdId());
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | UserNotFoundException e) {
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+        }
+        return REDIRECT + "/" + SHOW_FORM_VIEW;
+    }
+
+    @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
+    public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
+
+        String aaa[] = dets.split("~");
+
+        String field = aaa[0];
+        String dtsMstId = aaa[1];
+        Integer id = Integer.parseInt(aaa[2]);
+
+        User currMst;
+        try {
+            currMst = userService.findById(dtsMstId);
+        } catch (UserNotFoundException ex) {
+            return NOT_FOUND;
+        }
+
+        try {
+            PropertyDescriptor pd = new PropertyDescriptor(field, User.class);
+            Method getter = pd.getReadMethod();
+            Set<IEmbdDetail> jjj = (Set<IEmbdDetail>) getter.invoke(currMst);
+
+            for (IEmbdDetail col : jjj) {
+                if (col.getEmbdId().equals(id)) {
+                    jjj.remove(col);
+                    break;
+                }
+            }
+            userService.update(currMst);
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, dtsMstId);
+        } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | UserNotFoundException e) {
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+        }
+        return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + dtsMstId;
     }
 }

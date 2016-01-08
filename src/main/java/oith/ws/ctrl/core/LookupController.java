@@ -4,11 +4,14 @@ import oith.ws.dom.core.Lookup;
 import oith.ws.exception.LookupNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
+import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +38,6 @@ public class LookupController extends _OithClientAuditController {
     @Autowired
     private oith.ws.service.LookupService lookupService;
 
-
     private void allComboSetup(ModelMap model) {
         Client client = null;
         try {
@@ -44,22 +46,18 @@ public class LookupController extends _OithClientAuditController {
         }
 
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
-
         //List emps = new LinkedList();
         //for (Emp col : empService.findAllByClient(client)) {
         //    emps.add(col);
         //}
         //model.addAttribute("emps", emps);
-
         //List accountHeadFms = new LinkedList();
         //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
         //    accountHeadFms.add(col);
         //}
         //model.addAttribute("accountHeadFms", accountHeadFms);
-
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
-
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {
@@ -83,6 +81,8 @@ public class LookupController extends _OithClientAuditController {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(LookupController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (bindingResult.hasErrors()) {
@@ -146,6 +146,8 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         } catch (LookupNotFoundException ex) {
             return NOT_FOUND;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(LookupController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
@@ -210,6 +212,8 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         } catch (LookupNotFoundException ex) {
             return NOT_FOUND;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(LookupController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {

@@ -24,6 +24,7 @@ public class _OithHomeController {
 
     @Autowired
     private MenuService menuService;
+    
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 

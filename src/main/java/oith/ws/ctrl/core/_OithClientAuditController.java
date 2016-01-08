@@ -6,6 +6,7 @@ import oith.ws.dom.core.Client;
 import oith.ws.dom.core.Profile;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.ProfileNotFoundException;
+import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.ClientService;
 import oith.ws.service.MacUserDetail;
 import oith.ws.service.ProfileService;
@@ -15,6 +16,7 @@ public abstract class _OithClientAuditController extends _OithAuditController {
 
     @Autowired
     private ClientService clientService;
+    
     @Autowired
     private ProfileService profileService;
 
@@ -30,8 +32,7 @@ public abstract class _OithClientAuditController extends _OithAuditController {
         return profile;
     }
 
-    void save(AbstDocClientAudit currObject, RedirectAttributes attributes) throws NotLoggedInException {
-
+    void save(AbstDocClientAudit currObject, RedirectAttributes attributes) throws NotLoggedInException, UserNotFoundException {
         MacUserDetail authUser = super.save(currObject, attributes);
         Client client = clientService.findById(authUser.getClientId());
         currObject.setClient(client);

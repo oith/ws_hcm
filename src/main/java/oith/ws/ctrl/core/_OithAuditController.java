@@ -3,27 +3,18 @@ package oith.ws.ctrl.core;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import oith.ws.dom.core.AbstDoc;
 import oith.ws.dom.core.Auditor;
-import oith.ws.dom.core.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import oith.ws.dom.core.IAuditable;
-import oith.ws.dom.core.Lookup;
 import oith.ws.dom.core.Param;
 import oith.ws.dom.core.User;
 import oith.ws.exception.NotLoggedInException;
+import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUserDetail;
 import oith.ws.service.UserService;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.BasicQuery;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class _OithAuditController extends _OithController {
@@ -47,7 +38,7 @@ public abstract class _OithAuditController extends _OithController {
         throw new NotLoggedInException();
     }
 
-    protected User getLoggedUser() throws NotLoggedInException {
+    protected User getLoggedUser() throws NotLoggedInException, UserNotFoundException {
         MacUserDetail authUser = getLoggedPrincipal();
         User user = userService.findById(authUser.getUserId());
         return user;
@@ -67,7 +58,7 @@ public abstract class _OithAuditController extends _OithController {
         this.userService = userService;
     }
 
-    protected MacUserDetail save(IAuditable currObject, RedirectAttributes attributes) throws NotLoggedInException {
+    protected MacUserDetail save(IAuditable currObject, RedirectAttributes attributes) throws NotLoggedInException, UserNotFoundException {
 
         MacUserDetail authUser = getLoggedPrincipal();
         Auditor auditor = currObject.getAuditor();
@@ -78,7 +69,7 @@ public abstract class _OithAuditController extends _OithController {
         return authUser;
     }
 
-    protected void update(IAuditable currObject) throws NotLoggedInException {
+    protected void update(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
         Auditor auditor = currObject.getAuditor();
 
         MacUserDetail authUser = getLoggedPrincipal();
@@ -95,8 +86,6 @@ public abstract class _OithAuditController extends _OithController {
 
     protected void setUserParam(AbstDoc abstDoc, String action) {
 
-        
- 
         try {
             Class kkk = abstDoc.getClass();
             MacUserDetail authUser = getLoggedPrincipal();

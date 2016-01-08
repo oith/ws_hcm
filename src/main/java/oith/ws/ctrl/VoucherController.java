@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Client;
@@ -15,6 +17,7 @@ import oith.ws.dom.hcm.def.es.CompanyCode;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
+import oith.ws.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -89,6 +92,8 @@ public class VoucherController extends _OithClientAuditController {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(VoucherController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (bindingResult.hasErrors()) {
@@ -152,6 +157,8 @@ public class VoucherController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         } catch (VoucherNotFoundException ex) {
             return NOT_FOUND;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(VoucherController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {

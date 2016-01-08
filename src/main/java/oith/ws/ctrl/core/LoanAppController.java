@@ -5,12 +5,15 @@ import oith.ws.exception.LoanAppNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.os.op.Emp;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
+import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
 import oith.ws.util.StringToEmpConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +105,8 @@ public class LoanAppController extends _OithClientAuditController {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(LoanAppController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (bindingResult.hasErrors()) {
@@ -165,6 +170,8 @@ public class LoanAppController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         } catch (LoanAppNotFoundException ex) {
             return NOT_FOUND;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(LoanAppController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
@@ -229,6 +236,8 @@ public class LoanAppController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         } catch (LoanAppNotFoundException ex) {
             return NOT_FOUND;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(LoanAppController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {

@@ -57,6 +57,7 @@ import oith.ws.dom.core.ProfileEduDtl;
 import oith.ws.dom.core.ProfileJobDtl;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.NotLoggedInException;
+import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUserDetail;
 
 @Controller
@@ -89,11 +90,13 @@ public class ProfileController extends _OithClientAuditController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(ModelMap model, RedirectAttributes attributes) {
 
-        User user;
+        User user = null;
         try {
             user = super.getLoggedUser();
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         Profile profile = profileService.findByUser(user);
@@ -120,6 +123,8 @@ public class ProfileController extends _OithClientAuditController {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (bindingResult.hasErrors()) {
@@ -194,7 +199,12 @@ public class ProfileController extends _OithClientAuditController {
     @RequestMapping(value = "/admin_show_4m_user/{id}", method = RequestMethod.GET)
     public String showShowFormAUser(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
 
-        User user = super.getUserService().findById(id);
+        User user = null;
+        try {
+            user = super.getUserService().findById(id);
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (user == null) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
@@ -215,7 +225,12 @@ public class ProfileController extends _OithClientAuditController {
     @RequestMapping(value = "/admin_create", method = RequestMethod.POST)
     public String submitCreateForm4mUser(@ModelAttribute("userId") String userId, @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, MultipartHttpServletRequest request) {
 
-        User user = super.getUserService().findById(userId);
+        User user = null;
+        try {
+            user = super.getUserService().findById(userId);
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         currObject.setUser(user);
 
         if (bindingResult.hasErrors()) {
