@@ -88,7 +88,7 @@
 
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
-            <form:label path="doe"><spring:message code="doe" text="Doe"/><span class="required-indicator needed">*</span></form:label>
+            <form:label path="doe"><spring:message code="doe" text="Date of Retirement"/><span class="required-indicator needed">*</span></form:label>
             <form:input path="doe" class="form-control" type="date" id="datepicker_doe" placeholder="DD/MM/YYYY" required="true" maxlength="10"/>
             <form:errors path="doe" cssClass="error" element="div"/>
         </div>
