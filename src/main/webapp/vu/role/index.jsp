@@ -79,7 +79,7 @@
                         <td><spring:message code="name" text="name"/></td>
                         <td><spring:message code="desc" text="desc"/></td>
 
-                        
+
                         <%--   
                         <td><spring:message code="code" text="Code"/></td>
                         <td><spring:message code="active" text="Active"/></td>
@@ -96,19 +96,19 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/role/show/<c:out value="${role.id}"/>"><spring:message code="show.link.label"/></a></td>
-                                <td><c:out value="${role.auditor}"/></td>
-                                <td><c:out value="${role.code}"/></td>
-                                <td><c:out value="${role.name}"/></td>
-                                <td><c:out value="${role.desc}"/></td>
+                            <td><c:out value="${role.auditor}"/></td>
+                            <td><c:out value="${role.code}"/></td>
+                            <td><c:out value="${role.name}"/></td>
+                            <td><c:out value="${role.desc}"/></td>
 
-                                <%--
-                                <td><c:out value="${role.code}"/></td>
-                                <td><c:if test="${role.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!role.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                <td><c:out value="${role.slNo}"/></td>
-                                <td><c:out value="${role.name}"/></td>
-                                <td><c:out value="${role.remarks}"/></td>
-                                <td><c:out value="${role.roleKeyword}"/></td>
-                                --%>
+                            <%--
+                            <td><c:out value="${role.code}"/></td>
+                            <td><c:if test="${role.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!role.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
+                            <td><c:out value="${role.slNo}"/></td>
+                            <td><c:out value="${role.name}"/></td>
+                            <td><c:out value="${role.remarks}"/></td>
+                            <td><c:out value="${role.roleKeyword}"/></td>
+                            --%>
 
                             <td><a href="${pageContext.request.contextPath}/role/edit/<c:out value="${role.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/role/delete/<c:out value="${role.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
@@ -119,8 +119,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${roles}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${roles}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty roles}">
         <p>

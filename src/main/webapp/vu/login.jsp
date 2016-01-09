@@ -74,11 +74,11 @@
             <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
         </form>
 
-</tiles:putAttribute>  
+    </tiles:putAttribute>  
 
-<tiles:putAttribute name="footer">
-    <jsp:include page="/template/footer.jsp"/>
-</tiles:putAttribute>    
+    <tiles:putAttribute name="footer">
+        <jsp:include page="/template/footer.jsp"/>
+    </tiles:putAttribute>    
 
 
 

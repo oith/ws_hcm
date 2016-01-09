@@ -36,10 +36,10 @@
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
                 <td><form:input path="searchTerm" class="form-control" type="text" id="txtSearch" size="20"/></td>
                 <td><span class="label label-info"><spring:message code="foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false" /></span></td>
-                </tr>
+            </tr>
 
-                <tr>
-                    <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
+            <tr>
+                <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
                 <td><form:select path="pageSize" class="form-control">
                         <form:option value="5" label="5" />
                         <form:option value="10" label="10" />
@@ -62,9 +62,9 @@
         </table>
 
         <div>
-	    <button type="submit" class="btn btn-info">
-	         <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
-	    </button>
+            <button type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
+            </button>
         </div>
     </form:form>
 
@@ -90,16 +90,16 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/lookup/show/<c:out value="${lookup.id}"/>"><spring:message code="show.link.label"/></a></td>
-                                <td><c:out value="${lookup.code}"/></td>
-                                <td><c:out value="${lookup.lookupKeyword}"/></td>
-                                <td><c:out value="${lookup.name}"/></td>
-                                <td><c:out value="${lookup.active}"/></td>
-                                <td><c:out value="${lookup.slNo}"/></td>
-                                <td><c:out value="${lookup.remarks}"/></td>
+                            <td><c:out value="${lookup.code}"/></td>
+                            <td><c:out value="${lookup.lookupKeyword}"/></td>
+                            <td><c:out value="${lookup.name}"/></td>
+                            <td><c:out value="${lookup.active}"/></td>
+                            <td><c:out value="${lookup.slNo}"/></td>
+                            <td><c:out value="${lookup.remarks}"/></td>
 
-                                <%--
-                                <td><c:if test="${lookup.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!lookup.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                --%>
+                            <%--
+                            <td><c:if test="${lookup.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!lookup.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
+                            --%>
 
                             <td><a href="${pageContext.request.contextPath}/lookup/edit/<c:out value="${lookup.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/lookup/copy/<c:out value="${lookup.id}"/>"><spring:message code="copy.link.label"/></a></td>
@@ -111,8 +111,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${lookups}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${lookups}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty lookups}">
         <p>

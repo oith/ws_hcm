@@ -20,7 +20,7 @@
             <form:errors path="code" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="transDate"><spring:message code="transDate" text="transDate"/><span class="required-indicator needed">*</span></form:label>
@@ -39,7 +39,7 @@
             <form:errors path="accountHeadFm" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="sign"><spring:message code="sign" text="sign"/><span class="required-indicator needed">*</span></form:label>
@@ -58,7 +58,7 @@
             <form:errors path="amount" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="accountHeadFmOpposite"><spring:message code="accountHeadFmOpposite" text="accountHeadFmOpposite"/><span class="required-indicator needed">*</span></form:label>
@@ -79,7 +79,7 @@
             <form:errors path="emp" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="narration"><spring:message code="narration" text="narration"/></form:label>
@@ -88,9 +88,9 @@
         </div>
     </div>   
 </div>
-  
 
-          
+
+
 <%--
 
 trnscFm

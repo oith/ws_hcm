@@ -52,7 +52,7 @@
                     </li>
             </c:if>
 
-          <c:if test="${client.logoPicFile!=null}">
+            <c:if test="${client.logoPicFile!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
                         <spring:message code="logoPicFile" text="logoPicFile"/>: 

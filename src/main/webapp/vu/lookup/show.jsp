@@ -71,7 +71,7 @@
                     <c:out value="${lookup.remarks}"/>
                 </dd>
             </c:if>
-          
+
             <c:set target="audit" property="audit" var="audit" value="${lookup}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
         </dl>

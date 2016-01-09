@@ -36,10 +36,10 @@
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
                 <td><form:input path="searchTerm" class="form-control" type="text" id="txtSearch" size="20"/></td>
                 <td><span class="label label-info"><spring:message code="foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false" /></span></td>
-                </tr>
+            </tr>
 
-                <tr>
-                    <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
+            <tr>
+                <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
                 <td><form:select path="pageSize" class="form-control">
                         <form:option value="5" label="5" />
                         <form:option value="10" label="10" />
@@ -62,9 +62,9 @@
         </table>
 
         <div>
-	    <button type="submit" class="btn btn-info">
-	         <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
-	    </button>
+            <button type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
+            </button>
         </div>
     </form:form>
 
@@ -88,14 +88,14 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/post/show/<c:out value="${post.id}"/>"><spring:message code="show.link.label"/></a></td>
-                                <td><c:out value="${post.auditor}"/></td>
-                                <td><c:out value="${post.subject}"/></td>
-                                <td><c:out value="${post.content}"/></td>
-                                <td><c:out value="${post.comments}"/></td>
+                            <td><c:out value="${post.auditor}"/></td>
+                            <td><c:out value="${post.subject}"/></td>
+                            <td><c:out value="${post.content}"/></td>
+                            <td><c:out value="${post.comments}"/></td>
 
-                                <%--
-                                <td><c:if test="${post.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!post.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                --%>
+                            <%--
+                            <td><c:if test="${post.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!post.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
+                            --%>
 
                             <td><a href="${pageContext.request.contextPath}/post/edit/<c:out value="${post.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/post/copy/<c:out value="${post.id}"/>"><spring:message code="copy.link.label"/></a></td>
@@ -107,8 +107,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${posts}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${posts}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty posts}">
         <p>

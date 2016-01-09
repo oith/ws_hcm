@@ -90,30 +90,30 @@
             <c:if test="${profile.contactInfo!=null}">
                 <dt><spring:message code="contactInfo" text="Contact Info"/></dt>
                 <dd>
-                                <c:if test="${profile.contactInfo.mobile!=null}">
-                <dt><spring:message code="mobile" text="Mobile"/></dt>
-                <dd>
-                    <c:out value="${profile.contactInfo.mobile}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactInfo.phone!=null}">
-                <dt><spring:message code="phone" text="Phone"/></dt>
-                <dd>
-                    <c:out value="${profile.contactInfo.phone}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactInfo.email!=null}">
-                <dt><spring:message code="email" text="Email"/></dt>
-                <dd>
-                    <c:out value="${profile.contactInfo.email}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactInfo.web!=null}">
-                <dt><spring:message code="web" text="Web"/></dt>
-                <dd>
-                    <c:out value="${profile.contactInfo.web}"/>
-                </dd>
-            </c:if>
+                    <c:if test="${profile.contactInfo.mobile!=null}">
+                    <dt><spring:message code="mobile" text="Mobile"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactInfo.mobile}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactInfo.phone!=null}">
+                    <dt><spring:message code="phone" text="Phone"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactInfo.phone}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactInfo.email!=null}">
+                    <dt><spring:message code="email" text="Email"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactInfo.email}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactInfo.web!=null}">
+                    <dt><spring:message code="web" text="Web"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactInfo.web}"/>
+                    </dd>
+                </c:if>
 
                 </dd>
             </c:if>
@@ -121,54 +121,54 @@
             <c:if test="${profile.address!=null}">
                 <dt><spring:message code="address" text="Address"/></dt>
                 <dd>
-                                <c:if test="${profile.address.addressType!=null}">
-                <dt><spring:message code="addressType" text="Address Type"/></dt>
-                <dd>
-                    <c:out value="${profile.address.addressType}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.address.careOf!=null}">
-                <dt><spring:message code="careOf" text="Care Of"/></dt>
-                <dd>
-                    <c:out value="${profile.address.careOf}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.address.holding!=null}">
-                <dt><spring:message code="holding" text="Holding"/></dt>
-                <dd>
-                    <c:out value="${profile.address.holding}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.address.street!=null}">
-                <dt><spring:message code="street" text="Street"/></dt>
-                <dd>
-                    <c:out value="${profile.address.street}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.address.zip!=null}">
-                <dt><spring:message code="zip" text="Zip"/></dt>
-                <dd>
-                    <c:out value="${profile.address.zip}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.address.city!=null}">
-                <dt><spring:message code="city" text="City"/></dt>
-                <dd>
-                    <c:out value="${profile.address.city}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.address.state!=null}">
-                <dt><spring:message code="state" text="State"/></dt>
-                <dd>
-                    <c:out value="${profile.address.state}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.address.country!=null}">
-                <dt><spring:message code="country" text="Country"/></dt>
-                <dd>
-                    <c:out value="${profile.address.country}"/>
-                </dd>
-            </c:if>
+                    <c:if test="${profile.address.addressType!=null}">
+                    <dt><spring:message code="addressType" text="Address Type"/></dt>
+                    <dd>
+                        <c:out value="${profile.address.addressType}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.address.careOf!=null}">
+                    <dt><spring:message code="careOf" text="Care Of"/></dt>
+                    <dd>
+                        <c:out value="${profile.address.careOf}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.address.holding!=null}">
+                    <dt><spring:message code="holding" text="Holding"/></dt>
+                    <dd>
+                        <c:out value="${profile.address.holding}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.address.street!=null}">
+                    <dt><spring:message code="street" text="Street"/></dt>
+                    <dd>
+                        <c:out value="${profile.address.street}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.address.zip!=null}">
+                    <dt><spring:message code="zip" text="Zip"/></dt>
+                    <dd>
+                        <c:out value="${profile.address.zip}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.address.city!=null}">
+                    <dt><spring:message code="city" text="City"/></dt>
+                    <dd>
+                        <c:out value="${profile.address.city}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.address.state!=null}">
+                    <dt><spring:message code="state" text="State"/></dt>
+                    <dd>
+                        <c:out value="${profile.address.state}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.address.country!=null}">
+                    <dt><spring:message code="country" text="Country"/></dt>
+                    <dd>
+                        <c:out value="${profile.address.country}"/>
+                    </dd>
+                </c:if>
 
                 </dd>
             </c:if>
@@ -176,90 +176,90 @@
             <c:if test="${profile.user!=null}">
                 <dt><spring:message code="user" text="User"/></dt>
                 <dd>
-                                <c:if test="${profile.user.username!=null}">
-                <dt><spring:message code="username" text="Username"/></dt>
-                <dd>
-                    <c:out value="${profile.user.username}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.password!=null}">
-                <dt><spring:message code="password" text="Password"/></dt>
-                <dd>
-                    <c:out value="${profile.user.password}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.fullName!=null}">
-                <dt><spring:message code="fullName" text="Full Name"/></dt>
-                <dd>
-                    <c:out value="${profile.user.fullName}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.gender!=null}">
-                <dt><spring:message code="gender" text="Gender"/></dt>
-                <dd>
-                    <c:out value="${profile.user.gender}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.dob!=null}">
-                <dt><spring:message code="dob" text="Dob"/></dt>
-                <dd>
-                    <fmt:formatDate value="${profile.user.dob}" type="date" pattern="dd/MM/yyyy"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.accountNonExpired!=null}">
-                <dt><spring:message code="accountNonExpired" text="Account Non Expired"/></dt>
-                <dd>
-                    <c:out value="${profile.user.accountNonExpired}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.accountNonLocked!=null}">
-                <dt><spring:message code="accountNonLocked" text="Account Non Locked"/></dt>
-                <dd>
-                    <c:out value="${profile.user.accountNonLocked}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.credentialsNonExpired!=null}">
-                <dt><spring:message code="credentialsNonExpired" text="Credentials Non Expired"/></dt>
-                <dd>
-                    <c:out value="${profile.user.credentialsNonExpired}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.enabled!=null}">
-                <dt><spring:message code="enabled" text="Enabled"/></dt>
-                <dd>
-                    <c:out value="${profile.user.enabled}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.root!=null}">
-                <dt><spring:message code="root" text="Root"/></dt>
-                <dd>
-                    <c:out value="${profile.user.root}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.authorities!=null}">
-                <dt><spring:message code="authorities" text="Authorities"/></dt>
-                <dd>
-                    <c:out value="${profile.user.authorities}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.favorites!=null}">
-                <dt><spring:message code="favorites" text="Favorites"/></dt>
-                <dd>
-                    <c:out value="${profile.user.favorites}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.params!=null}">
-                <dt><spring:message code="params" text="Params"/></dt>
-                <dd>
-                    <c:out value="${profile.user.params}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.user.envs!=null}">
-                <dt><spring:message code="envs" text="Envs"/></dt>
-                <dd>
-                    <c:out value="${profile.user.envs}"/>
-                </dd>
-            </c:if>
+                    <c:if test="${profile.user.username!=null}">
+                    <dt><spring:message code="username" text="Username"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.username}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.password!=null}">
+                    <dt><spring:message code="password" text="Password"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.password}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.fullName!=null}">
+                    <dt><spring:message code="fullName" text="Full Name"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.fullName}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.gender!=null}">
+                    <dt><spring:message code="gender" text="Gender"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.gender}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.dob!=null}">
+                    <dt><spring:message code="dob" text="Dob"/></dt>
+                    <dd>
+                        <fmt:formatDate value="${profile.user.dob}" type="date" pattern="dd/MM/yyyy"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.accountNonExpired!=null}">
+                    <dt><spring:message code="accountNonExpired" text="Account Non Expired"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.accountNonExpired}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.accountNonLocked!=null}">
+                    <dt><spring:message code="accountNonLocked" text="Account Non Locked"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.accountNonLocked}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.credentialsNonExpired!=null}">
+                    <dt><spring:message code="credentialsNonExpired" text="Credentials Non Expired"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.credentialsNonExpired}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.enabled!=null}">
+                    <dt><spring:message code="enabled" text="Enabled"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.enabled}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.root!=null}">
+                    <dt><spring:message code="root" text="Root"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.root}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.authorities!=null}">
+                    <dt><spring:message code="authorities" text="Authorities"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.authorities}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.favorites!=null}">
+                    <dt><spring:message code="favorites" text="Favorites"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.favorites}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.params!=null}">
+                    <dt><spring:message code="params" text="Params"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.params}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.user.envs!=null}">
+                    <dt><spring:message code="envs" text="Envs"/></dt>
+                    <dd>
+                        <c:out value="${profile.user.envs}"/>
+                    </dd>
+                </c:if>
 
                 </dd>
             </c:if>
@@ -323,30 +323,30 @@
             <c:if test="${profile.contactPresonPrimary!=null}">
                 <dt><spring:message code="contactPresonPrimary" text="Contact Preson Primary"/></dt>
                 <dd>
-                                <c:if test="${profile.contactPresonPrimary.name!=null}">
-                <dt><spring:message code="name" text="Name"/></dt>
-                <dd>
-                    <c:out value="${profile.contactPresonPrimary.name}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactPresonPrimary.address!=null}">
-                <dt><spring:message code="address" text="Address"/></dt>
-                <dd>
-                    <c:out value="${profile.contactPresonPrimary.address}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactPresonPrimary.contactInfo!=null}">
-                <dt><spring:message code="contactInfo" text="Contact Info"/></dt>
-                <dd>
-                    <c:out value="${profile.contactPresonPrimary.contactInfo}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactPresonPrimary.designation!=null}">
-                <dt><spring:message code="designation" text="Designation"/></dt>
-                <dd>
-                    <c:out value="${profile.contactPresonPrimary.designation}"/>
-                </dd>
-            </c:if>
+                    <c:if test="${profile.contactPresonPrimary.name!=null}">
+                    <dt><spring:message code="name" text="Name"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactPresonPrimary.name}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactPresonPrimary.address!=null}">
+                    <dt><spring:message code="address" text="Address"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactPresonPrimary.address}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactPresonPrimary.contactInfo!=null}">
+                    <dt><spring:message code="contactInfo" text="Contact Info"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactPresonPrimary.contactInfo}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactPresonPrimary.designation!=null}">
+                    <dt><spring:message code="designation" text="Designation"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactPresonPrimary.designation}"/>
+                    </dd>
+                </c:if>
 
                 </dd>
             </c:if>
@@ -354,34 +354,34 @@
             <c:if test="${profile.contactPresonSecondary!=null}">
                 <dt><spring:message code="contactPresonSecondary" text="Contact Preson Secondary"/></dt>
                 <dd>
-                                <c:if test="${profile.contactPresonSecondary.name!=null}">
-                <dt><spring:message code="name" text="Name"/></dt>
-                <dd>
-                    <c:out value="${profile.contactPresonSecondary.name}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactPresonSecondary.address!=null}">
-                <dt><spring:message code="address" text="Address"/></dt>
-                <dd>
-                    <c:out value="${profile.contactPresonSecondary.address}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactPresonSecondary.contactInfo!=null}">
-                <dt><spring:message code="contactInfo" text="Contact Info"/></dt>
-                <dd>
-                    <c:out value="${profile.contactPresonSecondary.contactInfo}"/>
-                </dd>
-            </c:if>
-            <c:if test="${profile.contactPresonSecondary.designation!=null}">
-                <dt><spring:message code="designation" text="Designation"/></dt>
-                <dd>
-                    <c:out value="${profile.contactPresonSecondary.designation}"/>
-                </dd>
-            </c:if>
+                    <c:if test="${profile.contactPresonSecondary.name!=null}">
+                    <dt><spring:message code="name" text="Name"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactPresonSecondary.name}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactPresonSecondary.address!=null}">
+                    <dt><spring:message code="address" text="Address"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactPresonSecondary.address}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactPresonSecondary.contactInfo!=null}">
+                    <dt><spring:message code="contactInfo" text="Contact Info"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactPresonSecondary.contactInfo}"/>
+                    </dd>
+                </c:if>
+                <c:if test="${profile.contactPresonSecondary.designation!=null}">
+                    <dt><spring:message code="designation" text="Designation"/></dt>
+                    <dd>
+                        <c:out value="${profile.contactPresonSecondary.designation}"/>
+                    </dd>
+                </c:if>
 
                 </dd>
             </c:if>
-          
+
             <c:set target="audit" property="audit" var="audit" value="${profile}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
         </dl>

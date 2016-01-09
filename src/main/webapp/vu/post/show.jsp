@@ -43,7 +43,7 @@
                     <c:out value="${post.content}"/>
                 </dd>
             </c:if>
-          
+
             <c:set target="audit" property="audit" var="audit" value="${post}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
         </dl>

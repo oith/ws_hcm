@@ -26,11 +26,11 @@
     <h1><spring:message code="edit.page.title"/></h1>
     <div>
         <form:form action="${pageContext.request.contextPath}/emp/edit/${emp.id}" enctype="multipart/form-data" commandName="emp" method="POST">
-        <jsp:include page="_form.jsp"/>
-        <div>
-            <a href="${pageContext.request.contextPath}/emp/show/${emp.id}"><spring:message code="show.link.label"/></a>
-            <input type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
-        </div>
+            <jsp:include page="_form.jsp"/>
+            <div>
+                <a href="${pageContext.request.contextPath}/emp/show/${emp.id}"><spring:message code="show.link.label"/></a>
+                <input type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
+            </div>
         </form:form>
     </div>
     <!--
@@ -38,7 +38,7 @@
         <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
     </div>
     -->
-    
+
 </tiles:putAttribute>  
 
 <tiles:putAttribute name="footer">

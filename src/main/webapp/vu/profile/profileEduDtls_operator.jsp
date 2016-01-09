@@ -103,9 +103,9 @@
             },
             error: function (exception) {
                 alert(
-                    "Sorry, an error occurred! Please try again later\n" +
-                    "(ProfileEduDtls/Erase)"
-                );
+                        "Sorry, an error occurred! Please try again later\n" +
+                        "(ProfileEduDtls/Erase)"
+                        );
             }
         });
     });

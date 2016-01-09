@@ -28,7 +28,7 @@
             <td><form:errors path="name" cssClass="error" element="div"/></td>
         </tr>
         <tr>
-             <td><form:label path="orgType"><spring:message code="orgType" text="org Type"/></form:label></td>
+            <td><form:label path="orgType"><spring:message code="orgType" text="org Type"/></form:label></td>
                 <td>
                 <form:select path="orgType" name="orgType" id="orgType" >
                     <form:option value="DEPARTMENT" label="Department"/>
@@ -37,12 +37,12 @@
                 </form:select>
             </td>
             <td><form:errors path="orgType" cssClass="error" element="div"/></td>
-            
+
             <td><form:label path="description"><spring:message code="description" text="Description"/></form:label></td>
             <td><form:textarea path="description" type="text" size="30" maxlength="500"/></td>
             <td><form:errors path="description" cssClass="error" element="div"/></td>
 
         </tr>
-       
+
     </table>
 </div>   

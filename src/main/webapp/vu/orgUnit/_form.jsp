@@ -23,10 +23,10 @@
             <td><form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label></td>
             <td><form:input path="code" type="text" required="true" size="30" maxlength="20"/></td>
             <td><form:errors path="code" cssClass="error" element="div"/></td>
-  
+
 
         </tr>
-       
+
 
     </table>
 </div>   

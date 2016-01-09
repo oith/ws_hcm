@@ -27,10 +27,10 @@
     <h1><spring:message code="create.page.title"/></h1>
     <div>
         <form:form action="${pageContext.request.contextPath}/profile/create" enctype="multipart/form-data" commandName="profile" method="POST">
-        <jsp:include page="_form.jsp"/>
-        <div>
-            <input type="submit" value="<spring:message code="create.page.submit.label" text="Save"/>"/>
-        </div>
+            <jsp:include page="_form.jsp"/>
+            <div>
+                <input type="submit" value="<spring:message code="create.page.submit.label" text="Save"/>"/>
+            </div>
         </form:form>
     </div>
 

@@ -1,6 +1,5 @@
-
 package oith.ws.exception;
 
-public class NotLoggedInException extends Exception{
-    
+public class NotLoggedInException extends Exception {
+
 }

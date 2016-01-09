@@ -87,7 +87,7 @@
                         <td><spring:message code="narration" text="Narration"/></td>
                         <td><spring:message code="isDeleted" text="Is Deleted"/></td>
 
-                        
+
                         <%--   
                         <td><spring:message code="code" text="Code"/></td>
                         <td><spring:message code="active" text="Active"/></td>
@@ -104,27 +104,27 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/voucher/show/<c:out value="${voucher.id}"/>"><spring:message code="show.link.label"/></a></td>
-                                <td><c:out value="${voucher.auditor}"/></td>
-                                <td><c:out value="${voucher.code}"/></td>
-                                <td><fmt:formatDate value="${voucher.appDate}" type="date" pattern="dd/MM/yyyy EEEEE hh:mm a"/></td>
-                                <td><c:out value="${voucher.remarks}"/></td>
-                                <td><fmt:formatDate value="${voucher.transDate}" type="date" pattern="dd/MM/yyyy EEEEE hh:mm a"/></td>
-                                <td><c:out value="${voucher.currency}"/></td>
-                                <td><c:out value="${voucher.periodAcc}"/></td>
-                                <td><c:out value="${voucher.companyCode}"/></td>
-                                <td><c:out value="${voucher.chequeInfo}"/></td>
-                                <td><c:out value="${voucher.voucherDtls}"/></td>
-                                <td><c:out value="${voucher.narration}"/></td>
-                                <td><c:out value="${voucher.isDeleted}"/></td>
+                            <td><c:out value="${voucher.auditor}"/></td>
+                            <td><c:out value="${voucher.code}"/></td>
+                            <td><fmt:formatDate value="${voucher.appDate}" type="date" pattern="dd/MM/yyyy EEEEE hh:mm a"/></td>
+                            <td><c:out value="${voucher.remarks}"/></td>
+                            <td><fmt:formatDate value="${voucher.transDate}" type="date" pattern="dd/MM/yyyy EEEEE hh:mm a"/></td>
+                            <td><c:out value="${voucher.currency}"/></td>
+                            <td><c:out value="${voucher.periodAcc}"/></td>
+                            <td><c:out value="${voucher.companyCode}"/></td>
+                            <td><c:out value="${voucher.chequeInfo}"/></td>
+                            <td><c:out value="${voucher.voucherDtls}"/></td>
+                            <td><c:out value="${voucher.narration}"/></td>
+                            <td><c:out value="${voucher.isDeleted}"/></td>
 
-                                <%--
-                                <td><c:out value="${voucher.code}"/></td>
-                                <td><c:if test="${voucher.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!voucher.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                <td><c:out value="${voucher.slNo}"/></td>
-                                <td><c:out value="${voucher.name}"/></td>
-                                <td><c:out value="${voucher.remarks}"/></td>
-                                <td><c:out value="${voucher.voucherKeyword}"/></td>
-                                --%>
+                            <%--
+                            <td><c:out value="${voucher.code}"/></td>
+                            <td><c:if test="${voucher.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!voucher.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
+                            <td><c:out value="${voucher.slNo}"/></td>
+                            <td><c:out value="${voucher.name}"/></td>
+                            <td><c:out value="${voucher.remarks}"/></td>
+                            <td><c:out value="${voucher.voucherKeyword}"/></td>
+                            --%>
 
                             <td><a href="${pageContext.request.contextPath}/voucher/edit/<c:out value="${voucher.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/voucher/delete/<c:out value="${voucher.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
@@ -135,8 +135,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${vouchers}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${vouchers}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty vouchers}">
         <p>

@@ -4,11 +4,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-  
+
 <div>
 
     <b><spring:message code="processAudit" text="Process Audit"/></b>
-    
+
     <c:if test="${processAudit.processByUser!=null}">
         <li class="fieldcontain first_item">
             <span id="title" class="property-label">

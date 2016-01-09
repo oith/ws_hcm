@@ -98,8 +98,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${orgs}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${orgs}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty orgs}">
         <p>

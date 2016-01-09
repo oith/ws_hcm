@@ -20,7 +20,7 @@
             <form:errors path="code" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="appDate"><spring:message code="appDate" text="App Date"/><span class="required-indicator needed">*</span></form:label>
@@ -37,7 +37,7 @@
             <form:errors path="remarks" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="transDate"><spring:message code="transDate" text="Trans Date"/><span class="required-indicator needed">*</span></form:label>
@@ -56,11 +56,11 @@
             <form:errors path="currency" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="periodAcc"><spring:message code="periodAcc" text="Period Acc"/></form:label>
-       
+
             <form:errors path="periodAcc" cssClass="error" element="div"/>
         </div>
     </div>   
@@ -69,15 +69,15 @@
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="companyCode"><spring:message code="companyCode" text="Company Code"/><span class="required-indicator needed">*</span></form:label>
-            
+
             <form:errors path="companyCode" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="chequeInfo"><spring:message code="chequeInfo" text="Cheque Info"/></form:label>
-          
+
             <form:errors path="chequeInfo" cssClass="error" element="div"/>
         </div>
     </div>   
@@ -90,7 +90,7 @@
             <form:errors path="narration" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="isDeleted"><spring:message code="isDeleted" text="Is Deleted"/></form:label>
@@ -99,9 +99,9 @@
         </div>
     </div>   
 </div>
-  
 
-          
+
+
 <%--
 
 voucher

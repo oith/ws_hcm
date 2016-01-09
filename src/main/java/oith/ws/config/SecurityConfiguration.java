@@ -199,7 +199,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/,/index,/login,/logout".split(",")).permitAll();
         http.authorizeRequests().antMatchers("/user/create").permitAll();
         http.authorizeRequests().antMatchers("/**").permitAll();
-        
+
 //        Iterable<RoleConfig> kk = roleConfigRepository.findAll();
 //        List<RoleConfig> kk = new ArrayList();
 //        kk.add(new RoleConfig(null,"/,/index,/login,/logout", new Role(null,"55cef88a27b665569010fcce", "*", "Permit All"), null));

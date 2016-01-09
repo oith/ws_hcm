@@ -54,6 +54,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         configurer.ignoreAcceptHeader(true).defaultContentType(
                 MediaType.TEXT_HTML);
     }
+
     /*
      * Configure View resolver to provide HTML output This is the default format
      * in absence of any type suffix.

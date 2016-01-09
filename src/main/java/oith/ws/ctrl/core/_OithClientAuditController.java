@@ -16,7 +16,7 @@ public abstract class _OithClientAuditController extends _OithAuditController {
 
     @Autowired
     private ClientService clientService;
-    
+
     @Autowired
     private ProfileService profileService;
 

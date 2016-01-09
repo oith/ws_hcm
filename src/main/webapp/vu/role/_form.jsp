@@ -20,7 +20,7 @@
             <form:errors path="code" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="name"><spring:message code="name" text="name"/><span class="required-indicator needed">*</span></form:label>
@@ -38,9 +38,9 @@
         </div>
     </div>   
 </div>
-  
 
-          
+
+
 <%--
 
 role

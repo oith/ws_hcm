@@ -102,8 +102,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${trnscFms}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${trnscFms}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty trnscFms}">
         <p>

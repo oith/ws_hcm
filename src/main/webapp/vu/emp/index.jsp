@@ -91,7 +91,7 @@
                             <td>    
                                 <a href="${pageContext.request.contextPath}/profile/operator_show/<c:out value="${emp.profile.id}"/>" target="_blank"><c:out value="${emp.profile.user.fullName}"/></a>
                             </td>
-                            
+
                             <td><fmt:formatDate value="${emp.doj}" type="date" pattern="dd/MM/yyyy"/></td>
                             <td><fmt:formatDate value="${emp.doe}" type="date" pattern="dd/MM/yyyy"/></td>
 
@@ -104,8 +104,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${emps}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${emps}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty emps}">
         <p>

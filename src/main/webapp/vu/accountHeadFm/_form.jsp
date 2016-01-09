@@ -20,7 +20,7 @@
             <form:errors path="code" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="title"><spring:message code="title" text="title"/><span class="required-indicator needed">*</span></form:label>
@@ -37,7 +37,7 @@
             <form:errors path="accNo" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="active"><spring:message code="active" text="active"/></form:label>
@@ -54,7 +54,7 @@
             <form:errors path="slNo" cssClass="error" element="div"/>
         </div>
     </div>   
-     
+
     <div class="col-xs-6">
         <div class="form-group">
             <form:label path="empRequired"><spring:message code="empRequired" text="empRequired"/></form:label>
@@ -72,9 +72,9 @@
         </div>
     </div>   
 </div>
-  
 
-          
+
+
 <%--
 
 accountHeadFm

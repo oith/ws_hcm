@@ -62,9 +62,9 @@
         </table>
 
         <div>
-	    <button type="submit" class="btn btn-info">
-	         <span class="fa fa-search"></span><spring:message code="search.form.submit.label"/>
-	    </button>
+            <button type="submit" class="btn btn-info">
+                <span class="fa fa-search"></span><spring:message code="search.form.submit.label"/>
+            </button>
         </div>
     </form:form>
 
@@ -98,7 +98,7 @@
                         <td><spring:message code="contactPresonSecondary" text="contactPresonSecondary"/></td>
 
 
-                        
+
                         <%--   
                         <td><spring:message code="code" text="Code"/></td>
                         <td><spring:message code="active" text="Active"/></td>
@@ -115,39 +115,39 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/profile/show/<c:out value="${profile.id}"/>"><spring:message code="show.link.label"/></a></td>
-                                <td><c:out value="${profile.title}"/></td>
-                                <td><c:out value="${profile.firstName}"/></td>
-                                <td><c:out value="${profile.middleName}"/></td>
-                                <td><c:out value="${profile.lastName}"/></td>
-                                <td><c:out value="${profile.nickName}"/></td>
-                                <td><c:out value="${profile.nid}"/></td>
-                                <td>
-                                    <c:url var="macImage" value="/profile/getPhoto/small/${profile.profilePicFile}"/>
-                                    <img id="imagePreview" height="55px" width="45px" src="${macImage}" alt="${macImage}"/>
-                                </td>
-                                <td><c:out value="${profile.contactInfo}"/></td>
-                                <td><c:out value="${profile.address}"/></td>
-                                <td><c:out value="${profile.user}"/></td>
-                                <td><c:out value="${profile.chestSize}"/></td>
-                                <td><c:out value="${profile.height}"/></td>
-                                <td><c:out value="${profile.weight}"/></td>
-                                <td><c:out value="${profile.bloodGroup}"/></td>
-                                <td><c:out value="${profile.maritalSts}"/></td>
-                                <td><c:out value="${profile.religion}"/></td>
-                                <td><fmt:formatDate value="${profile.marriageDate}" type="date" pattern="dd/MM/yyyy"/></td>
-                                <td><c:out value="${profile.noOfChild}"/></td>
-                                <td><c:out value="${profile.contactPresonPrimary}"/></td>
-                                <td><c:out value="${profile.contactPresonSecondary}"/></td>
- 
+                            <td><c:out value="${profile.title}"/></td>
+                            <td><c:out value="${profile.firstName}"/></td>
+                            <td><c:out value="${profile.middleName}"/></td>
+                            <td><c:out value="${profile.lastName}"/></td>
+                            <td><c:out value="${profile.nickName}"/></td>
+                            <td><c:out value="${profile.nid}"/></td>
+                            <td>
+                                <c:url var="macImage" value="/profile/getPhoto/small/${profile.profilePicFile}"/>
+                                <img id="imagePreview" height="55px" width="45px" src="${macImage}" alt="${macImage}"/>
+                            </td>
+                            <td><c:out value="${profile.contactInfo}"/></td>
+                            <td><c:out value="${profile.address}"/></td>
+                            <td><c:out value="${profile.user}"/></td>
+                            <td><c:out value="${profile.chestSize}"/></td>
+                            <td><c:out value="${profile.height}"/></td>
+                            <td><c:out value="${profile.weight}"/></td>
+                            <td><c:out value="${profile.bloodGroup}"/></td>
+                            <td><c:out value="${profile.maritalSts}"/></td>
+                            <td><c:out value="${profile.religion}"/></td>
+                            <td><fmt:formatDate value="${profile.marriageDate}" type="date" pattern="dd/MM/yyyy"/></td>
+                            <td><c:out value="${profile.noOfChild}"/></td>
+                            <td><c:out value="${profile.contactPresonPrimary}"/></td>
+                            <td><c:out value="${profile.contactPresonSecondary}"/></td>
 
-                                <%--
-                                <td><c:out value="${profile.code}"/></td>
-                                <td><c:if test="${profile.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!profile.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                <td><c:out value="${profile.slNo}"/></td>
-                                <td><c:out value="${profile.name}"/></td>
-                                <td><c:out value="${profile.remarks}"/></td>
-                                <td><c:out value="${profile.profileKeyword}"/></td>
-                                --%>
+
+                            <%--
+                            <td><c:out value="${profile.code}"/></td>
+                            <td><c:if test="${profile.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!profile.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
+                            <td><c:out value="${profile.slNo}"/></td>
+                            <td><c:out value="${profile.name}"/></td>
+                            <td><c:out value="${profile.remarks}"/></td>
+                            <td><c:out value="${profile.profileKeyword}"/></td>
+                            --%>
 
                             <td><a href="${pageContext.request.contextPath}/profile/edit/<c:out value="${profile.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/profile/delete/<c:out value="${profile.id}"/>" onclick="return confirm('Are you sure to delete?');" ><span class="glyphicon glyphicon-trash"></span><spring:message code="delete.link.label"/></a></td>
@@ -158,8 +158,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${profiles}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${profiles}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty profiles}">
         <p>

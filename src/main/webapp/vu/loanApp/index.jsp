@@ -36,10 +36,10 @@
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
                 <td><form:input path="searchTerm" class="form-control" type="text" id="txtSearch" size="20"/></td>
                 <td><span class="label label-info"><spring:message code="foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false" /></span></td>
-                </tr>
+            </tr>
 
-                <tr>
-                    <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
+            <tr>
+                <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
                 <td><form:select path="pageSize" class="form-control">
                         <form:option value="5" label="5" />
                         <form:option value="10" label="10" />
@@ -62,9 +62,9 @@
         </table>
 
         <div>
-	    <button type="submit" class="btn btn-info">
-	         <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
-	    </button>
+            <button type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
+            </button>
         </div>
     </form:form>
 
@@ -102,28 +102,28 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/loanApp/show/<c:out value="${loanApp.id}"/>"><spring:message code="show.link.label"/></a></td>
-                                <td><c:out value="${loanApp.auditor}"/></td>
-                                <td><c:out value="${loanApp.emp}"/></td>
-                                <td><c:out value="${loanApp.code}"/></td>
-                                <td><fmt:formatDate value="${loanApp.appDate}" type="date" pattern="dd/MM/yyyy"/></td>
-                                <td><c:out value="${loanApp.remarks}"/></td>
-                                <td><c:out value="${loanApp.approval}"/></td>
-                                <td><c:out value="${loanApp.appliedAmount}"/></td>
-                                <td><c:out value="${loanApp.sanctionAmount}"/></td>
-                                <td><c:out value="${loanApp.installmentAmount}"/></td>
-                                <td><c:out value="${loanApp.interestPct}"/></td>
-                                <td><c:out value="${loanApp.remainingAmount}"/></td>
-                                <td><c:out value="${loanApp.lastInstallmentAmount}"/></td>
-                                <td><c:out value="${loanApp.lastInterestAmount}"/></td>
-                                <td><c:out value="${loanApp.lastTouchPayrollPeriod}"/></td>
-                                <td><fmt:formatDate value="${loanApp.sanctionDate}" type="date" pattern="dd/MM/yyyy"/></td>
-                                <td><c:out value="${loanApp.loanType}"/></td>
-                                <td><c:out value="${loanApp.loanStatus}"/></td>
-                                <td><c:out value="${loanApp.reasonForLoan}"/></td>
+                            <td><c:out value="${loanApp.auditor}"/></td>
+                            <td><c:out value="${loanApp.emp}"/></td>
+                            <td><c:out value="${loanApp.code}"/></td>
+                            <td><fmt:formatDate value="${loanApp.appDate}" type="date" pattern="dd/MM/yyyy"/></td>
+                            <td><c:out value="${loanApp.remarks}"/></td>
+                            <td><c:out value="${loanApp.approval}"/></td>
+                            <td><c:out value="${loanApp.appliedAmount}"/></td>
+                            <td><c:out value="${loanApp.sanctionAmount}"/></td>
+                            <td><c:out value="${loanApp.installmentAmount}"/></td>
+                            <td><c:out value="${loanApp.interestPct}"/></td>
+                            <td><c:out value="${loanApp.remainingAmount}"/></td>
+                            <td><c:out value="${loanApp.lastInstallmentAmount}"/></td>
+                            <td><c:out value="${loanApp.lastInterestAmount}"/></td>
+                            <td><c:out value="${loanApp.lastTouchPayrollPeriod}"/></td>
+                            <td><fmt:formatDate value="${loanApp.sanctionDate}" type="date" pattern="dd/MM/yyyy"/></td>
+                            <td><c:out value="${loanApp.loanType}"/></td>
+                            <td><c:out value="${loanApp.loanStatus}"/></td>
+                            <td><c:out value="${loanApp.reasonForLoan}"/></td>
 
-                                <%--
-                                <td><c:if test="${loanApp.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!loanApp.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                                --%>
+                            <%--
+                            <td><c:if test="${loanApp.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!loanApp.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
+                            --%>
 
                             <td><a href="${pageContext.request.contextPath}/loanApp/edit/<c:out value="${loanApp.id}"/>"><spring:message code="edit.link.label"/></a></td>
                             <td><a href="${pageContext.request.contextPath}/loanApp/copy/<c:out value="${loanApp.id}"/>"><spring:message code="copy.link.label"/></a></td>
@@ -135,8 +135,8 @@
         </div>
         <!--<div class="row-fluid">-->
         <!--    <div>
-            <util:pagination thispage="${loanApps}"></util:pagination>
-        </div>-->
+        <util:pagination thispage="${loanApps}"></util:pagination>
+    </div>-->
     </c:if>
     <c:if test="${empty loanApps}">
         <p>

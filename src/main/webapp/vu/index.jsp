@@ -35,7 +35,7 @@
         <div>
             <sec:authentication property="principal"/>
         </div>
-        
+
         <div>
             <c:forEach var="listValue" items="${lists}">
                 <a href="${pageContext.request.contextPath}${listValue}">

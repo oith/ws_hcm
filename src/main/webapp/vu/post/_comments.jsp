@@ -22,9 +22,9 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th><spring:message code="content" text="Content"/></th>
                     <th><spring:message code="auditor" text="Auditor"/></th>
-                    <th><spring:message code="id" text="Id"/></th>
+                    <th><spring:message code="content" text="Content"/></th>
+                    <th><spring:message code="embdId" text="Embd HIDE Id"/></th>
 
                     <th></th>
                 </tr>
@@ -32,13 +32,13 @@
             <tbody>
                 <c:forEach items="${post.comments}" var="comments" varStatus="loopStatus">
                     <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
-                        <td><c:out value="${loopStatus.index}"/></td>
-                        <td><button id="${post.id}~${loopStatus.index}" type="button" class="btn btn-info" value="${post.id}~${loopStatus.index}" data-toggle="modal" data-target="#comments_modal" class="btn btn-primary"><spring:message code="edit.link.label" text="Edit"/></button></td>
+                        <td><c:out value="${comments.embdId}"/></td>
+                        <td><button id="${post.id}~${comments.embdId}" type="button" class="btn btn-info" value="${post.id}~${comments.embdId}" data-toggle="modal" data-target="#comments_modal" class="btn btn-primary"><spring:message code="edit.link.label" text="Edit"/></button></td>
+                        <td><c:out value="${comments.auditor.insertByUser} </br> ${comments.auditor.insertDate} </br> ${comments.auditor.updateByUser} </br> ${comments.auditor.updateDate}"/></td>
                         <td><c:out value="${comments.content}"/></td>
-                        <td><c:out value="${comments.auditor}"/></td>
-                        <td><c:out value="${comments.id}"/></td>
+                        <td><c:out value="${comments.embdId}"/></td>
 
-                        <td><button type="button" class="comments_del btn btn-warning" value="comments~${post.id}~${loopStatus.index}">Erase</button></td>
+                        <td><button type="button" class="comments_del btn btn-warning" value="comments~${post.id}~${comments.embdId}">Erase</button></td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -52,7 +52,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <form:form action="${pageContext.request.contextPath}/post/comments/edit" commandName="comments" method="POST" class="form-horizontal">
+                <form:form action="${pageContext.request.contextPath}/post/comments/edit/${post.id}" commandName="comments" method="POST" class="form-horizontal">
 
                     <!--modal-header-->                
                     <div class="modal-header" style="background-color: #5D9CEC">
@@ -69,17 +69,17 @@
 
                         <input type="hidden" name="postId" id="postId" value="${post.id}" >
                         <input type="hidden" name="embdId" id="comments_id" value="" >
+                        <%--                        <div class="col-xs-6">
+                                                    <spring:message code="auditor" text="Auditor"/>
+                                                    <input type="text" name="auditor" id="comments_auditor" class="form-control" value="" >
+                                                </div>--%>
                         <div class="col-xs-6">
                             <spring:message code="content" text="Content"/>
                             <input type="text" name="content" id="comments_content" class="form-control" value="" >
                         </div>
                         <div class="col-xs-6">
-                            <spring:message code="auditor" text="Auditor"/>
-                            <input type="text" name="auditor" id="comments_auditor" class="form-control" value="" >
-                        </div>
-                        <div class="col-xs-6">
-                            <spring:message code="id" text="Id"/>
-                            <input type="text" name="id" id="comments_id" class="form-control" value="" >
+                            <spring:message code="embdId" text="Embd Id"/>
+                            <input type="text" name="embdId" id="comments_embdId" class="form-control" value="" >
                         </div>
 
                         <div style="padding-left: 15px" class="form-group"></div>
@@ -115,17 +115,17 @@
 
     $(document).on("click", "tr", function () {
         $("#comments_id").val($("td:eq(0)", this).text());
-        $("#comments_content").val($("td:eq(2)", this).text());
-        $("#comments_auditor").val($("td:eq(3)", this).text());
-        $("#comments_id").val($("td:eq(4)", this).text());
+        $("#comments_auditor").val($("td:eq(2)", this).text());
+        $("#comments_content").val($("td:eq(3)", this).text());
+        $("#comments_embdId").val($("td:eq(4)", this).text());
 
     });
 
     $(document).on("click", "#comments_create", function () {
         $("#comments_id").val("");
-        $("#comments_content").val("");
         $("#comments_auditor").val("");
-        $("#comments_id").val("");
+        $("#comments_content").val("");
+        $("#comments_embdId").val("");
 
     });
 

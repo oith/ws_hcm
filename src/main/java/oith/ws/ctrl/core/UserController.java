@@ -1,30 +1,12 @@
 package oith.ws.ctrl.core;
 
-import java.util.ArrayList;
-import oith.ws.dom.core.User;
-import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.UserService;
-import java.util.List;
-import javax.validation.Valid;
 import oith.ws.dom.core.AllEnum;
-import oith.ws.dom.core.Client;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import oith.ws.dom.core.Role;
-import oith.ws.dto._SearchDTO;
 import oith.ws.dom.core.User;
 import oith.ws.dom.core.Role;
 import oith.ws.dom.core.ShortCut;
 import oith.ws.dom.core.Param;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
@@ -36,15 +18,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
-import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.UserNotFoundException;
-import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
-import oith.ws.exception.ReportNotFoundException;
-import oith.ws.service.MacUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,7 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import oith.ws.service.ClientService;
 import oith.ws.service.RoleService;
 import oith.ws.service.MacUserDetail;
@@ -483,9 +460,8 @@ public class UserController extends _OithClientAuditController {
         } catch (UserNotFoundException ex) {
             return NOT_FOUND;
         }
-        
-        //currObject.setId(userId);
 
+        //currObject.setId(userId);
         try {
             if (objOrignal.getParams() == null) {
                 objOrignal.setParams(new LinkedHashSet<Param>());

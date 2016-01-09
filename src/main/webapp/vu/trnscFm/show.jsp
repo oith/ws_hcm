@@ -117,7 +117,7 @@
                     </span>
                 </li>
             </c:if>
-          
+
             <c:set target="audit" property="audit" var="audit" value="${trnscFm}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true"/>
         </ol>

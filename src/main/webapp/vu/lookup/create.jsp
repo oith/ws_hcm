@@ -28,10 +28,10 @@
     <h1><spring:message code="create.page.title"/></h1>
     <div>
         <form:form action="${pageContext.request.contextPath}/lookup/create" commandName="lookup" method="POST">
-        <jsp:include page="_form.jsp" />
-        <div>
-            <input class="btn btn-primary" type="submit" value="<spring:message code="create.page.submit.label"/>"/>
-        </div>
+            <jsp:include page="_form.jsp" />
+            <div>
+                <input class="btn btn-primary" type="submit" value="<spring:message code="create.page.submit.label"/>"/>
+            </div>
         </form:form>
     </div>
 
