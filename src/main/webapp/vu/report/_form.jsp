@@ -70,6 +70,33 @@
         </div>
     </div>
 
+
+
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+            <form:label path="supportFormats"><spring:message code="supportFormats" text="Support Formats"/></form:label>
+            <form:select path="supportFormats" 
+                         class="form-control"
+                         name="supportFormats" 
+                         id="supportFormats" 
+                         items="${supportFormats}" 
+                         multiple="true"/>
+            <form:errors path="supportFormats" cssClass="error" element="div"/>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+            <form:label path="tags"><spring:message code="tags" text="Tags"/></form:label>
+            <form:select path="tags" 
+                         class="form-control"
+                         name="tags" 
+                         id="tags" 
+                         items="${tags}" 
+                         multiple="true"/>
+            <form:errors path="tags" cssClass="error" element="div"/>
+        </div>
+    </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group">
             <form:label path="remarks"><spring:message code="remarks" text="Remarks"/></form:label>
@@ -77,7 +104,6 @@
             <form:errors path="remarks" cssClass="error" element="div"/>
         </div>
     </div>
-
 </div>
 
 <%--

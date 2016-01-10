@@ -71,7 +71,19 @@
                     <c:out value="${report.slNo}"/>
                 </dd>
             </c:if>
+            <c:if test="${report.supportFormats!=null}">
+                <dt><spring:message code="supportFormats" text="supportFormats"/></dt>
+                <dd>
+                    <c:out value="${report.supportFormats}"/>
+                </dd>
+            </c:if>
 
+            <c:if test="${report.tags!=null}">
+                <dt><spring:message code="tags" text="tags"/></dt>
+                <dd>
+                    <c:out value="${report.tags}"/>
+                </dd>
+            </c:if>
             <c:if test="${report.remarks!=null}">
                 <dt><spring:message code="remarks" text="Remarks"/></dt>
                 <dd>
