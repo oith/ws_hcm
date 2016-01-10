@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -58,8 +59,10 @@ public class UserController extends _OithClientAuditController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private RoleService roleService;
+
     @Autowired
     private ClientService clientService;
 
@@ -67,29 +70,31 @@ public class UserController extends _OithClientAuditController {
     void registerConverters(WebDataBinder binder) {
         if (binder.getConversionService() instanceof GenericConversionService) {
             GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-
             conversionService.addConverter(new StringToRoleConverter(roleService));
         }
     }
 
-    private List<Client> getClients() {
+    private void allComboSetup(ModelMap model) {
+        Client client = null;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+        }
 
-        List<Client> clients = new ArrayList();
+        //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
+        model.addAttribute("genders", AllEnum.Gender.values());
 
+        List authorities = new LinkedList();
+        for (Role col : roleService.findAllByClient(client)) {
+            authorities.add(col);
+        }
+        model.addAttribute("authorities", authorities);
+
+        List clients = new LinkedList();
         for (Client col : clientService.findAll()) {
             clients.add(col);
         }
-        return clients;
-    }
-
-    private List<Role> getAuthorities() {
-
-        List<Role> roles = new ArrayList();
-
-        for (Role col : roleService.findAll()) {
-            roles.add(col);
-        }
-        return roles;
+        model.addAttribute("clients", clients);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -225,11 +230,7 @@ public class UserController extends _OithClientAuditController {
         }
 
         User user = new User(client);
-        //Set<Role> roles = getCommonRoles();
-        //user.setAuthorities(roles);
-        model.addAttribute("clients", getClients());
-        model.addAttribute("genders", AllEnum.Gender.values());
-        model.addAttribute("authorities", getAuthorities());
+        allComboSetup(model);
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return ADD_FORM_VIEW_ADMIN;
@@ -246,9 +247,7 @@ public class UserController extends _OithClientAuditController {
     public String submitAdminCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("clients", getClients());
-            model.addAttribute("genders", AllEnum.Gender.values());
-            model.addAttribute("authorities", getAuthorities());
+            allComboSetup(model);
             return ADD_FORM_VIEW_ADMIN;
         }
 
@@ -277,9 +276,7 @@ public class UserController extends _OithClientAuditController {
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
 
-        model.addAttribute("clients", getClients());
-        model.addAttribute("genders", AllEnum.Gender.values());
-        model.addAttribute("authorities", getAuthorities());
+        allComboSetup(model);
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return EDIT_FORM_VIEW_ADMIN;
@@ -294,9 +291,7 @@ public class UserController extends _OithClientAuditController {
             RedirectAttributes attributes) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("clients", getClients());
-            model.addAttribute("genders", AllEnum.Gender.values());
-            model.addAttribute("authorities", getAuthorities());
+            allComboSetup(model);
             return EDIT_FORM_VIEW_ADMIN;
         }
 
@@ -378,8 +373,7 @@ public class UserController extends _OithClientAuditController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-        model.addAttribute("genders", AllEnum.Gender.values());
-        model.addAttribute("authorities", getAuthorities());
+        allComboSetup(model);
         model.addAttribute(MODEL_ATTIRUTE, user);
         return SHOW_FORM_VIEW_ADMIN;
     }

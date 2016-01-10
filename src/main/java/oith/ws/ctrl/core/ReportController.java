@@ -8,17 +8,16 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
-import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.ReportNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.ReportNotFoundException;
@@ -57,7 +56,9 @@ public class ReportController extends _OithClientAuditController {
         } catch (NotLoggedInException e) {
         }
 
-        //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
+        model.addAttribute("supportFormats", Arrays.asList(Report.ReportFormat.values()));
+        model.addAttribute("tags", Arrays.asList("Good", "Bad", "Morning", "Night", "Noon", "Math", "Pop", "Rock"));
+
         //List emps = new LinkedList();
         //for (Emp col : empService.findAllByClient(client)) {
         //    emps.add(col);
