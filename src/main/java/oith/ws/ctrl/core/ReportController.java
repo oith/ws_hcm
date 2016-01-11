@@ -57,6 +57,7 @@ public class ReportController extends _OithClientAuditController {
         }
 
         model.addAttribute("supportFormats", Arrays.asList(Report.ReportFormat.values()));
+        model.addAttribute("supportFormatArrs", Arrays.asList(Report.ReportFormat.values()));
         model.addAttribute("tags", Arrays.asList("Good", "Bad", "Morning", "Night", "Noon", "Math", "Pop", "Rock"));
 
         //List emps = new LinkedList();

@@ -29,72 +29,80 @@
     <div>
         <%--<form:hidden path="id"/>--%>
         <dl class="dl-horizontal">
-
+            
             <c:if test="${report.code!=null}">
                 <dt><spring:message code="code" text="Code"/></dt>
                 <dd>
                     <c:out value="${report.code}"/>
                 </dd>
             </c:if>
-
+            
             <c:if test="${report.reportGroup!=null}">
                 <dt><spring:message code="reportGroup" text="Report Group"/></dt>
                 <dd>
                     <c:out value="${report.reportGroup}"/>
                 </dd>
             </c:if>
-
+            
             <c:if test="${report.title!=null}">
                 <dt><spring:message code="title" text="Title"/></dt>
                 <dd>
                     <c:out value="${report.title}"/>
                 </dd>
             </c:if>
-
+            
             <c:if test="${report.fileName!=null}">
                 <dt><spring:message code="fileName" text="File Name"/></dt>
                 <dd>
                     <c:out value="${report.fileName}"/>
                 </dd>
             </c:if>
-
+            
             <c:if test="${report.isActive!=null}">
                 <dt><spring:message code="isActive" text="Is Active"/></dt>
                 <dd>
                     <c:out value="${report.isActive}"/>
                 </dd>
             </c:if>
-
+            
             <c:if test="${report.slNo!=null}">
                 <dt><spring:message code="slNo" text="Sl No"/></dt>
                 <dd>
                     <c:out value="${report.slNo}"/>
                 </dd>
             </c:if>
-            <c:if test="${report.supportFormats!=null}">
-                <dt><spring:message code="supportFormats" text="supportFormats"/></dt>
-                <dd>
-                    <c:out value="${report.supportFormats}"/>
-                </dd>
-            </c:if>
-
+            
             <c:if test="${report.tags!=null}">
-                <dt><spring:message code="tags" text="tags"/></dt>
+                <dt><spring:message code="tags" text="Tags"/></dt>
                 <dd>
                     <c:out value="${report.tags}"/>
                 </dd>
             </c:if>
+            
+            <c:if test="${report.supportFormatArrs!=null}">
+                <dt><spring:message code="supportFormatArrs" text="Support Format Arrs"/></dt>
+                <dd>
+                    <c:out value="${report.supportFormatArrs}"/>
+                </dd>
+            </c:if>
+            
+            <c:if test="${report.supportFormats!=null}">
+                <dt><spring:message code="supportFormats" text="Support Formats"/></dt>
+                <dd>
+                    <c:out value="${report.supportFormats}"/>
+                </dd>
+            </c:if>
+            
             <c:if test="${report.remarks!=null}">
                 <dt><spring:message code="remarks" text="Remarks"/></dt>
                 <dd>
                     <c:out value="${report.remarks}"/>
                 </dd>
             </c:if>
-
+                      
             <c:set target="audit" property="audit" var="audit" value="${report}" scope="request"/>
             <jsp:include page="../_auditShow.jsp" flush="true" />
         </dl>
-        <!--<div><jspinclude page="_supportFormats.jsp"/></div>-->
         <div><jsp:include page="_reportDetails.jsp"/></div>
 
     </div>

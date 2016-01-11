@@ -76,6 +76,7 @@
                 <thead>
                     <tr>
                         <td></td>
+                        <td><spring:message code="code" text="Code"/></td>
                         <td><spring:message code="title" text="title"/></td>
                         <td><spring:message code="firstName" text="firstName"/></td>
                         <td><spring:message code="middleName" text="middleName"/></td>
@@ -115,6 +116,7 @@
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/profile/show/<c:out value="${profile.id}"/>"><spring:message code="show.link.label"/></a></td>
+                            <td><c:out value="${profile.code}"/></td>
                             <td><c:out value="${profile.title}"/></td>
                             <td><c:out value="${profile.firstName}"/></td>
                             <td><c:out value="${profile.middleName}"/></td>
