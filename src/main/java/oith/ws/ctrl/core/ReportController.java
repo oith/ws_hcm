@@ -348,6 +348,7 @@ public class ReportController extends _OithClientAuditController {
             @ModelAttribute(MODEL_ATTIRUTE) @Valid ReportDetail currObject,
             RedirectAttributes attributes) {
 
+        //System.out.println("jggdsag 740: getIsActive: "+currObject.getIsActive()+" mad: "+currObject.getIsMandatory());
         Report objOrignal;
         try {
             objOrignal = reportService.findById(id);
