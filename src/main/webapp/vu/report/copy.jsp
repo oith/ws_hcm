@@ -15,10 +15,8 @@
 </tiles:putAttribute>
 
 <tiles:putAttribute name='body'>
-
     <title><spring:message code='project.title.copy'/></title>
-
-    <div>   
+    <div>
         <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
         <a href='${pageContext.request.contextPath}/report/index'><spring:message code='list.link.label'/>&NonBreakingSpace;<spring:message code='report' text='Report'/></a> |
         <a href='${pageContext.request.contextPath}/report/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='report' text='Report'/></a>
@@ -34,14 +32,8 @@
             </div>
         </form:form>
     </div>
-    <!--
-    <div id='dialog' title='Basic dialog'>
-        <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
-    </div>
-    -->
-
-</tiles:putAttribute>  
+</tiles:putAttribute>
 
 <tiles:putAttribute name='footer'>
     <jsp:include page='/template/footer.jsp' />
-</tiles:putAttribute>  
+</tiles:putAttribute>

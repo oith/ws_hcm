@@ -82,44 +82,44 @@
                         <input type='hidden' name='reportId' id='reportId' value='${report.id}'>
                         <input type='hidden' name='embdId' id='reportDetails_id' value=''>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='title' text='Title'/>
-                            <input type='text' name='title' id='reportDetails_title' class='form-control' value='' >
+                                <spring:message code='title' text='Title'/>
+                                <input type='text' name='title' id='reportDetails_title' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='paramName' text='Param Name'/>
-                            <input type='text' name='paramName' id='reportDetails_paramName' class='form-control' value='' >
+                                <spring:message code='paramName' text='Param Name'/>
+                                <input type='text' name='paramName' id='reportDetails_paramName' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='paramType' text='Param Type'/>
-                            <input type='text' name='paramType' id='reportDetails_paramType' class='form-control' value='' >
+                                <spring:message code='paramType' text='Param Type'/>
+                                <input type='text' name='paramType' id='reportDetails_paramType' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='isActive' text='Is Active'/>
-                            <input type='checkbox' name='isActive' id='reportDetails_isActive' class='checkbox' value=''>
+                                <spring:message code='isActive' text='Is Active'/>
+                                <input type='checkbox' name='isActive' id='reportDetails_isActive' class='checkbox' value=''>
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='isMandatory' text='Is Mandatory'/>
-                            <input type='checkbox' name='isMandatory' id='reportDetails_isMandatory' class='checkbox' value=''>
+                                <spring:message code='isMandatory' text='Is Mandatory'/>
+                                <input type='checkbox' name='isMandatory' id='reportDetails_isMandatory' class='checkbox' value=''>
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='slNo' text='Sl No'/>
-                            <input type='text' name='slNo' id='reportDetails_slNo' class='form-control' value='' >
+                                <spring:message code='slNo' text='Sl No'/>
+                                <input type='text' name='slNo' id='reportDetails_slNo' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='cmd' text='Cmd'/>
-                            <input type='text' name='cmd' id='reportDetails_cmd' class='form-control' value='' >
+                                <spring:message code='cmd' text='Cmd'/>
+                                <input type='text' name='cmd' id='reportDetails_cmd' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='defaultVal' text='Default Val'/>
-                            <input type='text' name='defaultVal' id='reportDetails_defaultVal' class='form-control' value='' >
+                                <spring:message code='defaultVal' text='Default Val'/>
+                                <input type='text' name='defaultVal' id='reportDetails_defaultVal' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='helpText' text='Help Text'/>
-                            <input type='text' name='helpText' id='reportDetails_helpText' class='form-control' value='' >
+                                <spring:message code='helpText' text='Help Text'/>
+                                <input type='text' name='helpText' id='reportDetails_helpText' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='embdId' text='Embd Id'/>
-                            <input type='text' name='embdId' id='reportDetails_embdId' class='form-control' value='' >
+                                <spring:message code='embdId' text='Embd Id'/>
+                                <input type='text' name='embdId' id='reportDetails_embdId' class='form-control' value='' >
                         </div>
 
                         <div style='padding-left: 15px' class='form-group'></div>
@@ -154,9 +154,6 @@
     });
 
     $(document).on('click', 'tr', function () {
-
-        //alert('kkkkkkkkkkk>' + $('td:eq(6)', this).text() + '<');
-
         $('#reportDetails_id').val($('td:eq(0)', this).text());
         $('#reportDetails_title').val($('td:eq(2)', this).text());
         $('#reportDetails_paramName').val($('td:eq(3)', this).text());

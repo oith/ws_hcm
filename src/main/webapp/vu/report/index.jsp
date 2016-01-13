@@ -17,20 +17,14 @@
 </tiles:putAttribute>
 
 <tiles:putAttribute name='body'>
-
     <title><spring:message code='project.title.index' text='Index'/></title>
-
-    <script>window.jQuery || document.write('<script src='<%=request.getContextPath()%>/js/jquery-1.7.2.min.js'><\/script>')</script>
-
+    <script>window.jQuery || document.write('<script src='<%=request.getContextPath()%> / js / jquery - 1.7.2.min.js'><\/script>')</script>
     <div>
         <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
         <a href='${pageContext.request.contextPath}/report/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='report' text='Report'/></a>
     </div>
-
     <h1><spring:message code='list.page.title'/></h1>
-
     <form:form action='${pageContext.request.contextPath}/report/index' commandName='searchCriteria' method='POST'>
-
         <table>
             <tr>
                 <td><form:label path='searchTerm'><spring:message code='label.searchTerm'/>:</form:label></td>
@@ -61,7 +55,6 @@
                 </td>
             </tr>
         </table>
-
         <div>
             <button type='submit' class='btn btn-info'>
                 <span class='glyphicon glyphicon-search'></span><spring:message code='search.form.submit.label'/>
@@ -73,11 +66,9 @@
 
         <div class='table-responsive'>
             <table class='table table-striped table-bordered table-hover table-condensed'>
-
                 <thead>
                     <tr>
                         <th></th>
-                        <th><spring:message code='auditor' text='Auditor'/></th>
                         <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='reportGroup' text='Report Group'/></th>
                         <th><spring:message code='title' text='Title'/></th>
@@ -97,18 +88,35 @@
 
                         <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
                             <td><a href='${pageContext.request.contextPath}/report/show/<c:out value='${report.id}'/>'><spring:message code='show.link.label'/></a></td>
-                                <td><c:out value='${report.auditor}'/></td>
-                                <td><c:out value='${report.code}'/></td>
-                                <td><c:out value='${report.reportGroup}'/></td>
-                                <td><c:out value='${report.title}'/></td>
-                                <td><c:out value='${report.fileName}'/></td>
-                                <td><c:out value='${report.isActive}'/></td>
-                                <td><c:out value='${report.slNo}'/></td>
-                                <td><c:out value='${report.tags}'/></td>
-                                <td><c:out value='${report.supportFormatArrs}'/></td>
-                                <td><c:out value='${report.supportFormats}'/></td>
-                                <td><c:out value='${report.reportDetails}'/></td>
-                                <td><c:out value='${report.remarks}'/></td>
+                            <td><c:out value='${report.code}'/></td>
+                            <td><c:out value='${report.reportGroup}'/></td>
+                            <td><c:out value='${report.title}'/></td>
+                            <td><c:out value='${report.fileName}'/></td>
+                            <td><c:out value='${report.isActive}'/></td>
+                            <td><c:out value='${report.slNo}'/></td>
+                            <td>
+                                <c:set var='oith_var_tags'/>
+                                <c:forEach items='${report.tags}' var='oith_val_tags'>
+                                    <c:set var='oith_var_tags' value='${oith_var_tags}, ${oith_val_tags}'/>
+                                </c:forEach> 
+                                <c:out value='[${oith_var_tags.substring(2)}]'/>
+                            </td>
+                            <td>
+                                <c:set var='oith_var_supportFormatArrs'/>
+                                <c:forEach items='${report.supportFormatArrs}' var='oith_val_supportFormatArrs'>
+                                    <c:set var='oith_var_supportFormatArrs' value='${oith_var_supportFormatArrs}, ${oith_val_supportFormatArrs}'/>
+                                </c:forEach> 
+                                <c:out value='[${oith_var_supportFormatArrs.substring(2)}]'/>
+                            </td>
+                            <td>
+                                <c:set var='oith_var_supportFormats'/>
+                                <c:forEach items='${report.supportFormats}' var='oith_val_supportFormats'>
+                                    <c:set var='oith_var_supportFormats' value='${oith_var_supportFormats}, ${oith_val_supportFormats}'/>
+                                </c:forEach> 
+                                <c:out value='[${oith_var_supportFormats.substring(2)}]'/>
+                            </td>
+                            <td><c:out value='${report.reportDetails}'/></td>
+                            <td><c:out value='${report.remarks}'/></td>
 
                             <%--
                             <td><c:if test='${report.active}'><spring:message code='default.boolean.true' text='YES'/></c:if><c:if test='${!report.active}'><spring:message code='default.boolean.false' text='NO'/></c:if></td>
@@ -128,7 +136,6 @@
             <spring:message code='list.page.label.no.data.found' text='No data found'/>
         </p>
     </c:if>
-
 </tiles:putAttribute>
 
 <tiles:putAttribute name='footer'>

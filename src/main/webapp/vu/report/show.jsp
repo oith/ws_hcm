@@ -16,18 +16,14 @@
 </tiles:putAttribute>
 
 <tiles:putAttribute name='body'>
-
     <title><spring:message code='project.title.show' text='Show'/></title>
-
     <div>   
         <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
         <a href='${pageContext.request.contextPath}/report/index'><spring:message code='list.link.label'/>&NonBreakingSpace;<spring:message code='report' text='Report'/></a> |
         <a href='${pageContext.request.contextPath}/report/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='report' text='Report'/></a>
     </div>
-
     <h1><spring:message code='show.page.title'/></h1>
     <div>
-        <%--<form:hidden path='id'/>--%>
         <dl class='dl-horizontal'>
             
             <c:if test='${report.code!=null}'>
@@ -111,20 +107,18 @@
                     <c:out value='${report.remarks}'/>
                 </dd>
             </c:if>
-                      
+            
             <c:set target='audit' property='audit' var='audit' value='${report}' scope='request'/>
             <jsp:include page='../_auditShow.jsp' flush='true' />
         </dl>
         <div><jsp:include page='_reportDetails.jsp'/></div>
 
     </div>
-
     <a href='${pageContext.request.contextPath}/report/edit/<c:out value='${report.id}'/>'><spring:message code='edit.link.label'/></a> |
     <a href='${pageContext.request.contextPath}/report/copy/<c:out value='${report.id}'/>'><spring:message code='copy.link.label'/></a> |
     <a href='${pageContext.request.contextPath}/report/delete/<c:out value='${report.id}'/>' onclick='return confirm('Are you sure to delete?');' ><spring:message code='delete.link.label'/></a>
-
-</tiles:putAttribute>  
+</tiles:putAttribute>
 
 <tiles:putAttribute name='footer'>
     <jsp:include page='/template/footer.jsp' />
-</tiles:putAttribute>    
+</tiles:putAttribute>
