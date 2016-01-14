@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class _OithController {
 
-    protected static final String ERROR_NOT_LOGGED_IN = "error.not.logged.in";
+    protected static final String ERROR_NOT_LOGGED_IN = "error.message.logged.not.found";
     protected static final String ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND = "error.message.deleted.not.found";
     protected static final String ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND = "error.message.edited.not.found";
     protected static final String ERROR_MESSAGE_KEY_COPIED_WAS_NOT_FOUND = "error.message.copied.not.found";
