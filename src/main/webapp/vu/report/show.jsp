@@ -57,7 +57,14 @@
             <c:if test='${report.isActive!=null}'>
                 <dt><spring:message code='isActive' text='Is Active'/></dt>
                 <dd>
-                    <c:out value='${report.isActive}'/>
+                    <c:choose >
+                        <c:when test='${report.isActive}'>
+                            <spring:message code='default.boolean.true' text='YES'/>
+                        </c:when>
+                        <c:otherwise>
+                            <spring:message code='default.boolean.false' text='NO'/>
+                        </c:otherwise>
+                    </c:choose>
                 </dd>
             </c:if>
             

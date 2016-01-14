@@ -18,7 +18,7 @@
 
 <tiles:putAttribute name='body'>
     <title><spring:message code='project.title.index' text='Index'/></title>
-    <script>window.jQuery || document.write('<script src='<%=request.getContextPath()%> / js / jquery - 1.7.2.min.js'><\/script>')</script>
+    <script>window.jQuery || document.write('<script src='<%=request.getContextPath()%>/js/jquery-1.7.2.min.js'><\/script>')</script>
     <div>
         <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
         <a href='${pageContext.request.contextPath}/report/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='report' text='Report'/></a>
@@ -69,6 +69,7 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th><spring:message code='auditor' text='Auditor'/></th>
                         <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='reportGroup' text='Report Group'/></th>
                         <th><spring:message code='title' text='Title'/></th>
@@ -88,11 +89,21 @@
 
                         <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
                             <td><a href='${pageContext.request.contextPath}/report/show/<c:out value='${report.id}'/>'><spring:message code='show.link.label'/></a></td>
+                            <td><c:out value='${report.auditor}'/></td>
                             <td><c:out value='${report.code}'/></td>
                             <td><c:out value='${report.reportGroup}'/></td>
                             <td><c:out value='${report.title}'/></td>
                             <td><c:out value='${report.fileName}'/></td>
-                            <td><c:out value='${report.isActive}'/></td>
+                            <td>
+                                <c:choose >
+                                    <c:when test='${report.isActive}'>
+                                        <spring:message code='default.boolean.true' text='YES'/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <spring:message code='default.boolean.false' text='NO'/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                             <td><c:out value='${report.slNo}'/></td>
                             <td>
                                 <c:set var='oith_var_tags'/>
