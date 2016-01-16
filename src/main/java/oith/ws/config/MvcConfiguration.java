@@ -73,6 +73,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("/i18n/messages");
         messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(false);
         return messageSource;
     }

@@ -39,7 +39,14 @@
         <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="gender"><spring:message code="gender" text="Gender"/></form:label>
-                <form:select path="gender" class="form-control" items="${genders}" itemLabel="title"/>  
+                <select name='gender' id='gender' class='form-control'>
+                    <c:forEach items='${genders}' var='sss'>
+                        <option value='${sss}' ${user.gender.equals(sss) ? 'selected="true"' : ''}>
+                            <spring:message code='label.gender.${sss}' text='${sss}'/>
+                        </option>
+                    </c:forEach>
+                </select>
+                <%--<form:select path="gender" class="form-control" items="${genders}" itemLabel="title"/>--%>  
                 <form:errors path="gender" cssClass="error" element="div"/>
             </div>
         </div>             
