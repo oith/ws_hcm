@@ -470,31 +470,20 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
-            <version>1.8.0.RELEASE</version>
+            <version>1.8.2.RELEASE</version>
             <type>jar</type>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.0.3</version>
+            <version>3.2.0</version>
         </dependency>
         
-        <!--        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.3</version>
-        </dependency>-->
+
         
-<!--        <dependency>
+        <!--        
+        <dependency>
             mvn install:install-file -Dfile=jcalendar-1.4.jar -DgroupId=jcalendar-1.4 -DartifactId=jcalendar-1.4 -Dversion=1.4 -Dpackaging=jar
-            
-            <artifactId>jcalendar-1.4</artifactId>
-            <groupId>jcalendar-1.4</groupId>
-            <version>1.4</version>
-        </dependency>-->
-<!--        <dependency>
-            mvn install:install-file -Dfile=jcalendar-1.4.jar -DgroupId=jcalendar-1.4 -DartifactId=jcalendar-1.4 -Dversion=1.4 -Dpackaging=jar
-    
             <artifactId>oith-1.0</artifactId>
             <groupId>oith-1.0</groupId>
             <version>1.0</version>
@@ -502,7 +491,6 @@
         
         <dependency>
             <!--mvn install:install-file -Dfile=jcalendar-1.4.jar -DgroupId=jcalendar-1.4 -DartifactId=jcalendar-1.4 -Dversion=1.4 -Dpackaging=jar-->
-    
             <artifactId>oith_ws_core-1.0.0</artifactId>
             <groupId>oith_ws_core-1.0.0</groupId>
             <version>1.0.0</version>
