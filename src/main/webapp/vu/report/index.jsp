@@ -18,7 +18,7 @@
 
 <tiles:putAttribute name='body'>
     <title><spring:message code='project.title.index' text='Index'/></title>
-    <script>window.jQuery || document.write('<script src='<%=request.getContextPath()%> / js / jquery - 1.7.2.min.js'><\/script>')</script>
+    <script>window.jQuery || document.write('<script src='<%=request.getContextPath()%>/js/jquery-1.7.2.min.js'><\/script>')</script>
     <div>
         <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
         <a href='${pageContext.request.contextPath}/report/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='report' text='Report'/></a>
@@ -69,7 +69,7 @@
                 <thead>
                     <tr>
                         <th></th>
-                       <th><spring:message code='code' text='Code'/></th>
+                        <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='reportGroup' text='Report Group'/></th>
                         <th><spring:message code='title' text='Title'/></th>
                         <th><spring:message code='fileName' text='File Name'/></th>
@@ -85,10 +85,9 @@
                 </thead>
                 <tbody>
                     <c:forEach items='${reports}' var='report'  varStatus='loopStatus'>
-
                         <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
                             <td><a href='${pageContext.request.contextPath}/report/show/${report.id}'><spring:message code='show.link.label'/></a></td>
-                           <td><c:out value='${report.code}'/></td>
+                            <td><c:out value='${report.code}'/></td>
                             <td><c:out value='${report.reportGroup}'/></td>
                             <td><c:out value='${report.title}'/></td>
                             <td><c:out value='${report.fileName}'/></td>
@@ -127,36 +126,9 @@
                             <td><c:out value='${report.reportDetails}'/></td>
                             <td><c:out value='${report.remarks}'/></td>
 
-                            <%--
-                            <td><c:if test='${report.active}'><spring:message code='default.boolean.true' text='YES'/></c:if><c:if test='${!report.active}'><spring:message code='default.boolean.false' text='NO'/></c:if></td>
-                            --%>
-
                             <td><a href='${pageContext.request.contextPath}/report/edit/${report.id}'><spring:message code='edit.link.label'/></a></td>
                             <td><a href='${pageContext.request.contextPath}/report/copy/${report.id}'><spring:message code='copy.link.label'/></a></td>
                             <td><a href='${pageContext.request.contextPath}/report/delete/${report.id}' onclick='return confirm('Are you sure to delete?');' ><spring:message code='delete.link.label'/></a></td>
-
-
-                            <spring:url value="/report/show/${report.id}" var="showUrl" />
-                            <spring:url value="/report/edit/${report.id}" var="editUrl" />
-                            <spring:url value="/report/copy/${report.id}" var="copyUrl" /> 
-                            <spring:url value="/report/delete/${report.id}" var="deleteUrl" /> 
-                            <td>
-                                <button class="btn btn-info" 
-                                        onclick="location.href = '${showUrl}'">Query</button>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary" 
-                                        onclick="location.href = '${editUrl}'">Update</button>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary" 
-                                        onclick="location.href = '${copyUrl}'">Copy</button>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" 
-                                        onclick="this.disabled = true; post('${deleteUrl}')">Delete</button>   
-                            </td>
-
                         </tr>
                     </c:forEach>
                 </tbody>

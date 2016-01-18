@@ -12,9 +12,12 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,6 +61,9 @@ public class UserController extends _OithClientAuditController {
     protected static final String SHOW_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_show";
 
     @Autowired
+    private org.springframework.context.MessageSource messageSource;
+    
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -74,7 +80,7 @@ public class UserController extends _OithClientAuditController {
         }
     }
 
-    private void allComboSetup(ModelMap model) {
+    private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
         try {
             client = super.getLoggedClient();
@@ -82,7 +88,11 @@ public class UserController extends _OithClientAuditController {
         }
 
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
-        model.addAttribute("genders", AllEnum.Gender.values());
+        Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
+        for (AllEnum.Gender col : AllEnum.Gender.values()) {
+            genders.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+        }
+        model.addAttribute("genders", genders);
 
         List authorities = new LinkedList();
         for (Role col : roleService.findAllByClient(client)) {
@@ -98,21 +108,21 @@ public class UserController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String showCreateForm(ModelMap model) {
+    public String showCreateForm(ModelMap model, Locale locale) {
 
         //Client client = new Client();
         User user = new User();
-        model.addAttribute("genders", AllEnum.Gender.values());
-        model.addAttribute(MODEL_ATTIRUTE, user);
 
+        model.addAttribute(MODEL_ATTIRUTE, user);
+        allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
+    public String submitCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, Locale locale) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("genders", AllEnum.Gender.values());
+            allComboSetup(model, locale);
             return ADD_FORM_VIEW;
         }
 
@@ -127,7 +137,7 @@ public class UserController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String showEditForm(ModelMap model, RedirectAttributes attributes) {
+    public String showEditForm(ModelMap model, RedirectAttributes attributes, Locale locale) {
 
         Object authUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = null;
@@ -145,14 +155,14 @@ public class UserController extends _OithClientAuditController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-        model.addAttribute("genders", AllEnum.Gender.values());
-        model.addAttribute(MODEL_ATTIRUTE, user);
 
+        model.addAttribute(MODEL_ATTIRUTE, user);
+        allComboSetup(model, locale);
         return EDIT_FORM_VIEW;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
+    public String submitEditForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, Locale locale) {
 
         Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -170,7 +180,7 @@ public class UserController extends _OithClientAuditController {
         currObject.setId(userId);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("genders", AllEnum.Gender.values());
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
         }
 
@@ -219,7 +229,7 @@ public class UserController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/admin_create", method = RequestMethod.GET)
-    public String showAdminCreateForm(ModelMap model) {
+    public String showAdminCreateForm(ModelMap model, Locale locale) {
 
         Object authUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Client client = null;
@@ -230,24 +240,24 @@ public class UserController extends _OithClientAuditController {
         }
 
         User user = new User(client);
-        allComboSetup(model);
+        allComboSetup(model, locale);
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return ADD_FORM_VIEW_ADMIN;
     }
 
 //    private Set<Role> getCommonRolesx() {
-//        Set<Role> roles = new HashSet();
+//        Set<Role> roles = new LinkedHashSet();
 //        // roles.add(new Role(null, "55cef88a27b665569010fccc"));
 //        //roles.add(new Role());
 //        // roles.add("ROLE_USER");
 //        return roles;
 //    }
     @RequestMapping(value = "/admin_create", method = RequestMethod.POST)
-    public String submitAdminCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
+    public String submitAdminCreateForm(@ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, Locale locale) {
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return ADD_FORM_VIEW_ADMIN;
         }
 
@@ -262,7 +272,8 @@ public class UserController extends _OithClientAuditController {
     public String showAdminEditForm(
             @PathVariable("id") String id,
             ModelMap model,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            Locale locale) {
 
         User user = null;
         try {
@@ -276,7 +287,7 @@ public class UserController extends _OithClientAuditController {
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
 
-        allComboSetup(model);
+        allComboSetup(model, locale);
         model.addAttribute(MODEL_ATTIRUTE, user);
 
         return EDIT_FORM_VIEW_ADMIN;
@@ -288,10 +299,11 @@ public class UserController extends _OithClientAuditController {
             @ModelAttribute(MODEL_ATTIRUTE) @Valid User currObject,
             BindingResult bindingResult,
             ModelMap model,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            Locale locale) {
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW_ADMIN;
         }
 
@@ -361,7 +373,7 @@ public class UserController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/admin_show/{id}", method = RequestMethod.GET)
-    public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes) {
+    public String showForm(@PathVariable("id") String id, ModelMap model, RedirectAttributes attributes, Locale locale) {
         User user = null;
         try {
             user = userService.findById(id);
@@ -373,7 +385,7 @@ public class UserController extends _OithClientAuditController {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             //return createRedirectViewPath(REQUEST_MAPPING_LIST);
         }
-        allComboSetup(model);
+        allComboSetup(model, locale);
         model.addAttribute(MODEL_ATTIRUTE, user);
         return SHOW_FORM_VIEW_ADMIN;
     }

@@ -19,78 +19,46 @@
 
 <div>   
     <div class="row">            
-        <div class="col-xs-6">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
                 <form:label path="username"><spring:message code="username" text="User Name"/></form:label>
                 <form:input path="username" class="form-control" type="text" size="30" maxlength="30"/>
                 <form:errors path="username" cssClass="error" element="div"/>
             </div>
         </div>             
-        <div class="col-xs-6">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
                 <form:label path="fullName"><spring:message code="fullName" text="Full Name"/></form:label>
                 <form:input path="fullName" class="form-control" type="text" size="50" maxlength="50"/>
                 <form:errors path="fullName" cssClass="error" element="div"/>
             </div>
         </div>  
-    </div>  
 
-    <div class="row">            
-        <div class="col-xs-6">
-            <div class="form-group">
-                <form:label path="gender"><spring:message code="gender" text="Gender"/></form:label>
-                <select name='gender' id='gender' class='form-control'>
-                    <c:forEach items='${genders}' var='sss'>
-                        <option value='${sss}' ${user.gender.equals(sss) ? 'selected="true"' : ''}>
-                            <spring:message code='label.gender.${sss}' text='${sss}'/>
-                        </option>
-                    </c:forEach>
-                </select>
-                <%--<form:select path="gender" class="form-control" items="${genders}" itemLabel="title"/>--%>  
-                <form:errors path="gender" cssClass="error" element="div"/>
+
+        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+            <div class='form-group'>
+                <form:label path='gender'><spring:message code='gender' text='Gender'/><span class='required-indicator needed'>*</span></form:label>
+                <form:select path='gender' class='form-control' name='gender' id='gender' required='true' >
+                    <form:options items='${genders}' ></form:options>
+                </form:select>
+                <form:errors path='gender' cssClass='error' element='div'/>
             </div>
-        </div>             
-        <div class="col-xs-6">
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
                 <form:label path="dob"><spring:message code="dob" text="Dob"/></form:label>
                 <form:input path="dob" class="form-control" id="datepicker_dob" placeholder="DD/MM/YYYY"/>
                 <form:errors path="dob" cssClass="error" element="div"/>
             </div>
         </div>  
-    </div>  
 
-
-    <div class="row">            
-        <div class="col-xs-6">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
                 <form:label path="password"><spring:message code="password" text="Password"/></form:label>
                 <form:password path="password" class="form-control" showPassword="true" size="30" maxlength="30"/>
                 <form:errors path="password" cssClass="error" element="div"/>
             </div>
         </div>             
-        <%--        <div class="col-xs-6">
-                    <div class="form-group">
-                        <form:label path="openInNewPage"><spring:message code="openInNewPage" text="Open In New Page"/></form:label>
-                        <form:checkbox path="openInNewPage"/>
-                        <form:errors path="openInNewPage" cssClass="error" element="div"/>
-                    </div>
-                </div>  --%>
     </div>  
-
-    <div class="row">            
-        <%--        <div class="col-xs-6">
-                    <div class="form-group">
-                        <form:label path="lang"><spring:message code="lang" text="Language"/></form:label>
-                        <form:input path="lang" class="form-control" type="text" size="20" maxlength="20"/>
-                        <form:errors path="lang" cssClass="error" element="div"/>
-                    </div>
-                </div>             --%>
-        <div class="col-xs-6">
-            <div class="form-group">
-
-            </div>
-        </div>  
-    </div>  
-
-
 </div>   

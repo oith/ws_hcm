@@ -17,10 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class _OithController {
 
-    protected static final String ERROR_NOT_LOGGED_IN = "error.message.logged.not.found";
-    protected static final String ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND = "error.message.deleted.not.found";
-    protected static final String ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND = "error.message.edited.not.found";
-    protected static final String ERROR_MESSAGE_KEY_COPIED_WAS_NOT_FOUND = "error.message.copied.not.found";
+    protected static final String ERROR_NOT_LOGGED_IN = "error.message.not.found.logged";
+    protected static final String ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND = "error.message.not.found.deleted";
+    protected static final String ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND = "error.message.not.found.edited";
+    protected static final String ERROR_MESSAGE_KEY_COPIED_WAS_NOT_FOUND = "error.message.not.found.copied";
 
     protected static final String FEEDBACK_MESSAGE_KEY_CREATED = "feedback.message.created";
     protected static final String FEEDBACK_MESSAGE_KEY_DELETED = "feedback.message.deleted";
