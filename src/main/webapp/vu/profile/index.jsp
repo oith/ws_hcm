@@ -35,7 +35,7 @@
             <tr>
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
                 <td><form:input path="searchTerm" type="text" id="txtSearch" size="20"/></td>
-                <td><form:label path="searchTerm"><spring:message code="foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false" /></form:label></td>
+                <td><form:label path="searchTerm"><spring:message code="default.foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false" /></form:label></td>
                 </tr>
 
                 <tr>
@@ -95,8 +95,8 @@
                         <td><spring:message code="religion" text="religion"/></td>
                         <td><spring:message code="marriageDate" text="marriageDate"/></td>
                         <td><spring:message code="noOfChild" text="noOfChild"/></td>
-                        <td><spring:message code="contactPresonPrimary" text="contactPresonPrimary"/></td>
-                        <td><spring:message code="contactPresonSecondary" text="contactPresonSecondary"/></td>
+                        <td><spring:message code="contactPersonPrimary" text="contactPersonPrimary"/></td>
+                        <td><spring:message code="contactPersonSecondary" text="contactPersonSecondary"/></td>
 
 
 
@@ -138,8 +138,8 @@
                             <td><c:out value="${profile.religion}"/></td>
                             <td><fmt:formatDate value="${profile.marriageDate}" type="date" pattern="dd/MM/yyyy"/></td>
                             <td><c:out value="${profile.noOfChild}"/></td>
-                            <td><c:out value="${profile.contactPresonPrimary}"/></td>
-                            <td><c:out value="${profile.contactPresonSecondary}"/></td>
+                            <td><c:out value="${profile.contactPersonPrimary}"/></td>
+                            <td><c:out value="${profile.contactPersonSecondary}"/></td>
 
 
                             <%--

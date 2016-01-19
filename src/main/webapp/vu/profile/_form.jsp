@@ -41,8 +41,7 @@
                 <form:errors path="firstName" cssClass="error" element="div"/>
             </div>
         </div>   
-    </div>
-    <div class="row">     
+
         <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="middleName"><spring:message code="middleName" text="middleName"/></form:label>
@@ -58,8 +57,7 @@
                 <form:errors path="lastName" cssClass="error" element="div"/>
             </div>
         </div>   
-    </div>
-    <div class="row">     
+
         <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="nickName"><spring:message code="nickName" text="nickName"/><span class="required-indicator needed">*</span></form:label>
@@ -75,9 +73,7 @@
                 <form:errors path="nid" cssClass="error" element="div"/>
             </div>
         </div>   
-    </div>
 
-    <div class="row">                   
         <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="profilePicFile"><spring:message code="profilePicFile" text="profile Pic File"/></form:label>
@@ -88,8 +84,7 @@
                 <form:errors path="profilePicFile" cssClass="error" element="div"/>
             </div>
         </div>  
-    </div>  
-    <div class="row">     
+
         <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="chestSize"><spring:message code="chestSize" text="chestSize"/></form:label>
@@ -105,8 +100,7 @@
                 <form:errors path="height" cssClass="error" element="div"/>
             </div>
         </div>   
-    </div>
-    <div class="row">     
+
         <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="weight"><spring:message code="weight" text="weight"/></form:label>
@@ -120,13 +114,12 @@
             <div class="form-group">
                 <form:label path="bloodGroup"><spring:message code="bloodGroup" text="bloodGroup"/></form:label>
                 <form:select path="bloodGroup" class="form-control" name="bloodGroup" id="bloodGroup" >
-                    <form:options items="${bloodGroups}" itemLabel="title"></form:options>
+                    <form:options items="${bloodGroups}"></form:options>
                 </form:select>
                 <form:errors path="bloodGroup" cssClass="error" element="div"/>
             </div>
         </div>   
-    </div>
-    <div class="row">     
+
         <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="maritalSts"><spring:message code="maritalSts" text="maritalSts"/></form:label>
@@ -146,8 +139,7 @@
                 <form:errors path="religion" cssClass="error" element="div"/>
             </div>
         </div>   
-    </div>
-    <div class="row">     
+
         <div class="col-xs-6">
             <div class="form-group">
                 <form:label path="marriageDate"><spring:message code="marriageDate" text="marriageDate"/></form:label>

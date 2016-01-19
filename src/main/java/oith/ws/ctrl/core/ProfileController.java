@@ -18,8 +18,11 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
@@ -76,19 +79,37 @@ public class ProfileController extends _OithClientAuditController {
     protected static final String SHOW_FORM_VIEW_OPERATOR = MODEL_ATTIRUTE + "/operator_show";
 
     @Autowired
+    private org.springframework.context.MessageSource messageSource;
+
+    @Autowired
     private ProfileService profileService;
 
     @Autowired
     private GridFsOperations gridFsTemplate;
 
-    private void allComboSetup(ModelMap model) {
-        model.addAttribute("bloodGroups", AllEnum.BloodGroup.values());
-        model.addAttribute("maritalStss,", AllEnum.MaritalSts.values());
-        model.addAttribute("religions", AllEnum.Religion.values());
+    private void allComboSetup(ModelMap model, Locale locale) {
+
+        Map<AllEnum.BloodGroup, String> bloodGroups = new EnumMap(AllEnum.BloodGroup.class);
+        for (AllEnum.BloodGroup col : AllEnum.BloodGroup.values()) {
+            bloodGroups.put(col, messageSource.getMessage("label.bloodGroup." + col.name(), null, locale));
+        }
+        model.addAttribute("bloodGroups", bloodGroups);
+
+        Map<AllEnum.Religion, String> religions = new EnumMap(AllEnum.Religion.class);
+        for (AllEnum.Religion col : AllEnum.Religion.values()) {
+            religions.put(col, messageSource.getMessage("label.religion." + col.name(), null, locale));
+        }
+        model.addAttribute("religions", religions);
+
+        Map<AllEnum.MaritalSts, String> maritalStss = new EnumMap(AllEnum.MaritalSts.class);
+        for (AllEnum.MaritalSts col : AllEnum.MaritalSts.values()) {
+            maritalStss.put(col, messageSource.getMessage("label.maritalSts." + col.name(), null, locale));
+        }
+        model.addAttribute("maritalStss", maritalStss);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String showCreateForm(ModelMap model, RedirectAttributes attributes) {
+    public String showCreateForm(ModelMap model, RedirectAttributes attributes, Locale locale) {
 
         User user = null;
         try {
@@ -103,7 +124,7 @@ public class ProfileController extends _OithClientAuditController {
         if (profile == null) {
             profile = new Profile(user);
             model.addAttribute(MODEL_ATTIRUTE, profile);
-            allComboSetup(model);
+            allComboSetup(model, locale);
 
             return ADD_FORM_VIEW;
         } else {
@@ -117,7 +138,8 @@ public class ProfileController extends _OithClientAuditController {
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
-            MultipartHttpServletRequest request) {
+            MultipartHttpServletRequest request,
+            Locale locale) {
 
         try {
             super.save(currObject, attributes);
@@ -128,7 +150,7 @@ public class ProfileController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return ADD_FORM_VIEW;
         }
 
@@ -146,7 +168,7 @@ public class ProfileController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String showEditForm(ModelMap model, RedirectAttributes attributes) {
+    public String showEditForm(ModelMap model, RedirectAttributes attributes, Locale locale) {
 
         Profile profile = null;
         try {
@@ -158,7 +180,7 @@ public class ProfileController extends _OithClientAuditController {
         }
 
         model.addAttribute(MODEL_ATTIRUTE, profile);
-        allComboSetup(model);
+        allComboSetup(model, locale);
         return EDIT_FORM_VIEW;
     }
 
@@ -167,7 +189,9 @@ public class ProfileController extends _OithClientAuditController {
             @ModelAttribute(MODEL_ATTIRUTE) @Valid Profile currObject,
             BindingResult bindingResult,
             ModelMap model,
-            RedirectAttributes attributes, MultipartHttpServletRequest request) {
+            RedirectAttributes attributes,
+            MultipartHttpServletRequest request,
+            Locale locale) {
 
         Profile profile = null;
         try {
@@ -183,7 +207,7 @@ public class ProfileController extends _OithClientAuditController {
         imageHandle(request, currObject);
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
         }
 

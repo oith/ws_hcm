@@ -52,13 +52,13 @@
                 </li>
             </c:if>
 
-            <c:if test="${accountHeadFm.accNo!=null}">
+            <c:if test="${accountHeadFm.accountNo!=null}">
                 <li class="fieldcontain first_item">
                     <span id="title" class="property-label">
-                        <spring:message code="accNo" text="ACCNO"/>: 
+                        <spring:message code="accountNo" text="ACCNO"/>: 
                     </span>
-                    <span class="property-value" aria-labelledby="accNo">
-                        <c:out value="${accountHeadFm.accNo}"/>
+                    <span class="property-value" aria-labelledby="accountNo">
+                        <c:out value="${accountHeadFm.accountNo}"/>
                     </span>
                 </li>
             </c:if>

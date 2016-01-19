@@ -32,9 +32,9 @@
 <div class="row">     
     <div class="col-xs-6">
         <div class="form-group">
-            <form:label path="accNo"><spring:message code="accNo" text="accNo"/><span class="required-indicator needed">*</span></form:label>
-            <form:input path="accNo" class="form-control" type="text" required="true" maxlength="20"/>
-            <form:errors path="accNo" cssClass="error" element="div"/>
+            <form:label path="accountNo"><spring:message code="accountNo" text="accountNo"/><span class="required-indicator needed">*</span></form:label>
+            <form:input path="accountNo" class="form-control" type="text" required="true" maxlength="20"/>
+            <form:errors path="accountNo" cssClass="error" element="div"/>
         </div>
     </div>   
 

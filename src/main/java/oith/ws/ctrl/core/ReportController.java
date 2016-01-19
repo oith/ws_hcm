@@ -2,25 +2,22 @@ package oith.ws.ctrl.core;
 
 import oith.ws.dom.core.Report;
 import oith.ws.dom.core.ReportDetail;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.ReportNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
-import oith.ws.exception.ReportNotFoundException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -36,7 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/report")
-public class ReportController extends _OithClientAuditController {
+public class ReportController extends oith.ws.ctrl.core._OithClientAuditController {
 
     protected static final String MODEL_ATTIRUTE = "report";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -47,19 +44,26 @@ public class ReportController extends _OithClientAuditController {
     protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
+    private org.springframework.context.MessageSource messageSource;
+
+    @Autowired
     private oith.ws.service.ReportService reportService;
 
-    private void allComboSetup(ModelMap model) {
+
+    private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
         try {
             client = super.getLoggedClient();
         } catch (NotLoggedInException e) {
         }
 
-        model.addAttribute("supportFormats", Arrays.asList(Report.ReportFormat.values()));
-        model.addAttribute("supportFormatArrs", Arrays.asList(Report.ReportFormat.values()));
-        model.addAttribute("tags", Arrays.asList("Good", "Bad", "Morning", "Night", "Noon", "Math", "Pop", "Rock"));
-
+        //Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
+        //for (AllEnum.Gender col : AllEnum.Gender.values()) {
+        //    genders.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+        //}
+        //model.addAttribute("genders", genders);
+        //
+        //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         //List emps = new LinkedList();
         //for (Emp col : empService.findAllByClient(client)) {
         //    emps.add(col);
@@ -74,7 +78,7 @@ public class ReportController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
+    public String create(ModelMap model, Locale locale) {
 
         Client client;
         try {
@@ -84,7 +88,7 @@ public class ReportController extends _OithClientAuditController {
         }
 
         model.addAttribute(MODEL_ATTIRUTE, new Report(client));
-        allComboSetup(model);
+        allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
@@ -93,18 +97,19 @@ public class ReportController extends _OithClientAuditController {
             @ModelAttribute(MODEL_ATTIRUTE) @Valid Report currObject,
             BindingResult bindingResult,
             ModelMap model,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            Locale locale) {
 
         try {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
         } catch (UserNotFoundException ex) {
-            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            return NOT_FOUND;
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return ADD_FORM_VIEW;
         }
 
@@ -115,7 +120,7 @@ public class ReportController extends _OithClientAuditController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String edit(@PathVariable("id") String id, ModelMap model) {
+    public String edit(@PathVariable("id") String id, ModelMap model, Locale locale) {
 
         Client client;
         try {
@@ -127,7 +132,7 @@ public class ReportController extends _OithClientAuditController {
         try {
             Report currObjectLocal = reportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
         } catch (ReportNotFoundException ex) {
             return NOT_FOUND;
@@ -142,7 +147,8 @@ public class ReportController extends _OithClientAuditController {
             @ModelAttribute(MODEL_ATTIRUTE) @Valid Report currObject,
             BindingResult bindingResult,
             ModelMap model,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            Locale locale) {
 
         Client client;
         try {
@@ -152,7 +158,7 @@ public class ReportController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
         }
 
@@ -162,26 +168,24 @@ public class ReportController extends _OithClientAuditController {
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (ReportNotFoundException ex) {
+        } catch (ReportNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
-        } catch (UserNotFoundException ex) {
-            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             //report = reportService.update(currObject);
-            Report currObjectLocal = reportService.update(currObject, "auditor,code,reportGroup,title,fileName,isActive,slNo,remarks,tags,supportFormatArrs,supportFormats,reportDetails");
+            Report currObjectLocal = reportService.update(currObject, "auditor,code,reportGroup,title,fileName,isActive,slNo,tags,supportFormatArrs,supportFormats,reportDetails,remarks");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
             errorHandler(bindingResult, e);
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
         }
     }
 
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.GET)
-    public String copy(@PathVariable("id") String id, ModelMap model) {
+    public String copy(@PathVariable("id") String id, ModelMap model, Locale locale) {
 
         Client client;
         try {
@@ -193,7 +197,7 @@ public class ReportController extends _OithClientAuditController {
         try {
             Report currObjectLocal = reportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return COPY_FORM_VIEW;
         } catch (ReportNotFoundException ex) {
             return NOT_FOUND;
@@ -208,7 +212,8 @@ public class ReportController extends _OithClientAuditController {
             @ModelAttribute(MODEL_ATTIRUTE) @Valid Report currObject,
             BindingResult bindingResult,
             ModelMap model,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            Locale locale) {
 
         Client client;
         try {
@@ -218,7 +223,7 @@ public class ReportController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return COPY_FORM_VIEW;
         }
 
@@ -233,13 +238,13 @@ public class ReportController extends _OithClientAuditController {
 
         try {
             Report currObjectLocal = new Report(client);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,reportGroup,title,fileName,isActive,slNo,remarks,tags,supportFormatArrs,supportFormats,reportDetails");
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,reportGroup,title,fileName,isActive,slNo,tags,supportFormatArrs,supportFormats,reportDetails,remarks");
             currObjectLocal = reportService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
             errorHandler(bindingResult, e);
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return COPY_FORM_VIEW;
         }
     }
@@ -341,14 +346,14 @@ public class ReportController extends _OithClientAuditController {
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-
+    
     @RequestMapping(value = "/reportDetails/edit/{id}", method = RequestMethod.POST)
+
     public String reportDetailsModal(
             @PathVariable("id") String id,
             @ModelAttribute(MODEL_ATTIRUTE) @Valid ReportDetail currObject,
             RedirectAttributes attributes) {
 
-        //System.out.println("jggdsag 740: getIsActive: "+currObject.getIsActive()+" mad: "+currObject.getIsMandatory());
         Report objOrignal;
         try {
             objOrignal = reportService.findById(id);
@@ -388,6 +393,7 @@ public class ReportController extends _OithClientAuditController {
         }
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + id;
     }
+     
 
     @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
     public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
@@ -423,5 +429,5 @@ public class ReportController extends _OithClientAuditController {
         }
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + dtsMstId;
     }
-
+    
 }

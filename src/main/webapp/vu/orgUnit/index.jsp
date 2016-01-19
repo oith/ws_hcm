@@ -35,7 +35,7 @@
             <tr>
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
                 <td><form:input path="searchTerm" type="text" id="txtSearch" size="20"/></td>
-                <td><form:label path="searchTerm"><spring:message code="foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false"/></form:label></td>
+                <td><form:label path="searchTerm"><spring:message code="default.foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false"/></form:label></td>
                 </tr>
 
                 <tr>

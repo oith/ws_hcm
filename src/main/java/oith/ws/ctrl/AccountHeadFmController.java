@@ -130,7 +130,7 @@ public class AccountHeadFmController extends _OithClientAuditController {
 
         try {
             //accountHeadFm = accountHeadFmService.update(currObject);
-            AccountHeadFm currObjectLocal = accountHeadFmService.update(currObject, "accNo,active,code,description,empRequired,slNo,title,auditor");
+            AccountHeadFm currObjectLocal = accountHeadFmService.update(currObject, "accountNo,active,code,description,empRequired,slNo,title,auditor");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (AccountHeadFmNotFoundException e) {
