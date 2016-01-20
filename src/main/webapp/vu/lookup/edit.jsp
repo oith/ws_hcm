@@ -27,6 +27,7 @@
     <div>
         <form:form action="${pageContext.request.contextPath}/lookup/edit/${lookup.id}" commandName="lookup" method="POST">
             <form:hidden path="id"/>
+            <form:hidden path="version"/>
             <jsp:include page="_form.jsp" />
             <div>
                 <a href="${pageContext.request.contextPath}/lookup/show/${lookup.id}"><spring:message code="show.link.label"/></a>
@@ -34,11 +35,6 @@
             </div>
         </form:form>
     </div>
-    <!--
-    <div id="dialog" title="Basic dialog">
-        <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
-    </div>
-    -->
 
 </tiles:putAttribute>  
 

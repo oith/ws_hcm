@@ -44,7 +44,7 @@
                         <td><c:out value="${params.valueType}"/></td>
                         <td><c:out value="${params.className}"/></td>
 
-                        <td><button type="button" class="params_del btn btn-warning" value="params~${user.id}~${loopStatus.index}">Erase</button></td>
+                        <td><button type="button" class="params_del btn btn-warning" value="params~${user.id}~${loopStatus.index}"><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
                 </c:forEach>
             </tbody>

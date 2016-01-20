@@ -27,6 +27,7 @@
     <div>
         <form:form action="${pageContext.request.contextPath}/lookup/copy/${lookup.id}" commandName="lookup" method="POST">
             <form:hidden path="id"/>
+            <form:hidden path="version"/>
             <jsp:include page="_form.jsp" />
             <div>
                 <a href="${pageContext.request.contextPath}/lookup/show/${lookup.id}"><spring:message code="show.link.label"/></a>

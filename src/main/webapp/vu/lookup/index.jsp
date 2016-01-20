@@ -91,9 +91,18 @@
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
                             <td><a href="${pageContext.request.contextPath}/lookup/show/<c:out value="${lookup.id}"/>"><spring:message code="show.link.label"/></a></td>
                             <td><c:out value="${lookup.code}"/></td>
-                            <td><c:out value="${lookup.lookupKeyword}"/></td>
+                            <td><spring:message code='label.lookup.lookupKeyword.${lookup.lookupKeyword}' text='${lookup.lookupKeyword}'/></td>
                             <td><c:out value="${lookup.name}"/></td>
-                            <td><c:out value="${lookup.active}"/></td>
+                            <td>
+                                <c:choose >
+                                    <c:when test='${lookup.active}'>
+                                        <spring:message code='default.boolean.true' text='YES'/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <spring:message code='default.boolean.false' text='NO'/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                             <td><c:out value="${lookup.slNo}"/></td>
                             <td><c:out value="${lookup.remarks}"/></td>
 
@@ -109,10 +118,6 @@
                 </tbody>
             </table>
         </div>
-        <!--<div class="row-fluid">-->
-        <!--    <div>
-        <util:pagination thispage="${lookups}"></util:pagination>
-    </div>-->
     </c:if>
     <c:if test="${empty lookups}">
         <p>

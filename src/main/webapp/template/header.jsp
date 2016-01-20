@@ -93,7 +93,7 @@
 
                             <c:set var='openInNewPageLoc' value='${envs.get(OPEN_IN_NEW_PAGE)}'/>
 
-                            <label><input id='openInNewPage' name='openInNewPage' type='checkbox'>&nbsp;&nbsp;Open in New Page</label>
+                            <label><input id='openInNewPage' name='openInNewPage' type='checkbox'>&nbsp;<spring:message code='default.open.in.new.page' text='Open in New Page'/></label>
 
                             <a href='${pageContext.request.contextPath}/logout' onclick='return confirm('Are you sure to logout?');' ><spring:message code='logout' text='Logout'/></a>
                         </div>

@@ -38,7 +38,7 @@
                         <td><c:out value="${favorites.text}"/></td>
                         <td><c:out value="${favorites.address}"/></td>
 
-                        <td><button type="button" class="favorites_del btn btn-warning" value="favorites~${user.id}~${loopStatus.index}">Erase</button></td>
+                        <td><button type="button" class="favorites_del btn btn-warning" value="favorites~${user.id}~${loopStatus.index}"><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
                 </c:forEach>
             </tbody>

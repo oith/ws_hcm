@@ -40,7 +40,9 @@
             <c:if test="${lookup.lookupKeyword!=null}">
                 <dt><spring:message code="lookupKeyword" text="Lookup Keyword"/></dt>
                 <dd>
-                    <c:out value="${lookup.lookupKeyword}"/>
+                    <%--<c:out value="${lookup.lookupKeyword}"/>--%>
+
+                    <spring:message code='label.lookup.lookupKeyword.${lookup.lookupKeyword}' text='${lookup.lookupKeyword}'/>
                 </dd>
             </c:if>
 
@@ -54,7 +56,14 @@
             <c:if test="${lookup.active!=null}">
                 <dt><spring:message code="active" text="Active"/></dt>
                 <dd>
-                    <c:out value="${lookup.active}"/>
+                    <c:choose >
+                        <c:when test='${lookup.active}'>
+                            <spring:message code='default.boolean.true' text='YES'/>
+                        </c:when>
+                        <c:otherwise>
+                            <spring:message code='default.boolean.false' text='NO'/>
+                        </c:otherwise>
+                    </c:choose>
                 </dd>
             </c:if>
 

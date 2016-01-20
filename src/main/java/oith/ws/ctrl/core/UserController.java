@@ -87,10 +87,9 @@ public class UserController extends _OithClientAuditController {
         } catch (NotLoggedInException e) {
         }
 
-        //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
         for (AllEnum.Gender col : AllEnum.Gender.values()) {
-            genders.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+            genders.put(col, messageSource.getMessage("label.allEnum.gender." + col.name(), null, locale));
         }
         model.addAttribute("genders", genders);
 

@@ -65,7 +65,7 @@
                     </span>
                     <span class="property-value" aria-labelledby="gender">
                         <%--<c:out value="${user.gender}"/>--%>
-                        <spring:message code='label.gender.${user.gender}' text='${user.gender}'/>
+                        <spring:message code='label.allEnum.gender.${user.gender}' text='${user.gender}'/>
                     </span>
                 </li>
             </c:if>

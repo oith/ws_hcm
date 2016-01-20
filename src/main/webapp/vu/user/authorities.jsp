@@ -40,7 +40,7 @@
                         <%--                        <td><c:out value="${role.passingYear}"/></td>
                                                <td><c:out value="${role.remarks}"/></td>
                                                <td><c:out value="${role.slNo}"/></td>--%>
-                        <td><button class="edu_dtl_del" type="button" class="btn btn-danger" value="ProfileRoleDtls~${user.id}~${role.id}">Erase</button></td>
+                        <td><button class="edu_dtl_del" type="button" class="btn btn-danger" value="ProfileRoleDtls~${user.id}~${role.id}"><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
 
                 </c:forEach>

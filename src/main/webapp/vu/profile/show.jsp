@@ -197,7 +197,7 @@
                 <c:if test="${profile.user.gender!=null}">
                     <dt><spring:message code="gender" text="Gender"/></dt>
                     <dd>
-                        <c:out value="${profile.user.gender}"/>
+                        <spring:message code='label.allEnum.gender.${profile.user.gender}' text='${profile.user.gender}'/>
                     </dd>
                 </c:if>
                 <c:if test="${profile.user.dob!=null}">
@@ -288,21 +288,21 @@
             <c:if test="${profile.bloodGroup!=null}">
                 <dt><spring:message code="bloodGroup" text="Blood Group"/></dt>
                 <dd>
-                    <c:out value="${profile.bloodGroup}"/>
+                    <spring:message code='label.allEnum.bloodGroup.${profile.bloodGroup}' text='${profile.bloodGroup}'/>
                 </dd>
             </c:if>
 
             <c:if test="${profile.religion!=null}">
                 <dt><spring:message code="religion" text="Religion"/></dt>
                 <dd>
-                    <c:out value="${profile.religion}"/>
+                    <spring:message code='label.allEnum.religion.${profile.religion}' text='${profile.religion}'/>
                 </dd>
             </c:if>
 
             <c:if test="${profile.maritalSts!=null}">
                 <dt><spring:message code="maritalSts" text="Marital Sts"/></dt>
                 <dd>
-                    <c:out value="${profile.maritalSts}"/>
+                    <spring:message code='label.allEnum.maritalSts.${profile.maritalSts}' text='${profile.maritalSts}'/>
                 </dd>
             </c:if>
 

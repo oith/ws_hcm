@@ -38,7 +38,7 @@
                         <td><c:out value="${comments.content}"/></td>
                         <td><c:out value="${comments.embdId}"/></td>
 
-                        <td><button type="button" class="comments_del btn btn-warning" value="comments~${post.id}~${comments.embdId}">Erase</button></td>
+                        <td><button type="button" class="comments_del btn btn-warning" value="comments~${post.id}~${comments.embdId}"><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
                 </c:forEach>
             </tbody>

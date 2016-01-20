@@ -7,9 +7,12 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
@@ -49,7 +52,6 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
     @Autowired
     private oith.ws.service.ReportService reportService;
 
-
     private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
         try {
@@ -57,11 +59,17 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         } catch (NotLoggedInException e) {
         }
 
-        //Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
-        //for (AllEnum.Gender col : AllEnum.Gender.values()) {
-        //    genders.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
-        //}
-        //model.addAttribute("genders", genders);
+        //model.addAttribute("supportFormatArrs", Arrays.asList(Report.ReportFormat.values()));
+        //model.addAttribute("supportFormats", Arrays.asList(Report.ReportFormat.values()));
+        String tags[] = {"good", "bad", "ok"};
+        model.addAttribute("tags", Arrays.asList(tags));
+
+        Map<Report.ReportFormat, String> supportFormats = new EnumMap(Report.ReportFormat.class);
+        for (Report.ReportFormat col : Report.ReportFormat.values()) {
+            supportFormats.put(col, messageSource.getMessage("label.report.reportFormat." + col.name(), null, locale));
+        }
+        model.addAttribute("supportFormatArrs", supportFormats);
+        model.addAttribute("supportFormats", supportFormats);
         //
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         //List emps = new LinkedList();
@@ -346,7 +354,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-    
+
     @RequestMapping(value = "/reportDetails/edit/{id}", method = RequestMethod.POST)
 
     public String reportDetailsModal(
@@ -393,7 +401,6 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + id;
     }
-     
 
     @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
     public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
@@ -429,5 +436,5 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + dtsMstId;
     }
-    
+
 }

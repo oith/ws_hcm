@@ -91,19 +91,19 @@ public class ProfileController extends _OithClientAuditController {
 
         Map<AllEnum.BloodGroup, String> bloodGroups = new EnumMap(AllEnum.BloodGroup.class);
         for (AllEnum.BloodGroup col : AllEnum.BloodGroup.values()) {
-            bloodGroups.put(col, messageSource.getMessage("label.bloodGroup." + col.name(), null, locale));
+            bloodGroups.put(col, messageSource.getMessage("label.allEnum.bloodGroup." + col.name(), null, locale));
         }
         model.addAttribute("bloodGroups", bloodGroups);
 
         Map<AllEnum.Religion, String> religions = new EnumMap(AllEnum.Religion.class);
         for (AllEnum.Religion col : AllEnum.Religion.values()) {
-            religions.put(col, messageSource.getMessage("label.religion." + col.name(), null, locale));
+            religions.put(col, messageSource.getMessage("label.allEnum.religion." + col.name(), null, locale));
         }
         model.addAttribute("religions", religions);
 
         Map<AllEnum.MaritalSts, String> maritalStss = new EnumMap(AllEnum.MaritalSts.class);
         for (AllEnum.MaritalSts col : AllEnum.MaritalSts.values()) {
-            maritalStss.put(col, messageSource.getMessage("label.maritalSts." + col.name(), null, locale));
+            maritalStss.put(col, messageSource.getMessage("label.allEnum.maritalSts." + col.name(), null, locale));
         }
         model.addAttribute("maritalStss", maritalStss);
     }

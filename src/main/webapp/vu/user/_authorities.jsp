@@ -44,7 +44,7 @@
                         <td><c:out value="${authorities.client}"/></td>
                         <td><c:out value="${authorities.id}"/></td>
 
-                        <td><button type="button" class="authorities_del btn btn-warning" value="authorities~${user.id}~${loopStatus.index}">Erase</button></td>
+                        <td><button type="button" class="authorities_del btn btn-warning" value="authorities~${user.id}~${loopStatus.index}"><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
                 </c:forEach>
             </tbody>

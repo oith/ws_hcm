@@ -48,7 +48,7 @@
                         <td><c:out value="${voucherDtls.emp}"/></td>
                         <td><c:out value="${voucherDtls.narration}"/></td>
 
-                        <td><button type="button" class="voucherDtls_del btn btn-warning" value="voucherDtls~${voucher.id}~${loopStatus.index}">Erase</button></td>
+                        <td><button type="button" class="voucherDtls_del btn btn-warning" value="voucherDtls~${voucher.id}~${loopStatus.index}"><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
                 </c:forEach>
             </tbody>

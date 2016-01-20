@@ -50,7 +50,7 @@
                         <td><c:out value='${reportDetails.helpText}'/></td>
                         <td><c:out value='${reportDetails.embdId}'/></td>
 
-                        <td><button type='button' class='reportDetails_del btn btn-warning' value='reportDetails~${report.id}~${reportDetails.embdId}'>Erase</button></td>
+                        <td><button type='button' class='reportDetails_del btn btn-warning' value='reportDetails~${report.id}~${reportDetails.embdId}'><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
                 </c:forEach>
             </tbody>

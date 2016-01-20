@@ -44,7 +44,7 @@
                         <td><c:out value="${profileEduDtls.slNo}"/></td>
                         <td><c:out value="${profileEduDtls.embdId}"/></td>
 
-                        <td><button type="button" class="profileEduDtls_del btn btn-warning" value="profileEduDtls~${profile.id}~${profileEduDtls.embdId}">Erase</button></td>
+                        <td><button type="button" class="profileEduDtls_del btn btn-warning" value="profileEduDtls~${profile.id}~${profileEduDtls.embdId}"><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
                 </c:forEach>
             </tbody>
