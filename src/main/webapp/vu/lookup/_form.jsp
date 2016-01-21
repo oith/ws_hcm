@@ -4,16 +4,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<link type="text/css" href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
-<link type="text/css" href="<%=request.getContextPath()%>/css/jquery-ui.css" rel="stylesheet"/>
-<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/jquery-ui-1.10.2.js"></script> 
-
 <form:errors path="*" cssClass="errorblock" element="div" />
-<!--<div class="container">-->  
 
-<div class="row">     
-    <div class="col-xs-6">
+<div class="row">  
+    
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
             <form:label path="code"><spring:message code="code" text="Code"/><span class="required-indicator needed">*</span></form:label>
             <form:input path="code" class="form-control" type="text" required="true" maxlength="10"/>
@@ -21,7 +16,7 @@
         </div>
     </div>   
 
-    <div class="col-xs-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
             <form:label path="lookupKeyword"><spring:message code="lookupKeyword" text="Lookup Keyword"/><span class="required-indicator needed">*</span></form:label>
             <form:select path="lookupKeyword" class="form-control" name="lookupKeyword" id="lookupKeyword" required="true" >
@@ -31,7 +26,7 @@
         </div>
     </div>   
 
-    <div class="col-xs-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
             <form:label path="name"><spring:message code="name" text="Name"/><span class="required-indicator needed">*</span></form:label>
             <form:input path="name" class="form-control" type="text" required="true" maxlength="50"/>
@@ -39,7 +34,7 @@
         </div>
     </div>   
 
-    <div class="col-xs-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
             <form:label path="active"><spring:message code="active" text="Active"/></form:label>
             <form:checkbox path="active"/>
@@ -47,7 +42,7 @@
         </div>
     </div>   
 
-    <div class="col-xs-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
             <form:label path="slNo"><spring:message code="slNo" text="Sl No"/></form:label>
             <form:input path="slNo" class="form-control" type="number" min="0" max="100"/>
@@ -55,7 +50,7 @@
         </div>
     </div>   
 
-    <div class="col-xs-6">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group">
             <form:label path="remarks"><spring:message code="remarks" text="Remarks"/></form:label>
             <form:textarea path="remarks" class="form-control" type="text" maxlength="500"/>

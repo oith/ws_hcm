@@ -23,8 +23,14 @@
     <script>window.jQuery || document.write('<script src="<%=request.getContextPath()%>/js/jquery-1.7.2.min.js"><\/script>')</script>
 
     <div>   
-        <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/lookup/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/></a>
+        <a href="${pageContext.request.contextPath}/" class="btn btn-primary">
+            <i class="glyphicon glyphicon-home"></i>
+            <spring:message code="home"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/lookup/create" class="btn btn-primary">
+            <i class="glyphicon glyphicon-plus"></i>
+            <spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/>
+        </a>
     </div>
 
     <h1><spring:message code="list.page.title"/></h1>
@@ -34,10 +40,16 @@
         <table>
             <tr>
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
-                <td><form:input path="searchTerm" class="form-control" type="text" id="txtSearch" size="20"/></td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </span>
+                        <form:input path="searchTerm" class="form-control" type="text" id="txtSearch" size="20" />
+                    </div>
+                </td>
                 <td><span class="label label-info"><spring:message code="default.foundRec" arguments="${searchCriteria.totalRecs}" htmlEscape="false" /></span></td>
             </tr>
-
             <tr>
                 <td><form:label path="pageSize"><spring:message code="label.pageSize"/>:</form:label></td>
                 <td><form:select path="pageSize" class="form-control">
@@ -63,7 +75,8 @@
 
         <div>
             <button type="submit" class="btn btn-info">
-                <span class="glyphicon glyphicon-search"></span><spring:message code="search.form.submit.label"/>
+                <i class="glyphicon glyphicon-search"></i>
+                <spring:message code="search.form.submit.label"/>
             </button>
         </div>
     </form:form>
@@ -89,7 +102,12 @@
                     <c:forEach items="${lookups}" var="lookup"  varStatus="loopStatus">
 
                         <tr class="${loopStatus.index % 2 == 0 ? 'odd' : 'even'}">
-                            <td><a href="${pageContext.request.contextPath}/lookup/show/<c:out value="${lookup.id}"/>"><spring:message code="show.link.label"/></a></td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/lookup/show/${lookup.id}" class="btn btn-info"> 
+                                    <i class="glyphicon glyphicon-book"></i>
+                                    <spring:message code="show.link.label"/>
+                                </a>
+                            </td>
                             <td><c:out value="${lookup.code}"/></td>
                             <td><spring:message code='label.lookup.lookupKeyword.${lookup.lookupKeyword}' text='${lookup.lookupKeyword}'/></td>
                             <td><c:out value="${lookup.name}"/></td>
@@ -106,13 +124,24 @@
                             <td><c:out value="${lookup.slNo}"/></td>
                             <td><c:out value="${lookup.remarks}"/></td>
 
-                            <%--
-                            <td><c:if test="${lookup.active}"><spring:message code="default.boolean.true" text="YES"/></c:if><c:if test="${!lookup.active}"><spring:message code="default.boolean.false" text="NO"/></c:if></td>
-                            --%>
-
-                            <td><a href="${pageContext.request.contextPath}/lookup/edit/<c:out value="${lookup.id}"/>"><spring:message code="edit.link.label"/></a></td>
-                            <td><a href="${pageContext.request.contextPath}/lookup/copy/<c:out value="${lookup.id}"/>"><spring:message code="copy.link.label"/></a></td>
-                            <td><a href="${pageContext.request.contextPath}/lookup/delete/<c:out value="${lookup.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a></td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/lookup/edit/${lookup.id}" class="btn btn-warning">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    <spring:message code="edit.link.label"/>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/lookup/copy/${lookup.id}" class="btn btn-primary"> 
+                                    <i class="glyphicon glyphicon-copy"></i>
+                                    <spring:message code="copy.link.label"/>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/lookup/delete/${lookup.id}" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');" > 
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <spring:message code="delete.link.label"/>
+                                </a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>

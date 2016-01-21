@@ -20,9 +20,23 @@
     <title><spring:message code="project.title.show" text="Show"/></title>
 
     <div>   
-        <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/lookup/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/></a> |
-        <a href="${pageContext.request.contextPath}/lookup/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/></a>
+
+        <a href="${pageContext.request.contextPath}/" class="btn btn-primary">
+            <i class="glyphicon glyphicon-home"></i>
+            <spring:message code="home"/>
+        </a>
+
+        <a href="${pageContext.request.contextPath}/lookup/index" class="btn btn-info">
+            <i class="glyphicon glyphicon-list"></i>
+            <spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/>
+
+        </a> 
+
+        <a href="${pageContext.request.contextPath}/lookup/create" class="btn btn-primary">
+            <i class="glyphicon glyphicon-plus"></i>
+            <spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/>
+
+        </a>
     </div>
 
     <h1><spring:message code="show.page.title"/></h1>
@@ -87,9 +101,18 @@
 
     </div>
 
-    <a href="${pageContext.request.contextPath}/lookup/edit/<c:out value="${lookup.id}"/>"><spring:message code="edit.link.label"/></a> |
-    <a href="${pageContext.request.contextPath}/lookup/copy/<c:out value="${lookup.id}"/>"><spring:message code="copy.link.label"/></a> |
-    <a href="${pageContext.request.contextPath}/lookup/delete/<c:out value="${lookup.id}"/>" onclick="return confirm('Are you sure to delete?');" ><spring:message code="delete.link.label"/></a>
+    <a href="${pageContext.request.contextPath}/lookup/edit/${lookup.id}" class="btn btn-warning">
+        <i class="glyphicon glyphicon-edit"></i>
+        <spring:message code="edit.link.label"/>
+    </a> 
+    <a href="${pageContext.request.contextPath}/lookup/copy/${lookup.id}"class="btn btn-primary">
+        <i class="glyphicon glyphicon-copy"></i>
+        <spring:message code="copy.link.label"/>
+    </a> 
+    <a href="${pageContext.request.contextPath}/lookup/delete/${lookup.id}" onclick="return confirm('Are you sure to delete?');" class="btn btn-danger">
+        <i class="glyphicon glyphicon-remove"></i>
+        <spring:message code="delete.link.label"/>
+    </a>
 
 </tiles:putAttribute>  
 

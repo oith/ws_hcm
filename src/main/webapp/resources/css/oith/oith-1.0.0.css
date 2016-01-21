@@ -23,3 +23,25 @@ and open the template in the editor.
     color: #ff0000;
     padding: 2px;
 }
+
+input[type=number] {
+    text-align: right;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------
+* Remove Spinner Icon from number field
+*-------------------------------------------------------------------------------------------------------------------------------------------------------*/
+input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------*/
