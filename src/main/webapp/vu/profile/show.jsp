@@ -40,7 +40,7 @@
             <c:if test="${profile.title!=null}">
                 <dt><spring:message code="title" text="Title"/></dt>
                 <dd>
-                    <c:out value="${profile.title}"/>
+                    <spring:message code='label.allEnum.title.${profile.title}' text='${profile.title}'/>
                 </dd>
             </c:if>
 

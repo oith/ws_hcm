@@ -122,7 +122,8 @@ public class ProfileController extends _OithClientAuditController {
 
         Profile profile = profileService.findByUser(user);
         if (profile == null) {
-            profile = new Profile(user);
+            profile = new Profile();
+            profile.setUser(user);
             model.addAttribute(MODEL_ATTIRUTE, profile);
             allComboSetup(model, locale);
 

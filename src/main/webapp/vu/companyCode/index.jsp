@@ -18,17 +18,30 @@
 
 <tiles:putAttribute name='body'>
     <title><spring:message code='project.title.index' text='Index'/></title>
-    <script>window.jQuery || document.write('<script src='<%=request.getContextPath()%>/js/jquery-1.7.2.min.js'><\/script>')</script>
+    <script>window.jQuery || document.write('<script src='<%=request.getContextPath()%> / js / jquery - 1.7.2.min.js'><\/script>')</script>
     <div>
-        <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
-        <a href='${pageContext.request.contextPath}/companyCode/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='companyCode' text='CompanyCode'/></a>
+        <a href='${pageContext.request.contextPath}/' class='btn btn-primary'>
+            <i class='glyphicon glyphicon-home'></i>
+            <spring:message code="home"/>
+        </a>
+        <a href='${pageContext.request.contextPath}/companyCode/create' class='btn btn-primary'>
+            <i class='glyphicon glyphicon-plus'></i>
+            <spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='companyCode' text='CompanyCode'/>
+        </a>
     </div>
     <h1><spring:message code='list.page.title'/></h1>
     <form:form action='${pageContext.request.contextPath}/companyCode/index' commandName='searchCriteria' method='POST'>
         <table>
             <tr>
                 <td><form:label path='searchTerm'><spring:message code='label.searchTerm'/>:</form:label></td>
-                <td><form:input path='searchTerm' class='form-control' type='text' id='txtSearch' size='20'/></td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </span>
+                        <form:input path="searchTerm" class="form-control" type="text" id="txtSearch" size="20" />
+                    </div>
+                </td>
                 <td><span class='label label-info'><spring:message code='foundRec' arguments='${searchCriteria.totalRecs}' htmlEscape='false' /></span></td>
             </tr>
             <tr>
@@ -56,8 +69,9 @@
             </tr>
         </table>
         <div>
-            <button type='submit' class='btn btn-info'>
-                <span class='glyphicon glyphicon-search'></span><spring:message code='search.form.submit.label'/>
+            <button type="submit" class="btn btn-info">
+                <i class="glyphicon glyphicon-search"></i>
+                <spring:message code="search.form.submit.label"/>
             </button>
         </div>
     </form:form>
@@ -69,11 +83,9 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th><spring:message code='auditor' text='Auditor'/></th>
                         <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='name' text='Name'/></th>
                         <th><spring:message code='company' text='Company'/></th>
-                        <th><spring:message code='businessArea' text='Business Area'/></th>
                         <th><spring:message code='city' text='City'/></th>
                         <th><spring:message code='country' text='Country'/></th>
                         <th><spring:message code='language' text='Language'/></th>
@@ -84,20 +96,40 @@
                 <tbody>
                     <c:forEach items='${companyCodes}' var='companyCode'  varStatus='loopStatus'>
                         <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
-                            <td><a href='${pageContext.request.contextPath}/companyCode/show/${companyCode.id}'><spring:message code='show.link.label'/></a></td>
-                            <td><c:out value='${companyCode.auditor}'/></td>
+
+
+                            <td>
+                                <a href="${pageContext.request.contextPath}/companyCode/show/${companyCode.id}" class="btn btn-info">
+                                    <i class="glyphicon glyphicon-book"></i>
+                                    <spring:message code="show.link.label"/>
+                                </a>
+                            </td>
                             <td><c:out value='${companyCode.code}'/></td>
                             <td><c:out value='${companyCode.name}'/></td>
                             <td><c:out value='${companyCode.company}'/></td>
-                            <td><c:out value='${companyCode.businessArea}'/></td>
                             <td><c:out value='${companyCode.city}'/></td>
                             <td><c:out value='${companyCode.country}'/></td>
                             <td><c:out value='${companyCode.language}'/></td>
                             <td><c:out value='${companyCode.currency}'/></td>
 
-                            <td><a href='${pageContext.request.contextPath}/companyCode/edit/${companyCode.id}'><spring:message code='edit.link.label'/></a></td>
-                            <td><a href='${pageContext.request.contextPath}/companyCode/copy/${companyCode.id}'><spring:message code='copy.link.label'/></a></td>
-                            <td><a href='${pageContext.request.contextPath}/companyCode/delete/${companyCode.id}' onclick='return confirm('Are you sure to delete?');' ><spring:message code='delete.link.label'/></a></td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/companyCode/edit/${companyCode.id}" class="btn btn-warning">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    <spring:message code="edit.link.label"/>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/companyCode/copy/${companyCode.id}" class="btn btn-primary">
+                                    <i class="glyphicon glyphicon-copy"></i>
+                                    <spring:message code="copy.link.label"/>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/companyCode/delete/${companyCode.id}" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');" >
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <spring:message code="delete.link.label"/>
+                                </a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>

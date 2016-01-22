@@ -83,7 +83,6 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th><spring:message code='auditor' text='Auditor'/></th>
                         <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='name' text='Name'/></th>
                         <th><spring:message code='nameSecondary' text='Name Secondary'/></th>
@@ -101,14 +100,12 @@
                     <c:forEach items='${companys}' var='company'  varStatus='loopStatus'>
                         <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
 
-
                             <td>
                                 <a href="${pageContext.request.contextPath}/company/show/${company.id}" class="btn btn-info">
                                     <i class="glyphicon glyphicon-book"></i>
                                     <spring:message code="show.link.label"/>
                                 </a>
                             </td>
-                            <td><c:out value='${company.auditor}'/></td>
                             <td><c:out value='${company.code}'/></td>
                             <td><c:out value='${company.name}'/></td>
                             <td><c:out value='${company.nameSecondary}'/></td>

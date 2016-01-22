@@ -2,25 +2,19 @@ package oith.ws.ctrl;
 
 import oith.ws.dom.hcm.def.es.CompanyCode;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.core.IEmbdDetail;
+import oith.ws.dom.hcm.def.es.Company;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.CompanyCodeNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -49,6 +43,8 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
     @Autowired
     private oith.ws.service.CompanyCodeService companyCodeService;
 
+    @Autowired
+    private oith.ws.service.CompanyService companyService;
 
     private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
@@ -69,11 +65,11 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         //    emps.add(col);
         //}
         //model.addAttribute("emps", emps);
-        //List accountHeadFms = new LinkedList();
-        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
-        //    accountHeadFms.add(col);
-        //}
-        //model.addAttribute("accountHeadFms", accountHeadFms);
+        List companys = new LinkedList();
+        for (Company col : companyService.findAllByClient(client)) {
+            companys.add(col);
+        }
+        model.addAttribute("companys", companys);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
 
@@ -174,7 +170,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
 
         try {
             //companyCode = companyCodeService.update(currObject);
-            CompanyCode currObjectLocal = companyCodeService.update(currObject, "auditor,code,name,company,businessArea,city,country,language,currency");
+            CompanyCode currObjectLocal = companyCodeService.update(currObject, "auditor,code,name,company,city,country,language,currency");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -346,5 +342,5 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-     
+
 }

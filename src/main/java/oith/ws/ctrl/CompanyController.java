@@ -2,26 +2,21 @@ package oith.ws.ctrl;
 
 import oith.ws.dom.hcm.def.es.Company;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
+import java.util.Map;
 import javax.validation.Valid;
 import oith.ws.ctrl.core._OithClientAuditController;
+import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.CompanyNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,7 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/company")
-public class CompanyController extends _OithClientAuditController  {
+public class CompanyController extends _OithClientAuditController {
 
     public static final String MODEL_ATTIRUTE = "company";
     public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -50,7 +45,6 @@ public class CompanyController extends _OithClientAuditController  {
     @Autowired
     private oith.ws.service.CompanyService companyService;
 
-
     private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
         try {
@@ -58,11 +52,27 @@ public class CompanyController extends _OithClientAuditController  {
         } catch (NotLoggedInException e) {
         }
 
-        //Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
-        //for (AllEnum.Gender col : AllEnum.Gender.values()) {
-        //    genders.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
-        //}
-        //model.addAttribute("genders", genders);
+        Map<AllEnum.Country, String> countrys = new EnumMap(AllEnum.Country.class);
+        for (AllEnum.Country col : AllEnum.Country.values()) {
+            countrys.put(col, col.toString());
+            //countrys.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+        }
+        model.addAttribute("countrys", countrys);
+
+        Map<AllEnum.Language, String> languages = new EnumMap(AllEnum.Language.class);
+        for (AllEnum.Language col : AllEnum.Language.values()) {
+            languages.put(col, col.toString());
+            //countrys.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+        }
+        model.addAttribute("languages", languages);
+
+        Map<AllEnum.Currency, String> currencys = new EnumMap(AllEnum.Currency.class);
+        for (AllEnum.Currency col : AllEnum.Currency.values()) {
+            currencys.put(col, col.toString());
+            //countrys.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+        }
+        model.addAttribute("currencys", currencys);
+
         //
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         //List emps = new LinkedList();
@@ -347,5 +357,5 @@ public class CompanyController extends _OithClientAuditController  {
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-     
+
 }

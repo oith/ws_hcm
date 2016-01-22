@@ -69,7 +69,7 @@
         <div class='form-group'>
             <form:label path='country'><spring:message code='country' text='Country'/></form:label>
             <form:select path='country' class='form-control' name='country' id='country' >
-                <form:options items='${countrys}' ></form:options>
+                <form:options items='${countrys}'  ></form:options>
             </form:select>
             <form:errors path='country' cssClass='error' element='div'/>
         </div>

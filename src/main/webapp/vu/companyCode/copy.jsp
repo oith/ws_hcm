@@ -17,9 +17,18 @@
 <tiles:putAttribute name='body'>
     <title><spring:message code='project.title.copy'/></title>
     <div>
-        <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
-        <a href='${pageContext.request.contextPath}/companyCode/index'><spring:message code='list.link.label'/>&NonBreakingSpace;<spring:message code='companyCode' text='CompanyCode'/></a> |
-        <a href='${pageContext.request.contextPath}/companyCode/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='companyCode' text='CompanyCode'/></a>
+        <a href="${pageContext.request.contextPath}/" class="btn btn-primary">
+            <i class="glyphicon glyphicon-home"></i>
+            <spring:message code="home"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/companyCode/index" class="btn btn-info">
+            <i class="glyphicon glyphicon-list"></i>
+            <spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="companyCode" text="CompanyCode"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/companyCode/create" class="btn btn-primary">
+            <i class="glyphicon glyphicon-plus"></i>
+            <spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="companyCode" text="CompanyCode"/>
+        </a>
     </div>
     <h1><spring:message code='copy.page.title'/></h1>
     <div>
@@ -27,7 +36,10 @@
             <form:hidden path='id'/>
             <jsp:include page='_form.jsp' />
             <div>
-                <a href='${pageContext.request.contextPath}/companyCode/show/${companyCode.id}'><spring:message code='show.link.label'/></a>
+                <a href="${pageContext.request.contextPath}/companyCode/show/${companyCode.id}" class="btn btn-info">
+                    <i class="glyphicon glyphicon-book"></i>
+                    <spring:message code="show.link.label"/>
+                </a>
                 <input class='btn btn-primary' type='submit' value='<spring:message code='copy.page.submit.label'/>'/>
             </div>
         </form:form>

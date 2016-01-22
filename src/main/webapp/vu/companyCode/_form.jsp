@@ -8,7 +8,7 @@
 <form:errors path='*' cssClass='errorblock' element='div' />
 
 <div class='row'>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='code'><spring:message code='code' text='Code'/><span class='required-indicator needed'>*</span></form:label>
@@ -16,7 +16,7 @@
             <form:errors path='code' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='name'><spring:message code='name' text='Name'/><span class='required-indicator needed'>*</span></form:label>
@@ -24,23 +24,17 @@
             <form:errors path='name' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='company'><spring:message code='company' text='Company'/></form:label>
-            <!--{companyCode.companys}-->
+            <form:select path='company.id' class='form-control' name='company' id='company' >
+                <form:options items='${companys}' itemValue='id'></form:options>
+            </form:select>
             <form:errors path='company' cssClass='error' element='div'/>
         </div>
     </div>
-    
-    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-        <div class='form-group'>
-            <form:label path='businessArea'><spring:message code='businessArea' text='Business Area'/></form:label>
-            <!--{companyCode.businessAreas}-->
-            <form:errors path='businessArea' cssClass='error' element='div'/>
-        </div>
-    </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='city'><spring:message code='city' text='City'/></form:label>
@@ -48,7 +42,7 @@
             <form:errors path='city' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='country'><spring:message code='country' text='Country'/></form:label>
@@ -58,7 +52,7 @@
             <form:errors path='country' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='language'><spring:message code='language' text='Language'/></form:label>
@@ -68,7 +62,7 @@
             <form:errors path='language' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='currency'><spring:message code='currency' text='Currency'/></form:label>
@@ -78,9 +72,10 @@
             <form:errors path='currency' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
 </div>
 
 <%--JS--%>
 
 <%--[report]--%>
+
