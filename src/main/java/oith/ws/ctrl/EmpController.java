@@ -28,12 +28,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value = "/emp")
 public class EmpController extends _OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "emp";
-    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
-    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
-    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
-    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
-    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
+    public static final String MODEL_ATTIRUTE = "emp";
+    public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    public static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    public static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    public static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
     private EmpService empService;

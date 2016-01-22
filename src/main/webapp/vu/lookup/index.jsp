@@ -40,11 +40,11 @@
         <table>
             <tr>
                 <td><form:label path="searchTerm"><spring:message code="label.searchTerm"/>:</form:label></td>
-                    <td>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </span>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </span>
                         <form:input path="searchTerm" class="form-control" type="text" id="txtSearch" size="20" />
                     </div>
                 </td>

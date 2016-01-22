@@ -17,27 +17,27 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class _OithController {
 
-    protected static final String ERROR_NOT_LOGGED_IN = "error.message.not.found.logged";
-    protected static final String ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND = "error.message.not.found.deleted";
-    protected static final String ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND = "error.message.not.found.edited";
-    protected static final String ERROR_MESSAGE_KEY_COPIED_WAS_NOT_FOUND = "error.message.not.found.copied";
+    public static final String ERROR_NOT_LOGGED_IN = "error.message.not.found.logged";
+    public static final String ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND = "error.message.not.found.deleted";
+    public static final String ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND = "error.message.not.found.edited";
+    public static final String ERROR_MESSAGE_KEY_COPIED_WAS_NOT_FOUND = "error.message.not.found.copied";
 
-    protected static final String FEEDBACK_MESSAGE_KEY_CREATED = "feedback.message.created";
-    protected static final String FEEDBACK_MESSAGE_KEY_DELETED = "feedback.message.deleted";
-    protected static final String FEEDBACK_MESSAGE_KEY_EDITED = "feedback.message.edited";
-    protected static final String FEEDBACK_MESSAGE_KEY_COPIED = "feedback.message.copied";
+    public static final String FEEDBACK_MESSAGE_KEY_CREATED = "feedback.message.created";
+    public static final String FEEDBACK_MESSAGE_KEY_DELETED = "feedback.message.deleted";
+    public static final String FEEDBACK_MESSAGE_KEY_EDITED = "feedback.message.edited";
+    public static final String FEEDBACK_MESSAGE_KEY_COPIED = "feedback.message.copied";
 
-    protected static final String INDEX = "index";
-    protected static final String LOGIN = "login";
+    public static final String INDEX = "index";
+    public static final String LOGIN = "login";
 
-    protected static final String SEARCH_CRITERIA = "searchCriteria";
+    public static final String SEARCH_CRITERIA = "searchCriteria";
     private static final String ERROR_MESSAGE = "errorMessage";
     private static final String FEEDBACK_MESSAGE = "feedbackMessage";
-    protected static final String REDIRECT = "redirect:";
+    public static final String REDIRECT = "redirect:";
 
-    protected static final String REDIRECT_TO_LOGIN = "/login";
+    public static final String REDIRECT_TO_LOGIN = "/login";
 
-    protected static final String NOT_FOUND = REDIRECT + "/index";
+    public static final String NOT_FOUND = REDIRECT + "/index";
 
     @Resource
     private MessageSource messageSource;
@@ -57,7 +57,7 @@ public abstract class _OithController {
      * from the message source.
      * @param params The parameters attached to the actual error message.
      */
-    protected void addErrorMessage(RedirectAttributes model, String code, Object... params) {
+    public void addErrorMessage(RedirectAttributes model, String code, Object... params) {
         Locale current = LocaleContextHolder.getLocale();
         String localizedErrorMessage = messageSource.getMessage(code, params, current);
         model.addFlashAttribute(ERROR_MESSAGE, localizedErrorMessage);
@@ -72,17 +72,17 @@ public abstract class _OithController {
      * @param params The parameters which are attached to the actual feedback
      * message.
      */
-    protected void addFeedbackMessage(RedirectAttributes model, String code, Object... params) {
+    public void addFeedbackMessage(RedirectAttributes model, String code, Object... params) {
         Locale current = LocaleContextHolder.getLocale();
         String localizedFeedbackMessage = messageSource.getMessage(code, params, current);
         model.addFlashAttribute(FEEDBACK_MESSAGE, localizedFeedbackMessage);
     }
 
-    protected String multipartFileHandlerx(MultipartHttpServletRequest request, String col) {
+    public String multipartFileHandlerx(MultipartHttpServletRequest request, String col) {
         return "";
     }
 
-    protected String multipartImageFileHandlerx(MultipartHttpServletRequest request, String col) {
+    public String multipartImageFileHandlerx(MultipartHttpServletRequest request, String col) {
         return "";
     }
 
@@ -92,14 +92,14 @@ public abstract class _OithController {
      * @param path The path processed by the controller method.
      * @return A redirect view path to the given controller method.
      */
-    protected String createRedirectViewPath(String path) {
+    public String createRedirectViewPath(String path) {
         StringBuilder builder = new StringBuilder();
         builder.append(REDIRECT);
         builder.append(path);
         return builder.toString();
     }
 
-    protected void errorHandler(BindingResult bindingResult, Exception e) {
+    public void errorHandler(BindingResult bindingResult, Exception e) {
 
         if (e instanceof DuplicateKeyException) {
             DuplicateKeyException uuu = (DuplicateKeyException) e;

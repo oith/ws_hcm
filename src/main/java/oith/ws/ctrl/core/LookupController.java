@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
+import static oith.ws.ctrl.core._OithController.NOT_FOUND;
 import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
 import oith.ws.dto._SearchDTO;
@@ -32,13 +33,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value = "/lookup")
 public class LookupController extends _OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "lookup";
-    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
-    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
-    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
-    protected static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
-    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
-    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
+    public static final String MODEL_ATTIRUTE = "lookup";
+    public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    public static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    public static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    public static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
+    public static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
     private org.springframework.context.MessageSource messageSource;
@@ -83,20 +84,25 @@ public class LookupController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Lookup(client));
+        model.addAttribute(MODEL_ATTIRUTE, new Lookup());
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes, Locale locale) {
+    public String save(
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Lookup currObject, 
+            BindingResult bindingResult, 
+            ModelMap model, 
+            RedirectAttributes attributes, 
+            Locale locale) {
 
         try {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
         } catch (UserNotFoundException ex) {
-            Logger.getLogger(LookupController.class.getName()).log(Level.SEVERE, null, ex);
+           return NOT_FOUND;
         }
 
         if (bindingResult.hasErrors()) {

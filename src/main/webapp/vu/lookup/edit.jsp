@@ -19,9 +19,18 @@
     <title><spring:message code="project.title.edit" text="Edit"/></title>
 
     <div>   
-        <a href="${pageContext.request.contextPath}/"><spring:message code="home"/></a> |
-        <a href="${pageContext.request.contextPath}/lookup/index"><spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/></a> |
-        <a href="${pageContext.request.contextPath}/lookup/create"><spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/></a>
+        <a href="${pageContext.request.contextPath}/" class="btn btn-primary">
+            <i class="glyphicon glyphicon-home"></i>
+            <spring:message code="home"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/lookup/index" class="btn btn-info">
+            <i class="glyphicon glyphicon-list"></i>
+            <spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/>
+        </a> 
+        <a href="${pageContext.request.contextPath}/lookup/create" class="btn btn-primary">
+            <i class="glyphicon glyphicon-plus"></i>
+            <spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="lookup" text="Lookup"/>
+        </a>
     </div>
     <h1><spring:message code="edit.page.title"/></h1>
     <div>
@@ -30,7 +39,10 @@
             <form:hidden path="version"/>
             <jsp:include page="_form.jsp" />
             <div>
-                <a href="${pageContext.request.contextPath}/lookup/show/${lookup.id}"><spring:message code="show.link.label"/></a>
+                <a href="${pageContext.request.contextPath}/lookup/show/${lookup.id}" class="btn btn-info">
+                     <i class="glyphicon glyphicon-book"></i>
+                    <spring:message code="show.link.label"/>
+                </a>
                 <input class="btn btn-primary" type="submit" value="<spring:message code="edit.page.submit.label"/>"/>
             </div>
         </form:form>

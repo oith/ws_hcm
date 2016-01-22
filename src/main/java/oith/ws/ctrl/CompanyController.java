@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.validation.Valid;
+import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
@@ -33,15 +34,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/company")
-public class CompanyController extends oith.ws.ctrl.core._OithClientAuditController {
+public class CompanyController extends _OithClientAuditController  {
 
-    protected static final String MODEL_ATTIRUTE = "company";
-    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
-    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
-    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
-    protected static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
-    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
-    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
+    public static final String MODEL_ATTIRUTE = "company";
+    public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    public static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    public static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    public static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
+    public static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
     private org.springframework.context.MessageSource messageSource;

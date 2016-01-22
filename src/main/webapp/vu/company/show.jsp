@@ -17,10 +17,19 @@
 
 <tiles:putAttribute name='body'>
     <title><spring:message code='project.title.show' text='Show'/></title>
-    <div>   
-        <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
-        <a href='${pageContext.request.contextPath}/company/index'><spring:message code='list.link.label'/>&NonBreakingSpace;<spring:message code='company' text='Company'/></a> |
-        <a href='${pageContext.request.contextPath}/company/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='company' text='Company'/></a>
+    <div>
+        <a href="${pageContext.request.contextPath}/" class="btn btn-primary">
+            <i class="glyphicon glyphicon-home"></i>
+            <spring:message code="home"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/company/index" class="btn btn-info">
+            <i class="glyphicon glyphicon-list"></i>
+            <spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="company" text="Company"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/company/create" class="btn btn-primary">
+            <i class="glyphicon glyphicon-plus"></i>
+            <spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="company" text="Company"/>
+        </a>
     </div>
     <h1><spring:message code='show.page.title'/></h1>
     <div>
@@ -101,9 +110,19 @@
         </dl>
 
     </div>
-    <a href='${pageContext.request.contextPath}/company/edit/<c:out value='${company.id}'/>'><spring:message code='edit.link.label'/></a> |
-    <a href='${pageContext.request.contextPath}/company/copy/<c:out value='${company.id}'/>'><spring:message code='copy.link.label'/></a> |
-    <a href='${pageContext.request.contextPath}/company/delete/<c:out value='${company.id}'/>' onclick='return confirm('Are you sure to delete?');' ><spring:message code='delete.link.label'/></a>
+
+    <a href="${pageContext.request.contextPath}/company/edit/${company.id}" class="btn btn-warning">
+        <i class="glyphicon glyphicon-edit"></i>
+        <spring:message code="edit.link.label"/>
+    </a>
+    <a href="${pageContext.request.contextPath}/company/copy/${company.id}"class="btn btn-primary">
+        <i class="glyphicon glyphicon-copy"></i>
+        <spring:message code="copy.link.label"/>
+    </a>
+    <a href="${pageContext.request.contextPath}/company/delete/${company.id}" onclick="return confirm('Are you sure to delete?');" class="btn btn-danger">
+        <i class="glyphicon glyphicon-remove"></i>
+        <spring:message code="delete.link.label"/>
+    </a>
 </tiles:putAttribute>
 
 <tiles:putAttribute name='footer'>

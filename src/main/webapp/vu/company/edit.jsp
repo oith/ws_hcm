@@ -17,9 +17,18 @@
 <tiles:putAttribute name='body'>
     <title><spring:message code='project.title.edit' text='Edit'/></title>
     <div>
-        <a href='${pageContext.request.contextPath}/'><spring:message code='home'/></a> |
-        <a href='${pageContext.request.contextPath}/company/index'><spring:message code='list.link.label'/>&NonBreakingSpace;<spring:message code='company' text='Company'/></a> |
-        <a href='${pageContext.request.contextPath}/company/create'><spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='company' text='Company'/></a>
+        <a href="${pageContext.request.contextPath}/" class="btn btn-primary">
+            <i class="glyphicon glyphicon-home"></i>
+            <spring:message code="home"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/company/index" class="btn btn-info">
+            <i class="glyphicon glyphicon-list"></i>
+            <spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="company" text="Company"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/company/create" class="btn btn-primary">
+            <i class="glyphicon glyphicon-plus"></i>
+            <spring:message code="create.link.label"/>&NonBreakingSpace;<spring:message code="company" text="Company"/>
+        </a>
     </div>
     <h1><spring:message code='edit.page.title'/></h1>
     <div>
@@ -27,7 +36,10 @@
             <form:hidden path='id'/>
             <jsp:include page='_form.jsp' />
             <div>
-                <a href='${pageContext.request.contextPath}/company/show/${company.id}'><spring:message code='show.link.label'/></a>
+                <a href="${pageContext.request.contextPath}/company/show/${company.id}" class="btn btn-info">
+                     <i class="glyphicon glyphicon-book"></i>
+                    <spring:message code="show.link.label"/>
+                </a>
                 <input class='btn btn-primary' type='submit' value='<spring:message code='edit.page.submit.label'/>'/>
             </div>
         </form:form>
@@ -36,4 +48,4 @@
 
 <tiles:putAttribute name='footer'>
     <jsp:include page='/template/footer.jsp' />
-</tiles:putAttribute>  
+</tiles:putAttribute>

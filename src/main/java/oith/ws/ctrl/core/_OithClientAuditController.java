@@ -26,13 +26,13 @@ public abstract class _OithClientAuditController extends _OithAuditController {
         return client;
     }
 
-    protected Profile getLoggedProfile() throws NotLoggedInException, ProfileNotFoundException {
+    public Profile getLoggedProfile() throws NotLoggedInException, ProfileNotFoundException {
         MacUserDetail authUser = getLoggedPrincipal();
         Profile profile = profileService.findById(authUser.getProfileId());
         return profile;
     }
 
-    void save(AbstDocClientAudit currObject, RedirectAttributes attributes) throws NotLoggedInException, UserNotFoundException {
+   public void save(AbstDocClientAudit currObject, RedirectAttributes attributes) throws NotLoggedInException, UserNotFoundException {
         MacUserDetail authUser = super.save(currObject, attributes);
         Client client = clientService.findById(authUser.getClientId());
         currObject.setClient(client);

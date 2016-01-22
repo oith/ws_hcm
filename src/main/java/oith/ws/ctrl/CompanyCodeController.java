@@ -35,13 +35,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value = "/companyCode")
 public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "companyCode";
-    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
-    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
-    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
-    protected static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
-    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
-    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
+    public static final String MODEL_ATTIRUTE = "companyCode";
+    public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    public static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    public static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    public static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
+    public static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
     private org.springframework.context.MessageSource messageSource;

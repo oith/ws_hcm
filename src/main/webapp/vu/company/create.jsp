@@ -19,8 +19,14 @@
 <tiles:putAttribute name='body'>
     <title><spring:message code='project.title.create' text='Create'/></title>
     <div>
-        <a href='${pageContext.request.contextPath}/'><spring:message code='home' text='Home'/></a> |
-        <a href='${pageContext.request.contextPath}/company/index'><spring:message code='list.link.label'/>&NonBreakingSpace;<spring:message code='company' text='Company'/></a>
+        <a href="${pageContext.request.contextPath}/" class="btn btn-primary">
+            <i class="glyphicon glyphicon-home"></i>
+            <spring:message code="home"/>
+        </a>
+        <a href="${pageContext.request.contextPath}/company/index" class="btn btn-info">
+            <i class="glyphicon glyphicon-list"></i>
+            <spring:message code="list.link.label"/>&NonBreakingSpace;<spring:message code="company" text="Company"/>
+        </a>
     </div>
     <h1><spring:message code='create.page.title'/></h1>
     <div>
@@ -35,4 +41,4 @@
 
 <tiles:putAttribute name='footer'>
     <jsp:include page='/template/footer.jsp' />
-</tiles:putAttribute> 
+</tiles:putAttribute>

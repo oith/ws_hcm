@@ -38,18 +38,12 @@ public abstract class _OithAuditController extends _OithController {
         throw new NotLoggedInException();
     }
 
-    protected User getLoggedUser() throws NotLoggedInException, UserNotFoundException {
+    public User getLoggedUser() throws NotLoggedInException, UserNotFoundException {
         MacUserDetail authUser = getLoggedPrincipal();
         User user = userService.findById(authUser.getUserId());
         return user;
     }
 
-//    protected void doAuditInsert(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
-//        Auditor auditor = currObject.getAuditor();
-//        if (auditor == null) {
-//            currObject.setAuditor(new Auditor(getLoggedUser(), new Date()));
-//        }
-//    }
     public UserService getUserService() {
         return userService;
     }
@@ -58,7 +52,7 @@ public abstract class _OithAuditController extends _OithController {
         this.userService = userService;
     }
 
-    protected MacUserDetail save(IAuditable currObject, RedirectAttributes attributes) throws NotLoggedInException, UserNotFoundException {
+    public MacUserDetail save(IAuditable currObject, RedirectAttributes attributes) throws NotLoggedInException, UserNotFoundException {
 
         MacUserDetail authUser = getLoggedPrincipal();
         Auditor auditor = currObject.getAuditor();
@@ -69,7 +63,7 @@ public abstract class _OithAuditController extends _OithController {
         return authUser;
     }
 
-    protected void update(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
+    public void update(IAuditable currObject) throws NotLoggedInException, UserNotFoundException {
         Auditor auditor = currObject.getAuditor();
 
         MacUserDetail authUser = getLoggedPrincipal();
@@ -84,7 +78,7 @@ public abstract class _OithAuditController extends _OithController {
 
     }
 
-    protected void setUserParam(AbstDoc abstDoc, String action) {
+    public void setUserParam(AbstDoc abstDoc, String action) {
 
         try {
             Class kkk = abstDoc.getClass();

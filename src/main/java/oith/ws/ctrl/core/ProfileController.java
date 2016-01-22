@@ -67,16 +67,16 @@ import oith.ws.service.MacUserDetail;
 @RequestMapping(value = "/profile")
 public class ProfileController extends _OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "profile";
-    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
-    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
-    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
-    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
-    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
+    public static final String MODEL_ATTIRUTE = "profile";
+    public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    public static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    public static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    public static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
-    protected static final String EDIT_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_edit";
-    protected static final String SHOW_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_show";
-    protected static final String SHOW_FORM_VIEW_OPERATOR = MODEL_ATTIRUTE + "/operator_show";
+    public static final String EDIT_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_edit";
+    public static final String SHOW_FORM_VIEW_ADMIN = MODEL_ATTIRUTE + "/admin_show";
+    public static final String SHOW_FORM_VIEW_OPERATOR = MODEL_ATTIRUTE + "/operator_show";
 
     @Autowired
     private org.springframework.context.MessageSource messageSource;
