@@ -59,7 +59,6 @@
                             <label><input type="checkbox" name='_spring_security_remember_me' value="">&nbsp;&nbsp;<spring:message code="remember.me.on.this.computer" text="Remember me on this computer."/></label>
                         </td>
                     </tr>
-
                     <tr>
                         <td colspan="2" align="right">
                             <input type="submit" value=<spring:message code="login" text="Login"/> />

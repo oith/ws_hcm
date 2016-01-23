@@ -1,10 +1,36 @@
-
-body{background:#F5F5F5;margin: 0;padding: 0; font-family: arial; font-size: 13px;}
-#wrapper{display: block;height: auto;margin: 0 auto;min-height: 700px;width: 80%;}
-#wrapper-container{float:left;width: 100%;border: 1px solid #E0E0E0;-webkit-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;-moz-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;-o-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;}
-#header{float:left;width:100%; background-color: #fff;
-        /*  background:url('../images/header_image.png') no-repeat left top;*/}
-.top-header{height: 100px;padding-right: 30px;padding-top: 25px;text-align: right;}
+body{
+    background:#fff;
+    margin: 0;
+    padding: 0; 
+    font-family: arial; 
+    font-size: 13px;
+}
+#wrapper{
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    min-height: 700px;
+    width: 80%;}
+#wrapper-container{
+    float:left;
+    width: 100%;
+    border: 1px solid #E0E0E0;
+    -webkit-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;
+    -moz-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;
+    -o-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;
+    box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;
+}
+#header{
+    float:left;
+    width:100%; 
+    background-color: #fff;
+}
+.top-header{
+    height: 100px;
+    padding-right: 30px;
+    padding-top: 25px;
+    text-align: right;
+}
 .bottom-header{    background: none repeat scroll 0 0 #FFFFFF;
                    border-bottom: 1px solid #D0D0D0;
                    border-top: 1px solid #D0D0D0;
@@ -124,75 +150,6 @@ body{background:#F5F5F5;margin: 0;padding: 0; font-family: arial; font-size: 13p
     padding-right: 0;
     width: 100%;
 }
-
-/* **************************** TABLE ************************* */
-/* 
-        * striped class = table-striped
-        * default class = table
-        * border table class = table-bordered
-*/
-/*.table {
-    margin-bottom: 20px;
-    width: 95%;
-    margin-left: 25px;
-}
-table {
-    background-color: transparent;
-    border-collapse: collapse;
-    border-spacing: 0;
-    max-width: 100%;
-    border: 1px solid #C6C6C6;
-}
-
-.table caption + thead tr:first-child th, .table caption + thead tr:first-child td, .table colgroup + thead tr:first-child th, .table colgroup + thead tr:first-child td, .table thead:first-child tr:first-child th, .table thead:first-child tr:first-child td {
-    border-top: 0 none;
-}
-.table thead th {
-    vertical-align: bottom;
-    color: #000000;
-    background: #AFAFAF;
-    border-bottom: 1px solid #FFFFFF;
-    font: bold 11px Tahoma,Geneva,sans-serif;
-    padding: 10px 5px;
-    text-transform: uppercase;
-}
-.table th {
-    font-weight: bold;
-}
-.table td{color:#2E2E2E !important;}
-.table td a{text-decoration:none;}
-.table th, .table td {
-    border-top: 1px solid #DDDDDD;
-    line-height: 20px;
-    padding: 8px;
-    text-align: left;
-    vertical-align: top;
-}
-.table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th {
-    background-color: #F6FAFB;
-    color:#2e2e2e !important;
-}
-.table-bordered {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    border-collapse: separate;
-    border-color: #DDDDDD #DDDDDD #DDDDDD -moz-use-text-color;
-    border-image: none;
-    border-radius: 4px 4px 4px 4px;
-    border-style: solid solid solid none;
-    border-width: 1px 1px 1px 0;
-}
-.table-bordered thead:first-child tr:first-child > th:first-child, .table-bordered tbody:first-child tr:first-child > td:first-child, .table-bordered tbody:first-child tr:first-child > th:first-child {
-    border-top-left-radius: 4px;
-}
-.table-bordered caption + thead tr:first-child th, .table-bordered caption + tbody tr:first-child th, .table-bordered caption + tbody tr:first-child td, .table-bordered colgroup + thead tr:first-child th, .table-bordered colgroup + tbody tr:first-child th, .table-bordered colgroup + tbody tr:first-child td, .table-bordered thead:first-child tr:first-child th, .table-bordered tbody:first-child tr:first-child th, .table-bordered tbody:first-child tr:first-child td {
-    border-top: 0 none;
-}
-.table-bordered th, .table-bordered td {
-    border-left: 1px solid #DDDDDD;
-}*/
 
 /* Optional row classes use these class into TR */
 .table tbody tr.success > td {
@@ -519,8 +476,6 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 
 .qnt{width:50px;}    
 .unt{width:80px;}
-
-/* ################ */
 
 table.style-table{ border-collapse: collapse; border: 1px solid #ccc;}
 

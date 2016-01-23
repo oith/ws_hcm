@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class _OithAclController {
 
+    @RequestMapping(value = "/menuTest", method = RequestMethod.GET)
+    public String menuTest(ModelMap model, HttpServletRequest request) {
+        return "menu";
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model, HttpServletRequest request) {
         return "login";

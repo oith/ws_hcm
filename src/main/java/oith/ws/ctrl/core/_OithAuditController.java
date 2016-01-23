@@ -75,7 +75,6 @@ public abstract class _OithAuditController extends _OithController {
 
         currObject.getAuditor().setUpdateByUser(user);
         currObject.getAuditor().setUpdateDate(new Date());
-
     }
 
     public void setUserParam(AbstDoc abstDoc, String action) {
