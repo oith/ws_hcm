@@ -9,6 +9,7 @@
     <packaging>war</packaging>
     <name>0 oith_ws_web</name>
     <description>Oith Framework Advance Intelligent</description>
+
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -19,7 +20,6 @@
     
     <properties>  
         <jetty.version>8.1.16.v20140903</jetty.version>
-      
         <!--<maven.tomcat.url>http://localhost:8090/OITH_WS/</maven.tomcat.url>--> 
         <hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
         <javax.validation.version>1.1.0.Final</javax.validation.version>
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
-            <version>1.2.5.RELEASE</version>
+            <version>1.3.2.RELEASE</version>
         </dependency>
         
         <!-- JETTY DEPENDENCIES -->
@@ -174,7 +174,7 @@
             <artifactId>spring-context</artifactId>
             <!--<version>~{spring.version}</version>-->
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <!--<version>~{spring.version}</version>-->
@@ -194,12 +194,8 @@
         <!--spring end-->
 
         <!-- Logging dependencies -->
+     
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.12</version>
-        </dependency>
-                <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
@@ -220,45 +216,12 @@
             <artifactId>rhino</artifactId>
             <version>1.7.7</version>
         </dependency>
-
-        
-
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>3.4.1</version>
+            <version>3.4.2</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-            <version>1.7.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jsr166-mirror</groupId>
-            <artifactId>jsr166y</artifactId>
-            <version>1.7.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
-            <version>1.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging-annotations</artifactId>
-            <version>2.0.1.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <version>3.3.0.Final</version>
-        </dependency>
+       
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
@@ -267,7 +230,7 @@
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
-            <version>2.0.0.CR1</version>
+            <version>2.0.1.Final</version>
         </dependency>
         <!-- Hibernate Validator -->
         <dependency>
@@ -275,40 +238,11 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
         </dependency>
-  <!--      
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.common</groupId>
-            <artifactId>hibernate-commons-annotations</artifactId>
-            <version>5.0.0.Final</version>
-        </dependency>-->
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-
-
+ 
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>2.4.4</version>      
+            <version>2.4.5</version>      
         </dependency> 
         
         <dependency>
@@ -331,11 +265,10 @@
             <artifactId>concurrentlinkedhashmap-lru</artifactId>
             <version>1.4.2</version>
         </dependency>
-
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
-            <version>1.4.1</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -360,18 +293,18 @@
         <dependency>
             <groupId>com.fasterxml</groupId>
             <artifactId>classmate</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.8.6</version>
+            <version>1.8.8</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.8.6</version>
+            <version>1.8.8</version>
         </dependency>
         <dependency>
             <groupId>aopalliance</groupId>
@@ -389,7 +322,6 @@
             <version>1.4</version>
         </dependency>
 
-        
         <!-- Needed for PDF View jasper poi etc all togather-->
         <dependency>
             <groupId>com.lowagie</groupId>
@@ -440,32 +372,9 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
+            <version>3.2.2</version>
             <type>jar</type>
         </dependency>
-        
-        <!-- Testing Dependencies -->
-        
-        <!--db conn support-->
-        
-        <!-- H2 Database -->
-<!--        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.182</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.1-901-1.jdbc4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbyclient</artifactId>
-            <version>10.11.1.1</version>
-        </dependency>-->
         
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -476,26 +385,15 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.2.0</version>
+            <version>3.2.1</version>
         </dependency>
-        
-
-        
-        <!--        
-        <dependency>
-            mvn install:install-file -Dfile=jcalendar-1.4.jar -DgroupId=jcalendar-1.4 -DartifactId=jcalendar-1.4 -Dversion=1.4 -Dpackaging=jar
-            <artifactId>oith-1.0</artifactId>
-            <groupId>oith-1.0</groupId>
-            <version>1.0</version>
-        </dependency>-->
-        
+       
         <dependency>
             <!--mvn install:install-file -Dfile=jcalendar-1.4.jar -DgroupId=jcalendar-1.4 -DartifactId=jcalendar-1.4 -Dversion=1.4 -Dpackaging=jar-->
             <artifactId>oith_ws_core-1.0.0</artifactId>
             <groupId>oith_ws_core-1.0.0</groupId>
             <version>1.0.0</version>
         </dependency>
-        
         
         <!-- Servlet API 3.0 -->
         <dependency>
@@ -522,9 +420,7 @@
             <scope>test</scope>
         </dependency>
 
-
         <!-- Spring Security -->
-        
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-acl</artifactId>
@@ -550,34 +446,24 @@
             <artifactId>spring-security-config</artifactId>
             <version>${org.springframework.security.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>${org.springframework.security.version}</version>
         </dependency>
- 
     </dependencies>
-
 
     <build>
         <plugins>
-            <!--            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.2.5.RELEASE</version>
-            </plugin>-->
-            
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>1.4.0</version>
                 <configuration>
+                    
                     <!--<mainClass>${start-class}</mainClass>-->
                 </configuration>
             </plugin>
-           
-            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -585,7 +471,6 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
-                    <debug>true</debug>
                     <showDeprecation>false</showDeprecation>
                 </configuration>
             </plugin>
@@ -596,12 +481,10 @@
                 <configuration>
                     <!--<warSourceDirectory>src/main/webapp</warSourceDirectory>-->
                     <!--<warName>OITH_WS</warName>-->
+               
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-           
-                
-                
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
@@ -626,7 +509,7 @@
                 <version>2.2</version>
                 <configuration>
                     <!--<url>http://localhost:8090/OITH_WS/</url>-->  
-                    
+            
                     <port>8090</port>
                     <path>/oith_ws_hcm</path>
                 </configuration>
@@ -641,12 +524,11 @@
                         <plugin>
                             <groupId>org.codehaus.mojo</groupId>
                             <artifactId>cobertura-maven-plugin</artifactId>
-                            <version>2.5.1</version>
+                            <version>2.7</version>
                         </plugin>
                     </reportPlugins>
                 </configuration>
-            </plugin>
+            </plugin> 
         </plugins>
     </build>
- 
 </project>
