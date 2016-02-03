@@ -9,14 +9,14 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.hcm.def.os.op.Emp;
+import oith.ws.dom.hcm.def.os.HcmObject;
 import oith.ws.dom.hcm.fm.AccountHeadFm;
 import oith.ws.dom.hcm.fm.TrnscFm;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.AccountHeadFmService;
-import oith.ws.service.EmpService;
-import oith.ws.util.StringToEmpConverter;
+import oith.ws.service.HcmObjectService;
+import oith.ws.util.StringToHcmObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Controller;
@@ -47,7 +47,7 @@ public class TrnscFmController extends _OithClientAuditController {
     @Autowired
     private AccountHeadFmService accountHeadFmService;
     @Autowired
-    private EmpService empService;
+    private HcmObjectService hcmObjectService;
 
     @InitBinder
     void registerConverters(WebDataBinder binder) {
@@ -55,7 +55,7 @@ public class TrnscFmController extends _OithClientAuditController {
             GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
 
             //conversionService.addConverter(new StringToAccountHeadFmConverter(accountHeadFmService));
-            conversionService.addConverter(new StringToEmpConverter(empService));
+            conversionService.addConverter(new StringToHcmObjectConverter(hcmObjectService));
         }
     }
 
@@ -70,7 +70,7 @@ public class TrnscFmController extends _OithClientAuditController {
         List signs = Arrays.asList(TrnscFm.Sign.values());
 
         List emps = new LinkedList();
-        for (Emp col : empService.findAll()) {
+        for (HcmObject col : hcmObjectService.findAll()) {
             emps.add(col);
         }
 

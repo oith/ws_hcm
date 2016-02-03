@@ -1,19 +1,19 @@
 package oith.ws.ctrl;
 
 import oith.ws.ctrl.core._OithClientAuditController;
-import oith.ws.dom.hcm.def.os.op.Emp;
-import oith.ws.exception.EmpNotFoundException;
-import oith.ws.service.EmpService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
+import oith.ws.dom.hcm.def.os.HcmObject;
 import oith.ws.dto._SearchDTO;
+import oith.ws.exception.HcmObjectNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
+import oith.ws.service.HcmObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,7 +36,7 @@ public class EmpController extends _OithClientAuditController {
     public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
-    private EmpService empService;
+    private HcmObjectService empService;
 
     private void allComboSetup(ModelMap model) {
         Client client = null;
@@ -47,7 +47,7 @@ public class EmpController extends _OithClientAuditController {
 
         //List signs = Arrays.asList(TrnscFm.Sign.values());
         //List emps = new LinkedList();
-        //for (Emp col : empService.findAll()) {
+        //for (HcmObject col : empService.findAll()) {
         //    emps.add(col);
         //}
         //List accountHeadFms = new LinkedList();
@@ -70,20 +70,20 @@ public class EmpController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Emp());
+        model.addAttribute(MODEL_ATTIRUTE, new HcmObject());
         allComboSetup(model);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Emp currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         try {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
         } catch (UserNotFoundException ex) {
-            Logger.getLogger(EmpController.class.getName()).log(Level.SEVERE, null, ex);
+
         }
 
         if (bindingResult.hasErrors()) {
@@ -91,7 +91,7 @@ public class EmpController extends _OithClientAuditController {
             return ADD_FORM_VIEW;
         }
 
-        Emp currObjectLocal = empService.create(currObject);
+        HcmObject currObjectLocal = empService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -108,11 +108,11 @@ public class EmpController extends _OithClientAuditController {
         }
 
         try {
-            Emp currObjectLocal = empService.findById(id, client);
+            HcmObject currObjectLocal = empService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model);
             return EDIT_FORM_VIEW;
-        } catch (EmpNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -122,7 +122,7 @@ public class EmpController extends _OithClientAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Emp currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes) {
@@ -140,23 +140,23 @@ public class EmpController extends _OithClientAuditController {
         }
 
         try {
-            Emp currObjectLocal = empService.findById(id, client);
+            HcmObject currObjectLocal = empService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (EmpNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (UserNotFoundException ex) {
-            Logger.getLogger(EmpController.class.getName()).log(Level.SEVERE, null, ex);
+
         }
 
         try {
             //emp = empService.update(currObject);
-            Emp currObjectLocal = empService.update(currObject, "auditor,code,name,nameSecondary,interval,description,profile,doj,doe");
+            HcmObject currObjectLocal = empService.update(currObject, "auditor,code,name,nameSecondary,interval,description,profile,doj,doe");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
-        } catch (EmpNotFoundException e) {
+        } catch (HcmObjectNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return EDIT_FORM_VIEW;
         }
@@ -173,7 +173,7 @@ public class EmpController extends _OithClientAuditController {
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Emp> emps;
+        List<HcmObject> emps;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             emps = empService.search(searchCriteria, client);
@@ -206,7 +206,7 @@ public class EmpController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Emp> emps = empService.findAllByClient(searchCriteria, client);
+        List<HcmObject> emps = empService.findAllByClient(searchCriteria, client);
 
         model.addAttribute(MODEL_ATTRIBUTES, emps);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -230,10 +230,10 @@ public class EmpController extends _OithClientAuditController {
         }
 
         try {
-            Emp currObjectLocal = empService.findById(id, client);
+            HcmObject currObjectLocal = empService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (EmpNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -251,9 +251,9 @@ public class EmpController extends _OithClientAuditController {
         }
 
         try {
-            Emp deleted = empService.delete(id, client);
+            HcmObject deleted = empService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (EmpNotFoundException e) {
+        } catch (HcmObjectNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;

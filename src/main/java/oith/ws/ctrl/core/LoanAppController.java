@@ -9,13 +9,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.hcm.def.os.op.Emp;
+import oith.ws.dom.hcm.def.os.HcmObject;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import oith.ws.util.StringToEmpConverter;
+import oith.ws.util.StringToHcmObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Controller;
@@ -45,7 +45,7 @@ public class LoanAppController extends _OithClientAuditController {
     private oith.ws.service.LoanAppService loanAppService;
 
     @Autowired
-    private oith.ws.service.EmpService empService;
+    private oith.ws.service.HcmObjectService hcmObjectService;
 
     @InitBinder
     void registerConverters(WebDataBinder binder) {
@@ -53,7 +53,7 @@ public class LoanAppController extends _OithClientAuditController {
             GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
 
             //conversionService.addConverter(new StringToAccountHeadFmConverter(accountHeadFmService));
-            conversionService.addConverter(new StringToEmpConverter(empService));
+            conversionService.addConverter(new StringToHcmObjectConverter(hcmObjectService));
         }
     }
 
@@ -66,7 +66,7 @@ public class LoanAppController extends _OithClientAuditController {
 
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         List emps = new LinkedList();
-        for (Emp col : empService.findAllByClient(client)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
             emps.add(col);
         }
         model.addAttribute("emps", emps);

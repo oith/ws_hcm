@@ -17,10 +17,20 @@
         </div>
     </div>
     
+         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <%--<form:label path='alphaObjType'><spring:message code='alphaObjType' text='Alpha Type'/></form:label>--%>
+            <select class='form-control' name='alphaObjType' id='alphaObjType' >
+                <options items='${alphaObjTypes}' ></options>
+            </select>
+            <%--<form:errors path='alphaObjType' cssClass='error' element='div'/>--%>
+        </div>
+    </div>
+        
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='hcmObjectAlpha'><spring:message code='hcmObjectAlpha' text='Hcm Object Alpha'/><span class='required-indicator needed'>*</span></form:label>
-            <form:select path='hcmObjectAlpha.id' class='form-control' name='hcmObjectAlpha' id='hcmObjectAlpha' required='true' >
+            <form:select path='hcmObjectAlpha' class='form-control' name='hcmObjectAlpha' id='hcmObjectAlpha' required='true' >
                 <form:options items='${hcmObjectAlphas}' itemValue='id'></form:options>
             </form:select>
             <form:errors path='hcmObjectAlpha' cssClass='error' element='div'/>
@@ -30,7 +40,7 @@
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='hcmObjectBeta'><spring:message code='hcmObjectBeta' text='Hcm Object Beta'/><span class='required-indicator needed'>*</span></form:label>
-            <form:select path='hcmObjectBeta.id' class='form-control' name='hcmObjectBeta' id='hcmObjectBeta' required='true' >
+            <form:select path='hcmObjectBeta' class='form-control' name='hcmObjectBeta' id='hcmObjectBeta' required='true' >
                 <form:options items='${hcmObjectBetas}' itemValue='id'></form:options>
             </form:select>
             <form:errors path='hcmObjectBeta' cssClass='error' element='div'/>

@@ -1,24 +1,25 @@
 package oith.ws.ctrl;
 
-import oith.ws.dom.hcm.def.os.op.Association;
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.hcm.def.os.OrgUnit;
+import oith.ws.dom.hcm.def.os.Association;
+import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.AssociationNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import oith.ws.util.StringToEmpConverter;
-import oith.ws.util.StringToOrgUnitConverter;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,6 +35,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value = "/association")
 public class AssociationController extends oith.ws.ctrl.core._OithClientAuditController {
 
+    static EnumMap<HcmObjectType, List<HcmObjectType>> relMap = new EnumMap(HcmObjectType.class);
+
+    static {
+        relMap.put(HcmObjectType.OU, Arrays.asList(
+                HcmObjectType.OU,
+                HcmObjectType.POS,
+                HcmObjectType.CC)
+        );
+
+        relMap.put(HcmObjectType.POS, Arrays.asList(
+                HcmObjectType.OU,
+                HcmObjectType.JOB,
+                HcmObjectType.EMP,
+                HcmObjectType.POS,
+                HcmObjectType.CC)
+        );
+    }
+
     protected static final String MODEL_ATTIRUTE = "association";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
@@ -44,31 +63,41 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
 
     @Autowired
     private org.springframework.context.MessageSource messageSource;
+
     @Autowired
     private oith.ws.service.AssociationService associationService;
+
     @Autowired
-    private oith.ws.service.CostCenterService costCenterService;
-    @Autowired
-    private oith.ws.service.EmpService empService;
-    @Autowired
-    private oith.ws.service.JobService jobService;
-    @Autowired
-    private oith.ws.service.OrgUnitService orgUnitService;
-    @Autowired
-    private oith.ws.service.PositionService positionService;
-    @Autowired
-    private oith.ws.service.TaskService taskService;
-    //@Autowired
-    //private oith.ws.service.WorkCenterService workCenterService;
+    private oith.ws.service.HcmObjectService hcmObjectService;
+
+    public class ExoticTypeEditor extends PropertyEditorSupport {
+
+        @Override
+        public void setAsText(String text) {
+
+            String[] www = text.split("~");
+
+            String mode = www[0];
+            String id = www[1];
+
+            HcmObject type = null;
+            try {
+                if (mode.equals("OU")) {
+                    type = hcmObjectService.findById(id);
+                } else if (mode.equals("POS")) {
+                    type = hcmObjectService.findById(id);
+                }
+            } catch (Exception e) {
+                System.out.println("iiiiii ttttt 1208 " + e);
+            }
+            setValue(type);
+        }
+    }
 
     @InitBinder
     void registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-
-            conversionService.addConverter(new StringToOrgUnitConverter(orgUnitService));
-            conversionService.addConverter(new StringToEmpConverter(empService));
-        }
+        binder.registerCustomEditor(HcmObject.class, "hcmObjectAlpha", new ExoticTypeEditor());
+        binder.registerCustomEditor(HcmObject.class, "hcmObjectBeta", new ExoticTypeEditor());
     }
 
     private void allComboSetup(ModelMap model, Locale locale) {
@@ -78,14 +107,18 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         } catch (NotLoggedInException e) {
         }
 
+        model.addAttribute("alphaObjTypes", relMap.keySet());
+
         List hcmObjectAlphas = new LinkedList();
-        for (OrgUnit col : orgUnitService.findAllByClient(client)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+            col.setId("OU~" + col.getId());
             hcmObjectAlphas.add(col);
         }
         model.addAttribute("hcmObjectAlphas", hcmObjectAlphas);
 
         List hcmObjectBetas = new LinkedList();
-        for (OrgUnit col : orgUnitService.findAllByClient(client)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+            col.setId("OU~" + col.getId());
             hcmObjectBetas.add(col);
         }
         model.addAttribute("hcmObjectBetas", hcmObjectBetas);
@@ -183,6 +216,9 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
             RedirectAttributes attributes,
             Locale locale) {
 
+        String ddfd = ReflectionToStringBuilder.toString(currObject);
+        System.out.println("1226 ddfd" + ddfd);
+
         Client client;
         try {
             client = super.getLoggedClient();
@@ -204,9 +240,6 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         } catch (AssociationNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
-
-        String ddfd = ReflectionToStringBuilder.toString(currObject);
-        System.out.println("1222 ddfd" + ddfd);
 
         try {
             Association currObjectLocal = associationService.update(currObject, "auditor,code,hcmObjectAlpha,hcmObjectBeta,relType,interval");
