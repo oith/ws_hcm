@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
@@ -66,7 +67,7 @@ public class LoanAppController extends _OithClientAuditController {
 
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         List emps = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client,HcmObjectType.EMP)) {
             emps.add(col);
         }
         model.addAttribute("emps", emps);

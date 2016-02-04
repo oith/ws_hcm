@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.HcmObjectNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
@@ -176,9 +177,9 @@ public class EmpController extends _OithClientAuditController {
         List<HcmObject> emps;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            emps = empService.search(searchCriteria, client);
+            emps = empService.search(searchCriteria, client, HcmObjectType.EMP);
         } else {
-            emps = empService.findAllByClient(searchCriteria, client);
+            emps = empService.findAllByClient(searchCriteria, client, HcmObjectType.EMP);
         }
         model.addAttribute(MODEL_ATTRIBUTES, emps);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -206,7 +207,7 @@ public class EmpController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<HcmObject> emps = empService.findAllByClient(searchCriteria, client);
+        List<HcmObject> emps = empService.findAllByClient(searchCriteria, client, HcmObjectType.EMP);
 
         model.addAttribute(MODEL_ATTRIBUTES, emps);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);

@@ -110,14 +110,14 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         model.addAttribute("alphaObjTypes", relMap.keySet());
 
         List hcmObjectAlphas = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.EMP)) {
             col.setId("OU~" + col.getId());
             hcmObjectAlphas.add(col);
         }
         model.addAttribute("hcmObjectAlphas", hcmObjectAlphas);
 
         List hcmObjectBetas = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.EMP)) {
             col.setId("OU~" + col.getId());
             hcmObjectBetas.add(col);
         }
