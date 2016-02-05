@@ -84,9 +84,10 @@
                     <tr>
                         <th></th>
                         <th><spring:message code='code' text='Code'/></th>
+                        <th><spring:message code='relTypeAlpha' text='Rel Type Alpha'/></th>
                         <th><spring:message code='hcmObjectAlpha' text='Hcm Object Alpha'/></th>
+                        <th><spring:message code='relTypeBeta' text='Rel Type Beta'/></th>
                         <th><spring:message code='hcmObjectBeta' text='Hcm Object Beta'/></th>
-                
                         <th><spring:message code='interval' text='Interval'/></th>
 
                     </tr>
@@ -101,9 +102,10 @@
                                 </a>
                             </td>
                             <td><c:out value='${association.code}'/></td>
+                            <td><c:out value='${association.relTypeAlpha}'/></td>
                             <td><c:out value='${association.hcmObjectAlpha}'/></td>
+                            <td><c:out value='${association.relTypeBeta}'/></td>
                             <td><c:out value='${association.hcmObjectBeta}'/></td>
-                      
                             <td><c:out value='${association.interval}'/></td>
 
                             <td>

@@ -35,10 +35,10 @@
     <div>
         <dl class='dl-horizontal'>
 
-            <c:if test='${association.code!=null}'>
-                <dt><spring:message code='code' text='Code'/></dt>
+            <c:if test='${association.relTypeAlpha!=null}'>
+                <dt><spring:message code='relTypeAlpha' text='Rel Type Alpha'/></dt>
                 <dd>
-                    <c:out value='${association.code}'/>
+                    <c:out value='${association.relTypeAlpha}'/>
                 </dd>
             </c:if>
 
@@ -78,6 +78,13 @@
 
                 </dd>
             </c:if>
+
+            <c:if test='${association.relTypeBeta!=null}'>
+                <dt><spring:message code='relTypeBeta' text='Rel Type Beta'/></dt>
+                <dd>
+                    <c:out value='${association.relTypeBeta}'/>
+                </dd>
+            </c:if>   
 
             <c:if test='${association.hcmObjectBeta!=null}'>
                 <dt><spring:message code='hcmObjectBeta' text='Hcm Object Beta'/></dt>

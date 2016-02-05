@@ -90,18 +90,9 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         @Override
         public void setAsText(String text) {
 
-            String[] www = text.split("~");
-
-            String mode = www[0];
-            String id = www[1];
-
             HcmObject type = null;
             try {
-                if (mode.equals("OU")) {
-                    type = hcmObjectService.findById(id);
-                } else if (mode.equals("POS")) {
-                    type = hcmObjectService.findById(id);
-                }
+                type = hcmObjectService.findById(text);
             } catch (Exception e) {
                 System.out.println("iiiiii ttttt 1208 " + e);
             }
@@ -125,15 +116,15 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         model.addAttribute("alphaObjTypes", relMap.keySet());
 
         List hcmObjectAlphas = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.EMP)) {
-            col.setId("OU~" + col.getId());
+        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+            col.setId(col.getId());
             hcmObjectAlphas.add(col);
         }
         model.addAttribute("hcmObjectAlphas", hcmObjectAlphas);
 
         List hcmObjectBetas = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.EMP)) {
-            col.setId("OU~" + col.getId());
+        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+            col.setId(col.getId());
             hcmObjectBetas.add(col);
         }
         model.addAttribute("hcmObjectBetas", hcmObjectBetas);
@@ -257,7 +248,7 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            Association currObjectLocal = associationService.update(currObject, "auditor,code,hcmObjectAlpha,hcmObjectBeta,relType,interval");
+            Association currObjectLocal = associationService.update(currObject, "auditor,relTypeAlpha,hcmObjectAlpha,relTypeBeta,hcmObjectBeta,interval");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
