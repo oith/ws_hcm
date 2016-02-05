@@ -2,16 +2,14 @@ package oith.ws.ctrl;
 
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.os.Association;
+import static oith.ws.dom.hcm.def.os.Association.relMap;
 import oith.ws.dom.hcm.def.os.HcmObject;
-import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.AssociationNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
@@ -34,39 +32,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(value = "/association")
 public class AssociationController extends oith.ws.ctrl.core._OithClientAuditController {
-
-    static EnumMap<HcmObjectType, List<HcmObjectType>> relMap;
-
-    static {
-        relMap = new EnumMap(HcmObjectType.class);
-
-        relMap.put(HcmObjectType.CC, Arrays.asList(
-                HcmObjectType.OU,
-                HcmObjectType.POS)
-        );
-
-        relMap.put(HcmObjectType.OU, Arrays.asList(
-                HcmObjectType.OU,
-                HcmObjectType.POS,
-                HcmObjectType.CC)
-        );
-
-        relMap.put(HcmObjectType.JOB, Arrays.asList(
-                HcmObjectType.POS)
-        );
-
-        relMap.put(HcmObjectType.POS, Arrays.asList(
-                HcmObjectType.OU,
-                HcmObjectType.JOB,
-                HcmObjectType.EMP,
-                HcmObjectType.POS,
-                HcmObjectType.CC)
-        );
-
-        relMap.put(HcmObjectType.EMP, Arrays.asList(
-                HcmObjectType.POS)
-        );
-    }
 
     protected static final String MODEL_ATTIRUTE = "association";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
@@ -112,8 +77,6 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
             client = super.getLoggedClient();
         } catch (NotLoggedInException e) {
         }
-
-        model.addAttribute("alphaObjTypes", relMap.keySet());
 
         List hcmObjectAlphas = new LinkedList();
         for (HcmObject col : hcmObjectService.findAllByClient(client)) {
