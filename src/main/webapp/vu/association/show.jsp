@@ -116,12 +116,12 @@
                 </dd>
             </c:if>
 
-            <c:if test='${association.relType!=null}'>
+            <%--<c:if test='${association.relType!=null}'>
                 <dt><spring:message code='relType' text='Rel Type'/></dt>
                 <dd>
                     <c:out value='${association.relType}'/>
                 </dd>
-            </c:if>
+            </c:if>--%>
 
             <c:if test='${association.interval!=null}'>
                 <dt><spring:message code='interval' text='Interval'/></dt>

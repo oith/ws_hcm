@@ -3,8 +3,6 @@ package oith.ws.ctrl;
 import oith.ws.ctrl.core._OithClientAuditController;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.os.HcmObject;

@@ -35,13 +35,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value = "/association")
 public class AssociationController extends oith.ws.ctrl.core._OithClientAuditController {
 
-    static EnumMap<HcmObjectType, List<HcmObjectType>> relMap = new EnumMap(HcmObjectType.class);
+    static EnumMap<HcmObjectType, List<HcmObjectType>> relMap;
 
     static {
+        relMap = new EnumMap(HcmObjectType.class);
+
+        relMap.put(HcmObjectType.CC, Arrays.asList(
+                HcmObjectType.OU,
+                HcmObjectType.POS)
+        );
+
         relMap.put(HcmObjectType.OU, Arrays.asList(
                 HcmObjectType.OU,
                 HcmObjectType.POS,
                 HcmObjectType.CC)
+        );
+
+        relMap.put(HcmObjectType.JOB, Arrays.asList(
+                HcmObjectType.POS)
         );
 
         relMap.put(HcmObjectType.POS, Arrays.asList(
@@ -50,6 +61,10 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
                 HcmObjectType.EMP,
                 HcmObjectType.POS,
                 HcmObjectType.CC)
+        );
+
+        relMap.put(HcmObjectType.EMP, Arrays.asList(
+                HcmObjectType.POS)
         );
     }
 
