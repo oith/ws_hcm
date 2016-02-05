@@ -83,7 +83,6 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='relTypeAlpha' text='Rel Type Alpha'/></th>
                         <th><spring:message code='hcmObjectAlpha' text='Hcm Object Alpha'/></th>
                         <th><spring:message code='relTypeBeta' text='Rel Type Beta'/></th>
@@ -101,7 +100,6 @@
                                     <spring:message code="show.link.label"/>
                                 </a>
                             </td>
-                            <td><c:out value='${association.code}'/></td>
                             <td><c:out value='${association.relTypeAlpha}'/></td>
                             <td><c:out value='${association.hcmObjectAlpha}'/></td>
                             <td><c:out value='${association.relTypeBeta}'/></td>
