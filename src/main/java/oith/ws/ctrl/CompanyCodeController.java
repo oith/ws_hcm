@@ -1,7 +1,5 @@
 package oith.ws.ctrl;
 
-import oith.ws.dom.hcm.def.es.CompanyCode;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,8 +7,11 @@ import java.util.Locale;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.es.Company;
+import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
+import oith.ws.dom.hcm.def.os.ICompanyCode;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.CompanyCodeNotFoundException;
+import oith.ws.exception.HcmObjectNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
@@ -41,7 +42,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
     private org.springframework.context.MessageSource messageSource;
 
     @Autowired
-    private oith.ws.service.CompanyCodeService companyCodeService;
+    private oith.ws.service.HcmObjectService companyCodeService;
 
     @Autowired
     private oith.ws.service.CompanyService companyService;
@@ -83,14 +84,14 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new CompanyCode(client));
+        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObjectType.OU));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid CompanyCode currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -109,7 +110,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return ADD_FORM_VIEW;
         }
 
-        CompanyCode currObjectLocal = companyCodeService.create(currObject);
+        HcmObject currObjectLocal = companyCodeService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -126,11 +127,11 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            CompanyCode currObjectLocal = companyCodeService.findById(id, client);
+            HcmObject currObjectLocal = companyCodeService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
-        } catch (CompanyCodeNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -140,7 +141,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid CompanyCode currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -159,18 +160,18 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            CompanyCode currObjectLocal = companyCodeService.findById(id, client);
-            currObject.setAuditor(currObjectLocal.getAuditor());
+            ICompanyCode currObjectLocal = companyCodeService.findById(id, client);
+            //currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (CompanyCodeNotFoundException | UserNotFoundException ex) {
+        } catch (HcmObjectNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
             //companyCode = companyCodeService.update(currObject);
-            CompanyCode currObjectLocal = companyCodeService.update(currObject, "auditor,code,name,company,city,country,language,currency");
+            HcmObject currObjectLocal = companyCodeService.update(currObject, "auditor,code,name,company,city,country,language,currency");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -191,11 +192,11 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            CompanyCode currObjectLocal = companyCodeService.findById(id, client);
+            HcmObject currObjectLocal = companyCodeService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
-        } catch (CompanyCodeNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -205,7 +206,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid CompanyCode currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -223,17 +224,17 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return COPY_FORM_VIEW;
         }
 
-        CompanyCode currObjectReal;
+        HcmObject currObjectReal;
         try {
             currObjectReal = companyCodeService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (CompanyCodeNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            CompanyCode currObjectLocal = new CompanyCode(client);
+            HcmObject currObjectLocal = new HcmObject(client, HcmObjectType.OU);
             MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,company,businessArea,city,country,language,currency");
             currObjectLocal = companyCodeService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
@@ -256,7 +257,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<CompanyCode> companyCodes;
+        List<HcmObject> companyCodes;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             companyCodes = companyCodeService.search(searchCriteria, client);
@@ -288,7 +289,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<CompanyCode> companyCodes = companyCodeService.findAllByClient(searchCriteria, client);
+        List<HcmObject> companyCodes = companyCodeService.findAllByClient(searchCriteria, client);
 
         model.addAttribute(MODEL_ATTRIBUTES, companyCodes);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -312,10 +313,10 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            CompanyCode currObjectLocal = companyCodeService.findById(id, client);
+            HcmObject currObjectLocal = companyCodeService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (CompanyCodeNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -333,9 +334,9 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            CompanyCode deleted = companyCodeService.delete(id, client);
+            HcmObject deleted = companyCodeService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (CompanyCodeNotFoundException e) {
+        } catch (HcmObjectNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;

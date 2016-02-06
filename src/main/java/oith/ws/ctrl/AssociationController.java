@@ -8,7 +8,6 @@ import java.util.Locale;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.os.Association;
-import static oith.ws.dom.hcm.def.os.Association.relMap;
 import oith.ws.dom.hcm.def.os.HcmObject;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.AssociationNotFoundException;

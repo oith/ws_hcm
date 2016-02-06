@@ -13,7 +13,8 @@ import javax.validation.Valid;
 import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.fin.entry.VoucherDtl;
-import oith.ws.dom.hcm.def.es.CompanyCode;
+import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
@@ -74,7 +75,7 @@ public class VoucherController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
         Voucher obj = new Voucher();
-        obj.setCompanyCode(new CompanyCode());
+        obj.setCompanyCode(new HcmObject(client, HcmObjectType.OU));
         Set<VoucherDtl> jjj = new LinkedHashSet();
         jjj.add(new VoucherDtl());
         jjj.add(new VoucherDtl());

@@ -1,6 +1,5 @@
 package oith.ws.ctrl.core;
 
-import oith.ws.dom.hcm.def.es.CompanyCode;
 import oith.ws.dom.hcm.def.os.HcmObject;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -14,6 +13,7 @@ import java.util.Set;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
+import oith.ws.dom.hcm.def.os.ICompanyCode;
 import oith.ws.dom.hcm.def.os.IHcmObject;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.HcmObjectNotFoundException;
@@ -51,8 +51,8 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
     @Autowired
     private oith.ws.service.HcmObjectService hcmObjectService;
 
-    @Autowired
-    private oith.ws.service.CompanyCodeService companyCodeService;
+    //@Autowired
+    //private oith.ws.service.CompanyCodeService companyCodeService;
 
     //@Autowired
     //private oith.ws.service.CoaService coaService;
@@ -408,7 +408,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
     public String companyCodesModal(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid CompanyCode currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid ICompanyCode currObject,
             RedirectAttributes attributes) {
 
         HcmObject objOrignal;
@@ -420,7 +420,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
         try {
             if (objOrignal.getCompanyCodes() == null) {
-                objOrignal.setCompanyCodes(new LinkedHashSet<CompanyCode>());
+                objOrignal.setCompanyCodes(new LinkedHashSet<ICompanyCode>());
             }
 
             if (currObject.getId() == null) {//new detail
@@ -434,7 +434,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
             } else {//update
 
-                for (CompanyCode col : objOrignal.getCompanyCodes()) {
+                for (ICompanyCode col : objOrignal.getCompanyCodes()) {
                     if (col.getId().equals(currObject.getId())) {
                         PropertyUtils.copyProperties(col, currObject);
                         break;
@@ -444,7 +444,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
             hcmObjectService.update(objOrignal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObject.getId());
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | HcmObjectNotFoundException e) {
+        } catch (Exception e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
         }
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + id;
