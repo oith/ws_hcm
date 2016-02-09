@@ -1,15 +1,14 @@
 package oith.ws.ctrl;
 
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.hcm.def.es.Company;
 import oith.ws.dom.hcm.def.os.HcmObject;
 import oith.ws.dom.hcm.def.os.HcmObjectType;
-import oith.ws.dom.hcm.def.os.ICompanyCode;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.HcmObjectNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
@@ -20,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,10 +43,27 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
     private org.springframework.context.MessageSource messageSource;
 
     @Autowired
-    private oith.ws.service.HcmObjectService companyCodeService;
+    private oith.ws.service.HcmObjectService hcmObjectService;
 
-    @Autowired
-    private oith.ws.service.CompanyService companyService;
+    public class ExoticTypeEditor extends PropertyEditorSupport {
+
+        @Override
+        public void setAsText(String text) {
+
+            HcmObject type = null;
+            try {
+                type = hcmObjectService.findById(text);
+            } catch (Exception e) {
+                System.out.println("iiiiii ttttt 1208 " + e);
+            }
+            setValue(type);
+        }
+    }
+
+    @InitBinder
+    void registerConverters(WebDataBinder binder) {
+        binder.registerCustomEditor(HcmObject.class, "company", new ExoticTypeEditor());
+    }
 
     private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
@@ -53,6 +71,12 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             client = super.getLoggedClient();
         } catch (NotLoggedInException e) {
         }
+
+        List companys = new LinkedList();
+        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY)) {
+            companys.add(col);
+        }
+        model.addAttribute("companys", companys);
 
         //Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
         //for (AllEnum.Gender col : AllEnum.Gender.values()) {
@@ -66,11 +90,6 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         //    emps.add(col);
         //}
         //model.addAttribute("emps", emps);
-        List companys = new LinkedList();
-        for (Company col : companyService.findAllByClient(client)) {
-            companys.add(col);
-        }
-        model.addAttribute("companys", companys);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
 
@@ -110,7 +129,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return ADD_FORM_VIEW;
         }
 
-        HcmObject currObjectLocal = companyCodeService.create(currObject);
+        HcmObject currObjectLocal = hcmObjectService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -127,7 +146,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            HcmObject currObjectLocal = companyCodeService.findById(id, client);
+            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
@@ -160,8 +179,8 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            ICompanyCode currObjectLocal = companyCodeService.findById(id, client);
-            //currObject.setAuditor(currObjectLocal.getAuditor());
+            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
+            currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
@@ -171,7 +190,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
 
         try {
             //companyCode = companyCodeService.update(currObject);
-            HcmObject currObjectLocal = companyCodeService.update(currObject, "auditor,code,name,company,city,country,language,currency");
+            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,code,name,company,city,country,language,currency");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -192,7 +211,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            HcmObject currObjectLocal = companyCodeService.findById(id, client);
+            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
@@ -226,7 +245,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
 
         HcmObject currObjectReal;
         try {
-            currObjectReal = companyCodeService.findById(id, client);
+            currObjectReal = hcmObjectService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
         } catch (HcmObjectNotFoundException ex) {
@@ -236,7 +255,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         try {
             HcmObject currObjectLocal = new HcmObject(client, HcmObjectType.OU);
             MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,company,businessArea,city,country,language,currency");
-            currObjectLocal = companyCodeService.create(currObjectLocal);
+            currObjectLocal = hcmObjectService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -260,9 +279,9 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         List<HcmObject> companyCodes;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            companyCodes = companyCodeService.search(searchCriteria, client);
+            companyCodes = hcmObjectService.search(searchCriteria, client);
         } else {
-            companyCodes = companyCodeService.findAllByClient(searchCriteria, client);
+            companyCodes = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY_CODE);
         }
         model.addAttribute(MODEL_ATTRIBUTES, companyCodes);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -289,7 +308,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<HcmObject> companyCodes = companyCodeService.findAllByClient(searchCriteria, client);
+        List<HcmObject> companyCodes = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY_CODE);
 
         model.addAttribute(MODEL_ATTRIBUTES, companyCodes);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -313,7 +332,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            HcmObject currObjectLocal = companyCodeService.findById(id, client);
+            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
         } catch (HcmObjectNotFoundException ex) {
@@ -334,7 +353,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            HcmObject deleted = companyCodeService.delete(id, client);
+            HcmObject deleted = hcmObjectService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (HcmObjectNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);

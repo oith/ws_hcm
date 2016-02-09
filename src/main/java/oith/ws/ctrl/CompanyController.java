@@ -1,7 +1,5 @@
 package oith.ws.ctrl;
 
-import oith.ws.dom.hcm.def.es.Company;
-
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -11,8 +9,10 @@ import javax.validation.Valid;
 import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
+import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.CompanyNotFoundException;
+import oith.ws.exception.HcmObjectNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
@@ -43,7 +43,7 @@ public class CompanyController extends _OithClientAuditController {
     private org.springframework.context.MessageSource messageSource;
 
     @Autowired
-    private oith.ws.service.CompanyService companyService;
+    private oith.ws.service.HcmObjectService companyService;
 
     private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
@@ -98,14 +98,14 @@ public class CompanyController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Company(client));
+        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObjectType.OU));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Company currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -124,7 +124,7 @@ public class CompanyController extends _OithClientAuditController {
             return ADD_FORM_VIEW;
         }
 
-        Company currObjectLocal = companyService.create(currObject);
+        HcmObject currObjectLocal = companyService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -141,11 +141,11 @@ public class CompanyController extends _OithClientAuditController {
         }
 
         try {
-            Company currObjectLocal = companyService.findById(id, client);
+            HcmObject currObjectLocal = companyService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
-        } catch (CompanyNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -155,7 +155,7 @@ public class CompanyController extends _OithClientAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Company currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -174,18 +174,19 @@ public class CompanyController extends _OithClientAuditController {
         }
 
         try {
-            Company currObjectLocal = companyService.findById(id, client);
+            HcmObject currObjectLocal = companyService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (CompanyNotFoundException | UserNotFoundException ex) {
+        } catch (HcmObjectNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
             //company = companyService.update(currObject);
-            Company currObjectLocal = companyService.update(currObject, "auditor,code,name,nameSecondary,street,poBox,poCode,city,country,language,currency");
+            //street,poBox,poCode
+            HcmObject currObjectLocal = companyService.update(currObject, "auditor,code,name,nameSecondary,city,country,language,currency");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -206,11 +207,11 @@ public class CompanyController extends _OithClientAuditController {
         }
 
         try {
-            Company currObjectLocal = companyService.findById(id, client);
+            HcmObject currObjectLocal = companyService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
-        } catch (CompanyNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -220,7 +221,7 @@ public class CompanyController extends _OithClientAuditController {
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Company currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -238,17 +239,17 @@ public class CompanyController extends _OithClientAuditController {
             return COPY_FORM_VIEW;
         }
 
-        Company currObjectReal;
+        HcmObject currObjectReal;
         try {
             currObjectReal = companyService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (CompanyNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            Company currObjectLocal = new Company(client);
+            HcmObject currObjectLocal = new HcmObject(client, HcmObjectType.OU);
             MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,nameSecondary,street,poBox,poCode,city,country,language,currency");
             currObjectLocal = companyService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
@@ -271,12 +272,12 @@ public class CompanyController extends _OithClientAuditController {
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Company> companys;
+        List<HcmObject> companys;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            companys = companyService.search(searchCriteria, client);
+            companys = companyService.search(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY);
         } else {
-            companys = companyService.findAllByClient(searchCriteria, client);
+            companys = companyService.findAllByClient(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY);
         }
         model.addAttribute(MODEL_ATTRIBUTES, companys);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -303,7 +304,7 @@ public class CompanyController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Company> companys = companyService.findAllByClient(searchCriteria, client);
+        List<HcmObject> companys = companyService.findAllByClient(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY);
 
         model.addAttribute(MODEL_ATTRIBUTES, companys);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -327,10 +328,10 @@ public class CompanyController extends _OithClientAuditController {
         }
 
         try {
-            Company currObjectLocal = companyService.findById(id, client);
+            HcmObject currObjectLocal = companyService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (CompanyNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -348,9 +349,9 @@ public class CompanyController extends _OithClientAuditController {
         }
 
         try {
-            Company deleted = companyService.delete(id, client);
+            HcmObject deleted = companyService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (CompanyNotFoundException e) {
+        } catch (HcmObjectNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;

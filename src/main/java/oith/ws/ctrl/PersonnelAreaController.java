@@ -1,21 +1,21 @@
 package oith.ws.ctrl;
 
 import java.beans.PropertyEditorSupport;
+import oith.ws.dom.hcm.def.es.PersonnelArea;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.hcm.def.os.Association;
 import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.AssociationNotFoundException;
+import oith.ws.exception.PersonnelAreaNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,10 +29,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/association")
-public class AssociationController extends oith.ws.ctrl.core._OithClientAuditController {
+@RequestMapping(value = "/personnelArea")
+public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "association";
+    protected static final String MODEL_ATTIRUTE = "personnelArea";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
@@ -44,30 +44,10 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
     private org.springframework.context.MessageSource messageSource;
 
     @Autowired
-    private oith.ws.service.AssociationService associationService;
+    private oith.ws.service.PersonnelAreaService personnelAreaService;
 
     @Autowired
     private oith.ws.service.HcmObjectService hcmObjectService;
-
-    public class ExoticTypeEditor extends PropertyEditorSupport {
-
-        @Override
-        public void setAsText(String text) {
-
-            HcmObject type = null;
-            try {
-                type = hcmObjectService.findById(text);
-            } catch (Exception e) {
-                System.out.println("iiiiii ttttt 1208 " + e);
-            }
-            setValue(type);
-        }
-    }
-
-    @InitBinder
-    void registerConverters(WebDataBinder binder) {
-        binder.registerCustomEditor(HcmObject.class, "company", new ExoticTypeEditor());
-    }
 
     private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
@@ -76,19 +56,11 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         } catch (NotLoggedInException e) {
         }
 
-        List hcmObjectAlphas = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
-            col.setId(col.getId());
-            hcmObjectAlphas.add(col);
+        List companyCodes = new LinkedList();
+        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY_CODE)) {
+            companyCodes.add(col);
         }
-        model.addAttribute("hcmObjectAlphas", hcmObjectAlphas);
-
-        List hcmObjectBetas = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
-            col.setId(col.getId());
-            hcmObjectBetas.add(col);
-        }
-        model.addAttribute("hcmObjectBetas", hcmObjectBetas);
+        model.addAttribute("companyCodes", companyCodes);
 
         //Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
         //for (AllEnum.Gender col : AllEnum.Gender.values()) {
@@ -110,6 +82,26 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
 
+    public class ExoticTypeEditor extends PropertyEditorSupport {
+
+        @Override
+        public void setAsText(String text) {
+
+            try {
+                HcmObject type = hcmObjectService.findById(text);
+                setValue(type);
+            } catch (Exception e) {
+                System.out.println("iiiiii ttttt 1208 " + e);
+                setValue(null);
+            }
+        }
+    }
+
+    @InitBinder
+    void registerConverters(WebDataBinder binder) {
+        binder.registerCustomEditor(HcmObject.class, "companyCode", new ExoticTypeEditor());
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, Locale locale) {
 
@@ -120,14 +112,14 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Association(client));
+        model.addAttribute(MODEL_ATTIRUTE, new PersonnelArea(client));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Association currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid PersonnelArea currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -146,7 +138,7 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
             return ADD_FORM_VIEW;
         }
 
-        Association currObjectLocal = associationService.create(currObject);
+        PersonnelArea currObjectLocal = personnelAreaService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -163,11 +155,11 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            Association currObjectLocal = associationService.findById(id, client);
+            PersonnelArea currObjectLocal = personnelAreaService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
-        } catch (AssociationNotFoundException ex) {
+        } catch (PersonnelAreaNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -177,14 +169,11 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Association currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid PersonnelArea currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
             Locale locale) {
-
-        String ddfd = ReflectionToStringBuilder.toString(currObject);
-        System.out.println("1226 ddfd" + ddfd);
 
         Client client;
         try {
@@ -199,17 +188,19 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            Association currObjectLocal = associationService.findById(id, client);
+            PersonnelArea currObjectLocal = personnelAreaService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (AssociationNotFoundException | UserNotFoundException ex) {
+        } catch (PersonnelAreaNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            Association currObjectLocal = associationService.update(currObject, "auditor,relTypeAlpha,hcmObjectAlpha,relTypeBeta,hcmObjectBeta,interval");
+            //currObject.setCompanyCode(null);
+            //personnelArea = personnelAreaService.update(currObject);
+            PersonnelArea currObjectLocal = personnelAreaService.update(currObject, "auditor,code,name,nameSecondary,address,companyCode");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -230,11 +221,11 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            Association currObjectLocal = associationService.findById(id, client);
+            PersonnelArea currObjectLocal = personnelAreaService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
-        } catch (AssociationNotFoundException ex) {
+        } catch (PersonnelAreaNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -244,7 +235,7 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Association currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid PersonnelArea currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -262,19 +253,19 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
             return COPY_FORM_VIEW;
         }
 
-        Association currObjectReal;
+        PersonnelArea currObjectReal;
         try {
-            currObjectReal = associationService.findById(id, client);
+            currObjectReal = personnelAreaService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (AssociationNotFoundException ex) {
+        } catch (PersonnelAreaNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            Association currObjectLocal = new Association(client);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,hcmObjectAlpha,hcmObjectBeta,relType,interval");
-            currObjectLocal = associationService.create(currObjectLocal);
+            PersonnelArea currObjectLocal = new PersonnelArea(client);
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,nameSecondary,address,companyCode");
+            currObjectLocal = personnelAreaService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -295,14 +286,14 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Association> associations;
+        List<PersonnelArea> personnelAreas;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            associations = associationService.search(searchCriteria, client);
+            personnelAreas = personnelAreaService.search(searchCriteria, client);
         } else {
-            associations = associationService.findAllByClient(searchCriteria, client);
+            personnelAreas = personnelAreaService.findAllByClient(searchCriteria, client);
         }
-        model.addAttribute(MODEL_ATTRIBUTES, associations);
+        model.addAttribute(MODEL_ATTRIBUTES, personnelAreas);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -327,9 +318,9 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Association> associations = associationService.findAllByClient(searchCriteria, client);
+        List<PersonnelArea> personnelAreas = personnelAreaService.findAllByClient(searchCriteria, client);
 
-        model.addAttribute(MODEL_ATTRIBUTES, associations);
+        model.addAttribute(MODEL_ATTRIBUTES, personnelAreas);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -351,10 +342,10 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            Association currObjectLocal = associationService.findById(id, client);
+            PersonnelArea currObjectLocal = personnelAreaService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (AssociationNotFoundException ex) {
+        } catch (PersonnelAreaNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -372,13 +363,14 @@ public class AssociationController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            Association deleted = associationService.delete(id, client);
+            PersonnelArea deleted = personnelAreaService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (AssociationNotFoundException e) {
+        } catch (PersonnelAreaNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
+
 }
