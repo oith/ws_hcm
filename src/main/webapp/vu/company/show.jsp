@@ -56,7 +56,7 @@
                 </dd>
             </c:if>
             
-            <c:if test='${company.street!=null}'>
+       <%--     <c:if test='${company.street!=null}'>
                 <dt><spring:message code='street' text='Street'/></dt>
                 <dd>
                     <c:out value='${company.street}'/>
@@ -75,7 +75,7 @@
                 <dd>
                     <c:out value='${company.poCode}'/>
                 </dd>
-            </c:if>
+            </c:if>--%>
             
             <c:if test='${company.city!=null}'>
                 <dt><spring:message code='city' text='City'/></dt>

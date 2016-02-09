@@ -33,7 +33,7 @@
         </div>
     </div>
     
-    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+<%--    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='street'><spring:message code='street' text='Street'/></form:label>
             <form:input path='street' class='form-control' type='text' maxlength='100'/>
@@ -55,7 +55,7 @@
             <form:input path='poCode' class='form-control' type='text' maxlength='100'/>
             <form:errors path='poCode' cssClass='error' element='div'/>
         </div>
-    </div>
+    </div>--%>
     
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>

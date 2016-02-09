@@ -69,24 +69,7 @@
                         <c:out value='${companyCode.company.nameSecondary}'/>
                     </dd>
                 </c:if>
-                <c:if test='${companyCode.company.street!=null}'>
-                    <dt><spring:message code='street' text='Street'/></dt>
-                    <dd>
-                        <c:out value='${companyCode.company.street}'/>
-                    </dd>
-                </c:if>
-                <c:if test='${companyCode.company.poBox!=null}'>
-                    <dt><spring:message code='poBox' text='Po Box'/></dt>
-                    <dd>
-                        <c:out value='${companyCode.company.poBox}'/>
-                    </dd>
-                </c:if>
-                <c:if test='${companyCode.company.poCode!=null}'>
-                    <dt><spring:message code='poCode' text='Po Code'/></dt>
-                    <dd>
-                        <c:out value='${companyCode.company.poCode}'/>
-                    </dd>
-                </c:if>
+               
                 <c:if test='${companyCode.company.city!=null}'>
                     <dt><spring:message code='city' text='City'/></dt>
                     <dd>
@@ -111,7 +94,6 @@
                         <c:out value='${companyCode.company.currency}'/>
                     </dd>
                 </c:if>
-
                 </dd>
             </c:if>
 

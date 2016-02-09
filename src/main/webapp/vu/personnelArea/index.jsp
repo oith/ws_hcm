@@ -24,13 +24,13 @@
             <i class='glyphicon glyphicon-home'></i>
             <spring:message code="home"/>
         </a>
-        <a href='${pageContext.request.contextPath}/company/create' class='btn btn-primary'>
+        <a href='${pageContext.request.contextPath}/personnelArea/create' class='btn btn-primary'>
             <i class='glyphicon glyphicon-plus'></i>
-            <spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='company' text='Company'/>
+            <spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='personnelArea' text='PersonnelArea'/>
         </a>
     </div>
     <h1><spring:message code='list.page.title'/></h1>
-    <form:form action='${pageContext.request.contextPath}/company/index' commandName='searchCriteria' method='POST'>
+    <form:form action='${pageContext.request.contextPath}/personnelArea/index' commandName='searchCriteria' method='POST'>
         <table>
             <tr>
                 <td><form:label path='searchTerm'><spring:message code='label.searchTerm'/>:</form:label></td>
@@ -76,7 +76,7 @@
         </div>
     </form:form>
 
-    <c:if test='${companys.size()!=0}'>
+    <c:if test='${personnelAreas.size()!=0}'>
 
         <div class='table-responsive'>
             <table class='table table-striped table-bordered table-hover table-condensed'>
@@ -86,51 +86,40 @@
                         <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='name' text='Name'/></th>
                         <th><spring:message code='nameSecondary' text='Name Secondary'/></th>
-                        <th><spring:message code='street' text='Street'/></th>
-                        <th><spring:message code='poBox' text='Po Box'/></th>
-                        <th><spring:message code='poCode' text='Po Code'/></th>
-                        <th><spring:message code='city' text='City'/></th>
-                        <th><spring:message code='country' text='Country'/></th>
-                        <th><spring:message code='language' text='Language'/></th>
-                        <th><spring:message code='currency' text='Currency'/></th>
+                        <th><spring:message code='address' text='Address'/></th>
+                        <th><spring:message code='companyCode' text='Company Code'/></th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items='${companys}' var='company'  varStatus='loopStatus'>
+                    <c:forEach items='${personnelAreas}' var='personnelArea'  varStatus='loopStatus'>
                         <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
-
                             <td>
-                                <a href="${pageContext.request.contextPath}/company/show/${company.id}" class="btn btn-info">
+                                <a href="${pageContext.request.contextPath}/personnelArea/show/${personnelArea.id}" class="btn btn-info">
                                     <i class="glyphicon glyphicon-book"></i>
                                     <spring:message code="show.link.label"/>
                                 </a>
                             </td>
-                            <td><c:out value='${company.code}'/></td>
-                            <td><c:out value='${company.name}'/></td>
-                            <td><c:out value='${company.nameSecondary}'/></td>
-                            <%--<td><c:out value='${company.street}'/></td>
-                            <td><c:out value='${company.poBox}'/></td>
-                            <td><c:out value='${company.poCode}'/></td>--%>
-                            <td><c:out value='${company.city}'/></td>
-                            <td><c:out value='${company.country}'/></td>
-                            <td><c:out value='${company.language}'/></td>
-                            <td><c:out value='${company.currency}'/></td>
+                            <td><c:out value='${personnelArea.code}'/></td>
+                            <td><c:out value='${personnelArea.name}'/></td>
+                            <td><c:out value='${personnelArea.nameSecondary}'/></td>
+                            <td><c:out value='${personnelArea.address}'/></td>
+                            <td><c:out value='${personnelArea.companyCode}'/></td>
 
                             <td>
-                                <a href="${pageContext.request.contextPath}/company/edit/${company.id}" class="btn btn-warning">
+                                <a href="${pageContext.request.contextPath}/personnelArea/edit/${personnelArea.id}" class="btn btn-warning">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     <spring:message code="edit.link.label"/>
                                 </a>
                             </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/company/copy/${company.id}" class="btn btn-primary">
+                                <a href="${pageContext.request.contextPath}/personnelArea/copy/${personnelArea.id}" class="btn btn-primary">
                                     <i class="glyphicon glyphicon-copy"></i>
                                     <spring:message code="copy.link.label"/>
                                 </a>
                             </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/company/delete/${company.id}" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');" >
+                                <a href="${pageContext.request.contextPath}/personnelArea/delete/${personnelArea.id}" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');" >
                                     <i class="glyphicon glyphicon-remove"></i>
                                     <spring:message code="delete.link.label"/>
                                 </a>
@@ -141,7 +130,7 @@
             </table>
         </div>
     </c:if>
-    <c:if test='${empty companys}'>
+    <c:if test='${empty personnelAreas}'>
         <p>
             <spring:message code='list.page.label.no.data.found' text='No data found'/>
         </p>
