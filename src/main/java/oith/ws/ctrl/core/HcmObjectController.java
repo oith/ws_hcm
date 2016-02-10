@@ -53,7 +53,6 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
     //@Autowired
     //private oith.ws.service.CompanyCodeService companyCodeService;
-
     //@Autowired
     //private oith.ws.service.CoaService coaService;
     //@Autowired
@@ -374,7 +373,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
         try {
             if (objOrignal.getDivisions() == null) {
-                objOrignal.setDivisions(new LinkedHashSet<HcmObject>());
+                objOrignal.setDivisions(new LinkedHashSet<IHcmObject>());
             }
 
             if (currObject.getId() == null) {//new detail
@@ -388,7 +387,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
             } else {//update
 
-                for (HcmObject col : objOrignal.getDivisions()) {
+                for (IHcmObject col : objOrignal.getDivisions()) {
                     if (col.getId().equals(currObject.getId())) {
                         PropertyUtils.copyProperties(col, currObject);
                         break;
@@ -420,7 +419,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
         try {
             if (objOrignal.getCompanyCodes() == null) {
-                objOrignal.setCompanyCodes(new LinkedHashSet<ICompanyCode>());
+                objOrignal.setCompanyCodes(new LinkedHashSet<IHcmObject>());
             }
 
             if (currObject.getId() == null) {//new detail
@@ -434,7 +433,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
             } else {//update
 
-                for (ICompanyCode col : objOrignal.getCompanyCodes()) {
+                for (IHcmObject col : objOrignal.getCompanyCodes()) {
                     if (col.getId().equals(currObject.getId())) {
                         PropertyUtils.copyProperties(col, currObject);
                         break;
@@ -466,7 +465,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
         try {
             if (objOrignal.getStorageLocations() == null) {
-                objOrignal.setStorageLocations(new LinkedHashSet<HcmObject>());
+                objOrignal.setStorageLocations(new LinkedHashSet<IHcmObject>());
             }
 
             if (currObject.getId() == null) {//new detail
@@ -480,7 +479,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
             } else {//update
 
-                for (HcmObject col : objOrignal.getStorageLocations()) {
+                for (IHcmObject col : objOrignal.getStorageLocations()) {
                     if (col.getId().equals(currObject.getId())) {
                         PropertyUtils.copyProperties(col, currObject);
                         break;

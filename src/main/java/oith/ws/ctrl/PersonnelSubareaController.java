@@ -1,16 +1,16 @@
 package oith.ws.ctrl;
 
-import oith.ws.dom.hcm.def.es.PersonnelSubarea;
-
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.hcm.def.es.PersonnelArea;
+import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.PersonnelSubareaNotFoundException;
+import oith.ws.exception.HcmObjectNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,10 +43,7 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
     private org.springframework.context.MessageSource messageSource;
 
     @Autowired
-    private oith.ws.service.PersonnelSubareaService personnelSubareaService;
-
-    @Autowired
-    private oith.ws.service.PersonnelAreaService personnelAreaService;
+    private oith.ws.service.HcmObjectService hcmObjectService;
 
     private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
@@ -54,10 +53,30 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
         }
 
         List personnelAreas = new LinkedList();
-        for (PersonnelArea col : personnelAreaService.findAllByClient(client)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_AREA)) {
             personnelAreas.add(col);
         }
         model.addAttribute("personnelAreas", personnelAreas);
+    }
+
+    public class ExoticTypeEditor extends PropertyEditorSupport {
+
+        @Override
+        public void setAsText(String text) {
+
+            try {
+                HcmObject type = hcmObjectService.findById(text);
+                setValue(type);
+            } catch (Exception e) {
+                System.out.println("iiiiii ttttt 1208 " + e);
+                setValue(null);
+            }
+        }
+    }
+
+    @InitBinder
+    void registerConverters(WebDataBinder binder) {
+        binder.registerCustomEditor(HcmObject.class, "personnelArea", new ExoticTypeEditor());
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -70,14 +89,14 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new PersonnelSubarea(client));
+        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid PersonnelSubarea currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -96,7 +115,7 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
             return ADD_FORM_VIEW;
         }
 
-        PersonnelSubarea currObjectLocal = personnelSubareaService.create(currObject);
+        HcmObject currObjectLocal = hcmObjectService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -113,11 +132,11 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
         }
 
         try {
-            PersonnelSubarea currObjectLocal = personnelSubareaService.findById(id, client);
+            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
-        } catch (PersonnelSubareaNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -127,7 +146,7 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid PersonnelSubarea currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -146,18 +165,18 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
         }
 
         try {
-            PersonnelSubarea currObjectLocal = personnelSubareaService.findById(id, client);
+            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (PersonnelSubareaNotFoundException | UserNotFoundException ex) {
+        } catch (HcmObjectNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            //personnelSubarea = personnelSubareaService.update(currObject);
-            PersonnelSubarea currObjectLocal = personnelSubareaService.update(currObject, "auditor,code,name,personnelArea");
+            //personnelSubarea = hcmObjectService.update(currObject);
+            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,code,name,personnelArea");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -178,11 +197,11 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
         }
 
         try {
-            PersonnelSubarea currObjectLocal = personnelSubareaService.findById(id, client);
+            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
-        } catch (PersonnelSubareaNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -192,7 +211,7 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid PersonnelSubarea currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -210,19 +229,19 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
             return COPY_FORM_VIEW;
         }
 
-        PersonnelSubarea currObjectReal;
+        HcmObject currObjectReal;
         try {
-            currObjectReal = personnelSubareaService.findById(id, client);
+            currObjectReal = hcmObjectService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (PersonnelSubareaNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            PersonnelSubarea currObjectLocal = new PersonnelSubarea(client);
+            HcmObject currObjectLocal = new HcmObject(client);
             MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,personnelArea");
-            currObjectLocal = personnelSubareaService.create(currObjectLocal);
+            currObjectLocal = hcmObjectService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -243,12 +262,12 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<PersonnelSubarea> personnelSubareas;
+        List<HcmObject> personnelSubareas;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            personnelSubareas = personnelSubareaService.search(searchCriteria, client);
+            personnelSubareas = hcmObjectService.search(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_SUB_AREA);
         } else {
-            personnelSubareas = personnelSubareaService.findAllByClient(searchCriteria, client);
+            personnelSubareas = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_SUB_AREA);
         }
         model.addAttribute(MODEL_ATTRIBUTES, personnelSubareas);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -275,7 +294,7 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<PersonnelSubarea> personnelSubareas = personnelSubareaService.findAllByClient(searchCriteria, client);
+        List<HcmObject> personnelSubareas = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_SUB_AREA);
 
         model.addAttribute(MODEL_ATTRIBUTES, personnelSubareas);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -299,10 +318,10 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
         }
 
         try {
-            PersonnelSubarea currObjectLocal = personnelSubareaService.findById(id, client);
+            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (PersonnelSubareaNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -320,9 +339,9 @@ public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAud
         }
 
         try {
-            PersonnelSubarea deleted = personnelSubareaService.delete(id, client);
+            HcmObject deleted = hcmObjectService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (PersonnelSubareaNotFoundException e) {
+        } catch (HcmObjectNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;

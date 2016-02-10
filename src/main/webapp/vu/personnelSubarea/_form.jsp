@@ -28,7 +28,7 @@
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='personnelArea'><spring:message code='personnelArea' text='Personnel Area'/></form:label>
-            <form:select path='personnelArea.id' class='form-control' name='personnelArea' id='personnelArea' >
+            <form:select path='personnelArea' class='form-control' name='personnelArea' id='personnelArea' >
                 <form:option value="" label="--Select--"></form:option>
                 <form:options items='${personnelAreas}' itemValue='id'></form:options>
             </form:select>

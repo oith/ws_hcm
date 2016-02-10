@@ -73,7 +73,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         List companys = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY)) {
             companys.add(col);
         }
         model.addAttribute("companys", companys);
@@ -281,7 +281,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             companyCodes = hcmObjectService.search(searchCriteria, client);
         } else {
-            companyCodes = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY_CODE);
+            companyCodes = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY_CODE);
         }
         model.addAttribute(MODEL_ATTRIBUTES, companyCodes);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -308,7 +308,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<HcmObject> companyCodes = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY_CODE);
+        List<HcmObject> companyCodes = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY_CODE);
 
         model.addAttribute(MODEL_ATTRIBUTES, companyCodes);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);

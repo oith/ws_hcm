@@ -275,9 +275,9 @@ public class CompanyController extends _OithClientAuditController {
         List<HcmObject> companys;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            companys = companyService.search(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY);
+            companys = companyService.search(searchCriteria, client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY);
         } else {
-            companys = companyService.findAllByClient(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY);
+            companys = companyService.findAllByClient(searchCriteria, client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY);
         }
         model.addAttribute(MODEL_ATTRIBUTES, companys);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -304,7 +304,7 @@ public class CompanyController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<HcmObject> companys = companyService.findAllByClient(searchCriteria, client, HcmObjectType.OU, HcmObject.OrgUnitType.COMPANY);
+        List<HcmObject> companys = companyService.findAllByClient(searchCriteria, client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY);
 
         model.addAttribute(MODEL_ATTRIBUTES, companys);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
