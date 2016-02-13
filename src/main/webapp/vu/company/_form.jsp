@@ -12,7 +12,7 @@
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='code'><spring:message code='code' text='Code'/><span class='required-indicator needed'>*</span></form:label>
-            <form:input path='code' class='form-control' type='text' required='true' maxlength='10'/>
+            <form:input path='code' class='form-control' type='text' required='true' maxlength='5'/>
             <form:errors path='code' cssClass='error' element='div'/>
         </div>
     </div>

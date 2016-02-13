@@ -419,7 +419,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
         try {
             if (objOrignal.getCompanyCodes() == null) {
-                objOrignal.setCompanyCodes(new LinkedHashSet<IHcmObject>());
+                objOrignal.setCompanyCodes(new LinkedHashSet<ICompanyCode>());
             }
 
             if (currObject.getId() == null) {//new detail
