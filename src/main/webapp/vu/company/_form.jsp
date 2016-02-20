@@ -87,8 +87,8 @@
     
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
-            <form:label path='currency'><spring:message code='currency' text='Currency'/></form:label>
-            <form:select path='currency' class='form-control' name='currency' id='currency' >
+            <form:label path='currency'><spring:message code='currency' text='Currency'/><span class='required-indicator needed'>*</span></form:label>
+            <form:select path='currency' class='form-control' required='true' name='currency' id='currency' >
                 <form:options items='${currencys}' ></form:options>
             </form:select>
             <form:errors path='currency' cssClass='error' element='div'/>
