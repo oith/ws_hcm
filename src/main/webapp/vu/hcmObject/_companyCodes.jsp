@@ -20,17 +20,6 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th><spring:message code='code' text='Code'/></th>
-                    <th><spring:message code='name' text='Name'/></th>
-                    <th><spring:message code='company' text='Company'/></th>
-                    <th><spring:message code='city' text='City'/></th>
-                    <th><spring:message code='country' text='Country'/></th>
-                    <th><spring:message code='language' text='Language'/></th>
-                    <th><spring:message code='currency' text='Currency'/></th>
-                    <th><spring:message code='auditor' text='Auditor'/></th>
-                    <th><spring:message code='client' text='Client'/></th>
-                    <th><spring:message code='id' text='Id'/></th>
-                    <th><spring:message code='version' text='Version'/></th>
 
                     <th></th>
                 </tr>
@@ -40,17 +29,6 @@
                     <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
                         <td><c:out value='${loopStatus.index}'/></td>
                         <td><button id='${hcmObject.id}~${loopStatus.index}' type='button' class='btn btn-info' value='${hcmObject.id}~${loopStatus.index}' data-toggle='modal' data-target='#companyCodes_modal' class='btn btn-primary'><spring:message code='edit.link.label' text='Edit'/></button></td>
-                        <td><c:out value='${companyCodes.code}'/></td>
-                        <td><c:out value='${companyCodes.name}'/></td>
-                        <td><c:out value='${companyCodes.company}'/></td>
-                        <td><c:out value='${companyCodes.city}'/></td>
-                        <td><c:out value='${companyCodes.country}'/></td>
-                        <td><c:out value='${companyCodes.language}'/></td>
-                        <td><c:out value='${companyCodes.currency}'/></td>
-                        <td><c:out value='${companyCodes.auditor}'/></td>
-                        <td><c:out value='${companyCodes.client}'/></td>
-                        <td><c:out value='${companyCodes.id}'/></td>
-                        <td><c:out value='${companyCodes.version}'/></td>
 
                         <td><button type='button' class='companyCodes_del btn btn-warning' value='companyCodes~${hcmObject.id}~${loopStatus.index}'><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
@@ -83,50 +61,6 @@
 
                         <input type='hidden' name='hcmObjectId' id='hcmObjectId' value='${hcmObject.id}'>
                         <input type='hidden' name='embdId' id='companyCodes_id' value=''>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='code' text='Code'/>
-                                <input type='text' name='code' id='companyCodes_code' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='name' text='Name'/>
-                                <input type='text' name='name' id='companyCodes_name' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='company' text='Company'/>
-                                <input type='text' name='company' id='companyCodes_company' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='city' text='City'/>
-                                <input type='text' name='city' id='companyCodes_city' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='country' text='Country'/>
-                                <input type='text' name='country' id='companyCodes_country' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='language' text='Language'/>
-                                <input type='text' name='language' id='companyCodes_language' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='currency' text='Currency'/>
-                                <input type='text' name='currency' id='companyCodes_currency' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='auditor' text='Auditor'/>
-                                <input type='text' name='auditor' id='companyCodes_auditor' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='client' text='Client'/>
-                                <input type='text' name='client' id='companyCodes_client' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='id' text='Id'/>
-                                <input type='text' name='id' id='companyCodes_id' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='version' text='Version'/>
-                                <input type='text' name='version' id='companyCodes_version' class='form-control' value='' >
-                        </div>
 
                         <div style='padding-left: 15px' class='form-group'></div>
                     </div>
@@ -161,33 +95,11 @@
 
     $(document).on('click', 'tr', function () {
         $('#companyCodes_id').val($('td:eq(0)', this).text());
-        $('#companyCodes_code').val($('td:eq(2)', this).text());
-        $('#companyCodes_name').val($('td:eq(3)', this).text());
-        $('#companyCodes_company').val($('td:eq(4)', this).text());
-        $('#companyCodes_city').val($('td:eq(5)', this).text());
-        $('#companyCodes_country').val($('td:eq(6)', this).text());
-        $('#companyCodes_language').val($('td:eq(7)', this).text());
-        $('#companyCodes_currency').val($('td:eq(8)', this).text());
-        $('#companyCodes_auditor').val($('td:eq(9)', this).text());
-        $('#companyCodes_client').val($('td:eq(10)', this).text());
-        $('#companyCodes_id').val($('td:eq(11)', this).text());
-        $('#companyCodes_version').val($('td:eq(12)', this).text());
 
     });
 
     $(document).on('click', '#companyCodes_create', function () {
         $('#companyCodes_id').val('');
-        $('#companyCodes_code').val('');
-        $('#companyCodes_name').val('');
-        $('#companyCodes_company').val('');
-        $('#companyCodes_city').val('');
-        $('#companyCodes_country').val('');
-        $('#companyCodes_language').val('');
-        $('#companyCodes_currency').val('');
-        $('#companyCodes_auditor').val('');
-        $('#companyCodes_client').val('');
-        $('#companyCodes_id').val('');
-        $('#companyCodes_version').val('');
 
     });
 

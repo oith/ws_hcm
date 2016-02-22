@@ -103,7 +103,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObjectType.OU));
+        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObjectType.ACC_UNIT));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
@@ -253,7 +253,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
 
         try {
-            HcmObject currObjectLocal = new HcmObject(client, HcmObjectType.OU);
+            HcmObject currObjectLocal = new HcmObject(client, HcmObjectType.ACC_UNIT);
             MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,company,businessArea,city,country,language,currency");
             currObjectLocal = hcmObjectService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());

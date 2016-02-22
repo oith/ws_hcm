@@ -85,23 +85,35 @@
                         <th></th>
                         <th><spring:message code='auditor' text='Auditor'/></th>
                         <th><spring:message code='hcmObjectType' text='Hcm Object Type'/></th>
+                        <th><spring:message code='orgUnitType' text='Org Unit Type'/></th>
+                        <th><spring:message code='adminUnitType' text='Admin Unit Type'/></th>
+                        <th><spring:message code='accountingUnitType' text='Accounting Unit Type'/></th>
+                        <th><spring:message code='address' text='Address'/></th>
+                        <th><spring:message code='personnelArea' text='Personnel Area'/></th>
                         <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='name' text='Name'/></th>
                         <th><spring:message code='nameSecondary' text='Name Secondary'/></th>
                         <th><spring:message code='interval' text='Interval'/></th>
+                        <th><spring:message code='company' text='Company'/></th>
+                        <th><spring:message code='city' text='City'/></th>
+                        <th><spring:message code='country' text='Country'/></th>
+                        <th><spring:message code='language' text='Language'/></th>
+                        <th><spring:message code='currency' text='Currency'/></th>
                         <th><spring:message code='profile' text='Profile'/></th>
                         <th><spring:message code='doj' text='Doj'/></th>
                         <th><spring:message code='isHeadOfPosition' text='Is Head Of Position'/></th>
                         <th><spring:message code='costCenter' text='Cost Center'/></th>
-                        <th><spring:message code='orgUnitType' text='Org Unit Type'/></th>
-                        <th><spring:message code='orgUnitAccAssignment' text='Org Unit Acc Assignment'/></th>
+                        <th><spring:message code='fmArea' text='Fm Area'/></th>
+                        <th><spring:message code='creditControlArea' text='Credit Control Area'/></th>
+                        <th><spring:message code='responsibleEmployee' text='Responsible Employee'/></th>
+                        <th><spring:message code='creditLimit' text='Credit Limit'/></th>
                         <th><spring:message code='storageLocations' text='Storage Locations'/></th>
                         <th><spring:message code='purchasingOrg' text='Purchasing Org'/></th>
                         <th><spring:message code='salesOffice' text='Sales Office'/></th>
                         <th><spring:message code='companyCode' text='Company Code'/></th>
-                        <th><spring:message code='currency' text='Currency'/></th>
                         <th><spring:message code='divisions' text='Divisions'/></th>
                         <th><spring:message code='salesOrg' text='Sales Org'/></th>
+                        <th><spring:message code='plant' text='Plant'/></th>
                         <th><spring:message code='responsibleEmp' text='Responsible Emp'/></th>
                         <th><spring:message code='companyCodes' text='Company Codes'/></th>
                         <th><spring:message code='coa' text='Coa'/></th>
@@ -122,10 +134,20 @@
                             </td>
                             <td><c:out value='${hcmObject.auditor}'/></td>
                             <td><c:out value='${hcmObject.hcmObjectType}'/></td>
+                            <td><c:out value='${hcmObject.orgUnitType}'/></td>
+                            <td><c:out value='${hcmObject.adminUnitType}'/></td>
+                            <td><c:out value='${hcmObject.accountingUnitType}'/></td>
+                            <td><c:out value='${hcmObject.address}'/></td>
+                            <td><c:out value='${hcmObject.personnelArea}'/></td>
                             <td><c:out value='${hcmObject.code}'/></td>
                             <td><c:out value='${hcmObject.name}'/></td>
                             <td><c:out value='${hcmObject.nameSecondary}'/></td>
                             <td><c:out value='${hcmObject.interval}'/></td>
+                            <td><c:out value='${hcmObject.company}'/></td>
+                            <td><c:out value='${hcmObject.city}'/></td>
+                            <td><c:out value='${hcmObject.country}'/></td>
+                            <td><c:out value='${hcmObject.language}'/></td>
+                            <td><c:out value='${hcmObject.currency}'/></td>
                             <td><c:out value='${hcmObject.profile}'/></td>
                             <td><fmt:formatDate value='${hcmObject.doj}' type='date' pattern='dd/MM/yyyy'/></td>
                             <td>
@@ -140,15 +162,17 @@
                                 </c:choose>
                             </td>
                             <td><c:out value='${hcmObject.costCenter}'/></td>
-                            <td><c:out value='${hcmObject.orgUnitType}'/></td>
-                            <td><c:out value='${hcmObject.orgUnitAccAssignment}'/></td>
+                            <td><c:out value='${hcmObject.fmArea}'/></td>
+                            <td><c:out value='${hcmObject.creditControlArea}'/></td>
+                            <td><c:out value='${hcmObject.responsibleEmployee}'/></td>
+                            <td><c:out value='${hcmObject.creditLimit}'/></td>
                             <td><c:out value='${hcmObject.storageLocations}'/></td>
                             <td><c:out value='${hcmObject.purchasingOrg}'/></td>
                             <td><c:out value='${hcmObject.salesOffice}'/></td>
                             <td><c:out value='${hcmObject.companyCode}'/></td>
-                            <td><c:out value='${hcmObject.currency}'/></td>
                             <td><c:out value='${hcmObject.divisions}'/></td>
                             <td><c:out value='${hcmObject.salesOrg}'/></td>
+                            <td><c:out value='${hcmObject.plant}'/></td>
                             <td><c:out value='${hcmObject.responsibleEmp}'/></td>
                             <td><c:out value='${hcmObject.companyCodes}'/></td>
                             <td><c:out value='${hcmObject.coa}'/></td>

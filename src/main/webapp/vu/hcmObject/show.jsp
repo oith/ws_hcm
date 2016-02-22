@@ -407,48 +407,7 @@
                 </dd>
             </c:if>
             
-            <c:if test='${hcmObject.orgUnitAccAssignment!=null}'>
-                <dt><spring:message code='orgUnitAccAssignment' text='Org Unit Acc Assignment'/></dt>
-                <dd>
-            <c:if test='${hcmObject.orgUnitAccAssignment.controllingArea!=null}'>
-                <dt><spring:message code='controllingArea' text='Controlling Area'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.orgUnitAccAssignment.controllingArea}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.orgUnitAccAssignment.costCenter!=null}'>
-                <dt><spring:message code='costCenter' text='Cost Center'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.orgUnitAccAssignment.costCenter}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.orgUnitAccAssignment.businessArea!=null}'>
-                <dt><spring:message code='businessArea' text='Business Area'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.orgUnitAccAssignment.businessArea}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.orgUnitAccAssignment.companyCode!=null}'>
-                <dt><spring:message code='companyCode' text='Company Code'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.orgUnitAccAssignment.companyCode}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.orgUnitAccAssignment.personnelArea!=null}'>
-                <dt><spring:message code='personnelArea' text='Personnel Area'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.orgUnitAccAssignment.personnelArea}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.orgUnitAccAssignment.personnelSubarea!=null}'>
-                <dt><spring:message code='personnelSubarea' text='Personnel Subarea'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.orgUnitAccAssignment.personnelSubarea}'/>
-                </dd>
-            </c:if>
-
-                </dd>
-            </c:if>
+       
             
             <c:if test='${hcmObject.purchasingOrg!=null}'>
                 <dt><spring:message code='purchasingOrg' text='Purchasing Org'/></dt>
@@ -1119,48 +1078,8 @@
                     <c:out value='${hcmObject.coa.code}'/>
                 </dd>
             </c:if>
-            <c:if test='${hcmObject.coa.title!=null}'>
-                <dt><spring:message code='title' text='Title'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.coa.title}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.coa.accountNo!=null}'>
-                <dt><spring:message code='accountNo' text='Account No'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.coa.accountNo}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.coa.rootHead!=null}'>
-                <dt><spring:message code='rootHead' text='Root Head'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.coa.rootHead}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.coa.active!=null}'>
-                <dt><spring:message code='active' text='Active'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.coa.active}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.coa.slNo!=null}'>
-                <dt><spring:message code='slNo' text='Sl No'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.coa.slNo}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.coa.empRequired!=null}'>
-                <dt><spring:message code='empRequired' text='Emp Required'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.coa.empRequired}'/>
-                </dd>
-            </c:if>
-            <c:if test='${hcmObject.coa.description!=null}'>
-                <dt><spring:message code='description' text='Description'/></dt>
-                <dd>
-                    <c:out value='${hcmObject.coa.description}'/>
-                </dd>
-            </c:if>
+           
+
 
                 </dd>
             </c:if>

@@ -1,6 +1,10 @@
 package oith.ws.ctrl.core;
 
 import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.IStorageLocation;
+import oith.ws.dom.hcm.def.os.IDivision;
+import oith.ws.dom.hcm.def.os.ICompanyCode;
+
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
@@ -13,8 +17,6 @@ import java.util.Set;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
-import oith.ws.dom.hcm.def.os.ICompanyCode;
-import oith.ws.dom.hcm.def.os.IHcmObject;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.HcmObjectNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
@@ -51,16 +53,15 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
     @Autowired
     private oith.ws.service.HcmObjectService hcmObjectService;
 
-    //@Autowired
-    //private oith.ws.service.CompanyCodeService companyCodeService;
-    //@Autowired
-    //private oith.ws.service.CoaService coaService;
-    //@Autowired
-    //private oith.ws.service.FiscalYearVariantService fiscalYearVariantService;
     @Autowired
     private oith.ws.service.ProfileService profileService;
 
-    private void allComboSetup(ModelMap model, Locale locale) {
+    @Autowired
+    private oith.ws.service.CoaService coaService;
+
+    //@Autowired
+    //private oith.ws.service.FiscalYearVariantService fiscalYearVariantService;
+    private void allComboSetup(final ModelMap model, final Locale locale) {
         Client client = null;
         try {
             client = super.getLoggedClient();
@@ -123,7 +124,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
             return ADD_FORM_VIEW;
         }
 
-        IHcmObject currObjectLocal = hcmObjectService.create(currObject);
+        HcmObject currObjectLocal = hcmObjectService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -184,7 +185,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
         try {
             //hcmObject = hcmObjectService.update(currObject);
-            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,code,hcmObjectType,name,salesOffice,companyCode,currency,divisions,salesOrg,responsibleEmp,companyCodes,coa,fiscalYearVariant,controllingArea,profile,doj,isHeadOfPosition,costCenter,orgUnitType,orgUnitAccAssignment,storageLocations,purchasingOrg,nameSecondary,interval,description");
+            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,hcmObjectType,orgUnitType,adminUnitType,accountingUnitType,address,personnelArea,code,name,nameSecondary,interval,company,city,country,language,currency,profile,doj,isHeadOfPosition,costCenter,fmArea,creditControlArea,responsibleEmployee,creditLimit,storageLocations,purchasingOrg,salesOffice,companyCode,divisions,salesOrg,plant,responsibleEmp,companyCodes,coa,fiscalYearVariant,controllingArea,description");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -247,8 +248,8 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
         }
 
         try {
-            IHcmObject currObjectLocal = new HcmObject(client);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,hcmObjectType,name,salesOffice,companyCode,currency,divisions,salesOrg,responsibleEmp,companyCodes,coa,fiscalYearVariant,controllingArea,profile,doj,isHeadOfPosition,costCenter,orgUnitType,orgUnitAccAssignment,storageLocations,purchasingOrg,nameSecondary,interval,description");
+            HcmObject currObjectLocal = new HcmObject(client);
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,hcmObjectType,orgUnitType,adminUnitType,accountingUnitType,address,personnelArea,code,name,nameSecondary,interval,company,city,country,language,currency,profile,doj,isHeadOfPosition,costCenter,fmArea,creditControlArea,responsibleEmployee,creditLimit,storageLocations,purchasingOrg,salesOffice,companyCode,divisions,salesOrg,plant,responsibleEmp,companyCodes,coa,fiscalYearVariant,controllingArea,description");
             currObjectLocal = hcmObjectService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -357,11 +358,57 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
         return REDIRECT + "/" + LIST_VIEW;
     }
 
+    @RequestMapping(value = "/storageLocations/edit/{id}", method = RequestMethod.POST)
+
+    public String storageLocationsModal(
+            @PathVariable("id") String id,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid IStorageLocation currObject,
+            RedirectAttributes attributes) {
+
+        HcmObject objOrignal;
+        try {
+            objOrignal = hcmObjectService.findById(id);
+        } catch (HcmObjectNotFoundException ex) {
+            return NOT_FOUND;
+        }
+
+        try {
+            if (objOrignal.getStorageLocations() == null) {
+                objOrignal.setStorageLocations(new LinkedHashSet<IStorageLocation>());
+            }
+
+            if (currObject.getId() == null) {//new detail
+
+//                int mx = -1;
+//                for (IStorageLocation col : objOrignal.getStorageLocations()) {
+//                    mx = Math.max(col.getId(), mx);
+//                }
+                currObject.setId(ObjectId.get().toString());
+                objOrignal.getStorageLocations().add(currObject);
+
+            } else {//update
+
+                for (IStorageLocation col : objOrignal.getStorageLocations()) {
+                    if (col.getId().equals(currObject.getId())) {
+                        PropertyUtils.copyProperties(col, currObject);
+                        break;
+                    }
+                }
+            }
+
+            hcmObjectService.update(objOrignal);
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObject.getId());
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | HcmObjectNotFoundException e) {
+            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
+        }
+        return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + id;
+    }
+
     @RequestMapping(value = "/divisions/edit/{id}", method = RequestMethod.POST)
 
     public String divisionsModal(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid IDivision currObject,
             RedirectAttributes attributes) {
 
         HcmObject objOrignal;
@@ -373,13 +420,13 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
         try {
             if (objOrignal.getDivisions() == null) {
-                objOrignal.setDivisions(new LinkedHashSet<IHcmObject>());
+                objOrignal.setDivisions(new LinkedHashSet<IDivision>());
             }
 
             if (currObject.getId() == null) {//new detail
 
 //                int mx = -1;
-//                for (HcmObject col : objOrignal.getDivisions()) {
+//                for (IDivision col : objOrignal.getDivisions()) {
 //                    mx = Math.max(col.getId(), mx);
 //                }
                 currObject.setId(ObjectId.get().toString());
@@ -387,7 +434,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
             } else {//update
 
-                for (IHcmObject col : objOrignal.getDivisions()) {
+                for (IDivision col : objOrignal.getDivisions()) {
                     if (col.getId().equals(currObject.getId())) {
                         PropertyUtils.copyProperties(col, currObject);
                         break;
@@ -425,7 +472,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
             if (currObject.getId() == null) {//new detail
 
 //                int mx = -1;
-//                for (CompanyCode col : objOrignal.getCompanyCodes()) {
+//                for (ICompanyCode col : objOrignal.getCompanyCodes()) {
 //                    mx = Math.max(col.getId(), mx);
 //                }
                 currObject.setId(ObjectId.get().toString());
@@ -433,53 +480,7 @@ public class HcmObjectController extends oith.ws.ctrl.core._OithClientAuditContr
 
             } else {//update
 
-                for (IHcmObject col : objOrignal.getCompanyCodes()) {
-                    if (col.getId().equals(currObject.getId())) {
-                        PropertyUtils.copyProperties(col, currObject);
-                        break;
-                    }
-                }
-            }
-
-            hcmObjectService.update(objOrignal);
-            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObject.getId());
-        } catch (Exception e) {
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
-        }
-        return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + id;
-    }
-
-    @RequestMapping(value = "/storageLocations/edit/{id}", method = RequestMethod.POST)
-
-    public String storageLocationsModal(
-            @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
-            RedirectAttributes attributes) {
-
-        HcmObject objOrignal;
-        try {
-            objOrignal = hcmObjectService.findById(id);
-        } catch (HcmObjectNotFoundException ex) {
-            return NOT_FOUND;
-        }
-
-        try {
-            if (objOrignal.getStorageLocations() == null) {
-                objOrignal.setStorageLocations(new LinkedHashSet<IHcmObject>());
-            }
-
-            if (currObject.getId() == null) {//new detail
-
-//                int mx = -1;
-//                for (HcmObject col : objOrignal.getStorageLocations()) {
-//                    mx = Math.max(col.getId(), mx);
-//                }
-                currObject.setId(ObjectId.get().toString());
-                objOrignal.getStorageLocations().add(currObject);
-
-            } else {//update
-
-                for (IHcmObject col : objOrignal.getStorageLocations()) {
+                for (ICompanyCode col : objOrignal.getCompanyCodes()) {
                     if (col.getId().equals(currObject.getId())) {
                         PropertyUtils.copyProperties(col, currObject);
                         break;

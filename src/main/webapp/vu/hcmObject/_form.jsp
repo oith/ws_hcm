@@ -21,6 +21,54 @@
     
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
+            <form:label path='orgUnitType'><spring:message code='orgUnitType' text='Org Unit Type'/></form:label>
+            <form:select path='orgUnitType' class='form-control' name='orgUnitType' id='orgUnitType' >
+                <form:options items='${orgUnitTypes}' ></form:options>
+            </form:select>
+            <form:errors path='orgUnitType' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='adminUnitType'><spring:message code='adminUnitType' text='Admin Unit Type'/></form:label>
+            <form:select path='adminUnitType' class='form-control' name='adminUnitType' id='adminUnitType' >
+                <form:options items='${adminUnitTypes}' ></form:options>
+            </form:select>
+            <form:errors path='adminUnitType' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='accountingUnitType'><spring:message code='accountingUnitType' text='Accounting Unit Type'/></form:label>
+            <form:select path='accountingUnitType' class='form-control' name='accountingUnitType' id='accountingUnitType' >
+                <form:options items='${accountingUnitTypes}' ></form:options>
+            </form:select>
+            <form:errors path='accountingUnitType' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='address'><spring:message code='address' text='Address'/></form:label>
+            <!--{hcmObject.addresss}-->
+            <form:errors path='address' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='personnelArea'><spring:message code='personnelArea' text='Personnel Area'/></form:label>
+            <form:select path='personnelArea' class='form-control' name='personnelArea' id='personnelArea' >
+                <form:options items='${personnelAreas}' itemValue='id'></form:options>
+            </form:select>
+            <form:errors path='personnelArea' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
             <form:label path='code'><spring:message code='code' text='Code'/><span class='required-indicator needed'>*</span></form:label>
             <form:input path='code' class='form-control' type='text' required='true' maxlength='10'/>
             <form:errors path='code' cssClass='error' element='div'/>
@@ -46,8 +94,56 @@
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='interval'><spring:message code='interval' text='Interval'/></form:label>
-            ${hcmObject.intervals}
+            <!--{hcmObject.intervals}-->
             <form:errors path='interval' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='company'><spring:message code='company' text='Company'/></form:label>
+            <form:select path='company' class='form-control' name='company' id='company' >
+                <form:options items='${companys}' itemValue='id'></form:options>
+            </form:select>
+            <form:errors path='company' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='city'><spring:message code='city' text='City'/></form:label>
+            <form:input path='city' class='form-control' type='text' maxlength='100'/>
+            <form:errors path='city' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='country'><spring:message code='country' text='Country'/></form:label>
+            <form:select path='country' class='form-control' name='country' id='country' >
+                <form:options items='${countrys}' ></form:options>
+            </form:select>
+            <form:errors path='country' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='language'><spring:message code='language' text='Language'/></form:label>
+            <form:select path='language' class='form-control' name='language' id='language' >
+                <form:options items='${languages}' ></form:options>
+            </form:select>
+            <form:errors path='language' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='currency'><spring:message code='currency' text='Currency'/></form:label>
+            <form:select path='currency' class='form-control' name='currency' id='currency' >
+                <form:options items='${currencys}' ></form:options>
+            </form:select>
+            <form:errors path='currency' cssClass='error' element='div'/>
         </div>
     </div>
     
@@ -87,19 +183,39 @@
     
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
-            <form:label path='orgUnitType'><spring:message code='orgUnitType' text='Org Unit Type'/></form:label>
-            <form:select path='orgUnitType' class='form-control' name='orgUnitType' id='orgUnitType' >
-                <form:options items='${orgUnitTypes}' ></form:options>
+            <form:label path='fmArea'><spring:message code='fmArea' text='Fm Area'/></form:label>
+            <form:select path='fmArea.id' class='form-control' name='fmArea' id='fmArea' >
+                <form:options items='${fmAreas}' itemValue='id'></form:options>
             </form:select>
-            <form:errors path='orgUnitType' cssClass='error' element='div'/>
+            <form:errors path='fmArea' cssClass='error' element='div'/>
         </div>
     </div>
     
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
-            <form:label path='orgUnitAccAssignment'><spring:message code='orgUnitAccAssignment' text='Org Unit Acc Assignment'/></form:label>
-            ${hcmObject.orgUnitAccAssignments}
-            <form:errors path='orgUnitAccAssignment' cssClass='error' element='div'/>
+            <form:label path='creditControlArea'><spring:message code='creditControlArea' text='Credit Control Area'/></form:label>
+            <form:select path='creditControlArea.id' class='form-control' name='creditControlArea' id='creditControlArea' >
+                <form:options items='${creditControlAreas}' itemValue='id'></form:options>
+            </form:select>
+            <form:errors path='creditControlArea' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='responsibleEmployee'><spring:message code='responsibleEmployee' text='Responsible Employee'/></form:label>
+            <form:select path='responsibleEmployee.id' class='form-control' name='responsibleEmployee' id='responsibleEmployee' >
+                <form:options items='${responsibleEmployees}' itemValue='id'></form:options>
+            </form:select>
+            <form:errors path='responsibleEmployee' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='creditLimit'><spring:message code='creditLimit' text='Credit Limit'/></form:label>
+            <form:input path='creditLimit' class='form-control' type='number' min='0' max='10000000'/>
+            <form:errors path='creditLimit' cssClass='error' element='div'/>
         </div>
     </div>
     
@@ -135,21 +251,21 @@
     
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
-            <form:label path='currency'><spring:message code='currency' text='Currency'/></form:label>
-            <form:select path='currency' class='form-control' name='currency' id='currency' >
-                <form:options items='${currencys}' ></form:options>
-            </form:select>
-            <form:errors path='currency' cssClass='error' element='div'/>
-        </div>
-    </div>
-    
-    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-        <div class='form-group'>
             <form:label path='salesOrg'><spring:message code='salesOrg' text='Sales Org'/></form:label>
             <form:select path='salesOrg.id' class='form-control' name='salesOrg' id='salesOrg' >
                 <form:options items='${salesOrgs}' itemValue='id'></form:options>
             </form:select>
             <form:errors path='salesOrg' cssClass='error' element='div'/>
+        </div>
+    </div>
+    
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <form:label path='plant'><spring:message code='plant' text='Plant'/></form:label>
+            <form:select path='plant.id' class='form-control' name='plant' id='plant' >
+                <form:options items='${plants}' itemValue='id'></form:options>
+            </form:select>
+            <form:errors path='plant' cssClass='error' element='div'/>
         </div>
     </div>
     

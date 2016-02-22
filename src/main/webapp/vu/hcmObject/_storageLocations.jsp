@@ -20,34 +20,6 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th><spring:message code='hcmObjectType' text='Hcm Object Type'/></th>
-                    <th><spring:message code='code' text='Code'/></th>
-                    <th><spring:message code='name' text='Name'/></th>
-                    <th><spring:message code='nameSecondary' text='Name Secondary'/></th>
-                    <th><spring:message code='interval' text='Interval'/></th>
-                    <th><spring:message code='profile' text='Profile'/></th>
-                    <th><spring:message code='doj' text='Doj'/></th>
-                    <th><spring:message code='isHeadOfPosition' text='Is Head Of Position'/></th>
-                    <th><spring:message code='costCenter' text='Cost Center'/></th>
-                    <th><spring:message code='orgUnitType' text='Org Unit Type'/></th>
-                    <th><spring:message code='orgUnitAccAssignment' text='Org Unit Acc Assignment'/></th>
-                    <th><spring:message code='storageLocations' text='Storage Locations'/></th>
-                    <th><spring:message code='purchasingOrg' text='Purchasing Org'/></th>
-                    <th><spring:message code='salesOffice' text='Sales Office'/></th>
-                    <th><spring:message code='companyCode' text='Company Code'/></th>
-                    <th><spring:message code='currency' text='Currency'/></th>
-                    <th><spring:message code='divisions' text='Divisions'/></th>
-                    <th><spring:message code='salesOrg' text='Sales Org'/></th>
-                    <th><spring:message code='responsibleEmp' text='Responsible Emp'/></th>
-                    <th><spring:message code='companyCodes' text='Company Codes'/></th>
-                    <th><spring:message code='coa' text='Coa'/></th>
-                    <th><spring:message code='fiscalYearVariant' text='Fiscal Year Variant'/></th>
-                    <th><spring:message code='controllingArea' text='Controlling Area'/></th>
-                    <th><spring:message code='description' text='Description'/></th>
-                    <th><spring:message code='auditor' text='Auditor'/></th>
-                    <th><spring:message code='client' text='Client'/></th>
-                    <th><spring:message code='id' text='Id'/></th>
-                    <th><spring:message code='version' text='Version'/></th>
 
                     <th></th>
                 </tr>
@@ -57,34 +29,6 @@
                     <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
                         <td><c:out value='${loopStatus.index}'/></td>
                         <td><button id='${hcmObject.id}~${loopStatus.index}' type='button' class='btn btn-info' value='${hcmObject.id}~${loopStatus.index}' data-toggle='modal' data-target='#storageLocations_modal' class='btn btn-primary'><spring:message code='edit.link.label' text='Edit'/></button></td>
-                        <td><c:out value='${storageLocations.hcmObjectType}'/></td>
-                        <td><c:out value='${storageLocations.code}'/></td>
-                        <td><c:out value='${storageLocations.name}'/></td>
-                        <td><c:out value='${storageLocations.nameSecondary}'/></td>
-                        <td><c:out value='${storageLocations.interval}'/></td>
-                        <td><c:out value='${storageLocations.profile}'/></td>
-                        <td><fmt:formatDate value='${storageLocations.doj}' type='date' pattern='dd/MM/yyyy'/></td>
-                        <td><c:out value='${storageLocations.isHeadOfPosition}'/></td>
-                        <td><c:out value='${storageLocations.costCenter}'/></td>
-                        <td><c:out value='${storageLocations.orgUnitType}'/></td>
-                        <td><c:out value='${storageLocations.orgUnitAccAssignment}'/></td>
-                        <td><c:out value='${storageLocations.storageLocations}'/></td>
-                        <td><c:out value='${storageLocations.purchasingOrg}'/></td>
-                        <td><c:out value='${storageLocations.salesOffice}'/></td>
-                        <td><c:out value='${storageLocations.companyCode}'/></td>
-                        <td><c:out value='${storageLocations.currency}'/></td>
-                        <td><c:out value='${storageLocations.divisions}'/></td>
-                        <td><c:out value='${storageLocations.salesOrg}'/></td>
-                        <td><c:out value='${storageLocations.responsibleEmp}'/></td>
-                        <td><c:out value='${storageLocations.companyCodes}'/></td>
-                        <td><c:out value='${storageLocations.coa}'/></td>
-                        <td><c:out value='${storageLocations.fiscalYearVariant}'/></td>
-                        <td><c:out value='${storageLocations.controllingArea}'/></td>
-                        <td><c:out value='${storageLocations.description}'/></td>
-                        <td><c:out value='${storageLocations.auditor}'/></td>
-                        <td><c:out value='${storageLocations.client}'/></td>
-                        <td><c:out value='${storageLocations.id}'/></td>
-                        <td><c:out value='${storageLocations.version}'/></td>
 
                         <td><button type='button' class='storageLocations_del btn btn-warning' value='storageLocations~${hcmObject.id}~${loopStatus.index}'><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
@@ -117,118 +61,6 @@
 
                         <input type='hidden' name='hcmObjectId' id='hcmObjectId' value='${hcmObject.id}'>
                         <input type='hidden' name='embdId' id='storageLocations_id' value=''>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='hcmObjectType' text='Hcm Object Type'/>
-                                <input type='text' name='hcmObjectType' id='storageLocations_hcmObjectType' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='code' text='Code'/>
-                                <input type='text' name='code' id='storageLocations_code' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='name' text='Name'/>
-                                <input type='text' name='name' id='storageLocations_name' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='nameSecondary' text='Name Secondary'/>
-                                <input type='text' name='nameSecondary' id='storageLocations_nameSecondary' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='interval' text='Interval'/>
-                                <input type='text' name='interval' id='storageLocations_interval' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='profile' text='Profile'/>
-                                <input type='text' name='profile' id='storageLocations_profile' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='doj' text='Doj'/>
-                                <input type='date' name='doj' id='storageLocations_doj' class='form-control datepicker' value='' maxlength='10'>
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='isHeadOfPosition' text='Is Head Of Position'/>
-                                <input type='checkbox' name='isHeadOfPosition' id='storageLocations_isHeadOfPosition' class='checkbox' value=''>
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='costCenter' text='Cost Center'/>
-                                <input type='text' name='costCenter' id='storageLocations_costCenter' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='orgUnitType' text='Org Unit Type'/>
-                                <input type='text' name='orgUnitType' id='storageLocations_orgUnitType' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='orgUnitAccAssignment' text='Org Unit Acc Assignment'/>
-                                <input type='text' name='orgUnitAccAssignment' id='storageLocations_orgUnitAccAssignment' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='storageLocations' text='Storage Locations'/>
-                                <input type='text' name='storageLocations' id='storageLocations_storageLocations' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='purchasingOrg' text='Purchasing Org'/>
-                                <input type='text' name='purchasingOrg' id='storageLocations_purchasingOrg' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='salesOffice' text='Sales Office'/>
-                                <input type='text' name='salesOffice' id='storageLocations_salesOffice' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='companyCode' text='Company Code'/>
-                                <input type='text' name='companyCode' id='storageLocations_companyCode' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='currency' text='Currency'/>
-                                <input type='text' name='currency' id='storageLocations_currency' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='divisions' text='Divisions'/>
-                                <input type='text' name='divisions' id='storageLocations_divisions' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='salesOrg' text='Sales Org'/>
-                                <input type='text' name='salesOrg' id='storageLocations_salesOrg' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='responsibleEmp' text='Responsible Emp'/>
-                                <input type='text' name='responsibleEmp' id='storageLocations_responsibleEmp' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='companyCodes' text='Company Codes'/>
-                                <input type='text' name='companyCodes' id='storageLocations_companyCodes' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='coa' text='Coa'/>
-                                <input type='text' name='coa' id='storageLocations_coa' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='fiscalYearVariant' text='Fiscal Year Variant'/>
-                                <input type='text' name='fiscalYearVariant' id='storageLocations_fiscalYearVariant' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='controllingArea' text='Controlling Area'/>
-                                <input type='text' name='controllingArea' id='storageLocations_controllingArea' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='description' text='Description'/>
-                                <input type='text' name='description' id='storageLocations_description' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='auditor' text='Auditor'/>
-                                <input type='text' name='auditor' id='storageLocations_auditor' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='client' text='Client'/>
-                                <input type='text' name='client' id='storageLocations_client' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='id' text='Id'/>
-                                <input type='text' name='id' id='storageLocations_id' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                <spring:message code='version' text='Version'/>
-                                <input type='text' name='version' id='storageLocations_version' class='form-control' value='' >
-                        </div>
 
                         <div style='padding-left: 15px' class='form-group'></div>
                     </div>
@@ -263,67 +95,11 @@
 
     $(document).on('click', 'tr', function () {
         $('#storageLocations_id').val($('td:eq(0)', this).text());
-        $('#storageLocations_hcmObjectType').val($('td:eq(2)', this).text());
-        $('#storageLocations_code').val($('td:eq(3)', this).text());
-        $('#storageLocations_name').val($('td:eq(4)', this).text());
-        $('#storageLocations_nameSecondary').val($('td:eq(5)', this).text());
-        $('#storageLocations_interval').val($('td:eq(6)', this).text());
-        $('#storageLocations_profile').val($('td:eq(7)', this).text());
-        $('#storageLocations_doj').val($('td:eq(8)', this).text());
-        $('#storageLocations_isHeadOfPosition').prop('checked', $('td:eq(9)', this).text());
-        $('#storageLocations_costCenter').val($('td:eq(10)', this).text());
-        $('#storageLocations_orgUnitType').val($('td:eq(11)', this).text());
-        $('#storageLocations_orgUnitAccAssignment').val($('td:eq(12)', this).text());
-        $('#storageLocations_storageLocations').val($('td:eq(13)', this).text());
-        $('#storageLocations_purchasingOrg').val($('td:eq(14)', this).text());
-        $('#storageLocations_salesOffice').val($('td:eq(15)', this).text());
-        $('#storageLocations_companyCode').val($('td:eq(16)', this).text());
-        $('#storageLocations_currency').val($('td:eq(17)', this).text());
-        $('#storageLocations_divisions').val($('td:eq(18)', this).text());
-        $('#storageLocations_salesOrg').val($('td:eq(19)', this).text());
-        $('#storageLocations_responsibleEmp').val($('td:eq(20)', this).text());
-        $('#storageLocations_companyCodes').val($('td:eq(21)', this).text());
-        $('#storageLocations_coa').val($('td:eq(22)', this).text());
-        $('#storageLocations_fiscalYearVariant').val($('td:eq(23)', this).text());
-        $('#storageLocations_controllingArea').val($('td:eq(24)', this).text());
-        $('#storageLocations_description').val($('td:eq(25)', this).text());
-        $('#storageLocations_auditor').val($('td:eq(26)', this).text());
-        $('#storageLocations_client').val($('td:eq(27)', this).text());
-        $('#storageLocations_id').val($('td:eq(28)', this).text());
-        $('#storageLocations_version').val($('td:eq(29)', this).text());
 
     });
 
     $(document).on('click', '#storageLocations_create', function () {
         $('#storageLocations_id').val('');
-        $('#storageLocations_hcmObjectType').val('');
-        $('#storageLocations_code').val('');
-        $('#storageLocations_name').val('');
-        $('#storageLocations_nameSecondary').val('');
-        $('#storageLocations_interval').val('');
-        $('#storageLocations_profile').val('');
-        $('#storageLocations_doj').val('');
-        $('#storageLocations_isHeadOfPosition').prop('checked', false);
-        $('#storageLocations_costCenter').val('');
-        $('#storageLocations_orgUnitType').val('');
-        $('#storageLocations_orgUnitAccAssignment').val('');
-        $('#storageLocations_storageLocations').val('');
-        $('#storageLocations_purchasingOrg').val('');
-        $('#storageLocations_salesOffice').val('');
-        $('#storageLocations_companyCode').val('');
-        $('#storageLocations_currency').val('');
-        $('#storageLocations_divisions').val('');
-        $('#storageLocations_salesOrg').val('');
-        $('#storageLocations_responsibleEmp').val('');
-        $('#storageLocations_companyCodes').val('');
-        $('#storageLocations_coa').val('');
-        $('#storageLocations_fiscalYearVariant').val('');
-        $('#storageLocations_controllingArea').val('');
-        $('#storageLocations_description').val('');
-        $('#storageLocations_auditor').val('');
-        $('#storageLocations_client').val('');
-        $('#storageLocations_id').val('');
-        $('#storageLocations_version').val('');
 
     });
 

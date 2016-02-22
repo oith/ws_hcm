@@ -75,7 +75,7 @@ public class VoucherController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
         Voucher obj = new Voucher();
-        obj.setCompanyCode(new HcmObject(client, HcmObjectType.OU));
+        obj.setCompanyCode(new HcmObject(client, HcmObjectType.ACC_UNIT));
         Set<VoucherDtl> jjj = new LinkedHashSet();
         jjj.add(new VoucherDtl());
         jjj.add(new VoucherDtl());

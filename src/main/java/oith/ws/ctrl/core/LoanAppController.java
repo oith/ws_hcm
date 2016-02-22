@@ -67,7 +67,7 @@ public class LoanAppController extends _OithClientAuditController {
 
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         List emps = new LinkedList();
-        for (HcmObject col : hcmObjectService.findAllByClient(client,HcmObjectType.EMP)) {
+        for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.HR_OBJ, HcmObject.HrObjType.EMP)) {
             emps.add(col);
         }
         model.addAttribute("emps", emps);
