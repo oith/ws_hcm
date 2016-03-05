@@ -11,9 +11,6 @@ The project is a Maven archetype for Spring MVC 4 web application.
 Quickstart
 ----------
 * Install MongoDB (http://www.mongodb.org/downloads, unzip, run mkdir data, run bin/mongod --dbpath=data)
-* For windows make dir 'C:\data\db' 
-* on cmd "C:\Program Files\MongoDB\Server\3.0\bin\mongod.exe" --dbpath=C:\data\db
-* make shortcut on desktop of mongod
 * Run batch file
 
 Test on the browser

@@ -385,9 +385,8 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.2.1</version>
+            <version>3.2.2</version>
         </dependency>
-       
         <dependency>
             <!--mvn install:install-file -Dfile=jcalendar-1.4.jar -DgroupId=jcalendar-1.4 -DartifactId=jcalendar-1.4 -Dversion=1.4 -Dpackaging=jar-->
             <artifactId>oith_ws_core-1.0.0</artifactId>
@@ -451,6 +450,36 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${org.springframework.security.version}</version>
         </dependency>
+        <!-- Json dependency -->
+        <!--        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.7.2</version>
+        </dependency>-->
+        <!-- Json dependency 
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+            <type>jar</type>
+        </dependency>-->
+        <!-- Jackson JSON Mapper -->  
+        <dependency>  
+            <groupId>org.codehaus.jackson</groupId>  
+            <artifactId>jackson-mapper-asl</artifactId>  
+            <version>1.9.13</version>  
+        </dependency>  
+
     </dependencies>
 
     <build>
@@ -460,7 +489,6 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    
                     <!--<mainClass>${start-class}</mainClass>-->
                 </configuration>
             </plugin>
