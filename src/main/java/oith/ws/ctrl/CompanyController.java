@@ -98,7 +98,7 @@ public class CompanyController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObjectType.ACC_UNIT));
+        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObject.AccountingUnitType.COMPANY));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
@@ -186,7 +186,7 @@ public class CompanyController extends _OithClientAuditController {
         try {
             //company = companyService.update(currObject);
             //street,poBox,poCode
-            HcmObject currObjectLocal = companyService.update(currObject, "auditor,code,name,nameSecondary,city,country,language,currency");
+            HcmObject currObjectLocal = companyService.update(currObject, "auditor,code,name,accountingUnitType,nameSecondary,city,country,language,currency");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -250,7 +250,7 @@ public class CompanyController extends _OithClientAuditController {
 
         try {
             HcmObject currObjectLocal = new HcmObject(client, HcmObjectType.ACC_UNIT);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,nameSecondary,street,poBox,poCode,city,country,language,currency");
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,accountingUnitType,nameSecondary,street,poBox,poCode,city,country,language,currency");
             currObjectLocal = companyService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();

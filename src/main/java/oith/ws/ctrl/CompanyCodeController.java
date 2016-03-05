@@ -103,7 +103,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObjectType.ACC_UNIT));
+        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObject.AccountingUnitType.COMPANY_CODE));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
@@ -115,6 +115,8 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             ModelMap model,
             RedirectAttributes attributes,
             Locale locale) {
+
+        //currObject.setAccountingUnitType(HcmObject.AccountingUnitType.COMPANY_CODE);
 
         try {
             super.save(currObject, attributes);
@@ -190,7 +192,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
 
         try {
             //companyCode = companyCodeService.update(currObject);
-            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,code,name,company,city,country,language,currency");
+            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,code,name,accountingUnitType,company,city,country,language,currency");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -254,7 +256,7 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
 
         try {
             HcmObject currObjectLocal = new HcmObject(client, HcmObjectType.ACC_UNIT);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,company,businessArea,city,country,language,currency");
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,accountingUnitType,company,businessArea,city,country,language,currency");
             currObjectLocal = hcmObjectService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();

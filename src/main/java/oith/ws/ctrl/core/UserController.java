@@ -40,7 +40,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import oith.ws.service.ClientService;
 import oith.ws.service.RoleService;
 import oith.ws.service.MacUserDetail;
-import oith.ws.util.StringToRoleConverter;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -62,7 +61,7 @@ public class UserController extends _OithClientAuditController {
 
     @Autowired
     private org.springframework.context.MessageSource messageSource;
-    
+
     @Autowired
     private UserService userService;
 
@@ -71,14 +70,6 @@ public class UserController extends _OithClientAuditController {
 
     @Autowired
     private ClientService clientService;
-
-    @InitBinder
-    void registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(new StringToRoleConverter(roleService));
-        }
-    }
 
     private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;

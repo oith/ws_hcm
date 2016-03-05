@@ -16,7 +16,6 @@ import oith.ws.dto._SearchDTO;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.AccountHeadFmService;
 import oith.ws.service.HcmObjectService;
-import oith.ws.util.StringToHcmObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Controller;
@@ -49,15 +48,7 @@ public class TrnscFmController extends _OithClientAuditController {
     @Autowired
     private HcmObjectService hcmObjectService;
 
-    @InitBinder
-    void registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-
-            //conversionService.addConverter(new StringToAccountHeadFmConverter(accountHeadFmService));
-            conversionService.addConverter(new StringToHcmObjectConverter(hcmObjectService));
-        }
-    }
+ 
 
 //http://www.hotstar.com/tv/comedy-classes/1652/parde-ke-peeche/1000078428
     private void allComboSetup(ModelMap model) {

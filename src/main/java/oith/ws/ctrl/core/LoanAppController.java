@@ -16,7 +16,6 @@ import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import oith.ws.util.StringToHcmObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Controller;
@@ -47,16 +46,6 @@ public class LoanAppController extends _OithClientAuditController {
 
     @Autowired
     private oith.ws.service.HcmObjectService hcmObjectService;
-
-    @InitBinder
-    void registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-
-            //conversionService.addConverter(new StringToAccountHeadFmConverter(accountHeadFmService));
-            conversionService.addConverter(new StringToHcmObjectConverter(hcmObjectService));
-        }
-    }
 
     private void allComboSetup(ModelMap model) {
         Client client = null;

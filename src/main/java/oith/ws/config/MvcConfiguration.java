@@ -27,7 +27,7 @@ import org.springframework.web.servlet.view.JstlView;
 @PropertySource(value = {"classpath:application.properties"})
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
-    private static final String VIEW_RESOLVER_PREFIX = "/vu/";
+    private static final String VIEW_RESOLVER_PREFIX = "/views/";
     private static final String VIEW_RESOLVER_SUFFIX = ".jsp";
     @Autowired
     private Environment environment;
