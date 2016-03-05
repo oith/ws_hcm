@@ -1,105 +1,184 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="testoith" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bd52906-bd89-4cd2-b3de-6b89f729413e">
-    <property name="ireport.zoom" value="1.0"/>
-    <property name="ireport.x" value="0"/>
-    <property name="ireport.y" value="0"/>
-    <field name="id" class="java.lang.Integer"/>
-    <field name="code" class="java.lang.String"/>
-    <field name="title" class="java.lang.String"/>
-    <field name="email" class="java.lang.String"/>
-    <background>
-        <band splitType="Stretch"/>
-    </background>
-    <title>
-        <band height="107" splitType="Stretch">
-            <image>
-                <reportElement uuid="972e8768-44c8-4fc0-9427-3824185dbda8" x="0" y="0" width="205" height="83"/>
-                <imageExpression><![CDATA["D:\\_OITH_PROJECT_NAME\\src\\main\\webapp\\repositories\\reports\\oith_logo.png"]]></imageExpression>
-            </image>
-            <staticText>
-                <reportElement uuid="98e37145-6d17-4b72-80aa-8bb853952838" x="333" y="45" width="100" height="26" forecolor="#3333FF"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Arial Narrow" size="18" isBold="true"/>
-                </textElement>
-                <text><![CDATA[Report Title]]></text>
-            </staticText>
-        </band>
-    </title>
-    <columnHeader>
-        <band height="20" splitType="Stretch">
-            <staticText>
-                <reportElement uuid="82857d5f-af89-4f53-8514-2185f22ce27f" x="0" y="0" width="100" height="20"/>
-                <box>
-                    <pen lineWidth="0.25"/>
-                    <topPen lineWidth="0.25"/>
-                    <leftPen lineWidth="0.25"/>
-                    <bottomPen lineWidth="0.25"/>
-                    <rightPen lineWidth="0.25"/>
-                </box>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Arial Narrow" size="14"/>
-                </textElement>
-                <text><![CDATA[Code
-                ]]></text>
-            </staticText>
-            <staticText>
-                <reportElement uuid="403f8797-333d-42db-ad61-4af122cdb870" x="100" y="0" width="158" height="20"/>
-                <box>
-                    <pen lineWidth="0.25"/>
-                    <topPen lineWidth="0.25"/>
-                    <leftPen lineWidth="0.25"/>
-                    <bottomPen lineWidth="0.25"/>
-                    <rightPen lineWidth="0.25"/>
-                </box>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Arial Narrow" size="14"/>
-                </textElement>
-                <text><![CDATA[Title
-                ]]></text>
-            </staticText>
-        </band>
-    </columnHeader>
-    <detail>
-        <band height="20" splitType="Stretch">
-            <textField>
-                <reportElement uuid="f6a5b0c3-1917-416d-94ec-4d3dc19c387e" x="0" y="0" width="100" height="20"/>
-                <box>
-                    <pen lineWidth="0.25"/>
-                    <topPen lineWidth="0.25"/>
-                    <leftPen lineWidth="0.25"/>
-                    <bottomPen lineWidth="0.25"/>
-                    <rightPen lineWidth="0.25"/>
-                </box>
-                <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font fontName="Arial Narrow" size="14"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement uuid="257fed7d-26c2-4ad6-a4e3-30be6bf13814" x="100" y="0" width="158" height="20"/>
-                <box leftPadding="3">
-                    <pen lineWidth="0.25"/>
-                    <topPen lineWidth="0.25"/>
-                    <leftPen lineWidth="0.25"/>
-                    <bottomPen lineWidth="0.25"/>
-                    <rightPen lineWidth="0.25"/>
-                </box>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="Arial Narrow" size="14"/>
-                </textElement>
-                <textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
-            </textField>
-        </band>
-    </detail>
-    <pageFooter>
-        <band height="20" splitType="Stretch">
-            <staticText>
-                <reportElement uuid="625941f3-e798-4a22-ae41-0622981a87f9" x="0" y="0" width="555" height="20"/>
-                <textElement verticalAlignment="Middle">
-                    <font fontName="Arial Narrow" size="14"/>
-                </textElement>
-                <text><![CDATA[This is simple demo report, man !!!]]></text>
-            </staticText>
-        </band>
-    </pageFooter>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="MongoDbQuery">
+		<![CDATA[{"collectionName":"Menu"}]]>
+	</queryString>
+	<field name="_class" class="java.lang.String"/>
+	<field name="_id" class="org.bson.types.ObjectId"/>
+	<field name="accessPath" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="menuType" class="java.lang.String"/>
+	<field name="text" class="java.lang.String"/>
+	<field name="version" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="107" splitType="Stretch">
+			<image>
+				<reportElement uuid="972e8768-44c8-4fc0-9427-3824185dbda8" x="0" y="0" width="205" height="83"/>
+				<imageExpression><![CDATA["D:\\_OITH_PROJECT_NAME\\src\\main\\webapp\\repositories\\reports\\oith_logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="98e37145-6d17-4b72-80aa-8bb853952838" x="333" y="45" width="100" height="26" forecolor="#3333FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Report Title]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b27f76f5-1784-4536-a0f4-8e87fda7ed03" mode="Opaque" x="0" y="0" width="111" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[accessPath]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="01147733-bce3-48e5-9b91-437559ae0384" mode="Opaque" x="111" y="0" width="111" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79d4a04e-29f8-4bd8-8746-3667b5662cd9" mode="Opaque" x="222" y="0" width="111" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9e664d81-0d39-41e8-a138-bdeedaf8721f" mode="Opaque" x="333" y="0" width="111" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[menuType]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5269dde2-2924-425c-852b-9b9a915504b1" mode="Opaque" x="444" y="0" width="111" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[text]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="4520757c-7442-4ac0-95aa-52477b509af2" x="0" y="0" width="111" height="20"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{accessPath}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0f183ae3-8076-4524-b40b-bac2a03b8ed9" x="111" y="0" width="111" height="20"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4ee270e7-149a-43be-a57a-7f4c7ada6462" x="222" y="0" width="111" height="20"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1cc9f0fa-0a9f-4b58-a3aa-5f5c70146070" x="333" y="0" width="111" height="20"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{menuType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="92684a73-5db7-48d8-b78a-1513e2df534f" x="444" y="0" width="111" height="20"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{text}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="625941f3-e798-4a22-ae41-0622981a87f9" x="0" y="0" width="555" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Narrow" size="14"/>
+				</textElement>
+				<text><![CDATA[This is simple demo report, man !!!]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
 </jasperReport>
