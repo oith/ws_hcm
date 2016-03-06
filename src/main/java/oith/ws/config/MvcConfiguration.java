@@ -88,11 +88,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
-//        registry.addResourceHandler("/css/**").addResourceLocations("/assets/css/*");
-//        registry.addResourceHandler("/js/**").addResourceLocations("/assets/js/*");
-//        registry.addResourceHandler("/images/**").addResourceLocations("/assets/images/*");
-        //    <!--macs non static path-->
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("/reports/**").addResourceLocations("/reports/*");
     }
 

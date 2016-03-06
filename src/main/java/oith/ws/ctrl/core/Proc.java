@@ -167,7 +167,7 @@ public class Proc {
                     } else {
                         strdef = defaultValue;
                     }
-                } 
+                }
 
                 String disable = "";
 
@@ -331,9 +331,9 @@ public class Proc {
                             }
 
                             if (zoneType.equals(ZoneType.SEARCH)) {
-                                searcher += "<Select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "'>" + optSb + "</select>";
+                                searcher += "<select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "'>" + optSb + "</select>";
                             } else if (zoneType.equals(ZoneType.PARAM_FIXED) || zoneType.equals(ZoneType.PARAM_QU)) {
-                                paramer += "<Select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "'>" + optSb + "</select>";
+                                paramer += "<select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "'>" + optSb + "</select>";
                             }
                         }
                     }
@@ -353,7 +353,8 @@ public class Proc {
         String searcher_btner = "";
 
         if (!searcher.isEmpty()) {
-            searcher_btner = "<div class='right'><button onclick='getDynamicTable()' class='btn btn-primary' title= '" + "Press to Search" + "' type='button' name='search' id='search' >" + "Search" + "</button></div>";
+            searcher_btner = "<div class='right'><button onclick='getDynamicTable()' class='btn btn-primary' title='Press to Search' type='button' name='search' id='search' ><i class='glyphicon glyphicon-search'></i><spring:message code='search.form.submit.label' text='Search'/></button></div>";
+
             searcher = "<fieldset class='fsStyle'>"
                     + "<legend class='legendStyle'><h4>Search Parameter</h4></legend>"
                     + searcher

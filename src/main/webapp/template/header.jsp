@@ -1,23 +1,45 @@
-<%@ page contentType='text/html; charset=UTF-8' language='java'%>
+<%@ page language='java' contentType='text/html; charset=UTF-8' pageEncoding='UTF-8'%>
 
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <%@ taglib prefix='form' uri='http://www.springframework.org/tags/form'%>
 <%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags'%>
 <%@ taglib prefix='spring' uri='http://www.springframework.org/tags'%>
 
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='initial-scale=1, maximum-scale=1'>
+    <!--<meta name='viewport' content='width=device-width, initial-scale=1'>-->    
+
+    <link rel='shortcut icon' type='image/x-icon' href='<%=request.getContextPath()%>/resources/images/favicon.ico'/>
+
+    <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
+
+<!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.6/bootstrap-datetimepicker.min.css'/> -->
+<!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/css/bootstrap.min.css'/>-->
+
+    <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/css/bootstrap.min.css'>
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.min.css'/> 
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/jquery.dataTables.min.css'/> 
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/oith/oith-1.0.0.css'/> 
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/oith/oith-styles-1.0.0.css'/> 
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/utility/animate-3.5.0.css'/> 
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/font-awesome-4.5.0/css/font-awesome.min.css'/>
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.css'/> 
+
+</head>
+
 <body>   
+    <div class=''>
 
-    <div class="">
-
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>                        
+        <nav class='navbar navbar-inverse'>
+            <div class='container-fluid'>
+                <div class='navbar-header'>
+                    <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#myNavbar'>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>                        
                     </button>
-                    <!--<a class="navbar-brand" href="<%=request.getContextPath()%>">OITH</a>-->
+                    <!--<a class='navbar-brand' href='<%=request.getContextPath()%>'>OITH</a>-->
 
                     <sec:authorize access='isAuthenticated()'>
                         <sec:authentication var='logoPicFile' property='principal.logoPicFile'/>
@@ -29,7 +51,7 @@
                         <img id='imagePreview' align='left' height='60px' width='150px' src='<%=request.getContextPath()%>/resources/images/oith_logo.png' alt='oith_logo'/>
                     </sec:authorize>
                 </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
+                <div class='collapse navbar-collapse' id='myNavbar'>
 
                     <sec:authorize access='isAuthenticated()'>
                         <sec:authentication var='menus' property='principal.menus'/>
@@ -37,18 +59,18 @@
                     </sec:authorize>
 
                     <sec:authorize access='isAnonymous()'>
-                        <ul class="nav navbar-nav navbar-right">
+                        <ul class='nav navbar-nav navbar-right'>
                             <li>
-                                <a href='${pageContext.request.contextPath}/user/create'><span class="glyphicon glyphicon-user"></span>&nbsp;<spring:message code='make.new.user' text='Make new user'/></a>
+                                <a href='${pageContext.request.contextPath}/user/create'><span class='glyphicon glyphicon-user'></span>&nbsp;<spring:message code='make.new.user' text='Make new user'/></a>
                             </li>
                             <li>
-                                <a href='${pageContext.request.contextPath}/login'><span class="glyphicon glyphicon-log-in"></span>&nbsp;<spring:message code='login' text='Login'/></a>
+                                <a href='${pageContext.request.contextPath}/login'><span class='glyphicon glyphicon-log-in'></span>&nbsp;<spring:message code='login' text='Login'/></a>
                             </li>
                         </ul>
                     </sec:authorize>
 
                     <sec:authorize access='isAuthenticated()'>
-                        <ul class="nav navbar-nav navbar-right">
+                        <ul class='nav navbar-nav navbar-right'>
                             <li> 
                                 <a href='${pageContext.request.contextPath}/user/show'><sec:authentication property='principal.fullName'/></a>
                             </li>
@@ -70,14 +92,14 @@
                                 <c:set var='OPEN_IN_NEW_PAGE' value='<%=oith.ws.dom.core.EnvField.OPEN_IN_NEW_PAGE%>'/>
                                 <sec:authentication var='envs' property='principal.envs'/>
                                 <c:set var='openInNewPageLoc' value='${envs.get(OPEN_IN_NEW_PAGE)}'/>
-                                <div class="checkbox">
+                                <div class='checkbox'>
                                     <label>
                                         <input id='openInNewPage' name='openInNewPage' type='checkbox'  value=''><spring:message code='default.open.in.new.page' text='Open in New Page'/>
                                     </label>
                                 </div>
                             </li>
                             <li>
-                                <a href='${pageContext.request.contextPath}/logout' onclick='return confirm('Are you sure to logout?');' ><span class="glyphicon glyphicon-log-out"></span>&nbsp;<spring:message code='logout' text='Logout'/></a>
+                                <a href='${pageContext.request.contextPath}/logout' onclick='return confirm('Are you sure to logout?');' ><span class='glyphicon glyphicon-log-out'></span>&nbsp;<spring:message code='logout' text='Logout'/></a>
                             </li>
                         </ul>
                     </sec:authorize>
@@ -108,30 +130,21 @@
                 </div>
             </div>
 
-            <meta charset='utf-8'>
-            <meta name='viewport' content='width=device-width, initial-scale=1'>
 
             <script>var contextPath = '<%=request.getContextPath()%>'</script>
-            <link rel='shortcut icon' type='image/x-icon' href='<%=request.getContextPath()%>/resources/images/favicon.ico'/>
 
-            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/css/bootstrap.min.css'/>
-<!--            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.6/bootstrap-datetimepicker.min.css'/> -->
-            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/font-awesome-4.5.0/css/font-awesome.min.css'/>
-            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.min.css'/> 
-            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/jquery.dataTables.min.css'/> 
-            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/oith/oith-1.0.0.css'/> 
-            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/oith/oith-styles-1.0.0.css'/> 
-            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/utility/animate-3.5.0.css'/> 
-            <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.css'/> 
+<!--<script src='<%=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/js/bootstrap.js'></script>-->
+<!--<script src='<%=request.getContextPath()%>/resources/js/bootstrap/bootstrap-datepicker.js'></script>-->
+<!--<script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js'></script>-->
 
-            <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js'></script>
-            <script src='<%=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/js/bootstrap.js'></script>
             <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.js'></script>
             <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.jqueryui.js'></script>
             <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/jquery.dataTables.js'></script>
-            <!--<script src='<%=request.getContextPath()%>/resources/js/bootstrap/bootstrap-datepicker.js'></script>-->
             <script src='<%=request.getContextPath()%>/resources/js/oith/oith-1.0.0.js'></script> 
             <script src='<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.js'></script>
+
+            <script src='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+            <script src='<%=request.getContextPath()%>/webjars/jquery/2.2.1/jquery.min.js'></script>
 
             <script type='text/javascript'>
 
