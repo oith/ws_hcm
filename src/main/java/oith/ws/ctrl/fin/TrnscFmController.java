@@ -1,4 +1,4 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.fin;
 
 import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.exception.TrnscFmNotFoundException;

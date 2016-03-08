@@ -1,26 +1,19 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.fin;
 
-import oith.ws.dom.hcm.ir.JoinApp;
-
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import oith.ws.dom.fin.entry.AccountGroup;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.validation.Valid;
+import oith.ws.dom.core.AbstDocClientAudit;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.JoinAppNotFoundException;
+import oith.ws.exception.AccountGroupNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/joinApp")
-public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditController {
+@RequestMapping(value = "/accountGroup")
+public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "joinApp";
+    protected static final String MODEL_ATTIRUTE = "accountGroup";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
@@ -47,13 +40,12 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
     private org.springframework.context.MessageSource messageSource;
 
     @Autowired
-    private oith.ws.service.JoinAppService joinAppService;
+    private oith.ws.service.AccountGroupService accountGroupService;
 
     @Autowired
-    private oith.ws.service.ProfileService profileService;
+    private oith.ws.service.CoaService coaService;
 
-
-    private void allComboSetup(ModelMap model, Locale locale) {
+    private void allComboSetup(final ModelMap model, final Locale locale) {
         Client client = null;
         try {
             client = super.getLoggedClient();
@@ -72,11 +64,11 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
         //    emps.add(col);
         //}
         //model.addAttribute("emps", emps);
-        //List accountHeadFms = new LinkedList();
-        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
-        //    accountHeadFms.add(col);
-        //}
-        //model.addAttribute("accountHeadFms", accountHeadFms);
+        List coas = new LinkedList();
+        for (AbstDocClientAudit col : coaService.findAllByClient(client)) {
+            coas.add(col);
+        }
+        model.addAttribute("coas", coas);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
 
@@ -90,14 +82,14 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new JoinApp(client));
+        model.addAttribute(MODEL_ATTIRUTE, new AccountGroup(client));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid JoinApp currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AccountGroup currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -116,7 +108,7 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
             return ADD_FORM_VIEW;
         }
 
-        JoinApp currObjectLocal = joinAppService.create(currObject);
+        AccountGroup currObjectLocal = accountGroupService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -133,11 +125,11 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
         }
 
         try {
-            JoinApp currObjectLocal = joinAppService.findById(id, client);
+            AccountGroup currObjectLocal = accountGroupService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
-        } catch (JoinAppNotFoundException ex) {
+        } catch (AccountGroupNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -147,7 +139,7 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid JoinApp currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AccountGroup currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -166,18 +158,18 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
         }
 
         try {
-            JoinApp currObjectLocal = joinAppService.findById(id, client);
+            AccountGroup currObjectLocal = accountGroupService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (JoinAppNotFoundException | UserNotFoundException ex) {
+        } catch (AccountGroupNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            //joinApp = joinAppService.update(currObject);
-            JoinApp currObjectLocal = joinAppService.update(currObject, "auditor,profile,code,appDate,remarks,interval,position,approval");
+            //accountGroup = accountGroupService.update(currObject);
+            AccountGroup currObjectLocal = accountGroupService.update(currObject, "auditor,coa,accountGroup,title,fromAccount,toAccount,active,slNo,description");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -198,11 +190,11 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
         }
 
         try {
-            JoinApp currObjectLocal = joinAppService.findById(id, client);
+            AccountGroup currObjectLocal = accountGroupService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
-        } catch (JoinAppNotFoundException ex) {
+        } catch (AccountGroupNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -212,7 +204,7 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid JoinApp currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AccountGroup currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -230,19 +222,19 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
             return COPY_FORM_VIEW;
         }
 
-        JoinApp currObjectReal;
+        AccountGroup currObjectReal;
         try {
-            currObjectReal = joinAppService.findById(id, client);
+            currObjectReal = accountGroupService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (JoinAppNotFoundException ex) {
+        } catch (AccountGroupNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            JoinApp currObjectLocal = new JoinApp(client);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,profile,code,appDate,remarks,interval,position,approval");
-            currObjectLocal = joinAppService.create(currObjectLocal);
+            AccountGroup currObjectLocal = new AccountGroup(client);
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,coa,accountGroup,title,fromAccount,toAccount,active,slNo,description");
+            currObjectLocal = accountGroupService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -263,14 +255,14 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<JoinApp> joinApps;
+        List<AccountGroup> accountGroups;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            joinApps = joinAppService.search(searchCriteria, client);
+            accountGroups = accountGroupService.search(searchCriteria, client);
         } else {
-            joinApps = joinAppService.findAllByClient(searchCriteria, client);
+            accountGroups = accountGroupService.findAllByClient(searchCriteria, client);
         }
-        model.addAttribute(MODEL_ATTRIBUTES, joinApps);
+        model.addAttribute(MODEL_ATTRIBUTES, accountGroups);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -295,9 +287,9 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<JoinApp> joinApps = joinAppService.findAllByClient(searchCriteria, client);
+        List<AccountGroup> accountGroups = accountGroupService.findAllByClient(searchCriteria, client);
 
-        model.addAttribute(MODEL_ATTRIBUTES, joinApps);
+        model.addAttribute(MODEL_ATTRIBUTES, accountGroups);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -319,10 +311,10 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
         }
 
         try {
-            JoinApp currObjectLocal = joinAppService.findById(id, client);
+            AccountGroup currObjectLocal = accountGroupService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (JoinAppNotFoundException ex) {
+        } catch (AccountGroupNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -340,14 +332,14 @@ public class JoinAppController extends oith.ws.ctrl.core._OithClientAuditControl
         }
 
         try {
-            JoinApp deleted = joinAppService.delete(id, client);
+            AccountGroup deleted = accountGroupService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (JoinAppNotFoundException e) {
+        } catch (AccountGroupNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-     
+
 }

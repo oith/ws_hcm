@@ -1,4 +1,4 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.hcm;
 
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/personnelArea")
-public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditController {
+@RequestMapping(value = "/personnelSubarea")
+public class PersonnelSubareaController extends oith.ws.ctrl.core._OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "personnelArea";
+    protected static final String MODEL_ATTIRUTE = "personnelSubarea";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
@@ -45,37 +45,18 @@ public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditC
     @Autowired
     private oith.ws.service.HcmObjectService hcmObjectService;
 
-    private void allComboSetup(final ModelMap model, final Locale locale) {
+    private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
         try {
             client = super.getLoggedClient();
         } catch (NotLoggedInException e) {
         }
 
-        List companyCodes = new LinkedList();
+        List personnelAreas = new LinkedList();
         for (HcmObject col : hcmObjectService.findAllByClient(client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_AREA)) {
-            companyCodes.add(col);
+            personnelAreas.add(col);
         }
-        model.addAttribute("companyCodes", companyCodes);
-
-        //Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
-        //for (AllEnum.Gender col : AllEnum.Gender.values()) {
-        //    genders.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
-        //}
-        //model.addAttribute("genders", genders);
-        //
-        //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
-        //List emps = new LinkedList();
-        //for (Emp col : empService.findAllByClient(client)) {
-        //    emps.add(col);
-        //}
-        //model.addAttribute("emps", emps);
-        //List accountHeadFms = new LinkedList();
-        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
-        //    accountHeadFms.add(col);
-        //}
-        //model.addAttribute("accountHeadFms", accountHeadFms);
-        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
+        model.addAttribute("personnelAreas", personnelAreas);
     }
 
     public class ExoticTypeEditor extends PropertyEditorSupport {
@@ -95,7 +76,7 @@ public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditC
 
     @InitBinder
     void registerConverters(WebDataBinder binder) {
-        binder.registerCustomEditor(HcmObject.class, "companyCode", new ExoticTypeEditor());
+        binder.registerCustomEditor(HcmObject.class, "personnelArea", new ExoticTypeEditor());
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -133,9 +114,6 @@ public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditC
             allComboSetup(model, locale);
             return ADD_FORM_VIEW;
         }
-
-        currObject.setHcmObjectType(HcmObjectType.ADM_UNIT);
-        currObject.setAdminUnitType(HcmObject.AdminUnitType.PERSONNEL_AREA);
 
         HcmObject currObjectLocal = hcmObjectService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
@@ -197,9 +175,8 @@ public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditC
         }
 
         try {
-            //currObject.setCompanyCode(null);
-            //personnelArea = hcmObjectService.update(currObject);
-            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,code,name,nameSecondary,address,companyCode");
+            //personnelSubarea = hcmObjectService.update(currObject);
+            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,code,name,personnelArea");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -263,7 +240,7 @@ public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditC
 
         try {
             HcmObject currObjectLocal = new HcmObject(client);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,nameSecondary,address,companyCode");
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,personnelArea");
             currObjectLocal = hcmObjectService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -285,14 +262,14 @@ public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditC
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<HcmObject> personnelAreas;
+        List<HcmObject> personnelSubareas;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            personnelAreas = hcmObjectService.search(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_AREA);
+            personnelSubareas = hcmObjectService.search(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_SUB_AREA);
         } else {
-            personnelAreas = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_AREA);
+            personnelSubareas = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_SUB_AREA);
         }
-        model.addAttribute(MODEL_ATTRIBUTES, personnelAreas);
+        model.addAttribute(MODEL_ATTRIBUTES, personnelSubareas);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -317,9 +294,9 @@ public class PersonnelAreaController extends oith.ws.ctrl.core._OithClientAuditC
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<HcmObject> personnelAreas = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_AREA);
+        List<HcmObject> personnelSubareas = hcmObjectService.findAllByClient(searchCriteria, client, HcmObjectType.ADM_UNIT, HcmObject.AdminUnitType.PERSONNEL_SUB_AREA);
 
-        model.addAttribute(MODEL_ATTRIBUTES, personnelAreas);
+        model.addAttribute(MODEL_ATTRIBUTES, personnelSubareas);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();

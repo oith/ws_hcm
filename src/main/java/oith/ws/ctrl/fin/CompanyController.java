@@ -1,15 +1,18 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.fin;
 
-import oith.ws.dom.fin.entry.AccountGroup;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.validation.Valid;
-import oith.ws.dom.core.AbstDocClientAudit;
+import oith.ws.ctrl.core._OithClientAuditController;
+import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
+import oith.ws.dom.hcm.def.os.HcmObject;
+import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.AccountGroupNotFoundException;
+import oith.ws.exception.HcmObjectNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
@@ -25,38 +28,51 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/accountGroup")
-public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditController {
+@RequestMapping(value = "/company")
+public class CompanyController extends _OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "accountGroup";
-    protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
-    protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
-    protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
-    protected static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
-    protected static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
-    protected static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
+    public static final String MODEL_ATTIRUTE = "company";
+    public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
+    public static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
+    public static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
+    public static final String COPY_FORM_VIEW = MODEL_ATTIRUTE + "/copy";
+    public static final String SHOW_FORM_VIEW = MODEL_ATTIRUTE + "/show";
+    public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
     private org.springframework.context.MessageSource messageSource;
 
     @Autowired
-    private oith.ws.service.AccountGroupService accountGroupService;
+    private oith.ws.service.HcmObjectService companyService;
 
-    @Autowired
-    private oith.ws.service.CoaService coaService;
-
-    private void allComboSetup(final ModelMap model, final Locale locale) {
+    private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
         try {
             client = super.getLoggedClient();
         } catch (NotLoggedInException e) {
         }
 
-        //Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
-        //for (AllEnum.Gender col : AllEnum.Gender.values()) {
-        //    genders.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
-        //}
-        //model.addAttribute("genders", genders);
+        Map<AllEnum.Country, String> countrys = new EnumMap(AllEnum.Country.class);
+        for (AllEnum.Country col : AllEnum.Country.values()) {
+            countrys.put(col, col.toString());
+            //countrys.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+        }
+        model.addAttribute("countrys", countrys);
+
+        Map<AllEnum.Language, String> languages = new EnumMap(AllEnum.Language.class);
+        for (AllEnum.Language col : AllEnum.Language.values()) {
+            languages.put(col, col.toString());
+            //countrys.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+        }
+        model.addAttribute("languages", languages);
+
+        Map<AllEnum.Currency, String> currencys = new EnumMap(AllEnum.Currency.class);
+        for (AllEnum.Currency col : AllEnum.Currency.values()) {
+            currencys.put(col, col.toString());
+            //countrys.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
+        }
+        model.addAttribute("currencys", currencys);
+
         //
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         //List emps = new LinkedList();
@@ -64,11 +80,11 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
         //    emps.add(col);
         //}
         //model.addAttribute("emps", emps);
-        List coas = new LinkedList();
-        for (AbstDocClientAudit col : coaService.findAllByClient(client)) {
-            coas.add(col);
-        }
-        model.addAttribute("coas", coas);
+        //List accountHeadFms = new LinkedList();
+        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
+        //    accountHeadFms.add(col);
+        //}
+        //model.addAttribute("accountHeadFms", accountHeadFms);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
 
@@ -82,14 +98,14 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new AccountGroup(client));
+        model.addAttribute(MODEL_ATTIRUTE, new HcmObject(client, HcmObject.AccountingUnitType.COMPANY));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid AccountGroup currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -108,7 +124,7 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
             return ADD_FORM_VIEW;
         }
 
-        AccountGroup currObjectLocal = accountGroupService.create(currObject);
+        HcmObject currObjectLocal = companyService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -125,11 +141,11 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
         }
 
         try {
-            AccountGroup currObjectLocal = accountGroupService.findById(id, client);
+            HcmObject currObjectLocal = companyService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
-        } catch (AccountGroupNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -139,7 +155,7 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid AccountGroup currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -158,18 +174,19 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
         }
 
         try {
-            AccountGroup currObjectLocal = accountGroupService.findById(id, client);
+            HcmObject currObjectLocal = companyService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (AccountGroupNotFoundException | UserNotFoundException ex) {
+        } catch (HcmObjectNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            //accountGroup = accountGroupService.update(currObject);
-            AccountGroup currObjectLocal = accountGroupService.update(currObject, "auditor,coa,accountGroup,title,fromAccount,toAccount,active,slNo,description");
+            //company = companyService.update(currObject);
+            //street,poBox,poCode
+            HcmObject currObjectLocal = companyService.update(currObject, "auditor,code,name,accountingUnitType,nameSecondary,city,country,language,currency");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -190,11 +207,11 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
         }
 
         try {
-            AccountGroup currObjectLocal = accountGroupService.findById(id, client);
+            HcmObject currObjectLocal = companyService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
-        } catch (AccountGroupNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -204,7 +221,7 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid AccountGroup currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid HcmObject currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -222,19 +239,19 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
             return COPY_FORM_VIEW;
         }
 
-        AccountGroup currObjectReal;
+        HcmObject currObjectReal;
         try {
-            currObjectReal = accountGroupService.findById(id, client);
+            currObjectReal = companyService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (AccountGroupNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            AccountGroup currObjectLocal = new AccountGroup(client);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,coa,accountGroup,title,fromAccount,toAccount,active,slNo,description");
-            currObjectLocal = accountGroupService.create(currObjectLocal);
+            HcmObject currObjectLocal = new HcmObject(client, HcmObjectType.ACC_UNIT);
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,name,accountingUnitType,nameSecondary,street,poBox,poCode,city,country,language,currency");
+            currObjectLocal = companyService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -255,14 +272,14 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<AccountGroup> accountGroups;
+        List<HcmObject> companys;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            accountGroups = accountGroupService.search(searchCriteria, client);
+            companys = companyService.search(searchCriteria, client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY);
         } else {
-            accountGroups = accountGroupService.findAllByClient(searchCriteria, client);
+            companys = companyService.findAllByClient(searchCriteria, client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY);
         }
-        model.addAttribute(MODEL_ATTRIBUTES, accountGroups);
+        model.addAttribute(MODEL_ATTRIBUTES, companys);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -287,9 +304,9 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<AccountGroup> accountGroups = accountGroupService.findAllByClient(searchCriteria, client);
+        List<HcmObject> companys = companyService.findAllByClient(searchCriteria, client, HcmObjectType.ACC_UNIT, HcmObject.AccountingUnitType.COMPANY);
 
-        model.addAttribute(MODEL_ATTRIBUTES, accountGroups);
+        model.addAttribute(MODEL_ATTRIBUTES, companys);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -311,10 +328,10 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
         }
 
         try {
-            AccountGroup currObjectLocal = accountGroupService.findById(id, client);
+            HcmObject currObjectLocal = companyService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (AccountGroupNotFoundException ex) {
+        } catch (HcmObjectNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -332,9 +349,9 @@ public class AccountGroupController extends oith.ws.ctrl.core._OithClientAuditCo
         }
 
         try {
-            AccountGroup deleted = accountGroupService.delete(id, client);
+            HcmObject deleted = companyService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (AccountGroupNotFoundException e) {
+        } catch (HcmObjectNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;

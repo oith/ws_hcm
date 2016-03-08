@@ -1,20 +1,15 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.fin;
 
-import oith.ws.dom.fin.entry.Voucher;
-import oith.ws.exception.VoucherNotFoundException;
-import oith.ws.service.VoucherService;
+import oith.ws.ctrl.core._OithClientAuditController;
+import oith.ws.dom.hcm.fm.AccountHeadFm;
+import oith.ws.exception.AccountHeadFmNotFoundException;
+import oith.ws.service.AccountHeadFmService;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
-import oith.ws.ctrl.core._OithClientAuditController;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.fin.entry.VoucherDtl;
-import oith.ws.dom.hcm.def.os.HcmObject;
-import oith.ws.dom.hcm.def.os.HcmObjectType;
 import oith.ws.dto._SearchDTO;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
@@ -30,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/voucher")
-public class VoucherController extends _OithClientAuditController {
+@RequestMapping(value = "/accountHeadFm")
+public class AccountHeadFmController extends _OithClientAuditController {
 
-    public static final String MODEL_ATTIRUTE = "voucher";
+    public static final String MODEL_ATTIRUTE = "accountHeadFm";
     public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     public static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     public static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
@@ -41,29 +36,7 @@ public class VoucherController extends _OithClientAuditController {
     public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
-    private VoucherService voucherService;
-
-    private void allComboSetup(ModelMap model) {
-        Client client = null;
-        try {
-            client = super.getLoggedClient();
-        } catch (NotLoggedInException e) {
-        }
-
-        //List signs = Arrays.asList(TrnscFm.Sign.values());
-        //List emps = new LinkedList();
-        //for (Emp col : empService.findAll()) {
-        //    emps.add(col);
-        //}
-        //List accountHeadFms = new LinkedList();
-        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
-        //    accountHeadFms.add(col);
-        //}
-        //model.addAttribute("signs", signs);
-        //model.addAttribute("emps", emps);
-        //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
-        //model.addAttribute("accountHeadFms", accountHeadFms);
-    }
+    private AccountHeadFmService accountHeadFmService;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap model, RedirectAttributes attributes) {
@@ -74,35 +47,29 @@ public class VoucherController extends _OithClientAuditController {
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
         }
-        Voucher obj = new Voucher();
-        obj.setCompanyCode(new HcmObject(client, HcmObjectType.ACC_UNIT));
-        Set<VoucherDtl> jjj = new LinkedHashSet();
-        jjj.add(new VoucherDtl());
-        jjj.add(new VoucherDtl());
-        obj.setVoucherDtls(jjj);
 
-        model.addAttribute(MODEL_ATTIRUTE, obj);
-        allComboSetup(model);
+        //   model.addAttribute("accountHeadFmKeywords", AccountHeadFm.AccountHeadFmKeyword.values());
+        model.addAttribute(MODEL_ATTIRUTE, new AccountHeadFm(client));
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid Voucher currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
+    public String save(@ModelAttribute(MODEL_ATTIRUTE) @Valid AccountHeadFm currObject, BindingResult bindingResult, ModelMap model, RedirectAttributes attributes) {
 
         try {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
             return REDIRECT_TO_LOGIN;
         } catch (UserNotFoundException ex) {
-            Logger.getLogger(VoucherController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountHeadFmController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            //    model.addAttribute("accountHeadFmKeywords", AccountHeadFm.AccountHeadFmKeyword.values());
             return ADD_FORM_VIEW;
         }
 
-        Voucher currObjectLocal = voucherService.create(currObject);
+        AccountHeadFm currObjectLocal = accountHeadFmService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -119,11 +86,10 @@ public class VoucherController extends _OithClientAuditController {
         }
 
         try {
-            Voucher currObjectLocal = voucherService.findById(id, client);
+            AccountHeadFm currObjectLocal = accountHeadFmService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
-            allComboSetup(model);
             return EDIT_FORM_VIEW;
-        } catch (VoucherNotFoundException ex) {
+        } catch (AccountHeadFmNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -133,7 +99,7 @@ public class VoucherController extends _OithClientAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Voucher currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AccountHeadFm currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes) {
@@ -146,28 +112,28 @@ public class VoucherController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            //         model.addAttribute("accountHeadFmKeywords", AccountHeadFm.AccountHeadFmKeyword.values());
             return EDIT_FORM_VIEW;
         }
 
         try {
-            Voucher currObjectLocal = voucherService.findById(id, client);
+            AccountHeadFm currObjectLocal = accountHeadFmService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (VoucherNotFoundException ex) {
+        } catch (AccountHeadFmNotFoundException ex) {
             return NOT_FOUND;
         } catch (UserNotFoundException ex) {
-            Logger.getLogger(VoucherController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountHeadFmController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
-            //voucher = voucherService.update(currObject);
-            Voucher currObjectLocal = voucherService.update(currObject, "auditor,code,appDate,remarks,transDate,currency,periodAcc,fiscalYear,companyCode,chequeInfo,voucherDtls,narration,isDeleted");
+            //accountHeadFm = accountHeadFmService.update(currObject);
+            AccountHeadFm currObjectLocal = accountHeadFmService.update(currObject, "accountNo,active,code,description,empRequired,slNo,title,auditor");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
-        } catch (VoucherNotFoundException e) {
+        } catch (AccountHeadFmNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
             return EDIT_FORM_VIEW;
         }
@@ -184,14 +150,14 @@ public class VoucherController extends _OithClientAuditController {
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Voucher> vouchers;
+        List<AccountHeadFm> accountHeadFms;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            vouchers = voucherService.search(searchCriteria, client);
+            accountHeadFms = accountHeadFmService.search(searchCriteria, client);
         } else {
-            vouchers = voucherService.findAllByClient(searchCriteria, client);
+            accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria, client);
         }
-        model.addAttribute(MODEL_ATTRIBUTES, vouchers);
+        model.addAttribute(MODEL_ATTRIBUTES, accountHeadFms);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -217,9 +183,9 @@ public class VoucherController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Voucher> vouchers = voucherService.findAllByClient(searchCriteria, client);
+        List<AccountHeadFm> accountHeadFms = accountHeadFmService.findAllByClient(searchCriteria, client);
 
-        model.addAttribute(MODEL_ATTRIBUTES, vouchers);
+        model.addAttribute(MODEL_ATTRIBUTES, accountHeadFms);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -241,10 +207,10 @@ public class VoucherController extends _OithClientAuditController {
         }
 
         try {
-            Voucher currObjectLocal = voucherService.findById(id, client);
+            AccountHeadFm currObjectLocal = accountHeadFmService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (VoucherNotFoundException ex) {
+        } catch (AccountHeadFmNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -262,9 +228,9 @@ public class VoucherController extends _OithClientAuditController {
         }
 
         try {
-            Voucher deleted = voucherService.delete(id, client);
+            AccountHeadFm deleted = accountHeadFmService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (VoucherNotFoundException e) {
+        } catch (AccountHeadFmNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;

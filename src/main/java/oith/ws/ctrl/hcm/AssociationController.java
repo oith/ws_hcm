@@ -1,30 +1,27 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.hcm;
 
-import oith.ws.dom.fin.entry.Coa;
-
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.validation.Valid;
 import oith.ws.dom.core.Client;
-import oith.ws.dom.core.IEmbdDetail;
+import oith.ws.dom.hcm.def.os.Association;
+import oith.ws.dom.hcm.def.os.HcmObject;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.CoaNotFoundException;
+import oith.ws.exception.AssociationNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +29,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/coa")
-public class CoaController extends oith.ws.ctrl.core._OithClientAuditController {
+@RequestMapping(value = "/association")
+public class AssociationController extends oith.ws.ctrl.core._OithClientAuditController {
 
-    protected static final String MODEL_ATTIRUTE = "coa";
+    protected static final String MODEL_ATTIRUTE = "association";
     protected static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     protected static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     protected static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
@@ -47,18 +44,51 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
     private org.springframework.context.MessageSource messageSource;
 
     @Autowired
-    private oith.ws.service.CoaService coaService;
+    private oith.ws.service.AssociationService associationService;
 
     @Autowired
-    private oith.ws.service.AccountService accountService;
+    private oith.ws.service.HcmObjectService hcmObjectService;
 
+    public class ExoticTypeEditor extends PropertyEditorSupport {
 
-    private void allComboSetup(final ModelMap model, final Locale locale) {
+        @Override
+        public void setAsText(String text) {
+
+            HcmObject type = null;
+            try {
+                type = hcmObjectService.findById(text);
+            } catch (Exception e) {
+                System.out.println("iiiiii ttttt 1208 " + e);
+            }
+            setValue(type);
+        }
+    }
+
+    @InitBinder
+    void registerConverters(WebDataBinder binder) {
+        binder.registerCustomEditor(HcmObject.class, "company", new ExoticTypeEditor());
+    }
+
+    private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
         try {
             client = super.getLoggedClient();
         } catch (NotLoggedInException e) {
         }
+
+        List hcmObjectAlphas = new LinkedList();
+        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+            col.setId(col.getId());
+            hcmObjectAlphas.add(col);
+        }
+        model.addAttribute("hcmObjectAlphas", hcmObjectAlphas);
+
+        List hcmObjectBetas = new LinkedList();
+        for (HcmObject col : hcmObjectService.findAllByClient(client)) {
+            col.setId(col.getId());
+            hcmObjectBetas.add(col);
+        }
+        model.addAttribute("hcmObjectBetas", hcmObjectBetas);
 
         //Map<AllEnum.Gender, String> genders = new EnumMap(AllEnum.Gender.class);
         //for (AllEnum.Gender col : AllEnum.Gender.values()) {
@@ -90,14 +120,14 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Coa(client));
+        model.addAttribute(MODEL_ATTIRUTE, new Association(client));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Coa currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Association currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -116,7 +146,7 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
             return ADD_FORM_VIEW;
         }
 
-        Coa currObjectLocal = coaService.create(currObject);
+        Association currObjectLocal = associationService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -133,11 +163,11 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
         }
 
         try {
-            Coa currObjectLocal = coaService.findById(id, client);
+            Association currObjectLocal = associationService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
-        } catch (CoaNotFoundException ex) {
+        } catch (AssociationNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -147,11 +177,14 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Coa currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Association currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
             Locale locale) {
+
+        String ddfd = ReflectionToStringBuilder.toString(currObject);
+        System.out.println("1226 ddfd" + ddfd);
 
         Client client;
         try {
@@ -166,18 +199,17 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
         }
 
         try {
-            Coa currObjectLocal = coaService.findById(id, client);
+            Association currObjectLocal = associationService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (CoaNotFoundException | UserNotFoundException ex) {
+        } catch (AssociationNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            //coa = coaService.update(currObject);
-            Coa currObjectLocal = coaService.update(currObject, "auditor,code,title,retainedEarningsAccount,lengthOfAccount");
+            Association currObjectLocal = associationService.update(currObject, "auditor,relTypeAlpha,hcmObjectAlpha,relTypeBeta,hcmObjectBeta,interval");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -198,11 +230,11 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
         }
 
         try {
-            Coa currObjectLocal = coaService.findById(id, client);
+            Association currObjectLocal = associationService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
-        } catch (CoaNotFoundException ex) {
+        } catch (AssociationNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -212,7 +244,7 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Coa currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid Association currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -230,19 +262,19 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
             return COPY_FORM_VIEW;
         }
 
-        Coa currObjectReal;
+        Association currObjectReal;
         try {
-            currObjectReal = coaService.findById(id, client);
+            currObjectReal = associationService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (CoaNotFoundException ex) {
+        } catch (AssociationNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            Coa currObjectLocal = new Coa(client);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,title,retainedEarningsAccount,lengthOfAccount");
-            currObjectLocal = coaService.create(currObjectLocal);
+            Association currObjectLocal = new Association(client);
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,hcmObjectAlpha,hcmObjectBeta,relType,interval");
+            currObjectLocal = associationService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -263,14 +295,14 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Coa> coas;
+        List<Association> associations;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            coas = coaService.search(searchCriteria, client);
+            associations = associationService.search(searchCriteria, client);
         } else {
-            coas = coaService.findAllByClient(searchCriteria, client);
+            associations = associationService.findAllByClient(searchCriteria, client);
         }
-        model.addAttribute(MODEL_ATTRIBUTES, coas);
+        model.addAttribute(MODEL_ATTRIBUTES, associations);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -295,9 +327,9 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Coa> coas = coaService.findAllByClient(searchCriteria, client);
+        List<Association> associations = associationService.findAllByClient(searchCriteria, client);
 
-        model.addAttribute(MODEL_ATTRIBUTES, coas);
+        model.addAttribute(MODEL_ATTRIBUTES, associations);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -319,10 +351,10 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
         }
 
         try {
-            Coa currObjectLocal = coaService.findById(id, client);
+            Association currObjectLocal = associationService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (CoaNotFoundException ex) {
+        } catch (AssociationNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -340,14 +372,13 @@ public class CoaController extends oith.ws.ctrl.core._OithClientAuditController 
         }
 
         try {
-            Coa deleted = coaService.delete(id, client);
+            Association deleted = associationService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (CoaNotFoundException e) {
+        } catch (AssociationNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-     
 }

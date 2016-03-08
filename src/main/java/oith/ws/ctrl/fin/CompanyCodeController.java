@@ -1,4 +1,4 @@
-package oith.ws.ctrl;
+package oith.ws.ctrl.fin;
 
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
