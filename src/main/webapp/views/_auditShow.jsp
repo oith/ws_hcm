@@ -15,21 +15,18 @@
         <c:out value="${audit.auditor.insertByUser.fullName}"/>
     </dd> 
 </c:if>
-
 <c:if test="${audit.auditor.insertDate!=null}">
     <dt><spring:message code="insertDate" text="Insert Date"/></dt>
     <dd>
         <fmt:formatDate value="${audit.auditor.insertDate}" type="date" pattern="dd/MM/yyyy EEEEE hh:mm a"/>
     </dd> 
 </c:if>
-
 <c:if test="${audit.auditor.updateByUser!=null}">
     <dt><spring:message code="updateByUser" text="Update By User"/></dt>
     <dd>
         <c:out value="${audit.auditor.updateByUser.fullName}"/>
     </dd> 
 </c:if>
-
 <c:if test="${audit.auditor.updateDate!=null}">
     <dt><spring:message code="updateDate" text="Update Date"/></dt>
     <dd>

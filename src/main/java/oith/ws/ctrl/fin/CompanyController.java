@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 import javax.validation.Valid;
 import oith.ws.ctrl.core._OithClientAuditController;
+import oith.ws.dom.core.Address;
 import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.os.HcmObject;
@@ -113,7 +114,11 @@ public class CompanyController extends _OithClientAuditController {
         }
 
         HcmObject currObjectLocal = new HcmObject(currObject.getClient(), HcmObject.AccountingUnitType.COMPANY);
+        
+        currObject.setAddress(new Address("dsd", "fdsf", "dffds", "fsdff", "sdfds", AllEnum.Country.BGD));
         MacUtils.copyProperties(currObjectLocal, currObject, "auditor,code,name,nameSecondary,address,city,country,language,currency");
+       
+        
         currObjectLocal = hcmObjectService.create(currObjectLocal);
 
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
