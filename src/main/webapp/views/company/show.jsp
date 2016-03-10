@@ -34,77 +34,84 @@
     <h1><spring:message code='show.page.title'/></h1>
     <div>
         <dl class='dl-horizontal'>
-            
+
             <c:if test='${company.code!=null}'>
                 <dt><spring:message code='code' text='Code'/></dt>
                 <dd>
                     <c:out value='${company.code}'/>
                 </dd>
             </c:if>
-            
+
             <c:if test='${company.name!=null}'>
                 <dt><spring:message code='name' text='Name'/></dt>
                 <dd>
                     <c:out value='${company.name}'/>
                 </dd>
             </c:if>
-            
+
             <c:if test='${company.nameSecondary!=null}'>
                 <dt><spring:message code='nameSecondary' text='Name Secondary'/></dt>
                 <dd>
                     <c:out value='${company.nameSecondary}'/>
                 </dd>
             </c:if>
-            
-       <%--     <c:if test='${company.street!=null}'>
-                <dt><spring:message code='street' text='Street'/></dt>
+                
+            <c:if test='${company.address!=null}'>
+                <dt><spring:message code='address' text='Address'/></dt>
                 <dd>
-                    <c:out value='${company.street}'/>
+                    <c:out value='${company.address}'/>
                 </dd>
             </c:if>
-            
-            <c:if test='${company.poBox!=null}'>
-                <dt><spring:message code='poBox' text='Po Box'/></dt>
-                <dd>
-                    <c:out value='${company.poBox}'/>
-                </dd>
-            </c:if>
-            
-            <c:if test='${company.poCode!=null}'>
-                <dt><spring:message code='poCode' text='Po Code'/></dt>
-                <dd>
-                    <c:out value='${company.poCode}'/>
-                </dd>
-            </c:if>--%>
-            
+
+            <%--     <c:if test='${company.street!=null}'>
+                     <dt><spring:message code='street' text='Street'/></dt>
+                     <dd>
+                         <c:out value='${company.street}'/>
+                     </dd>
+                 </c:if>
+                 
+                 <c:if test='${company.poBox!=null}'>
+                     <dt><spring:message code='poBox' text='Po Box'/></dt>
+                     <dd>
+                         <c:out value='${company.poBox}'/>
+                     </dd>
+                 </c:if>
+                 
+                 <c:if test='${company.poCode!=null}'>
+                     <dt><spring:message code='poCode' text='Po Code'/></dt>
+                     <dd>
+                         <c:out value='${company.poCode}'/>
+                     </dd>
+                 </c:if>--%>
+
             <c:if test='${company.city!=null}'>
                 <dt><spring:message code='city' text='City'/></dt>
                 <dd>
                     <c:out value='${company.city}'/>
                 </dd>
             </c:if>
-            
+
             <c:if test='${company.country!=null}'>
                 <dt><spring:message code='country' text='Country'/></dt>
                 <dd>
                     <c:out value='${company.country}'/>
                 </dd>
             </c:if>
-            
+
             <c:if test='${company.language!=null}'>
                 <dt><spring:message code='language' text='Language'/></dt>
                 <dd>
                     <c:out value='${company.language}'/>
                 </dd>
             </c:if>
-            
+
             <c:if test='${company.currency!=null}'>
                 <dt><spring:message code='currency' text='Currency'/></dt>
                 <dd>
                     <c:out value='${company.currency}'/>
                 </dd>
             </c:if>
-            
+
             <c:set target='audit' property='audit' var='audit' value='${company}' scope='request'/>
             <jsp:include page='../_auditShow.jsp' flush='true' />
         </dl>

@@ -8,7 +8,7 @@
 <form:errors path='*' cssClass='errorblock' element='div' />
 
 <div class='row'>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='code'><spring:message code='code' text='Code'/><span class='required-indicator needed'>*</span></form:label>
@@ -16,7 +16,7 @@
             <form:errors path='code' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='name'><spring:message code='name' text='Name'/><span class='required-indicator needed'>*</span></form:label>
@@ -24,7 +24,7 @@
             <form:errors path='name' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='nameSecondary'><spring:message code='nameSecondary' text='Name Secondary'/></form:label>
@@ -32,31 +32,15 @@
             <form:errors path='nameSecondary' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
 <%--    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
-            <form:label path='street'><spring:message code='street' text='Street'/></form:label>
-            <form:input path='street' class='form-control' type='text' maxlength='100'/>
-            <form:errors path='street' cssClass='error' element='div'/>
-        </div>
-    </div>
-    
-    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-        <div class='form-group'>
-            <form:label path='poBox'><spring:message code='poBox' text='Po Box'/></form:label>
-            <form:input path='poBox' class='form-control' type='text' maxlength='100'/>
-            <form:errors path='poBox' cssClass='error' element='div'/>
-        </div>
-    </div>
-    
-    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-        <div class='form-group'>
-            <form:label path='poCode'><spring:message code='poCode' text='Po Code'/></form:label>
-            <form:input path='poCode' class='form-control' type='text' maxlength='100'/>
-            <form:errors path='poCode' cssClass='error' element='div'/>
+            <form:label path='address'><spring:message code='address' text='Address'/></form:label>
+            <form:input path='address' class='form-control' type='text' maxlength='100'/>
+            <form:errors path='address' cssClass='error' element='div'/>
         </div>
     </div>--%>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='city'><spring:message code='city' text='City'/></form:label>
@@ -64,7 +48,7 @@
             <form:errors path='city' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='country'><spring:message code='country' text='Country'/></form:label>
@@ -74,7 +58,7 @@
             <form:errors path='country' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='language'><spring:message code='language' text='Language'/></form:label>
@@ -84,7 +68,7 @@
             <form:errors path='language' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
     <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
         <div class='form-group'>
             <form:label path='currency'><spring:message code='currency' text='Currency'/><span class='required-indicator needed'>*</span></form:label>
@@ -94,7 +78,7 @@
             <form:errors path='currency' cssClass='error' element='div'/>
         </div>
     </div>
-    
+
 </div>
 
 <%--JS--%>

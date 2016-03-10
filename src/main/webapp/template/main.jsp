@@ -14,16 +14,12 @@
             <%--<jsp:include page="/template/menu.jsp"/>--%>
         </tiles:putAttribute>
 
-
         <div class="body">
             <tiles:insertAttribute name="body"/>
         </div>
 
-
         <tiles:putAttribute name="footer">
             <jsp:include page="/template/footer.jsp"/>
         </tiles:putAttribute>    
-
-
     </body>
 </html>

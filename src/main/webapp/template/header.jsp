@@ -6,24 +6,24 @@
 <%@ taglib prefix='spring' uri='http://www.springframework.org/tags'%>
 
 <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='initial-scale=1, maximum-scale=1'>
+    <meta name='viewport' content='initial-scale=1, maximum-scale=1' charset='utf-8'>
     <!--<meta name='viewport' content='width=device-width, initial-scale=1'>-->    
 
     <link rel='shortcut icon' type='image/x-icon' href='<%=request.getContextPath()%>/resources/images/favicon.ico'/>
 
-    <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
-
 <!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/bootstrap/bootstrap-3.3.6/bootstrap-datetimepicker.min.css'/> -->
 <!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/css/bootstrap.min.css'/>-->
-
-    <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/css/bootstrap.min.css'>
+<!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/font-awesome-4.5.0/css/font-awesome.min.css'/>-->
+<!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/css/bootstrap-datetimepicker.min.css'>-->
+    
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/css/bootstrap.min.css'>
+  
+    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/webjars/font-awesome/4.5.0/css/font-awesome.min.css'>
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.min.css'/> 
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/jquery.dataTables.min.css'/> 
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/oith/oith-1.0.0.css'/> 
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/oith/oith-styles-1.0.0.css'/> 
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/utility/animate-3.5.0.css'/> 
-    <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/font-awesome-4.5.0/css/font-awesome.min.css'/>
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.css'/> 
 
 </head>
@@ -130,12 +130,11 @@
                 </div>
             </div>
 
-
             <script>var contextPath = '<%=request.getContextPath()%>'</script>
 
-<!--<script src='<%=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/js/bootstrap.js'></script>-->
-<!--<script src='<%=request.getContextPath()%>/resources/js/bootstrap/bootstrap-datepicker.js'></script>-->
-<!--<script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js'></script>-->
+<!--<script src='<=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/js/bootstrap.js'></script>-->
+<!--<script src='<=request.getContextPath()%>/resources/js/bootstrap/bootstrap-datepicker.js'></script>-->
+<!--<script src='<=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js'></script>-->
 
             <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.js'></script>
             <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.jqueryui.js'></script>

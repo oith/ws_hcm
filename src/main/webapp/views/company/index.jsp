@@ -86,9 +86,7 @@
                         <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='name' text='Name'/></th>
                         <th><spring:message code='nameSecondary' text='Name Secondary'/></th>
-                        <th><spring:message code='street' text='Street'/></th>
-                        <th><spring:message code='poBox' text='Po Box'/></th>
-                        <th><spring:message code='poCode' text='Po Code'/></th>
+                        <th><spring:message code='address' text='Address'/></th>
                         <th><spring:message code='city' text='City'/></th>
                         <th><spring:message code='country' text='Country'/></th>
                         <th><spring:message code='language' text='Language'/></th>
@@ -109,9 +107,7 @@
                             <td><c:out value='${company.code}'/></td>
                             <td><c:out value='${company.name}'/></td>
                             <td><c:out value='${company.nameSecondary}'/></td>
-                            <%--<td><c:out value='${company.street}'/></td>
-                            <td><c:out value='${company.poBox}'/></td>
-                            <td><c:out value='${company.poCode}'/></td>--%>
+                            <td><c:out value='${company.address}'/></td>
                             <td><c:out value='${company.city}'/></td>
                             <td><c:out value='${company.country}'/></td>
                             <td><c:out value='${company.language}'/></td>

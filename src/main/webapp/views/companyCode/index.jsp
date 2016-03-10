@@ -26,7 +26,7 @@
         </a>
         <a href='${pageContext.request.contextPath}/companyCode/create' class='btn btn-primary'>
             <i class='glyphicon glyphicon-plus'></i>
-            <spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='companyCode' text='CompanyCode'/>
+            <spring:message code='create.link.label'/>&NonBreakingSpace;<spring:message code='companyCode' text='Company Code'/>
         </a>
     </div>
     <h1><spring:message code='list.page.title'/></h1>
