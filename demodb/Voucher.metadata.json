@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"demodb.Voucher"},{"v":1,"key":{"periodAcc.code":1},"name":"periodAcc.code","ns":"demodb.Voucher"},{"v":1,"key":{"periodAcc.name":1},"name":"periodAcc.name","ns":"demodb.Voucher"}]}
