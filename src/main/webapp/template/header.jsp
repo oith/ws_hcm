@@ -15,9 +15,9 @@
 <!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/css/bootstrap.min.css'/>-->
 <!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/frameworks/font-awesome-4.5.0/css/font-awesome.min.css'/>-->
 <!--<link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/css/bootstrap-datetimepicker.min.css'>-->
-    
+
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/css/bootstrap.min.css'>
-  
+
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/webjars/font-awesome/4.5.0/css/font-awesome.min.css'>
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.min.css'/> 
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/jquery/jquery-datatable-1.10.10/jquery.dataTables.min.css'/> 
@@ -33,22 +33,32 @@
 
         <nav class='navbar navbar-inverse'>
             <div class='container-fluid'>
+
                 <div class='navbar-header'>
+
+
+                    <!--<img class="logo" alt="MongoDB University" src="/static/images/university-logo.cdb598655205.png">-->
+
+
                     <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#myNavbar'>
                         <span class='icon-bar'></span>
                         <span class='icon-bar'></span>
                         <span class='icon-bar'></span>                        
                     </button>
-                    <!--<a class='navbar-brand' href='<%=request.getContextPath()%>'>OITH</a>-->
+                    <!--<a class='navbar-brand' href='<=request.getContextPath()%>'>OITH</a>-->
 
                     <sec:authorize access='isAuthenticated()'>
-                        <sec:authentication var='logoPicFile' property='principal.logoPicFile'/>
-                        <c:url var='macImage' value='/client/getPhoto/${logoPicFile}' />
-                        <img id='imagePreview' align='left' height='60px' width='150px' src='${macImage}' alt='${macImage}'/>
+                        <a class="navbar-brand" href="<%=request.getContextPath()%>">
+                            <sec:authentication var='logoPicFile' property='principal.logoPicFile'/>
+                            <c:url var='macImage' value='/client/getPhoto/${logoPicFile}' />
+                            <img class='logo' id='imagePreview' height='60px' width='150px' src='${macImage}' alt='${macImage}'/>
+                        </a>
                     </sec:authorize>
 
                     <sec:authorize access='isAnonymous()'>
-                        <img id='imagePreview' align='left' height='60px' width='150px' src='<%=request.getContextPath()%>/resources/images/oith_logo.png' alt='oith_logo'/>
+                        <a class="navbar-brand" href="<%=request.getContextPath()%>">
+                            <img class='logo' id='imagePreview' height='60px' width='150px' src='<%=request.getContextPath()%>/resources/images/oith_logo.png' alt='oith_logo'/>
+                        </a>
                     </sec:authorize>
                 </div>
                 <div class='collapse navbar-collapse' id='myNavbar'>
@@ -132,9 +142,9 @@
 
             <script>var contextPath = '<%=request.getContextPath()%>'</script>
 
-<!--<script src='<=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/js/bootstrap.js'></script>-->
-<!--<script src='<=request.getContextPath()%>/resources/js/bootstrap/bootstrap-datepicker.js'></script>-->
-<!--<script src='<=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js'></script>-->
+            <!--<script src='<=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/js/bootstrap.js'></script>-->
+            <!--<script src='<=request.getContextPath()%>/resources/js/bootstrap/bootstrap-datepicker.js'></script>-->
+            <!--<script src='<=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js'></script>-->
 
             <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.js'></script>
             <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.jqueryui.js'></script>
