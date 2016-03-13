@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
+import oith.ws.dom.core.Address;
+import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.hcm.def.os.HcmObject;
 import oith.ws.dom.hcm.def.os.HcmObjectType;
@@ -117,7 +119,6 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             Locale locale) {
 
         //currObject.setAccountingUnitType(HcmObject.AccountingUnitType.COMPANY_CODE);
-
         try {
             super.save(currObject, attributes);
         } catch (NotLoggedInException e) {
@@ -131,9 +132,14 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return ADD_FORM_VIEW;
         }
 
-        HcmObject currObjectLocal = hcmObjectService.create(currObject);
-        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
+        HcmObject currObjectLocal = new HcmObject(currObject.getClient(), HcmObject.AccountingUnitType.COMPANY_CODE);
 
+        currObject.setAddress(new Address("dsd", "fdsf", "dffds", "fsdff", "sdfds", AllEnum.Country.BGD));
+        MacUtils.copyProperties(currObjectLocal, currObject, "auditor,code,name,nameSecondary,address,city,country,language,currency");
+
+        currObjectLocal = hcmObjectService.create(currObjectLocal);
+
+        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
     }
 
@@ -180,9 +186,10 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return EDIT_FORM_VIEW;
         }
 
+        HcmObject currObjectReal;
         try {
-            HcmObject currObjectLocal = hcmObjectService.findById(id, client);
-            currObject.setAuditor(currObjectLocal.getAuditor());
+            currObjectReal = hcmObjectService.findById(id, client);
+            currObject.setAuditor(currObjectReal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
@@ -190,11 +197,12 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
             return NOT_FOUND;
         }
 
-        try {
-            //companyCode = companyCodeService.update(currObject);
-            HcmObject currObjectLocal = hcmObjectService.update(currObject, "auditor,code,name,accountingUnitType,company,city,country,language,currency");
-            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
-            return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
+        try {                                                
+            MacUtils.copyProperties(currObjectReal, currObject, "auditor,code,name,nameSecondary,address,city,country,language,currency,company,businessArea");
+            currObjectReal = hcmObjectService.update(currObjectReal);
+
+            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectReal.getId());
+            return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectReal.getId();
         } catch (Exception e) {
             errorHandler(bindingResult, e);
             allComboSetup(model, locale);
@@ -364,5 +372,4 @@ public class CompanyCodeController extends oith.ws.ctrl.core._OithClientAuditCon
         }
         return REDIRECT + "/" + LIST_VIEW;
     }
-
 }
