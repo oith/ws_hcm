@@ -44,11 +44,6 @@ public class _OithHomeController {
 //            headers.setContentType(MediaType.IMAGE_JPEG);
 
             Menu menu = menuService.findByCode(code);
-//            if (code.equals("0000")) {
-//                return "/oith_ws_hcm/client";
-//            } else if (code.equals("0001")) {
-//                return "/oith_ws_hcm/post";
-//            }
 
             return menu.getAddress();
 
