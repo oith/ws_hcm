@@ -548,9 +548,9 @@
                     </connectors>
                     <scanIntervalSeconds>5</scanIntervalSeconds>
                     <!--<port>8090</port>-->
-                    <url>http://localhost:8091/oith_ws_hcm/</url> 
+                    <url>http://localhost:8091/oith_ws_web/</url> 
                     <webApp> 
-                        <contextPath>/oith_ws_hcm</contextPath>
+                        <contextPath>/oith_ws_web</contextPath>
                     </webApp>
                 </configuration>
             </plugin>
@@ -562,7 +562,7 @@
                     <!--<url>http://localhost:8090/OITH_WS/</url>-->  
             
                     <port>8090</port>
-                    <path>/oith_ws_hcm</path>
+                    <path>/oith_ws_web</path>
                 </configuration>
             </plugin>
             <plugin>
