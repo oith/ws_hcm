@@ -18,8 +18,6 @@ import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
 import oith.ws.service.MacUtils;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -114,11 +112,10 @@ public class CompanyController extends _OithClientAuditController {
         }
 
         HcmObject currObjectLocal = new HcmObject(currObject.getClient(), HcmObject.AccountingUnitType.COMPANY);
-        
+
         currObject.setAddress(new Address("dsd", "fdsf", "dffds", "fsdff", "sdfds", AllEnum.Country.BGD));
         MacUtils.copyProperties(currObjectLocal, currObject, "auditor,code,name,nameSecondary,address,city,country,language,currency");
-       
-        
+
         currObjectLocal = hcmObjectService.create(currObjectLocal);
 
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
