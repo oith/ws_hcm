@@ -11,16 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import oith.ws.dom.core.AdmProcDtl;
 import oith.ws.dom.core.AdmProcMst;
 import oith.ws.dom.core.AllEnum;
+import oith.ws.dom.core.Client;
+import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.AdmProcMstService;
+import oith.ws.service.MacUserDetail;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,9 +59,9 @@ class _AdmProcController {
         return "indexProc";
     }
 
-    @RequestMapping(value = "/getProcess/{processGroupId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getProcess", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<String> getProcess(@PathVariable("processGroupId") AdmProcMst.ProcGroup processGroupId) {
+    ResponseEntity<String> getProcess(@RequestParam AdmProcMst.ProcGroup processGroupId) {
 
         System.out.println("finding getCodableDTO: code: " + processGroupId);
 
@@ -83,17 +86,17 @@ class _AdmProcController {
 
     }
 
-    @RequestMapping(value = "/getDynamicContent/{processId}", method = RequestMethod.GET)//produces = MediaType.APPLICATION_JSON_VALUE
+    @RequestMapping(value = "/getDynamicContent", method = RequestMethod.POST)//produces = MediaType.APPLICATION_JSON_VALUE
     public @ResponseBody
-    ResponseEntity<String> getDynamicContent(@PathVariable("processId") String processId) {
+    ResponseEntity<String> getDynamicContent(@RequestParam String processId) {
 
         System.out.println("finding getDynamicContent: code: " + processId);
         procObj = getProcObj();
 
-        Map<String, String> allMap =null;
+        Map<String, String> allMap;
 
         if (procObj == null) {
-             allMap = new HashMap();
+            allMap = new HashMap();
             allMap.put("error", "Connection not found!!!");
         } else {
             allMap = procObj.getProcPageMap(processId, admProcMstService);
@@ -125,8 +128,7 @@ class _AdmProcController {
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<String> search( // @PathVariable("strKeyVal") String strKeyVal,
-            // @PathVariable("processId") String processId
+    ResponseEntity<String> search(
             @RequestParam String strKeyVal,
             @RequestParam String processId
     ) {
@@ -190,12 +192,16 @@ class _AdmProcController {
         return new ResponseEntity<>(tblMap.toString(), headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = {"/executeProcess/{strKeyVal}", "/executeProcess/{porcTitleMApx}", "/executeProcess/{processId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/executeProcess", method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<String> executeProcess(
-            @PathVariable("strKeyVal") String strKeyVal,
-            @PathVariable("porcTitleMApx") String porcTitleMApx,
-            @PathVariable("processId") String processId) {
+            @RequestParam String strKeyVal,
+            @RequestParam String porcTitleMApx,
+            @RequestParam String processId) {
+
+        System.out.println("uuuuuuuu 252pm chk strKeyVal:" + strKeyVal);
+        System.out.println("uuuuuuuu 252pm chk porcTitleMApx:" + porcTitleMApx);
+        System.out.println("uuuuuuuu 252pm chk processId:" + processId);
 
         String errMsg = "";
         String errMsgShow = "";
@@ -223,9 +229,7 @@ class _AdmProcController {
 
         if (!QU_PARAMs.equals("")) {
             try {
-                for (Object jjj : QU_PARAMs.split(",")) {
-                    QU_PARAMs_sl_by.add(jjj);
-                }
+                QU_PARAMs_sl_by.addAll(Arrays.asList(QU_PARAMs.split(",")));
             } catch (Exception ee) {
             }
         }
@@ -396,6 +400,8 @@ class _AdmProcController {
     }
 
     Proc getProcObj() {
+        
+
         if (procObj == null) {
             procObj = new Proc();
         }
