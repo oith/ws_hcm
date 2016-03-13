@@ -27,7 +27,6 @@
             <form controller="_AdmProc" id="oith" name="oith" action="executeProcess">
 
                 <fieldset class="fsStyle">
-
                     <legend class='legendStyle'><h4>Process</h4></legend>
 
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -35,15 +34,6 @@
                             <label for="processGroupId">
                                 <span>Process Group</span>
                             </label>
-                            <%-- <select name="processGroupId" 
-                                id="processGroupId" 
-                                from="${processGroupMap}"
-                                value="${processGroupId}"
-                                optionKey="id"
-                                noSelection="['${null}': 'Select One']"
-                                onchange="getProcess()" 
-                                class="form-control"/>--%>
-
                             <select name="processGroupId" 
                                     id="processGroupId"
                                     onchange="getProcess()" 
@@ -74,53 +64,28 @@
                                     <option value="${sss.id}" >${sss}</option>
                                 </c:forEach>
                             </select>
-
-                            <%--  
-<select name="processId" 
-                                       id="processId" 
-                                       from="${processMap}"
-                                       value="${processId}"
-                                       optionKey="id"
-                                       noSelection="['': 'Select One']" 
-                                       required="required"
-                                       onchange="getDynamicContent()" 
-                                       class="form-control"/>--%>
-
-
-
                         </div>
                     </div>
-
                 </fieldset>
 
                 <div id="error" class="col-xs-12"></div>
-
                 <div id="searchContent"></div>
-
                 <div id="searchButtonContent"></div>
-
                 <div id="paramsContent"></div>
-
                 <div id="buttonContent"></div>
 
                 <div id="fparams" style="display: none" class="fieldcontain"></div>
-
                 <div id="qparams" style="display: none" class="fieldcontain"></div>
-
                 <div id="outputMsg" class="outputMsg"></div>
 
                 <div id="tableContent"></div>
-
                 <div id="totalRecordDiv"></div>
-
                 <div id="errMsg"></div>
-
             </form>
 
             <div id="LoadingImageLoadProcess" style="display: none;">
                 <g:img dir="images/image_loading.gif"/>
             </div>
-
         </div>
     </div>
 </div>
@@ -182,8 +147,11 @@
         $('#qparams').empty();
 
         $.ajax({
-            type: "GET",
-            url: "${pageContext.request.contextPath}/_AdmProc/getProcess/" + $("#processGroupId").val(),
+            type: "POST",
+            url: "${pageContext.request.contextPath}/_AdmProc/getProcess",
+            data: {
+                processGroupId: $("#processGroupId").val()
+            },
             async: false,
             success: function (data) {
                 hideAjaxLoadingImageProc();
@@ -223,9 +191,12 @@
         $('#qparams').empty();
 
         $.ajax({
-            type: "GET",
-            dataType: 'JSON',
-            url: "${pageContext.request.contextPath}/_AdmProc/getDynamicContent/" + $('#processId').val(),
+            type: 'POST',
+            url: '${pageContext.request.contextPath}/_AdmProc/getDynamicContent',
+            data: {
+                processId: $('#processId').val()
+            },
+            async: false,
             success: function (d) {
                 //alert(d);
                 hideAjaxLoadingImageProc();
@@ -254,28 +225,20 @@
         hideAjaxLoadingImageProc();
         $("#LoadingImageSrch").show();
         var my_cars = {};
-        var isReturn = false;
 
-        $('#search').prop('disabled', true);
-
-        $("#searchContent").find('.required').each(function () {
-
-            if (($('#' + $(this).attr("id")).val()) == "") {
-                alert('Enter required field');
+        $("#searchContent").find(':required').each(function () {
+            if ($(this).val() === "") {
+                $(this).focus();
                 hideAjaxLoadingImageProc();
-                isReturn = true;
-                return false;
+                return;
             }
         });
 
-        if (isReturn) {
-            return;
-        }
         $("#searchContent").find(':input').each(function () {
             my_cars[$(this).attr("id")] = $('#' + $(this).attr("id")).val();
         });
 
-        var strKeyVal = JSON.stringify(my_cars)
+        var strKeyVal = JSON.stringify(my_cars);
         $('#tableContent').empty();
         $('#totalRecordDiv').empty();
         $('#outputMsg').empty();
@@ -284,7 +247,8 @@
             type: "POST",
             url: "${pageContext.request.contextPath}/_AdmProc/search",
             data: {
-                strKeyVal: strKeyVal, processId: $('#processId').val()
+                strKeyVal: strKeyVal,
+                processId: $('#processId').val()
             },
             success: function (d) {
                 hideAjaxLoadingImageProc();
@@ -303,28 +267,28 @@
         });
     }
 
-    function executeProcess(aa) {
+    function executeProcess(btnId) {
         hideAjaxLoadingImageProc();
-        $('#PRC2').prop('disabled', true);
-        var myParam = {}
+        $('#'+btnId).prop('disabled', true);
+        var myParam = {};
         var isReturn = false;
         $('#errMsg').empty();
 
-        if ($(".chkAplc").length != 0 && $(".chkAplc:checked").length == 0) {
+        if ($(".chkAplc").length !== 0 && $(".chkAplc:checked").length === 0) {
             alert("Select at least one.");
-            $('#PRC2').prop('disabled', false);
+            $('#'+btnId).prop('disabled', false);
             return;
         }
         var r = confirm("Are you really want to execute the process");
-        if (r == true) {
+        if (r === true) {
             x = "You pressed OK!";
             $("#LoadingImageExecuteProcess").show();
         } else {
             return;
         }
 
-        $("#paramsContent").find('.required').each(function () {
-            if (($('#' + $(this).attr("id")).val()) == "") {
+        $("#paramsContent").find(':required').each(function () {
+            if ($(this).val() === "") {
                 alert('Enter required field');
                 hideAjaxLoadingImageProc();
                 isReturn = true;
@@ -340,11 +304,10 @@
             myParam[$(this).attr("id")] = $('#' + $(this).attr("id")).val();
         });
 
-
         var porcTitleMApxLOC = {};
 
-        porcTitleMApxLOC['PROC_BTN_ID'] = aa
-        porcTitleMApxLOC['FIXED_PARAM_VAL'] = myParam
+        porcTitleMApxLOC['PROC_BTN_ID'] = btnId;
+        porcTitleMApxLOC['FIXED_PARAM_VAL'] = myParam;
         porcTitleMApxLOC['QU_PARAM_VAL'] = $('#qparams').text();
 
         var spltqparams = $('#qparams').text();//"ID,OITH_ID,MAC_REMARKSX";
@@ -371,13 +334,18 @@
             $('#' + $(this).attr("id")).prop('disabled', true);
         });
 
+        alert('uuuuuu btnId:' + btnId);
+
         $.ajax({
             type: "POST",
-            url: "${request.contextPath}/_AdmProc/executeProcess",
+            url: "${pageContext.request.contextPath}/_AdmProc/executeProcess",
             data: {
-                strKeyVal: strKeyVal, porcTitleMApx: porcTitleMApx, processId: $('#processId').val()
+                strKeyVal: strKeyVal,
+                porcTitleMApx: porcTitleMApx,
+                processId: $('#processId').val()
             },
             success: function (d) {
+
                 hideAjaxLoadingImageProc();
                 $('#outputMsg').empty();
                 $('#outputMsg').append("Process executed on " + new Date() + "<br/>");
@@ -392,18 +360,16 @@
                 $("#buttonContent").find('.save').each(function () {
                     $('#' + $(this).attr("id")).prop('disabled', false);
                 });
-                completProcess()
-                $('#PRC2').prop('disabled', false);
+                completProcess();
+                $('#' + btnId).prop('disabled', false);
             },
             error: function (dd) {
-
                 alert("error" + dd);
                 hideAjaxLoadingImageProc();
-                $('#PRC2').prop('disabled', falses);
+                $('#' + btnId).prop('disabled', false);
             }
         });
     }
-
 
     // Message effect
     function completProcess() {
@@ -414,7 +380,8 @@
             }, 1000);
         }
         ;
-    };
+    }
+    ;
 </script>
 </tiles:putAttribute>  
 
