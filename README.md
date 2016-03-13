@@ -16,7 +16,7 @@ Quickstart
 Test on the browser
 -------------------
 
-	http://localhost:9090/oith_ws_hcm
+	http://localhost:9090/oith_ws_web
 
 Note: No additional services are required in order to start the application. Mongo DB configuration is in place but it is not used in the code.
 
