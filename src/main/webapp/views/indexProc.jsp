@@ -269,14 +269,14 @@
 
     function executeProcess(btnId) {
         hideAjaxLoadingImageProc();
-        $('#'+btnId).prop('disabled', true);
+        $('#' + btnId).prop('disabled', true);
         var myParam = {};
         var isReturn = false;
         $('#errMsg').empty();
 
         if ($(".chkAplc").length !== 0 && $(".chkAplc:checked").length === 0) {
             alert("Select at least one.");
-            $('#'+btnId).prop('disabled', false);
+            $('#' + btnId).prop('disabled', false);
             return;
         }
         var r = confirm("Are you really want to execute the process");
@@ -330,11 +330,7 @@
         var strKeyVal = JSON.stringify(arrKeyVal);
         var porcTitleMApx = JSON.stringify(porcTitleMApxLOC);
 
-        $("#buttonContent").find('.save').each(function () {
-            $('#' + $(this).attr("id")).prop('disabled', true);
-        });
-
-        alert('uuuuuu btnId:' + btnId);
+        //alert('uuuuuu btnId:' + btnId);
 
         $.ajax({
             type: "POST",
@@ -349,6 +345,9 @@
                 hideAjaxLoadingImageProc();
                 $('#outputMsg').empty();
                 $('#outputMsg').append("Process executed on " + new Date() + "<br/>");
+                
+                $('#' + btnId).prop('disabled', false);
+                
                 $('#outputMsg').append("No of Successful Process:  " + d.countsPass.toString() + "<br/>");
                 $('#outputMsg').append("No of Failed Process:  " + d.countsFail.toString() + "<br/>");
                 $('#outputMsg').append(d.procOutLink.toString());
@@ -357,11 +356,8 @@
                 $('#outputMsg').attr('class', 'fieldcontain');
                 $('#errMsg').attr('class', 'fieldcontain');
 
-                $("#buttonContent").find('.save').each(function () {
-                    $('#' + $(this).attr("id")).prop('disabled', false);
-                });
-                completProcess();
-                $('#' + btnId).prop('disabled', false);
+  
+                
             },
             error: function (dd) {
                 alert("error" + dd);
@@ -370,18 +366,6 @@
             }
         });
     }
-
-    // Message effect
-    function completProcess() {
-        $("#outputMsg").effect('slide', null, 100, callback);
-        function callback() {
-            setTimeout(function () {
-                $("#outputMsg").removeAttr("style").hide().fadeIn("slow");
-            }, 1000);
-        }
-        ;
-    }
-    ;
 </script>
 </tiles:putAttribute>  
 
