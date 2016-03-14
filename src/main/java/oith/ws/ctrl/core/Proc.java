@@ -31,33 +31,22 @@ public class Proc {
         dbS = mongo.getDB("demodb");
     }
 
-    public List<Map> getListFromDB(final String collx) {
+    public List<Map> getListFromDB(final String json, final String client) {
 
-        String client = null;
-        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (authUserObj instanceof MacUserDetail) {
-            client = ((MacUserDetail) authUserObj).getClientId();
-        }
-
-        //"{'collection':'Lookup', 'name':'mkyong', 'age':30}"
-        DBObject dbObject = (DBObject) JSON.parse(collx);
+        //"{'collection':'Lookup', 'query':{'name':'mkyong', 'age':30}, 'project':{'ID':'id', 'SHOW':'name'}}"
+        DBObject dbObject = (DBObject) JSON.parse(json);
 
         DBObject query = (DBObject) dbObject.get("query");
         query.put("client", new BasicDBObject("$ref", "Client").append("$id", new ObjectId(client)));
 //        query.put("client", new BasicDBObject("$ref", "Client").append("$id", new ObjectId("56e3b579261975783753b036")));
 
-        String coll = (String) dbObject.get("collection");
-
-        DBObject proj = (DBObject) dbObject.get("project");
-
-        System.out.println("kkkkk1024: " + dbObject);
-        System.out.println("kkkkk1024query: " + query);
+        String collection = (String) dbObject.get("collection");
+        DBObject project = (DBObject) dbObject.get("project");
 
         List<Map> list = null;
         try {
 
-            DBCursor jjkk = dbS.getCollection(coll).find(query);
+            DBCursor jjkk = dbS.getCollection(collection).find(query);
             list = new ArrayList();
             while (jjkk.hasNext()) {
 
@@ -65,10 +54,10 @@ public class Proc {
 
                 Map mm = new HashMap();
 
-                Object k = colx.get((String) proj.get("ID"));
+                Object k = colx.get((String) project.get("ID"));
                 mm.put("id", k);
 
-                Object s = colx.get((String) proj.get("SHOW"));
+                Object s = colx.get((String) project.get("SHOW"));
                 mm.put("show", s);
                 list.add(mm);
             }
@@ -79,7 +68,7 @@ public class Proc {
         return list;
     }
 
-    public String getSingleValFromDB(final String coll) {
+    public String getSingleValFromDBx(final String coll) {
 
         String outCol = "";
         String key = "";
@@ -95,49 +84,51 @@ public class Proc {
         }
     }
 
-    public Map<String, String> getProcPageMap(final String processId, AdmProcMstService admProcMstService) {
+    public Map<String, String> getProcPageMap(final String processId, final AdmProcMstService admProcMstService) {
 
         Map<String, String> objMap = new HashMap();
 
         //String query = "SELECT  COALESCE(A.DEFAULT_VAL,P.DEFAULT_VAL), UPPER(TRIM (COALESCE(A.WIDGET_IDENTITY,P.PARAM_NAME))) FROM ADM_PROC_DTL A,  ADM_PARAM P WHERE ADM_PROC_MST_ID = " + processId + " AND A.ADM_PARAM_ID =P.ID AND ADM_PARAM_ID IS NOT NULL AND A.IS_ACTIVE = 1 AND ZONE_TYPE = '" + ZoneType.SEARCH.toString() + "'  ORDER BY SL_NO ";
         //String query = "SELECT DEFAULT_VAL, WIDGET_IDENTITY FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND ZONE_TYPE = '" + ZoneType.SEARCH + "' ORDER BY SL_NO";
-        AdmProcMst statement = null;
+        AdmProcMst admProcMst = null;
         try {
-            statement = admProcMstService.findById(processId);
-            System.out.println("qwerty:" + statement);
+            admProcMst = admProcMstService.findById(processId);
         } catch (Exception e) {
             System.out.println("err 849: " + e);
         }
 
-        //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");
-        for (AdmProcDtl resultSet : statement.getAdmProcDtls()) {
-
-            if (resultSet.getZoneType() != ZoneType.SEARCH) {
-                continue;
-            }
-
-            //Integer isMandatory = resultSet.getInt("IS_MANDATORY");
-            //String widgetType = resultSet.getString("WIDGET_TYPE");
-            //String det_cmd = resultSet.getString("CMD");
-            String defaultValue = resultSet.getDefaultVal();
-            String widgetIdentity = resultSet.getWidgetIdentity();
-
-            String kkk = null;
-            if (defaultValue != null) {
-                kkk = getSingleValFromDB(defaultValue.trim());
-            }
-
-            objMap.put(widgetIdentity, kkk);
+        if (admProcMst == null) {
+            return objMap;
         }
 
-        //System.out.println("1133 mac parma map:" + objMap);
-        //do get def val in map
-        //objMap.put("P_ALKP_BLOOD_GROUP_ID", null);
-        //objMap.put("P_TITLE", null);
+        //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");
+        for (AdmProcDtl admProcDtl : admProcMst.getAdmProcDtls()) {
+
+            if (admProcDtl.getZoneType() != ZoneType.SEARCH || !admProcDtl.getIsActive()) {
+                continue;
+            }
+            String defaultValue = admProcDtl.getDefaultVal();
+            String widgetIdentity = admProcDtl.getWidgetIdentity();
+
+            if (defaultValue != null && !(defaultValue = defaultValue.trim()).isEmpty()) {
+                if (defaultValue.startsWith("{") && defaultValue.endsWith("}")) {
+                    defaultValue = getSingleValFromDBx(defaultValue.trim());
+                }
+            }
+            objMap.put(widgetIdentity, defaultValue);
+        }
+
         return getProcPageMap(processId, objMap, admProcMstService);
     }
 
     public Map<String, String> getProcPageMap(final String processId, final Map<String, String> objMap, AdmProcMstService admProcMstService) {
+
+        String client = null;
+        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (authUserObj instanceof MacUserDetail) {
+            client = ((MacUserDetail) authUserObj).getClientId();
+        }
 
         Map<String, String> mapper = new HashMap();
 
@@ -170,10 +161,10 @@ public class Proc {
                 String reqlab = "";
                 Object strdef = "";
 
-                if (defaultValue != null && (defaultValue = defaultValue.trim()).length() != 0) {
+                if (defaultValue != null && !(defaultValue = defaultValue.trim()).isEmpty()) {
 
                     if ((defaultValue.startsWith("{") && defaultValue.endsWith("}"))) {
-                        strdef = getSingleValFromDB(defaultValue);
+                        strdef = getSingleValFromDBx(defaultValue);
                     } else {
                         strdef = defaultValue;
                     }
@@ -284,7 +275,7 @@ public class Proc {
 
                         if (widgetType == WidgetType.LIST) {
 
-                            List<Map> optionList = getListFromDB(det_cmd);
+                            List<Map> optionList = getListFromDB(det_cmd, client);
 
                             System.out.println("optionList:" + optionList + "kkkkkkkkk:" + strdef);
                             String optSb = new String();
@@ -451,122 +442,116 @@ public class Proc {
             System.out.println("MacDynamo Err 0149:" + invisColParm);
         }
 
-        try {
-            String hjhjhjh = query;
-            for (String jkjk : objMap.keySet()) {
+        String hjhjhjh = query;
+        for (String jkjk : objMap.keySet()) {
 
-                Object vvv = objMap.get(jkjk);
-                String orpn = "null";
-                if (vvv != null) {
+            Object vvv = objMap.get(jkjk);
+            String orpn = "null";
+            if (vvv != null) {
 
-                    if (vvv instanceof String) {
-                        if (vvv.toString().trim().length() == 0) {
-                            orpn = "null";
-                        } else {
-                            orpn = "'" + vvv + "'";
-                        }
-                    } else if (vvv instanceof Date) {
-                        // System.out.println("rrrrrrrrrrrrrrrr vvv"+((Date) vvv));
-                        SimpleDateFormat klkl = new SimpleDateFormat("dd/MM/yyyy");
-                        orpn = "TO_DATE('" + klkl.format((Date) vvv) + "','DDMMYYYY')";
-                    } else if (vvv instanceof Number) {
-                        orpn = vvv + "";
+                if (vvv instanceof String) {
+                    if (vvv.toString().trim().length() == 0) {
+                        orpn = "null";
+                    } else {
+                        orpn = "'" + vvv + "'";
                     }
+                } else if (vvv instanceof Date) {
+                    // System.out.println("rrrrrrrrrrrrrrrr vvv"+((Date) vvv));
+                    SimpleDateFormat klkl = new SimpleDateFormat("dd/MM/yyyy");
+                    orpn = "TO_DATE('" + klkl.format((Date) vvv) + "','DDMMYYYY')";
+                } else if (vvv instanceof Number) {
+                    orpn = vvv + "";
                 }
-                hjhjhjh = hjhjhjh.replaceAll(":" + jkjk, orpn);
-
             }
-            //hjhjhjh = hjhjhjh.replaceAll(":P_CURR_USER_ID", userId.toString());
+            hjhjhjh = hjhjhjh.replaceAll(":" + jkjk, orpn);
 
-            DBCursor jjkk = dbS.getCollection(query).find();
+        }
+        //hjhjhjh = hjhjhjh.replaceAll(":P_CURR_USER_ID", userId.toString());
+
+        DBCursor jjkk = dbS.getCollection(query).find();
 
 //            tableHead += "<th><input type=\"checkbox\" id=\"checkAll\" name=\"checkAll\"  value=\"" + "" + "\"/></th>";
-            tableHead += "<th>Select All<br> <input type='checkbox' id='checkAll'/> </th>";    //TODO:Changed by : SAIF.
+        tableHead += "<th>Select All<br> <input type='checkbox' id='checkAll'/> </th>";    //TODO:Changed by : SAIF.
 
-            SortedSet<String> colAll = new TreeSet<>();
+        SortedSet<String> colAll = new TreeSet<>();
 
-            //wrong way to get all col ned resulate
-            while (jjkk.hasNext()) {
+        //wrong way to get all col ned resulate
+        while (jjkk.hasNext()) {
+            DBObject colx = jjkk.next();
+            colAll.addAll(colx.keySet());
+        }
 
-                DBObject colx = jjkk.next();
-                colAll.addAll(colx.keySet());
-
+        for (String colx : colAll) {
+            if (invisColParm.contains(colx)) {
+                continue;
             }
+            String tableHeadx = colx;
 
-            for (String colx : colAll) {
-                if (invisColParm.contains(colx)) {
-                    continue;
-                }
-                String tableHeadx = colx;
+            tableHeadx = getInitCap(tableHeadx);
+            tableHead += "<th>" + tableHeadx + "</th>";
+        }
 
-                tableHeadx = getInitCap(tableHeadx);
-                tableHead += "<th>" + tableHeadx + "</th>";
-            }
+        int j = 1;
+        jjkk = dbS.getCollection(query).find();
+        while (jjkk.hasNext()) {
 
-            int j = 1;
-            jjkk = dbS.getCollection(query).find();
-            while (jjkk.hasNext()) {
-
-                DBObject colx = jjkk.next();
+            DBObject colx = jjkk.next();
 
 //                tableRow += "<tr>";
 //                tableRow += "<td><input type=\"checkbox\" name=\"row." + j + "\" class=\"case\" value=\"row." + j + "\"/></td>";
 //                tableRow += " <input type = \"hidden\" name=\"rowid." + j + "\" value=\"aaa\" />";
-                tableRow
-                        += "<tr>"
-                        + "   <td class='center'>"
-                        + "       <input type='checkbox' name='row." + j + "' class='chkAplc' value='row." + j + "'/>"
-                        + //                                "       <input type='hidden' name='rowid." + j + "' class='chkAplc' value='aaa'/>" +
-                        "   </td>";
-                for (String colname : colAll) {
+            tableRow
+                    += "<tr>"
+                    + "   <td class='center'>"
+                    + "       <input type='checkbox' name='row." + j + "' class='chkAplc' value='row." + j + "'/>"
+                    + //                                "       <input type='hidden' name='rowid." + j + "' class='chkAplc' value='aaa'/>" +
+                    "   </td>";
+            for (String colname : colAll) {
 
-                    String isHedn = "";
-                    String hdnOrtxt = "text";
-                    if (invisColParm.contains(colname)) {
-                        isHedn = "style='display:none'";
-                        hdnOrtxt = "hidden";
-                    }
-
-                    String ident = "";
-                    String valx = null;
-                    if (colParma.contains(colname)) {
-                        ident = "id='" + colname + j + "'";
-                        valx = " value='" + colx.get(colname) + "'";
-                    }
-
-                    if (inputColParm.contains(colname)) {
-//                        tableRow += "<td " + isHedn + ">" + "<input " + ident + " type='" + hdnOrtxt + "'></input></td>";
-                        tableRow += "<td " + isHedn + ">" + "<input " + ident + valx + " type='" + hdnOrtxt + "'></input></td>";
-                    } else if (valx != null) {
-                        tableRow += "<td style=' display:none'>" + "<input " + ident + valx + " type='hidden'></input></td>";
-                    } else if (colname.toUpperCase().equals("URL")) {
-//                                 tableRow += "<td " + isHedn + " " + ident +" >" + resultSet.getObject(colname) + "</td>";
-                        String dd = "/" + colx.get(colname);
-//                                String urlLink = "<a href='${request.contextPath}" + dd + "' target='_blank'>" + resultSet.getObject(colname) + "</a>";
-                        String urlLink = "<a href='${request.contextPath}" + dd + "' target='_blank'>" + "Show Details" + "</a>";
-                        tableRow += "<td " + isHedn + " " + ident + " >" + urlLink + "</td>";
-                    } else {
-                        Object tdValue = colx.get(colname);
-                        if (tdValue == null) {
-                            tdValue = "";
-                        }
-                        tableRow += "<td " + isHedn + " " + ident + " >" + tdValue + "</td>";
-                    } //                        tableRow += "<td " + isHedn + ">" + "<input " + ident + " type='" + hdnOrtxt + "' value='" + resultSet.getObject(colname) + "'></input></td>";
+                String isHedn = "";
+                String hdnOrtxt = "text";
+                if (invisColParm.contains(colname)) {
+                    isHedn = "style='display:none'";
+                    hdnOrtxt = "hidden";
                 }
-                tableRow += "</tr>";
 
-                j++;
+                String ident = "";
+                String valx = null;
+                if (colParma.contains(colname)) {
+                    ident = "id='" + colname + j + "'";
+                    valx = " value='" + colx.get(colname) + "'";
+                }
+
+                if (inputColParm.contains(colname)) {
+//                        tableRow += "<td " + isHedn + ">" + "<input " + ident + " type='" + hdnOrtxt + "'></input></td>";
+                    tableRow += "<td " + isHedn + ">" + "<input " + ident + valx + " type='" + hdnOrtxt + "'></input></td>";
+                } else if (valx != null) {
+                    tableRow += "<td style=' display:none'>" + "<input " + ident + valx + " type='hidden'></input></td>";
+                } else if (colname.toUpperCase().equals("URL")) {
+//                                 tableRow += "<td " + isHedn + " " + ident +" >" + resultSet.getObject(colname) + "</td>";
+                    String dd = "/" + colx.get(colname);
+//                                String urlLink = "<a href='${request.contextPath}" + dd + "' target='_blank'>" + resultSet.getObject(colname) + "</a>";
+                    String urlLink = "<a href='${request.contextPath}" + dd + "' target='_blank'>" + "Show Details" + "</a>";
+                    tableRow += "<td " + isHedn + " " + ident + " >" + urlLink + "</td>";
+                } else {
+                    Object tdValue = colx.get(colname);
+                    if (tdValue == null) {
+                        tdValue = "";
+                    }
+                    tableRow += "<td " + isHedn + " " + ident + " >" + tdValue + "</td>";
+                } //                        tableRow += "<td " + isHedn + ">" + "<input " + ident + " type='" + hdnOrtxt + "' value='" + resultSet.getObject(colname) + "'></input></td>";
             }
+            tableRow += "</tr>";
 
-            String dataTable = "<table id='example' class='dataListTable table-bordered table-striped table-hover' style='width:100%'> " + tableHead + tableRow + "</table>";
-
-            tblMap.put("TOTAL_RECORD", Integer.toString(j - 1));
-            tblMap.put("DATA_TABLE", dataTable);
-
-        } catch (Exception ex) {
-            System.err.println(ex);
+            j++;
         }
 
+        String dataTable = "<table id='example' class='dataListTable table-bordered table-striped table-hover' style='width:100%'> " + tableHead + tableRow + "</table>";
+
+        tblMap.put("TOTAL_RECORD", Integer.toString(j - 1));
+        tblMap.put("DATA_TABLE", dataTable);
+
+        System.out.println("ttttttttttt1111:" + tblMap);
         return tblMap;
     }
 
@@ -593,6 +578,9 @@ public class Proc {
     }
 
     public String getInitCapWhile(final String dfg) {
-        return Character.toUpperCase(dfg.charAt(0)) + dfg.substring(1).toLowerCase();
+        if (dfg.length() >= 2) {
+            return Character.toUpperCase(dfg.charAt(0)) + dfg.substring(1).toLowerCase();
+        }
+        return dfg;
     }
 }
