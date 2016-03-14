@@ -160,9 +160,7 @@ class _AdmProcController {
 
             System.err.println("serchar 957 : " + user1 + " uuuu:" + uuuu);
 
-            // objectMapper.
             searcherIds = new HashMap<>(user1);
-//            searcherIds = (Map<String, String>) allMap.get("searcherIds");
         }
 
         Map<String, String> tblMap;
@@ -186,10 +184,21 @@ class _AdmProcController {
 
         tblMap = procObj.getTableOnly(processId, cc, admProcMstService);
 
+        // final HttpHeaders headers = new HttpHeaders();
+        //headers.setContentType(MediaType.TEXT_HTML);
+        // return new ResponseEntity<>(tblMap.toString(), headers, HttpStatus.CREATED);
         final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_HTML);
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        return new ResponseEntity<>(tblMap.toString(), headers, HttpStatus.CREATED);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return new ResponseEntity<>(objectMapper.writeValueAsString(tblMap), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
     @RequestMapping(value = "/executeProcess", method = RequestMethod.POST)
@@ -328,14 +337,9 @@ class _AdmProcController {
             outMsg.put("countsPass", countsPass + "");
             outMsg.put("countsFail", countsFail + "");
             outMsg.put("procOutLink", procLink);
-
-            //render(outMsg as JSON);
-            final HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.TEXT_HTML);
-            return new ResponseEntity<>(outMsg.toString(), headers, HttpStatus.CREATED);
+            
         } else {
 
-            //Sql sql = new Sql(dataSource);
             for (Object obj : c.keySet()) {
 
                 Map inrMapQu = (Map) c.get(obj);
@@ -360,7 +364,7 @@ class _AdmProcController {
 //                            lstObj,
 //                    {result1, result2 ->
 //                        if (result1.toString().toInteger() == 1) {
-//                            countsPass++;
+                    countsPass++;
 //                        }
 //                    })
                     //	}
@@ -381,11 +385,18 @@ class _AdmProcController {
             outMsg.put("countsFail", countsFail + "");
             outMsg.put("procOutLink", procLink);
 
-            //  render(outMsg as JSON);
-            final HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.TEXT_HTML);
-            return new ResponseEntity<>(outMsg.toString(), headers, HttpStatus.CREATED);
         }
+
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return new ResponseEntity<>(objectMapper.writeValueAsString(outMsg), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     String strErrOk(String hhh) {
@@ -400,7 +411,6 @@ class _AdmProcController {
     }
 
     Proc getProcObj() {
-        
 
         if (procObj == null) {
             procObj = new Proc();
