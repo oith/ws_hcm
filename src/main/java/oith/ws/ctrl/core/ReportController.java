@@ -1,7 +1,6 @@
 package oith.ws.ctrl.core;
 
-import oith.ws.dom.core.Report;
-import oith.ws.dom.core.ReportDetail;
+
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +14,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import javax.validation.Valid;
+import oith.ws.dom.core.AdmReport;
+import oith.ws.dom.core.AdmReportDetail;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
@@ -59,13 +60,13 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         } catch (NotLoggedInException e) {
         }
 
-        //model.addAttribute("supportFormatArrs", Arrays.asList(Report.ReportFormat.values()));
-        //model.addAttribute("supportFormats", Arrays.asList(Report.ReportFormat.values()));
+        //model.addAttribute("supportFormatArrs", Arrays.asList(AdmReport.ReportFormat.values()));
+        //model.addAttribute("supportFormats", Arrays.asList(AdmReport.ReportFormat.values()));
         String tags[] = {"good", "bad", "ok"};
         model.addAttribute("tags", Arrays.asList(tags));
 
-        Map<Report.ReportFormat, String> supportFormats = new EnumMap(Report.ReportFormat.class);
-        for (Report.ReportFormat col : Report.ReportFormat.values()) {
+        Map<AdmReport.ReportFormat, String> supportFormats = new EnumMap(AdmReport.ReportFormat.class);
+        for (AdmReport.ReportFormat col : AdmReport.ReportFormat.values()) {
             supportFormats.put(col, messageSource.getMessage("label.report.reportFormat." + col.name(), null, locale));
         }
         model.addAttribute("supportFormatArrs", supportFormats);
@@ -95,14 +96,14 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Report(client));
+        model.addAttribute(MODEL_ATTIRUTE, new AdmReport(client));
         allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Report currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReport currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -121,7 +122,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
             return ADD_FORM_VIEW;
         }
 
-        Report currObjectLocal = reportService.create(currObject);
+        AdmReport currObjectLocal = reportService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
@@ -138,7 +139,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         try {
-            Report currObjectLocal = reportService.findById(id, client);
+            AdmReport currObjectLocal = reportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
@@ -152,7 +153,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Report currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReport currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -171,7 +172,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         try {
-            Report currObjectLocal = reportService.findById(id, client);
+            AdmReport currObjectLocal = reportService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
@@ -182,7 +183,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
 
         try {
             //report = reportService.update(currObject);
-            Report currObjectLocal = reportService.update(currObject, "auditor,code,reportGroup,title,fileName,isActive,slNo,tags,supportFormatArrs,supportFormats,reportDetails,remarks");
+            AdmReport currObjectLocal = reportService.update(currObject, "auditor,code,reportGroup,title,fileName,isActive,slNo,tags,supportFormatArrs,supportFormats,reportDetails,remarks");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -203,7 +204,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         try {
-            Report currObjectLocal = reportService.findById(id, client);
+            AdmReport currObjectLocal = reportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             allComboSetup(model, locale);
             return COPY_FORM_VIEW;
@@ -217,7 +218,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Report currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReport currObject,
             BindingResult bindingResult,
             ModelMap model,
             RedirectAttributes attributes,
@@ -235,7 +236,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
             return COPY_FORM_VIEW;
         }
 
-        Report currObjectReal;
+        AdmReport currObjectReal;
         try {
             currObjectReal = reportService.findById(id, client);
         } catch (InAppropriateClientException e) {
@@ -245,7 +246,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         try {
-            Report currObjectLocal = new Report(client);
+            AdmReport currObjectLocal = new AdmReport(client);
             MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,reportGroup,title,fileName,isActive,slNo,tags,supportFormatArrs,supportFormats,reportDetails,remarks");
             currObjectLocal = reportService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
@@ -268,7 +269,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Report> reports;
+        List<AdmReport> reports;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             reports = reportService.search(searchCriteria, client);
@@ -300,7 +301,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Report> reports = reportService.findAllByClient(searchCriteria, client);
+        List<AdmReport> reports = reportService.findAllByClient(searchCriteria, client);
 
         model.addAttribute(MODEL_ATTRIBUTES, reports);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
@@ -324,7 +325,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         try {
-            Report currObjectLocal = reportService.findById(id, client);
+            AdmReport currObjectLocal = reportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
         } catch (ReportNotFoundException ex) {
@@ -345,7 +346,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         try {
-            Report deleted = reportService.delete(id, client);
+            AdmReport deleted = reportService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
         } catch (ReportNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
@@ -359,10 +360,10 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
 
     public String reportDetailsModal(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid ReportDetail currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReportDetail currObject,
             RedirectAttributes attributes) {
 
-        Report objOrignal;
+        AdmReport objOrignal;
         try {
             objOrignal = reportService.findById(id);
         } catch (ReportNotFoundException ex) {
@@ -370,23 +371,23 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         try {
-            if (objOrignal.getReportDetails() == null) {
-                objOrignal.setReportDetails(new LinkedHashSet<ReportDetail>());
+            if (objOrignal.getAdmReportDetails() == null) {
+                objOrignal.setAdmReportDetails(new LinkedHashSet<AdmReportDetail>());
             }
 
             if (currObject.getEmbdId() == null) {//new detail
 
                 int mx = -1;
-                for (ReportDetail col : objOrignal.getReportDetails()) {
+                for (AdmReportDetail col : objOrignal.getAdmReportDetails()) {
                     mx = Math.max(col.getEmbdId(), mx);
                 }
 
                 currObject.setEmbdId(mx + 1);
-                objOrignal.getReportDetails().add(currObject);
+                objOrignal.getAdmReportDetails().add(currObject);
 
             } else {//update
 
-                for (ReportDetail col : objOrignal.getReportDetails()) {
+                for (AdmReportDetail col : objOrignal.getAdmReportDetails()) {
                     if (col.getEmbdId().equals(currObject.getEmbdId())) {
                         PropertyUtils.copyProperties(col, currObject);
                         break;
@@ -411,7 +412,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         String dtsMstId = aaa[1];
         Integer id = Integer.parseInt(aaa[2]);
 
-        Report currMst;
+        AdmReport currMst;
         try {
             currMst = reportService.findById(dtsMstId);
         } catch (ReportNotFoundException ex) {
@@ -419,7 +420,7 @@ public class ReportController extends oith.ws.ctrl.core._OithClientAuditControll
         }
 
         try {
-            PropertyDescriptor pd = new PropertyDescriptor(field, Report.class);
+            PropertyDescriptor pd = new PropertyDescriptor(field, AdmReport.class);
             Method getter = pd.getReadMethod();
             Set<IEmbdDetail> jjj = (Set<IEmbdDetail>) getter.invoke(currMst);
 

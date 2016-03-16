@@ -10,8 +10,8 @@ import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
-import oith.ws.dom.core.AdmProcDtl;
-import oith.ws.dom.core.AdmProcMst;
+import oith.ws.dom.core.AdmProcess;
+import oith.ws.dom.core.AdmProcessDetail;
 import oith.ws.dom.core.AllEnum.WidgetType;
 import oith.ws.dom.core.AllEnum.ZoneType;
 import oith.ws.service.AdmProcMstService;
@@ -90,7 +90,7 @@ public class Proc {
 
         //String query = "SELECT  COALESCE(A.DEFAULT_VAL,P.DEFAULT_VAL), UPPER(TRIM (COALESCE(A.WIDGET_IDENTITY,P.PARAM_NAME))) FROM ADM_PROC_DTL A,  ADM_PARAM P WHERE ADM_PROC_MST_ID = " + processId + " AND A.ADM_PARAM_ID =P.ID AND ADM_PARAM_ID IS NOT NULL AND A.IS_ACTIVE = 1 AND ZONE_TYPE = '" + ZoneType.SEARCH.toString() + "'  ORDER BY SL_NO ";
         //String query = "SELECT DEFAULT_VAL, WIDGET_IDENTITY FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND ZONE_TYPE = '" + ZoneType.SEARCH + "' ORDER BY SL_NO";
-        AdmProcMst admProcMst = null;
+        AdmProcess admProcMst = null;
         try {
             admProcMst = admProcMstService.findById(processId);
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class Proc {
         }
 
         //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");
-        for (AdmProcDtl admProcDtl : admProcMst.getAdmProcDtls()) {
+        for (AdmProcessDetail admProcDtl : admProcMst.getAdmProcessDetails()) {
 
             if (admProcDtl.getZoneType() != ZoneType.SEARCH || !admProcDtl.getIsActive()) {
                 continue;
@@ -142,10 +142,10 @@ public class Proc {
 
         try {
 
-            AdmProcMst statement = admProcMstService.findById(processId);
+            AdmProcess statement = admProcMstService.findById(processId);
 
             //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");
-            for (AdmProcDtl resultSet : statement.getAdmProcDtls()) {
+            for (AdmProcessDetail resultSet : statement.getAdmProcessDetails()) {
 
                 ZoneType zoneType = resultSet.getZoneType();
                 Boolean isMandatory = resultSet.getIsMandatory();
@@ -415,11 +415,11 @@ public class Proc {
         List<String> colParma = new ArrayList();
 
         try {
-            AdmProcMst statement = admProcMstService.findById(processId);
+            AdmProcess statement = admProcMstService.findById(processId);
             query = statement.getCmd();
 
             //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");
-            for (AdmProcDtl resultSet : statement.getAdmProcDtls()) {
+            for (AdmProcessDetail resultSet : statement.getAdmProcessDetails()) {
 
                 if (resultSet.getZoneType() == ZoneType.PARAM_QU) {
                     continue;

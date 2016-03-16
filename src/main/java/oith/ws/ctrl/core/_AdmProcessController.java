@@ -8,20 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import oith.ws.dom.core.AdmProcDtl;
-import oith.ws.dom.core.AdmProcMst;
+import oith.ws.dom.core.AdmProcessDetail;
+import oith.ws.dom.core.AdmProcess;
 import oith.ws.dom.core.AllEnum;
-import oith.ws.dom.core.Client;
-import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.AdmProcMstService;
-import oith.ws.service.MacUserDetail;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,52 +26,50 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/_AdmProc")
-class _AdmProcController {
+@RequestMapping(value = "/_AdmProcess")
+class _AdmProcessController extends _OithClientAuditController {
 
     @Autowired
-    AdmProcMstService admProcMstService;
+    private AdmProcMstService admProcMstService;
 
-    private String porcTitleNw;
-    private Long runById = -1L;
     private Proc procObj;
 
-    @RequestMapping(value = {"/indexProcess"}, method = RequestMethod.GET)
-    public String index(ModelMap model, HttpServletRequest request) {
+    @RequestMapping(value = "/indexProcess", method = RequestMethod.GET)
+    public String indexProcess(ModelMap model, HttpServletRequest request) {
 
-        List<AdmProcMst.ProcGroup> pgs = Arrays.asList(AdmProcMst.ProcGroup.values());// AdmProcMst.executeQuery("SELECT m FROM AdmProcMst m WHERE m.itemType='PG' AND m.isActive=true ORDER BY m.slNo, m.title");
-        //List<AdmProcMst> kkx = ;// AdmProcMst.executeQuery("SELECT m FROM AdmProcMst m WHERE m.itemType='P' AND m.isActive=true ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
-        List<AdmProcMst> kk = new ArrayList();
+        List<AllEnum.Module> pgs = Arrays.asList(AllEnum.Module.values());// AdmProcess.executeQuery("SELECT m FROM AdmProcess m WHERE m.itemType='PG' AND m.isActive=true ORDER BY m.slNo, m.title");
+        //List<AdmProcess> kkx = ;// AdmProcess.executeQuery("SELECT m FROM AdmProcess m WHERE m.itemType='P' AND m.isActive=true ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
+        List<AdmProcess> kk = new ArrayList();
 
-        for (AdmProcMst bbb : admProcMstService.findAll()) {
-            AdmProcMst bbbm = new AdmProcMst();
+        for (AdmProcess bbb : admProcMstService.findAll()) {
+            AdmProcess bbbm = new AdmProcess();
             bbbm.setId(bbb.getId());
-            bbbm.setTitle(bbb.getProcGroup() + "-" + bbb.getTitle());
+            bbbm.setTitle(bbb.getModule() + "-" + bbb.getTitle());
             kk.add(bbbm);
         }
 
-        model.addAttribute("processGroupMap", pgs);
+        model.addAttribute("module", pgs);
         model.addAttribute("processMap", kk);
-        return "indexProc";
+        return "_indexProcess";
     }
 
     @RequestMapping(value = "/getProcess", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<String> getProcess(@RequestParam AdmProcMst.ProcGroup processGroupId) {
+    ResponseEntity<String> getProcess(@RequestParam AllEnum.Module module) {
 
-        System.out.println("finding getCodableDTO: code: " + processGroupId);
+        System.out.println("finding getCodableDTO: code: " + module);
 
         StringBuilder sb = new StringBuilder();
 
-        if (processGroupId == null) {
-            for (AdmProcMst bbb : admProcMstService.findAll()) {
-                sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb.getProcGroup()).append('-').append(bbb).append("</option>");
+        if (module == null) {
+            for (AdmProcess bbb : admProcMstService.findAll()) {
+                sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb.getModule()).append('-').append(bbb).append("</option>");
             }
         } else {
-            //List<AdmProcMst> mast = AAAAA;// AdmProcMst.executeQuery(selyaa + "AND m.parentAdmPermissible.id=" + processGroupId + " ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
+            //List<AdmProcess> mast = AAAAA;// AdmProcess.executeQuery(selyaa + "AND m.parentAdmPermissible.id=" + module + " ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
             sb.append("<option value='/${null}'>Select One</option>");
-            for (AdmProcMst bbb : admProcMstService.findAll()) {
-                if (bbb.getProcGroup() == processGroupId) {
+            for (AdmProcess bbb : admProcMstService.findAll()) {
+                if (bbb.getModule() == module) {
                     sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb).append("</option>");
                 }
             }
@@ -83,7 +77,6 @@ class _AdmProcController {
         //final HttpHeaders headers = new HttpHeaders();
         //headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(sb.toString(), HttpStatus.CREATED);
-
     }
 
     @RequestMapping(value = "/getDynamicContent", method = RequestMethod.POST)//produces = MediaType.APPLICATION_JSON_VALUE
@@ -212,15 +205,16 @@ class _AdmProcController {
         System.out.println("uuuuuuuu 252pm chk porcTitleMApx:" + porcTitleMApx);
         System.out.println("uuuuuuuu 252pm chk processId:" + processId);
 
+        String porcTitleNw = "";
         String errMsg = "";
         String errMsgShow = "";
         Map<String, String> outMsg = new HashMap();
 
         Map c = (Map) JSON.parse(strKeyVal);
-        AdmProcMst admProcMst = null;
+        AdmProcess admProcMst = null;
 
         try {
-            admProcMst = admProcMstService.findById(processId);// AdmProcMst.executeQuery("FROM AdmProcMst a WHERE a.id=" + processId);
+            admProcMst = admProcMstService.findById(processId);// AdmProcess.executeQuery("FROM AdmProcess a WHERE a.id=" + processId);
         } catch (Exception e) {
         }
 
@@ -245,7 +239,7 @@ class _AdmProcController {
 
         System.out.println("kkkkkkkkkkkkk FIXED_PARAMs:" + FIXED_PARAMs);
 
-        for (AdmProcDtl nnnx : admProcMst.getAdmProcDtls()) {
+        for (AdmProcessDetail nnnx : admProcMst.getAdmProcessDetails()) {
 
             String nnncmd = nnnx.getCmd();
             String nnnwidgetIdentity = nnnx.getWidgetIdentity();
@@ -292,9 +286,9 @@ class _AdmProcController {
         int countsPass = 0;
         int countsFail = 0;
 
-        runById = -1L;//getCurrAdmUser().getId();
+        long runById = -1L;//getCurrAdmUser().getId();
 
-        String procLink = "<a href=" + " AdmProcMst.findById(processId)" + "" + " target='_blank'>Process Output Link</a><br>";
+        String procLink = "<a href=" + " AdmProcess.findById(processId)" + "" + " target='_blank'>Process Output Link</a><br>";
 
         if (admProcMst.getCmd() == null || admProcMst.getCmd().trim().isEmpty()) {
 
@@ -337,7 +331,7 @@ class _AdmProcController {
             outMsg.put("countsPass", countsPass + "");
             outMsg.put("countsFail", countsFail + "");
             outMsg.put("procOutLink", procLink);
-            
+
         } else {
 
             for (Object obj : c.keySet()) {
