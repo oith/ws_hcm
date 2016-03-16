@@ -26,6 +26,83 @@
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/css/utility/animate-3.5.0.css'/> 
     <link rel='stylesheet' type='text/css' href='<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.css'/> 
 
+    <script>var contextPath = '<%=request.getContextPath()%>'</script>
+
+    <!--<script src='<=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/js/bootstrap.js'></script>-->
+    <!--<script src='<=request.getContextPath()%>/resources/js/bootstrap/bootstrap-datepicker.js'></script>-->
+    <!--<script src='<=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js'></script>-->
+
+    <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.js'></script>
+    <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.jqueryui.js'></script>
+    <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/jquery.dataTables.js'></script>
+    <script src='<%=request.getContextPath()%>/resources/js/oith/oith-1.0.0.js'></script> 
+    <script src='<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.js'></script>
+
+    <script src='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+    <script src='<%=request.getContextPath()%>/webjars/jquery/2.2.1/jquery.min.js'></script>
+
+    <script type='text/javascript'>
+
+        $(document).ready(function () {
+            //alert('mac test js ' + contextPath);
+            $('#openInNewPage').prop('checked',${openInNewPageLoc});
+            //$('#openInNewPage').prop('checked',{lang});
+        });
+        $(document).on('change', '#quickAccessx', function () {
+
+            var isNewWindow = $('#openInNewPage').prop('checked');
+            var quickAccessx = $('#quickAccessx').val();
+
+            if (isNewWindow === '' || isNewWindow === null) {
+                isNewWindow = '_self';
+            } else {
+                isNewWindow = '_blank';
+            }
+
+            if (quickAccessx !== null || quickAccessx !== '') {
+                var urlToGo = $(this).val();
+                window.open(urlToGo, isNewWindow);
+                $('#quickAccessx').prop('selectedIndex', 0);
+            }
+        });
+        $('#quickAccessUrl').on('keydown', function (event) {
+            if (event.which === 13) {
+
+                var isNewWindow = $('#openInNewPage').prop('checked');
+
+                if (isNewWindow === null || isNewWindow === '') {
+                    isNewWindow = '_self';
+                } else {
+                    isNewWindow = '_blank';
+                }
+                var urlCode = $(this).val();
+                if (urlCode.length === 3) {
+//                            window.open('http://www.google.com', '_blank');
+                    goToQuickAccessUrl(urlCode, isNewWindow);
+                }
+            }
+        });
+        function goToQuickAccessUrl(urlCode, isNewWindow) {
+
+            //window.open('http://www.google.com', isNewWindow);
+            //window.open(urlToGo, isNewWindow);
+
+            $.ajax({
+                url: contextPath + '/menu/' + urlCode,
+                type: 'GET',
+                data: '',
+                async: false,
+                success: function (response) {
+
+                    window.open(contextPath + '/' + response, isNewWindow);
+                    $('#quickAccessUrl').val('');
+                },
+                error: function (exception) {
+                    alert('Sorry, An Internal Error Occurred...!\n(Error : header.jsp/goToQuickAccessUrl:ln=206)');
+                }
+            });
+        }
+    </script>
 </head>
 
 <body>   
@@ -140,80 +217,3 @@
                 </div>
             </div>
 
-            <script>var contextPath = '<%=request.getContextPath()%>'</script>
-
-            <!--<script src='<=request.getContextPath()%>/resources/frameworks/bootstrap-3.3.6/js/bootstrap.js'></script>-->
-            <!--<script src='<=request.getContextPath()%>/resources/js/bootstrap/bootstrap-datepicker.js'></script>-->
-            <!--<script src='<=request.getContextPath()%>/resources/js/jquery/jquery-1.11.3/jquery-min.js'></script>-->
-
-            <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.bootstrap.js'></script>
-            <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/dataTables.jqueryui.js'></script>
-            <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/jquery.dataTables.js'></script>
-            <script src='<%=request.getContextPath()%>/resources/js/oith/oith-1.0.0.js'></script> 
-            <script src='<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.js'></script>
-
-            <script src='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/js/bootstrap.min.js'></script>
-            <script src='<%=request.getContextPath()%>/webjars/jquery/2.2.1/jquery.min.js'></script>
-
-            <script type='text/javascript'>
-
-                $(document).ready(function () {
-                    //alert('mac test js ' + contextPath);
-                    $('#openInNewPage').prop('checked',${openInNewPageLoc});
-                    //$('#openInNewPage').prop('checked',{lang});
-                });
-                $(document).on('change', '#quickAccessx', function () {
-
-                    var isNewWindow = $('#openInNewPage').prop('checked');
-                    var quickAccessx = $('#quickAccessx').val();
-
-                    if (isNewWindow === '' || isNewWindow === null) {
-                        isNewWindow = '_self';
-                    } else {
-                        isNewWindow = '_blank';
-                    }
-
-                    if (quickAccessx !== null || quickAccessx !== '') {
-                        var urlToGo = $(this).val();
-                        window.open(urlToGo, isNewWindow);
-                        $('#quickAccessx').prop('selectedIndex', 0);
-                    }
-                });
-                $('#quickAccessUrl').on('keydown', function (event) {
-                    if (event.which === 13) {
-
-                        var isNewWindow = $('#openInNewPage').prop('checked');
-
-                        if (isNewWindow === null || isNewWindow === '') {
-                            isNewWindow = '_self';
-                        } else {
-                            isNewWindow = '_blank';
-                        }
-                        var urlCode = $(this).val();
-                        if (urlCode.length === 3) {
-//                            window.open('http://www.google.com', '_blank');
-                            goToQuickAccessUrl(urlCode, isNewWindow);
-                        }
-                    }
-                });
-                function goToQuickAccessUrl(urlCode, isNewWindow) {
-
-                    //window.open('http://www.google.com', isNewWindow);
-                    //window.open(urlToGo, isNewWindow);
-
-                    $.ajax({
-                        url: contextPath + '/menu/' + urlCode,
-                        type: 'GET',
-                        data: '',
-                        async: false,
-                        success: function (response) {
-
-                            window.open(contextPath + '/' + response, isNewWindow);
-                            $('#quickAccessUrl').val('');
-                        },
-                        error: function (exception) {
-                            alert('Sorry, An Internal Error Occurred...!\n(Error : header.jsp/goToQuickAccessUrl:ln=206)');
-                        }
-                    });
-                }
-            </script>
