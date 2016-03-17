@@ -1,1 +1,0 @@
-{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"demodb.Association"},{"v":1,"unique":true,"key":{"client":1,"hcmObjectAlpha":-1,"hcmObjectBeta":-1},"name":"client_hcmObjAB_idx","ns":"demodb.Association"},{"v":1,"unique":true,"key":{"client":1,"hcmObjectBeta":-1,"hcmObjectAlpha":-1},"name":"client_hcmObjBA_idx","ns":"demodb.Association"}]}
