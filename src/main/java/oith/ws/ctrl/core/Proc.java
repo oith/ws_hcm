@@ -14,7 +14,7 @@ import oith.ws.dom.core.AdmProcess;
 import oith.ws.dom.core.AdmProcessDetail;
 import oith.ws.dom.core.AllEnum.WidgetType;
 import oith.ws.dom.core.AllEnum.ZoneType;
-import oith.ws.service.AdmProcMstService;
+import oith.ws.service.AdmProcessService;
 import oith.ws.service.MacUserDetail;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -84,7 +84,7 @@ public class Proc {
         }
     }
 
-    public Map<String, String> getProcPageMap(final String processId, final AdmProcMstService admProcMstService) {
+    public Map<String, String> getProcPageMap(final String processId, final AdmProcessService admProcMstService) {
 
         Map<String, String> objMap = new HashMap();
 
@@ -121,7 +121,7 @@ public class Proc {
         return getProcPageMap(processId, objMap, admProcMstService);
     }
 
-    public Map<String, String> getProcPageMap(final String processId, final Map<String, String> objMap, AdmProcMstService admProcMstService) {
+    public Map<String, String> getProcPageMap(final String processId, final Map<String, String> objMap, AdmProcessService admProcMstService) {
 
         String client = null;
         Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -403,7 +403,7 @@ public class Proc {
         return mapper;
     }
 
-    public Map<String, String> getTableOnly(final String processId, final Map<String, Object> objMap, AdmProcMstService admProcMstService) { //, String currSprId, String empId, String deptId) {
+    public Map<String, String> getTableOnly(final String processId, final Map<String, Object> objMap, final AdmProcessService admProcessService) { //, String currSprId, String empId, String deptId) {
 
         Map<String, String> tblMap = new HashMap();
         String tableHead = new String();
@@ -415,7 +415,7 @@ public class Proc {
         List<String> colParma = new ArrayList();
 
         try {
-            AdmProcess statement = admProcMstService.findById(processId);
+            AdmProcess statement = admProcessService.findById(processId);
             query = statement.getCmd();
 
             //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");

@@ -1,17 +1,19 @@
 package oith.ws.ctrl.core;
 
 import com.mongodb.util.JSON;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import oith.ws.dom.core.AdmProcessDetail;
 import oith.ws.dom.core.AdmProcess;
 import oith.ws.dom.core.AllEnum;
-import oith.ws.service.AdmProcMstService;
+import oith.ws.service.AdmProcessService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -30,18 +32,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 class _AdmProcessController extends _OithClientAuditController {
 
     @Autowired
-    private AdmProcMstService admProcMstService;
+    private org.springframework.context.MessageSource messageSource;
+    @Autowired
+    private AdmProcessService admProcessService;
 
     private Proc procObj;
 
-    @RequestMapping(value = "/indexProcess", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/indexProcess", ""}, method = RequestMethod.GET)
     public String indexProcess(ModelMap model, HttpServletRequest request) {
 
         List<AllEnum.Module> pgs = Arrays.asList(AllEnum.Module.values());// AdmProcess.executeQuery("SELECT m FROM AdmProcess m WHERE m.itemType='PG' AND m.isActive=true ORDER BY m.slNo, m.title");
         //List<AdmProcess> kkx = ;// AdmProcess.executeQuery("SELECT m FROM AdmProcess m WHERE m.itemType='P' AND m.isActive=true ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
         List<AdmProcess> kk = new ArrayList();
 
-        for (AdmProcess bbb : admProcMstService.findAll()) {
+        for (AdmProcess bbb : admProcessService.findAll()) {
             AdmProcess bbbm = new AdmProcess();
             bbbm.setId(bbb.getId());
             bbbm.setTitle(bbb.getModule() + "-" + bbb.getTitle());
@@ -53,22 +57,23 @@ class _AdmProcessController extends _OithClientAuditController {
         return "_indexProcess";
     }
 
-    @RequestMapping(value = "/getProcess", method = RequestMethod.POST)
+    @RequestMapping(value = "/getProcess", method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
     public @ResponseBody
-    ResponseEntity<String> getProcess(@RequestParam AllEnum.Module module) {
+    ResponseEntity<String> getProcess(@RequestParam AllEnum.Module module, final Locale locale) {
 
         System.out.println("finding getCodableDTO: code: " + module);
 
         StringBuilder sb = new StringBuilder();
+        String uuuu = messageSource.getMessage("default.select.null", null, locale);
+
+        sb.append("<option value='/${null}'>").append(uuuu).append("</option>");
 
         if (module == null) {
-            for (AdmProcess bbb : admProcMstService.findAll()) {
+            for (AdmProcess bbb : admProcessService.findAll()) {
                 sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb.getModule()).append('-').append(bbb).append("</option>");
             }
         } else {
-            //List<AdmProcess> mast = AAAAA;// AdmProcess.executeQuery(selyaa + "AND m.parentAdmPermissible.id=" + module + " ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
-            sb.append("<option value='/${null}'>Select One</option>");
-            for (AdmProcess bbb : admProcMstService.findAll()) {
+            for (AdmProcess bbb : admProcessService.findAll()) {
                 if (bbb.getModule() == module) {
                     sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb).append("</option>");
                 }
@@ -92,7 +97,7 @@ class _AdmProcessController extends _OithClientAuditController {
             allMap = new HashMap();
             allMap.put("error", "Connection not found!!!");
         } else {
-            allMap = procObj.getProcPageMap(processId, admProcMstService);
+            allMap = procObj.getProcPageMap(processId, admProcessService);
 
 //            allMap.put("btner", "abc tj btner kfds");
 //            allMap.put("paramer", "abc tj paramer kfds");
@@ -141,7 +146,7 @@ class _AdmProcessController extends _OithClientAuditController {
 //
 //mongoTemplate.getCollection("");
 //mongoOperations.findAll();
-            allMap = procObj.getProcPageMap(processId, admProcMstService);
+            allMap = procObj.getProcPageMap(processId, admProcessService);
             String uuuu = allMap.get("searcherIds");
 
             Map user1 = null;
@@ -175,7 +180,7 @@ class _AdmProcessController extends _OithClientAuditController {
             }
         }
 
-        tblMap = procObj.getTableOnly(processId, cc, admProcMstService);
+        tblMap = procObj.getTableOnly(processId, cc, admProcessService);
 
         // final HttpHeaders headers = new HttpHeaders();
         //headers.setContentType(MediaType.TEXT_HTML);
@@ -214,7 +219,7 @@ class _AdmProcessController extends _OithClientAuditController {
         AdmProcess admProcMst = null;
 
         try {
-            admProcMst = admProcMstService.findById(processId);// AdmProcess.executeQuery("FROM AdmProcess a WHERE a.id=" + processId);
+            admProcMst = admProcessService.findById(processId);// AdmProcess.executeQuery("FROM AdmProcess a WHERE a.id=" + processId);
         } catch (Exception e) {
         }
 
@@ -378,7 +383,6 @@ class _AdmProcessController extends _OithClientAuditController {
             outMsg.put("countsPass", countsPass + "");
             outMsg.put("countsFail", countsFail + "");
             outMsg.put("procOutLink", procLink);
-
         }
 
         final HttpHeaders headers = new HttpHeaders();

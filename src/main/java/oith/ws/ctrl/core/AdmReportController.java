@@ -1,23 +1,24 @@
 package oith.ws.ctrl.core;
 
-import oith.ws.dom.core.Post;
-import oith.ws.dom.core.Comment;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import javax.validation.Valid;
-import oith.ws.dom.core.Auditor;
+import oith.ws.dom.core.AdmReport;
+import oith.ws.dom.core.AdmReportDetail;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
-import oith.ws.exception.PostNotFoundException;
+import oith.ws.exception.AdmReportNotFoundException;
 import oith.ws.exception.InAppropriateClientException;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.exception.UserNotFoundException;
@@ -34,10 +35,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/post")
-public class PostController extends _OithClientAuditController {
+@RequestMapping(value = "/admReport")
+public class AdmReportController extends oith.ws.ctrl.core._OithClientAuditController {
 
-    public static final String MODEL_ATTIRUTE = "post";
+    public static final String MODEL_ATTIRUTE = "admReport";
     public static final String MODEL_ATTRIBUTES = MODEL_ATTIRUTE + "s";
     public static final String ADD_FORM_VIEW = MODEL_ATTIRUTE + "/create";
     public static final String EDIT_FORM_VIEW = MODEL_ATTIRUTE + "/edit";
@@ -46,31 +47,38 @@ public class PostController extends _OithClientAuditController {
     public static final String LIST_VIEW = MODEL_ATTIRUTE + "/index";
 
     @Autowired
-    private oith.ws.service.PostService postService;
+    private org.springframework.context.MessageSource messageSource;
 
-    private void allComboSetup(ModelMap model) {
+    @Autowired
+    private oith.ws.service.AdmReportService admReportService;
+
+    private void allComboSetup(ModelMap model, Locale locale) {
         Client client = null;
         try {
             client = super.getLoggedClient();
         } catch (NotLoggedInException e) {
         }
 
+        String tags[] = {"good", "bad", "ok"};
+        model.addAttribute("tags", Arrays.asList(tags));
+
+        Map<AdmReport.ReportFormat, String> supportFormats = new EnumMap(AdmReport.ReportFormat.class);
+        for (AdmReport.ReportFormat col : AdmReport.ReportFormat.values()) {
+            supportFormats.put(col, messageSource.getMessage("label.admReport.reportFormat." + col.name(), null, locale));
+        }
+        model.addAttribute("supportFormats", supportFormats);
+        //
         //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
         //List emps = new LinkedList();
         //for (Emp col : empService.findAllByClient(client)) {
         //    emps.add(col);
-        //}
-        //model.addAttribute("emps", emps);
-        //List accountHeadFms = new LinkedList();
-        //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
-        //    accountHeadFms.add(col);
         //}
         //model.addAttribute("accountHeadFms", accountHeadFms);
         //model.addAttribute("accountHeadFmOpposites", accountHeadFms);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
+    public String create(ModelMap model, Locale locale) {
 
         Client client;
         try {
@@ -79,17 +87,18 @@ public class PostController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        model.addAttribute(MODEL_ATTIRUTE, new Post(client));
-        allComboSetup(model);
+        model.addAttribute(MODEL_ATTIRUTE, new AdmReport(client));
+        allComboSetup(model, locale);
         return ADD_FORM_VIEW;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String save(
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReport currObject,
             BindingResult bindingResult,
             ModelMap model,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            Locale locale) {
 
         try {
             super.save(currObject, attributes);
@@ -100,18 +109,18 @@ public class PostController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return ADD_FORM_VIEW;
         }
 
-        Post currObjectLocal = postService.create(currObject);
+        AdmReport currObjectLocal = admReportService.create(currObject);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_CREATED, currObjectLocal.getId());
 
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String edit(@PathVariable("id") String id, ModelMap model) {
+    public String edit(@PathVariable("id") String id, ModelMap model, Locale locale) {
 
         Client client;
         try {
@@ -121,11 +130,11 @@ public class PostController extends _OithClientAuditController {
         }
 
         try {
-            Post currObjectLocal = postService.findById(id, client);
+            AdmReport currObjectLocal = admReportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
-        } catch (PostNotFoundException ex) {
+        } catch (AdmReportNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -135,10 +144,11 @@ public class PostController extends _OithClientAuditController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String update(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReport currObject,
             BindingResult bindingResult,
             ModelMap model,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            Locale locale) {
 
         Client client;
         try {
@@ -148,34 +158,34 @@ public class PostController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
         }
 
         try {
-            Post currObjectLocal = postService.findById(id, client);
+            AdmReport currObjectLocal = admReportService.findById(id, client);
             currObject.setAuditor(currObjectLocal.getAuditor());
             super.update(currObject);
         } catch (NotLoggedInException | InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (PostNotFoundException | UserNotFoundException ex) {
+        } catch (AdmReportNotFoundException | UserNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            //post = postService.update(currObject);
-            Post currObjectLocal = postService.update(currObject, "auditor,subject,content,comments");
+            //admReport = reportService.update(currObject);
+            AdmReport currObjectLocal = admReportService.update(currObject, "auditor,code,module,title,fileName,isActive,slNo,tags,supportFormats,admReportDetails,remarks");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
             errorHandler(bindingResult, e);
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return EDIT_FORM_VIEW;
         }
     }
 
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.GET)
-    public String copy(@PathVariable("id") String id, ModelMap model) {
+    public String copy(@PathVariable("id") String id, ModelMap model, Locale locale) {
 
         Client client;
         try {
@@ -185,11 +195,11 @@ public class PostController extends _OithClientAuditController {
         }
 
         try {
-            Post currObjectLocal = postService.findById(id, client);
+            AdmReport currObjectLocal = admReportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return COPY_FORM_VIEW;
-        } catch (PostNotFoundException ex) {
+        } catch (AdmReportNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -199,10 +209,11 @@ public class PostController extends _OithClientAuditController {
     @RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
     public String copied(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Post currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReport currObject,
             BindingResult bindingResult,
             ModelMap model,
-            RedirectAttributes attributes) {
+            RedirectAttributes attributes,
+            Locale locale) {
 
         Client client;
         try {
@@ -212,28 +223,28 @@ public class PostController extends _OithClientAuditController {
         }
 
         if (bindingResult.hasErrors()) {
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return COPY_FORM_VIEW;
         }
 
-        Post currObjectReal;
+        AdmReport currObjectReal;
         try {
-            currObjectReal = postService.findById(id, client);
+            currObjectReal = admReportService.findById(id, client);
         } catch (InAppropriateClientException e) {
             return REDIRECT_TO_LOGIN;
-        } catch (PostNotFoundException ex) {
+        } catch (AdmReportNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            Post currObjectLocal = new Post(client);
-            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,subject,content,comments");
-            currObjectLocal = postService.create(currObjectLocal);
+            AdmReport currObjectLocal = new AdmReport(client);
+            MacUtils.copyProperties(currObjectLocal, currObject, currObjectReal, "auditor,code,module,title,fileName,isActive,slNo,tags,supportFormats,admReportDetails,remarks");
+            currObjectLocal = admReportService.create(currObjectLocal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_COPIED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
             errorHandler(bindingResult, e);
-            allComboSetup(model);
+            allComboSetup(model, locale);
             return COPY_FORM_VIEW;
         }
     }
@@ -249,14 +260,14 @@ public class PostController extends _OithClientAuditController {
         }
 
         String searchTerm = searchCriteria.getSearchTerm();
-        List<Post> posts;
+        List<AdmReport> reports;
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            posts = postService.search(searchCriteria, client);
+            reports = admReportService.search(searchCriteria, client);
         } else {
-            posts = postService.findAllByClient(searchCriteria, client);
+            reports = admReportService.findAllByClient(searchCriteria, client);
         }
-        model.addAttribute(MODEL_ATTRIBUTES, posts);
+        model.addAttribute(MODEL_ATTRIBUTES, reports);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -281,9 +292,9 @@ public class PostController extends _OithClientAuditController {
         searchCriteria.setPage(0);
         searchCriteria.setPageSize(10);
 
-        List<Post> posts = postService.findAllByClient(searchCriteria, client);
+        List<AdmReport> reports = admReportService.findAllByClient(searchCriteria, client);
 
-        model.addAttribute(MODEL_ATTRIBUTES, posts);
+        model.addAttribute(MODEL_ATTRIBUTES, reports);
         model.addAttribute(SEARCH_CRITERIA, searchCriteria);
 
         List<Integer> pages = new ArrayList<>();
@@ -305,10 +316,10 @@ public class PostController extends _OithClientAuditController {
         }
 
         try {
-            Post currObjectLocal = postService.findById(id, client);
+            AdmReport currObjectLocal = admReportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
             return SHOW_FORM_VIEW;
-        } catch (PostNotFoundException ex) {
+        } catch (AdmReportNotFoundException ex) {
             return NOT_FOUND;
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -326,9 +337,9 @@ public class PostController extends _OithClientAuditController {
         }
 
         try {
-            Post deleted = postService.delete(id, client);
+            AdmReport deleted = admReportService.delete(id, client);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_DELETED, deleted.getId());
-        } catch (PostNotFoundException e) {
+        } catch (AdmReportNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_WAS_NOT_FOUND);
         } catch (InAppropriateClientException ex) {
             return REDIRECT_TO_LOGIN;
@@ -336,54 +347,48 @@ public class PostController extends _OithClientAuditController {
         return REDIRECT + "/" + LIST_VIEW;
     }
 
-    @RequestMapping(value = "/comments/edit/{id}", method = RequestMethod.POST)
-    public String commentsModal(
+    @RequestMapping(value = "/admReportDetails/edit/{id}", method = RequestMethod.POST)
+
+    public String reportDetailsModal(
             @PathVariable("id") String id,
-            @ModelAttribute(MODEL_ATTIRUTE) @Valid Comment currObject,
+            @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReportDetail currObject,
             RedirectAttributes attributes) {
 
-        Post objOrignal;
+        AdmReport objOrignal;
         try {
-            objOrignal = postService.findById(id);
-        } catch (PostNotFoundException ex) {
+            objOrignal = admReportService.findById(id);
+        } catch (AdmReportNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            if (objOrignal.getComments() == null) {
-                objOrignal.setComments(new LinkedHashSet<Comment>());
+            if (objOrignal.getAdmReportDetails() == null) {
+                objOrignal.setAdmReportDetails(new LinkedHashSet<AdmReportDetail>());
             }
 
             if (currObject.getEmbdId() == null) {//new detail
 
                 int mx = -1;
-                for (Comment col : objOrignal.getComments()) {
+                for (AdmReportDetail col : objOrignal.getAdmReportDetails()) {
                     mx = Math.max(col.getEmbdId(), mx);
                 }
 
                 currObject.setEmbdId(mx + 1);
-                currObject.setAuditor(new Auditor(null, new Date()));
-                objOrignal.getComments().add(currObject);
+                objOrignal.getAdmReportDetails().add(currObject);
 
             } else {//update
 
-                for (Comment col : objOrignal.getComments()) {
+                for (AdmReportDetail col : objOrignal.getAdmReportDetails()) {
                     if (col.getEmbdId().equals(currObject.getEmbdId())) {
-
-                        if (currObject.getAuditor() == null) {
-                            currObject.setAuditor(new Auditor(null, new Date()));
-                        }
-                        currObject.getAuditor().setUpdateDate(new Date());
-
                         PropertyUtils.copyProperties(col, currObject);
                         break;
                     }
                 }
             }
 
-            postService.update(objOrignal);
+            admReportService.update(objOrignal);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObject.getEmbdId());
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | PostNotFoundException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | AdmReportNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
         }
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + id;
@@ -398,15 +403,15 @@ public class PostController extends _OithClientAuditController {
         String dtsMstId = aaa[1];
         Integer id = Integer.parseInt(aaa[2]);
 
-        Post currMst;
+        AdmReport currMst;
         try {
-            currMst = postService.findById(dtsMstId);
-        } catch (PostNotFoundException ex) {
+            currMst = admReportService.findById(dtsMstId);
+        } catch (AdmReportNotFoundException ex) {
             return NOT_FOUND;
         }
 
         try {
-            PropertyDescriptor pd = new PropertyDescriptor(field, Post.class);
+            PropertyDescriptor pd = new PropertyDescriptor(field, AdmReport.class);
             Method getter = pd.getReadMethod();
             Set<IEmbdDetail> jjj = (Set<IEmbdDetail>) getter.invoke(currMst);
 
@@ -416,9 +421,9 @@ public class PostController extends _OithClientAuditController {
                     break;
                 }
             }
-            postService.update(currMst);
+            admReportService.update(currMst);
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, dtsMstId);
-        } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | PostNotFoundException e) {
+        } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | AdmReportNotFoundException e) {
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_WAS_NOT_FOUND);
         }
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + dtsMstId;

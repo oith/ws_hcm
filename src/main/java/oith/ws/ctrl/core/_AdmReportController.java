@@ -2,12 +2,15 @@ package oith.ws.ctrl.core;
 
 //import com.jaspersoft.mongodb.MongoDbConnection;
 import com.jaspersoft.mongodb.connection.MongoDbConnection;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -18,7 +21,7 @@ import oith.ws.dom.core.Client;
 import oith.ws.dom.core.AdmReport;
 import oith.ws.dom.core.AllEnum;
 import oith.ws.exception.NotLoggedInException;
-import oith.ws.service.ReportService;
+import oith.ws.service.AdmReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +38,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class _AdmReportController extends _OithClientAuditController {
 
     @Autowired
-    private ReportService reportService;
+    private org.springframework.context.MessageSource messageSource;
+    @Autowired
+    private AdmReportService admReportService;
 
-    @RequestMapping(value = "/indexReport", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/indexReport", ""}, method = RequestMethod.GET)
     public String indexReport(ModelMap model, RedirectAttributes attributes) {
 
         Client client;
@@ -51,10 +56,10 @@ public class _AdmReportController extends _OithClientAuditController {
         //List<AdmProcMst> kkx = ;// AdmProcMst.executeQuery("SELECT m FROM AdmProcMst m WHERE m.itemType='P' AND m.isActive=true ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
         List<AdmReport> kk = new ArrayList();
 
-        for (AdmReport bbb : reportService.findAllByClient(client)) {
+        for (AdmReport bbb : admReportService.findAllByClient(client)) {
             AdmReport bbbm = new AdmReport();
             bbbm.setId(bbb.getId());
-            bbbm.setTitle(bbb.getModule()+ "-" + bbb.getTitle());
+            bbbm.setTitle(bbb.getModule() + "-" + bbb.getTitle());
             kk.add(bbbm);
         }
 
@@ -63,9 +68,9 @@ public class _AdmReportController extends _OithClientAuditController {
         return "_indexReport";
     }
 
-    @RequestMapping(value = "/getReport", method = RequestMethod.POST)
+    @RequestMapping(value = "/getReport", method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
     public @ResponseBody
-    ResponseEntity<String> getReport(@RequestParam AllEnum.Module module) {
+    ResponseEntity<String> getReport(@RequestParam AllEnum.Module module, final Locale locale) {
 
         System.out.println("finding getCodableDTO: code: " + module);
         Client client;
@@ -74,18 +79,22 @@ public class _AdmReportController extends _OithClientAuditController {
         } catch (NotLoggedInException e) {
             return null;
         }
-        
+
         StringBuilder sb = new StringBuilder();
 
+        String uuuu = messageSource.getMessage("default.select.null", null, locale);
+
+        sb.append("<option value='/${null}'>").append(uuuu).append("</option>");
+
         if (module == null) {
-            for (AdmReport bbb : reportService.findAllByClient(client)) {
+            for (AdmReport bbb : admReportService.findAllByClient(client)) {
                 sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb.getModule()).append('-').append(bbb).append("</option>");
             }
         } else {
             //List<AdmProcMst> mast = AAAAA;// AdmProcMst.executeQuery(selyaa + "AND m.parentAdmPermissible.id=" + processGroupId + " ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
-            sb.append("<option value='/${null}'>Select One</option>");
-            for (AdmReport bbb : reportService.findAllByClient(client)) {
-                if (bbb.getModule()== module) {
+
+            for (AdmReport bbb : admReportService.findAllByClient(client)) {
+                if (bbb.getModule() == module) {
                     sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb).append("</option>");
                 }
             }
@@ -95,12 +104,11 @@ public class _AdmReportController extends _OithClientAuditController {
         return new ResponseEntity<>(sb.toString(), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/execReport", method = RequestMethod.POST)
-    public String dddd(ModelMap model, HttpServletResponse response) {
+    @RequestMapping(value = {"/", "/indexReport", ""}, method = RequestMethod.POST)
+    public String dddd(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 
         try {
             response.reset();
-            //MongoClient hhh = new MongoClient("mongodb://localhost:27017/db");
 
             //JasperCompileManager.compileReportToFile("D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jrxml", "D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jasper");
             Map<String, Object> parameters = new HashMap<>();
@@ -109,7 +117,14 @@ public class _AdmReportController extends _OithClientAuditController {
 
             JRProperties.setProperty("net.sf.jasperreports.query.executer.factory.MongoDbQuery", "com.jaspersoft.mongodb.query.MongoDbQueryExecuterFactory");
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport("D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jasper", parameters, connection);
+            String hjjd = request.getContextPath();
+            String hjjdx = request.getPathInfo();
+            String hjjdxd = request.getServletPath();
+            String hjj = request.getServletContext().getRealPath("/");
+            System.out.println("1205 report getContextPath: " + hjjd + " getPathInfo: " + hjjdx + " getServletPath:" + hjjdxd + " realPath: " + hjj);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(hjj + "reports\\oith.jasper", parameters, connection);
+//            JasperPrint jasperPrint = JasperFillManager.fillReport("D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jasper", parameters, connection);
 
             response.setContentType("application/pdf");
             response.setHeader("Content-disposition", "inline; filename=" + "ioioi" + ".pdf");
