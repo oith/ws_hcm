@@ -90,13 +90,13 @@
                 <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
                     <div class='form-group'>
                         <label for='module'>
-                            <span><spring:message code='module' text='Report Group'/></span>
+                            <span><spring:message code='module' text='Module'/></span>
                         </label>
                         <select name='module' 
                                 id='module'
                                 onchange='getReport()' 
                                 class='form-control'>
-                            <option value='${null}' >Select One</option>
+                            <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
                             <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
                                 <option value='${sss}' >${sss}</option>
                             </c:forEach>
@@ -107,7 +107,7 @@
                 <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
                     <div class='form-group'>
                         <label for='reportId'>
-                            <span><spring:message code='reportName' text='Report Name'/></span>
+                            <span><spring:message code='report' text='Report'/></span>
                             <span class='required-indicator'>*</span>
                         </label>
                         <select name='reportId' 
@@ -115,7 +115,7 @@
                                 required='required'
 
                                 class='form-control' >
-                            <option value='${null}' >Select One</option>
+                            <option value='${null}' ><spring:message code='default.select.null' text='Select One'/></option>
                             <c:forEach items='${reportMap}' var='sss' varStatus='loopStatus'>
                                 <option value='${sss.id}' >${sss}</option>
                             </c:forEach>
@@ -126,7 +126,7 @@
             </fieldset>
 
 
-            <form:form action='${pageContext.request.contextPath}/_AdmReport/execReport' method='POST'>
+            <form:form action='${pageContext.request.contextPath}/_AdmReport/indexReport' method='POST'>
                 <div>
                     <button class='btn btn-primary' type='submit'>Report</button>
                 </div>

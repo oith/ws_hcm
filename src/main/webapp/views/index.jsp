@@ -7,16 +7,6 @@
 
 <link rel="shortcut icon" type="image/x-icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico"/>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/styles.css"/> 
-<!--<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/menu.css" media="screen"/>--> 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/jquery-ui.css"/> 
-<!-- BOOTSTRAP CSS -->
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap.css"/>
-<!-- BOOTSTRAP JS -->
-<script src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/jquery-ui-1.10.2.js"></script> 
-
 <title><spring:message code="project.title" text="OITH Home"/></title>
 
 <tiles:insertDefinition name="defaultTemplate"/>
@@ -35,7 +25,6 @@
         <div>
             <sec:authentication property="principal"/>
         </div>
-
         <div>
             <c:forEach var="listValue" items="${lists}">
                 <a href="${pageContext.request.contextPath}${listValue}">

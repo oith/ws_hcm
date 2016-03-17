@@ -13,14 +13,9 @@
 </tiles:putAttribute>
 
 <script type='text/javascript'>
-    jQuery(document).ready(function () {
-        $('#tblAdmProc').dataTable({
-            //            paging:true,
-            //            info:true,
-            //            lengthChange:true
-        });
-    });
-
+//       jQuery(document).ready(function () {
+//            alert('mac test jsb ');
+//        });
     $(document).on('click', '#checkAll', function () {
         if ($(this).is(':checked')) {
             $('.chkAplc').each(function () {
@@ -76,6 +71,7 @@
             },
             async: false,
             success: function (data) {
+
                 hideAjaxLoadingImageProc();
                 $('#processId').empty();
                 $('#processId').append(data);
@@ -300,20 +296,19 @@
 
             <div id='spinner' class='spinner' style='display:none;'><g:message code='spinner.alt' default='Loading&hellip;'/></div>
 
-
             <fieldset class='fsStyle'>
                 <legend class='legendStyle'><h4><spring:message code='process' text='Process'/></h4></legend>
 
                 <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
                     <div class='form-group'>
                         <label for='module'>
-                            <span><spring:message code='module' text='Process Group'/></span>
+                            <span><spring:message code='module' text='Module'/></span>
                         </label>
                         <select name='module' 
                                 id='module'
                                 onchange='getProcess()' 
                                 class='form-control'>
-                            <option value='${null}' >Select One</option>
+                            <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
                             <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
                                 <option value='${sss}' >${sss}</option>
                             </c:forEach>
@@ -324,7 +319,7 @@
                 <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
                     <div class='form-group'>
                         <label for='processId'>
-                            <span><spring:message code='processName' text='Process Name'/></span>
+                            <span><spring:message code='process' text='Process'/></span>
                             <span class='required-indicator'>*</span>
                         </label>
 
@@ -332,8 +327,8 @@
                                 id='processId'  
                                 required='required'
                                 onchange='getDynamicContent()' 
-                                class='form-control' >
-                            <option value='${null}' >Select One</option>
+                                class='form-control'>
+                            <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
                             <c:forEach items='${processMap}' var='sss' varStatus='loopStatus'>
                                 <option value='${sss.id}' >${sss}</option>
                             </c:forEach>
@@ -346,7 +341,7 @@
             <div id='searchContent'></div>
             <div id='searchButtonContent'></div>
             <div id='paramsContent'></div>
-            
+
             <form controller='_AdmProcess' id='oith' name='oith' action='executeProcess'>
                 <div id='buttonContent'></div>
             </form>
@@ -358,7 +353,6 @@
             <div id='tableContent'></div>
             <div id='totalRecordDiv'></div>
             <div id='errMsg'></div>
-
 
             <div id='LoadingImageLoadProcess' style='display: none;'>
                 <g:img dir='images/image_loading.gif'/>
