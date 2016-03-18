@@ -1,9 +1,8 @@
 package oith.ws.ctrl.core;
 
-//import com.jaspersoft.mongodb.MongoDbConnection;
 import com.jaspersoft.mongodb.connection.MongoDbConnection;
-import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,8 +10,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -123,7 +122,26 @@ public class _AdmReportController extends _OithClientAuditController {
             String hjj = request.getServletContext().getRealPath("/");
             System.out.println("1205 report getContextPath: " + hjjd + " getPathInfo: " + hjjdx + " getServletPath:" + hjjdxd + " realPath: " + hjj);
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(hjj + "reports\\oith.jasper", parameters, connection);
+            String pp = "";
+
+            boolean jjj = hjj.contains("/");
+            if (jjj) {
+                pp = "/";
+            }
+            jjj = hjj.contains("\\");
+            if (jjj) {
+                pp = "\\";
+            }
+
+            if (hjj.endsWith("/") || hjj.endsWith("\\")) {
+                hjj = hjj + "reports" + pp;
+            } else {
+                hjj = hjj + pp + "reports" + pp;
+            }
+
+            System.out.println("452 reportpath: " + hjj+"");
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(hjj + "oith.jasper", parameters, connection);
 //            JasperPrint jasperPrint = JasperFillManager.fillReport("D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jasper", parameters, connection);
 
             response.setContentType("application/pdf");
@@ -134,7 +152,7 @@ public class _AdmReportController extends _OithClientAuditController {
             response.getOutputStream().flush();
             //allComboSetup(model);
 
-        } catch (Exception e) {
+        } catch (JRException | IOException e) {
             System.out.println("errr 678:" + e);
         }
 

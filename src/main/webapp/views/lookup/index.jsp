@@ -20,7 +20,7 @@
 
     <title><spring:message code="project.title.index" text="Index"/></title>
 
-    <script>window.jQuery || document.write('<script src="<%=request.getContextPath()%>/js/jquery-1.7.2.min.js"><\/script>')</script>
+    <!--<script>window.jQuery || document.write('<script src="<=request.getContextPath()%>/js/jquery-1.7.2.min.js"><\/script>')</script>-->
 
     <div>   
         <a href="${pageContext.request.contextPath}/" class="btn btn-primary">

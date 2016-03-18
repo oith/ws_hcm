@@ -133,7 +133,7 @@ public class Proc {
         Map<String, String> mapper = new HashMap();
 
         Map<String, String> searcherIdsx = new HashMap();
-        String searcher = "";
+        String searchContent = "";
         String paramer = "";
         String btner = "";
         String qparams = "";
@@ -211,7 +211,7 @@ public class Proc {
 
                 if (zoneType == ZoneType.SEARCH && widgetType != null) {
                     searcherIdsx.put(widgetIdentity, widgetType.name());
-                    searcher += "<div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><div class='form-group'>" + "<label for='" + reqlab + "'>" + "<span'> " + reqlab + reqIndication + "</span></label>";
+                    searchContent += "<div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><div class='form-group'>" + "<label for='" + reqlab + "'>" + "<span'>" + reqlab + reqIndication + "</span></label>";
                 } else if (zoneType == ZoneType.PARAM_FIXED && widgetType != WidgetType.UUID) {// && !(widgetType.equals(WidgetType.QU_PARAM_INVISIBLE.toString()) || widgetType.equals(WidgetType.QU_PARAM_VISIBLE.toString()))) {
                     paramer += "<div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><div class='form-group'>" + "<label for='" + reqlab + "'>" + rrrrrr + "</label>";
                 } else if (zoneType == ZoneType.PROCESS_BTN) {
@@ -234,7 +234,7 @@ public class Proc {
                     if (widgetType == WidgetType.PASSWORD) {
 
                         if (zoneType == ZoneType.SEARCH) {
-                            searcher += "<input class='form-control' type='" + widgetType + "' name='" + widgetIdentity + "' id='" + widgetIdentity + "' value='" + strdef + "' " + req + "/>";
+                            searchContent += "<input class='form-control' type='" + widgetType + "' name='" + widgetIdentity + "' id='" + widgetIdentity + "' value='" + strdef + "' " + req + "/>";
                         } else if (zoneType == ZoneType.PARAM_FIXED || zoneType == ZoneType.PARAM_QU) {
                             paramer += "<input class='form-control' type='" + widgetType + "' name='" + widgetIdentity + "' id='" + widgetIdentity + "' value='" + strdef + "' " + req + "/>";
                         }
@@ -242,7 +242,7 @@ public class Proc {
                     } else if (widgetType == WidgetType.TEXT) {
 
                         if (zoneType == ZoneType.SEARCH) {
-                            searcher += "<input class='form-control' type='" + widgetType + "' name='" + widgetIdentity + "' id='" + widgetIdentity + "' value='" + strdef + "' " + req + "/>";
+                            searchContent += "<input class='form-control' type='" + widgetType + "' name='" + widgetIdentity + "' id='" + widgetIdentity + "' value='" + strdef + "' " + req + "/>";
                         } else if (zoneType == ZoneType.PARAM_FIXED || zoneType == ZoneType.PARAM_QU) {
                             paramer += "<input class='form-control' type='" + widgetType + "' name='" + widgetIdentity + "' id='" + widgetIdentity + "' value='" + strdef + "' " + req + "/>";
                         }
@@ -250,18 +250,16 @@ public class Proc {
                     } else if (widgetType == WidgetType.DATE) {
 
                         if (zoneType == ZoneType.SEARCH) {
-                            searcher += "<input class='form-control date hasDatepicker' type='text' placeholder='DD/MM/YYYY' ";
-                            //searcher += reqlab;
-                            searcher += "name='";
-                            searcher += widgetIdentity;
-                            searcher += "' id='";
-                            searcher += widgetIdentity;
-                            searcher += "' value='";
-                            searcher += strdef;
-                            searcher += "'/>";
+                            searchContent += "<input class='form-control date' type='text' placeholder='DD/MM/YYYY' ";
+                            searchContent += "name='";
+                            searchContent += widgetIdentity;
+                            searchContent += "' id='";
+                            searchContent += widgetIdentity;
+                            searchContent += "' value='";
+                            searchContent += strdef;
+                            searchContent += "'/>";
                         } else if (zoneType == ZoneType.PARAM_FIXED || zoneType == ZoneType.PARAM_QU) {
-                            paramer += "<input class='form-control date hasDatepicker' type='text' placeholder='DD/MM/YYYY' ";
-                            //paramer += reqlab;
+                            paramer += "<input class='form-control date' type='text' placeholder='DD/MM/YYYY' ";
                             paramer += " name='";
                             paramer += widgetIdentity;
                             paramer += "' id='";
@@ -301,7 +299,7 @@ public class Proc {
                             }
 
                             if (zoneType.equals(ZoneType.SEARCH)) {
-                                searcher += "<Select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "' " + req + ">" + optSb + "</select>";
+                                searchContent += "<Select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "' " + req + ">" + optSb + "</select>";
                             } else if (zoneType.equals(ZoneType.PARAM_FIXED) || zoneType.equals(ZoneType.PARAM_QU)) {
                                 paramer += "<Select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "' " + req + ">" + optSb + "</select>";
                             }
@@ -331,7 +329,7 @@ public class Proc {
                             }
 
                             if (zoneType.equals(ZoneType.SEARCH)) {
-                                searcher += "<select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "'>" + optSb + "</select>";
+                                searchContent += "<select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "'>" + optSb + "</select>";
                             } else if (zoneType.equals(ZoneType.PARAM_FIXED) || zoneType.equals(ZoneType.PARAM_QU)) {
                                 paramer += "<select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "'>" + optSb + "</select>";
                             }
@@ -339,7 +337,7 @@ public class Proc {
                     }
                 }
                 if (zoneType.equals(ZoneType.SEARCH)) {
-                    searcher += "</div></div>";
+                    searchContent += "</div></div>";
                 } else if (!paramer.isEmpty() && (zoneType.equals(ZoneType.PARAM_FIXED) || zoneType.equals(ZoneType.PARAM_QU))) {
                     paramer += "</div></div>";
                 }
@@ -352,13 +350,13 @@ public class Proc {
 
         String searcher_btner = "";
 
-        if (!searcher.isEmpty()) {
+        if (!searchContent.isEmpty()) {
             searcher_btner = "<div class='right'><button onclick='getDynamicTable()' class='btn btn-primary' title='Press to Search' type='button' name='search' id='search' ><i class='glyphicon glyphicon-search'></i><spring:message code='search.form.submit.label' text='Search'/></button></div>";
 
-            searcher = "<fieldset class='fsStyle'>"
-                    + "<legend class='legendStyle'><h4>Search Parameter</h4></legend>"
-                    + searcher
-                    + "</fieldset>";
+            searchContent = "<label for='searchParameter'>\n"
+                    + "<span><h4><spring:message code='searchParameter' text='Search Parameter'/></h4></span>\n"
+                    + "</label>\n"
+                    + searchContent;
         }
 
         if (!paramer.isEmpty()) {
@@ -378,7 +376,7 @@ public class Proc {
         }
 
         mapper.put("searcherIds", searcherIdsxSTR);
-        mapper.put("searcher", searcher);
+        mapper.put("searchContent", searchContent);
         mapper.put("searcher_btner", searcher_btner);
         mapper.put("paramer", paramer);
         mapper.put("btner", btner);

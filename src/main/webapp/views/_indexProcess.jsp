@@ -118,8 +118,8 @@
             success: function (d) {
                 //alert(d);
                 hideAjaxLoadingImageProc();
-                $('#searchContent').append(d.searcher.toString());
-                $('#searchContent').addClass('form');
+                $('#searchContent').append(d.searchContent.toString());
+                //$('#searchContent').addClass('form');
 
                 $('#searchButtonContent').append(d.searcher_btner.toString());
                 $('#searchButtonContent').addClass('buttons');
@@ -290,56 +290,62 @@
 <tiles:putAttribute name='body'>
 
     <title><spring:message code='process' text='Process'/></title>
+    <h1><spring:message code='process' text='Process'/></h1>
 
-    <div id='create' class='content scaffold-create' role='main'>
-        <div class='panel panel-info'>
+    <div>
+        <div class='row'>
 
-            <div id='spinner' class='spinner' style='display:none;'><g:message code='spinner.alt' default='Loading&hellip;'/></div>
 
-            <fieldset class='fsStyle'>
-                <legend class='legendStyle'><h4><spring:message code='process' text='Process'/></h4></legend>
-
-                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                    <div class='form-group'>
-                        <label for='module'>
-                            <span><spring:message code='module' text='Module'/></span>
-                        </label>
-                        <select name='module' 
-                                id='module'
-                                onchange='getProcess()' 
-                                class='form-control'>
-                            <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
-                            <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
-                                <option value='${sss}' >${sss}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
+            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                <div class='form-group'>
+                    <label for='module'>
+                        <span><spring:message code='module' text='Module'/></span>
+                    </label>
+                    <select name='module' 
+                            id='module'
+                            onchange='getProcess()' 
+                            class='form-control'>
+                        <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
+                        <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
+                            <option value='${sss}' >${sss}</option>
+                        </c:forEach>
+                    </select>
                 </div>
+            </div>
 
-                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                    <div class='form-group'>
-                        <label for='processId'>
-                            <span><spring:message code='process' text='Process'/></span>
-                            <span class='required-indicator'>*</span>
-                        </label>
+            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                <div class='form-group'>
+                    <label for='processId'>
+                        <span><spring:message code='process' text='Process'/></span>
+                        <span class='required-indicator'>*</span>
+                    </label>
 
-                        <select name='processId' 
-                                id='processId'  
-                                required='required'
-                                onchange='getDynamicContent()' 
-                                class='form-control'>
-                            <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
-                            <c:forEach items='${processMap}' var='sss' varStatus='loopStatus'>
-                                <option value='${sss.id}' >${sss}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
+                    <select name='processId' 
+                            id='processId'  
+                            required='required'
+                            onchange='getDynamicContent()' 
+                            class='form-control'>
+                        <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
+                        <c:forEach items='${processMap}' var='sss' varStatus='loopStatus'>
+                            <option value='${sss.id}' >${sss}</option>
+                        </c:forEach>
+                    </select>
                 </div>
-            </fieldset>
+            </div>
 
-            <div id='error' class='col-xs-12'></div>
+            <div id='error'></div>
+
+
+        
+
+
+
             <div id='searchContent'></div>
-            <div id='searchButtonContent'></div>
+
+
+            <div class='row'>
+                <div id='searchButtonContent'></div>
+            </div>
             <div id='paramsContent'></div>
 
             <form controller='_AdmProcess' id='oith' name='oith' action='executeProcess'>
