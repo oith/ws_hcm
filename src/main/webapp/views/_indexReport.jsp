@@ -118,8 +118,6 @@
                 </div>
             </div>
 
-     
-
             <form:form action='${pageContext.request.contextPath}/_AdmReport/indexReport' method='POST'>
                 <div>
                     <button class='btn btn-primary' type='submit'><spring:message code='report' text='Report'/></button>

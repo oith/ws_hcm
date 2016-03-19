@@ -59,17 +59,7 @@
 
 </head>
 
-<!--<script>
-    $(document).ready(function () {
-         alert('mac test anis ');
-        $("#myBtn").click(function () {
-            $("#myModal").modal();
-        });
-    });
-</script>-->
-
 <body>   
-
 
     <div class='wrapper'>
         <nav class="navbar navbar-inverse">
@@ -93,7 +83,6 @@
                     </sec:authorize>
                     <sec:authorize access='isAnonymous()'>
 
-
                         <jsp:include page="_loginDialog.jsp"/>
 
                         <a class="navbar-brand" href="<%=request.getContextPath()%>">
@@ -110,48 +99,79 @@
 
                     <sec:authorize access='isAnonymous()'>
                         <ul class='nav navbar-nav navbar-right'>
-                            <li>
-                                <a href='${pageContext.request.contextPath}/user/create'><span class='glyphicon glyphicon-user'></span>&nbsp;<spring:message code='make.new.user' text='Make new user'/></a>
-                            </li>
-                            <button type="button" class="btn btn-default btn-lg" id="btnOnLoginDialog" ><span class='glyphicon glyphicon-log-in'></span>&nbsp;<spring:message code='login' text='Login'/></button>
+                            <div class="btn-group">
+                                <a href='${pageContext.request.contextPath}/user/create' class="btn btn-warning">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    <spring:message code='make.new.user' text='Make new user'/>
+                                </a>
+                                <button type="button" class="btn btn-primary" id="btnOnLoginDialog">
+                                    <i class="glyphicon glyphicon-log-in"></i>
+                                    <spring:message code='login' text='Login'/>
+                                </button>
+                            </div>
                         </ul>
                     </sec:authorize>
 
                     <sec:authorize access='isAuthenticated()'>
-                        <ul class='nav navbar-nav navbar-right'>
-                            <li> 
-                                <a href='${pageContext.request.contextPath}/user/show'><sec:authentication property='principal.fullName'/></a>
-                            </li>
-                            <li>
+
+                        <ul class='nav navbar-nav navbar-left'>
+
+                            <div class="btn-group">
+                                <a href='${pageContext.request.contextPath}/user/show' class='btn btn-success'>
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    <sec:authentication property='principal.fullName'/>
+                                </a>
                                 <sec:authentication var='profileId' property='principal.profileId'/>
                                 <c:choose >
                                     <c:when test='${profileId==null}'>
-                                        <a href='${pageContext.request.contextPath}/profile/create'><spring:message code='create.profile' text='Create profile'/></a>
+                                        <a href='${pageContext.request.contextPath}/profile/create' class='btn btn-primary'>
+                                            <i class="glyphicon glyphicon-book"></i>
+                                            <spring:message code='create.profile' text='Create profile'/>
+                                        </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href='${pageContext.request.contextPath}/profile/show'><spring:message code='show.profile' text='Show profile'/></a>
+                                        <a href='${pageContext.request.contextPath}/profile/show' class='btn btn-info'>
+                                            <i class="glyphicon glyphicon-book"></i>
+                                            <spring:message code='profile' text='Profile'/>
+                                        </a>
                                     </c:otherwise>
                                 </c:choose>
-                            </li>
-                            <form role="search" class="navbar-form navbar-left">
-                                <div class="form-group">
+                            </div>
+                        </ul>
+                        <ul class='nav navbar-nav navbar-right'>    
+                            <!--<div class="btn-group">-->
+                                <ul class='nav navbar-nav'>    
+                                    <!--<form role="search" class="navbar-form navbar-left">-->
+                                    <!--<div class="form-group">-->
                                     <input id='quickAccessUrl' name='quickAccessUrl' class='form-control' placeholder="GO" type='text' size='3' maxlength='3'/>
 
-
+                                </ul>
+                                <ul class='nav navbar-nav'>    
                                     <c:set var='OPEN_IN_NEW_PAGE' value='<%=oith.ws.dom.core.EnvField.OPEN_IN_NEW_PAGE%>'/>
                                     <sec:authentication var='envs' property='principal.envs'/>
                                     <c:set var='openInNewPageLoc' value='${envs.get(OPEN_IN_NEW_PAGE)}'/>
-                                    <div class='checkbox'>
-                                        <label>
-                                            <input id='openInNewPage' name='openInNewPage' type='checkbox'  value=''><spring:message code='default.open.in.new.page' text='Open in New Page'/>
-                                        </label>
-                                    </div>
-                                </div>
-                            </form> 
-                            <li>
-                                <a href='${pageContext.request.contextPath}/logout' onclick='return confirm('Are you sure to logout?');' ><span class='glyphicon glyphicon-log-out'></span>&nbsp;<spring:message code='logout' text='Logout'/></a>
-                            </li>
+                                    <!--<div class = "form-group">-->
+                                        <!--<div class = "col-sm-offset-2 col-sm-10">-->
+                                            <div class='checkbox'>
+                                                <label>
+                                                    <input id='openInNewPage' name='openInNewPage' type='checkbox'  value='gfdgdfgdfgdfgd'><spring:message code='default.open.in.new.page' text='Open in New Page'/>
+                                                </label>
+                                            </div>
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--</form>--> 
+                                </ul>
+                                <ul class='nav navbar-nav'>    
+                                    <a href='${pageContext.request.contextPath}/logout' class='btn btn-danger' onclick='return confirm("Are you sure to logout?");' >
+                                        <i class="glyphicon glyphicon-log-out"></i>
+                                        <spring:message code='logout' text='Logout'/>
+                                    </a>
+
+                                </ul>
+                            <!--</div>-->
                         </ul>
+
                     </sec:authorize>
                 </div>
             </div>
