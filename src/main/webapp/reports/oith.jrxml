@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="testoith" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bd52906-bd89-4cd2-b3de-6b89f729413e">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="oith" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bd52906-bd89-4cd2-b3de-6b89f729413e">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -21,12 +21,12 @@
 		<band height="107" splitType="Stretch">
 			<image>
 				<reportElement uuid="972e8768-44c8-4fc0-9427-3824185dbda8" x="0" y="0" width="205" height="83"/>
-				<imageExpression><![CDATA["/var/lib/tomcat7/webapps/oith_ws_web/reports/oith_logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["oith_logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement uuid="98e37145-6d17-4b72-80aa-8bb853952838" x="303" y="45" width="169" height="26" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lucida Sans" size="18" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="SansSerif" size="18" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[Report Title]]></text>
 			</staticText>
@@ -44,7 +44,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[accessPath]]></text>
 			</staticText>
@@ -58,7 +58,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[address]]></text>
 			</staticText>
@@ -72,7 +72,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[code]]></text>
 			</staticText>
@@ -86,7 +86,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[menuType]]></text>
 			</staticText>
@@ -100,7 +100,7 @@
 					<rightPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[text]]></text>
 			</staticText>
@@ -117,8 +117,8 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{accessPath}]]></textFieldExpression>
 			</textField>
@@ -131,8 +131,8 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
@@ -145,8 +145,8 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
@@ -159,8 +159,8 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{menuType}]]></textFieldExpression>
 			</textField>
@@ -173,8 +173,8 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement>
-					<font fontName="Lucida Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{text}]]></textFieldExpression>
 			</textField>
@@ -185,7 +185,7 @@
 			<staticText>
 				<reportElement uuid="625941f3-e798-4a22-ae41-0622981a87f9" x="0" y="0" width="555" height="20" forecolor="#0000FF"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Lucida Sans" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+					<font fontName="SansSerif" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[This is simple demo report, man !!!]]></text>
 			</staticText>

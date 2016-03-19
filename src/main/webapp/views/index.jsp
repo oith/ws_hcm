@@ -15,10 +15,6 @@
     <jsp:include page="/template/header.jsp"/>
 </tiles:putAttribute>
 
-<tiles:putAttribute name="menu">
-    <%--<jsp:include page="/template/menu.jsp"/>--%>
-</tiles:putAttribute>
-
 <tiles:putAttribute name="body">
 
     <sec:authorize access="isAuthenticated()">

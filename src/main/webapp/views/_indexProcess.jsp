@@ -97,7 +97,6 @@
         $('#totalRecordDiv').addClass('highlight');
         $('#errMsg').addClass('highlight');
 
-
         $('#outputMsg').empty();
         $('#searchContent').empty();
         $('#searchButtonContent').empty();
@@ -294,8 +293,6 @@
 
     <div>
         <div class='row'>
-
-
             <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
                 <div class='form-group'>
                     <label for='module'>
@@ -335,17 +332,12 @@
 
             <div id='error'></div>
 
-
-        
-
-
-
             <div id='searchContent'></div>
-
 
             <div class='row'>
                 <div id='searchButtonContent'></div>
             </div>
+
             <div id='paramsContent'></div>
 
             <form controller='_AdmProcess' id='oith' name='oith' action='executeProcess'>
@@ -365,7 +357,6 @@
             </div>
         </div>
     </div>
-</div>
 
 </tiles:putAttribute>  
 

@@ -90,8 +90,6 @@ public class _AdmReportController extends _OithClientAuditController {
                 sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb.getModule()).append('-').append(bbb).append("</option>");
             }
         } else {
-            //List<AdmProcMst> mast = AAAAA;// AdmProcMst.executeQuery(selyaa + "AND m.parentAdmPermissible.id=" + processGroupId + " ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
-
             for (AdmReport bbb : admReportService.findAllByClient(client)) {
                 if (bbb.getModule() == module) {
                     sb.append("<option value='").append(bbb.getId()).append("'>").append(bbb).append("</option>");
@@ -139,7 +137,7 @@ public class _AdmReportController extends _OithClientAuditController {
                 hjj = hjj + pp + "reports" + pp;
             }
 
-            System.out.println("452 reportpath: " + hjj+"");
+            System.out.println("452 reportpath: " + hjj + "");
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(hjj + "oith.jasper", parameters, connection);
 //            JasperPrint jasperPrint = JasperFillManager.fillReport("D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jasper", parameters, connection);

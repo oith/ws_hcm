@@ -34,38 +34,46 @@ public class _OithHomeController {
     public @ResponseBody
     String getCodableDTOSmall(@PathVariable("code") String code) {
 
-        System.out.println("finding getCodableDTO: code: " + code);
+        System.out.println("finding getCodableDTOSmall: code: " + code);
 
         try {
-//            GridFSDBFile gridFsFile = gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("_id").is(code)));
-//
-//            //GridFSDBFile gridFsFile = gridFsTemplate.findOne(new Query().addCriteria(Criteria.where("metadata.size").is("small").and("metadata.parent").is(code)));
-//            final HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.IMAGE_JPEG);
-
             Menu menu = menuService.findByCode(code);
-
             return menu.getAddress();
-
         } catch (Exception e) {
             System.out.println("eeeeeeeey get photo " + e);
             return null;
         }
-
     }
 
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/menuTest", method = RequestMethod.GET)
+    public String menuTest(ModelMap model, HttpServletRequest request) {
+        return "menu";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(ModelMap model) {
+        return "index";
+    }
+
+    @RequestMapping(value = "/accessdenied")
+    public String loginerror(ModelMap model) {
+        model.addAttribute("error", "true");
+        return "index";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap model, HttpServletRequest request) {
+        //model.addAttribute("loginUrl", "");
         model.addAttribute("lists", list);
         return "index";
     }
 
-    @RequestMapping(value = {"/indexSecure"}, method = RequestMethod.GET)
-    public String indexSecure(ModelMap model, HttpServletRequest request) {
-        model.addAttribute("lists", list);
-        return "indexSecure";
-    }
-
+//    @RequestMapping(value = {"/", ""}, method = RequestMethod.POST)
+//    public String indexPost(ModelMap model, HttpServletRequest request) {
+//        model.addAttribute("loginUrl", "index");
+//        model.addAttribute("lists", list);
+//        return "index";
+//    }
     @PostConstruct
     public void init() {
 
@@ -79,20 +87,17 @@ public class _OithHomeController {
             for (String urlPattern : mapping.getPatternsCondition().getPatterns()) {
                 //System.out.println(method.getBeanType().getName() + "#" + method.getMethod().getName()+ " <-- " + urlPattern);
 
-                if (urlPattern.endsWith("index") || urlPattern.endsWith("indexSecure") //                        || urlPattern.endsWith("reportRunner")
-                        //                        || urlPattern.endsWith("procRunner")
-                        //                        || urlPattern.endsWith("queryRunner")
+                if (urlPattern.contains("index") //|| urlPattern.endsWith("queryRunner")
                         ) {
                     System.out.println(method.getBeanType().getName() + "#" + method.getMethod().getName() + " <-- " + urlPattern);
 
                     //list.add(urlPattern);
                 }
 
-                if (!(urlPattern.endsWith("/"))) {
-//                if (!(urlPattern.contains("{") || urlPattern.endsWith("/"))) {
+                if (urlPattern.contains("index")) {
+//                if (!(urlPattern.endsWith("/"))) {
                     list.add(urlPattern);
                 }
-                //Collections.sort(list);
             }
         }
     }

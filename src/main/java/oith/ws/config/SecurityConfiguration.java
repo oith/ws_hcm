@@ -141,7 +141,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
             //since we have created our custom success handler, its up to us to where
             //we will redirect the user after successfully login
-            httpServletResponse.sendRedirect("indexSecure");
+            httpServletResponse.sendRedirect("");
         }
     }
 
@@ -184,10 +184,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 
             System.out.println("ooooooooooooooooooo");
-            //HttpSession session = request.getSession();
-            //session.setAttribute("fullName", null);
-            //session.setAttribute("userId", null);
-            //session.setAttribute("profileId", null);
             // business logic here
         }
     }
@@ -195,8 +191,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/", "/index", "/login", "/logout").permitAll();
-        http.authorizeRequests().antMatchers("/,/index,/login,/logout".split(",")).permitAll();
+        http.authorizeRequests().antMatchers("/", "/logout").permitAll();
+//        http.authorizeRequests().antMatchers("/,/index,/logout".split(",")).permitAll();
         http.authorizeRequests().antMatchers("/user/create").permitAll();
         http.authorizeRequests().antMatchers("/**").permitAll();
 
@@ -247,10 +243,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .accessDeniedPage("/denied")
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .failureUrl("/login?error=1")
-                .defaultSuccessUrl("/indexSecure") //or /
+                .loginPage("/")
+                .loginProcessingUrl("/")
+                .failureUrl("/?error=1")
+                .defaultSuccessUrl("/") //or /
 
                 .usernameParameter("username")
                 .passwordParameter("password")
@@ -261,7 +257,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/")
                 //.logoutSuccessUrl("/login")
                 //.addLogoutHandler(new CustomLogoutHandler())
 

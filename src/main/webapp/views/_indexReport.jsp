@@ -20,7 +20,7 @@
             //            lengthChange:true
         });
     });
-    
+
     function hideAjaxLoadingImageProc() {
         $('#LoadingImageSrch').hide();
         $('#LoadingImageLoadProcess').hide();
@@ -77,66 +77,61 @@
 <tiles:putAttribute name='body'>
 
     <title><spring:message code='report' text='Report'/></title>
+    <h1><spring:message code='report' text='Report'/></h1>
 
-    <div id='create' class='content scaffold-create' role='main'>
-        <div class='panel panel-info'>
+    <div>
+        <div class='row'>
 
-            <div id='spinner' class='spinner' style='display:none;'><g:message code='spinner.alt' default='Loading&hellip;'/></div>
-            <!--<form controller='_AdmReport' id='oith' name='oith' action='executeProcess'>-->
-
-            <fieldset class='fsStyle'>
-                <legend class='legendStyle'><h4><spring:message code='report' text='Report'/></h4></legend>
-
-                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                    <div class='form-group'>
-                        <label for='module'>
-                            <span><spring:message code='module' text='Module'/></span>
-                        </label>
-                        <select name='module' 
-                                id='module'
-                                onchange='getReport()' 
-                                class='form-control'>
-                            <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
-                            <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
-                                <option value='${sss}' >${sss}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>   
-
-                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                    <div class='form-group'>
-                        <label for='reportId'>
-                            <span><spring:message code='report' text='Report'/></span>
-                            <span class='required-indicator'>*</span>
-                        </label>
-                        <select name='reportId' 
-                                id='reportId'  
-                                required='required'
-
-                                class='form-control' >
-                            <option value='${null}' ><spring:message code='default.select.null' text='Select One'/></option>
-                            <c:forEach items='${reportMap}' var='sss' varStatus='loopStatus'>
-                                <option value='${sss.id}' >${sss}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
+            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                <div class='form-group'>
+                    <label for='module'>
+                        <span><spring:message code='module' text='Module'/></span>
+                    </label>
+                    <select name='module' 
+                            id='module'
+                            onchange='getReport()' 
+                            class='form-control'>
+                        <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
+                        <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
+                            <option value='${sss}' >${sss}</option>
+                        </c:forEach>
+                    </select>
                 </div>
+            </div>   
 
-            </fieldset>
+            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                <div class='form-group'>
+                    <label for='reportId'>
+                        <span><spring:message code='report' text='Report'/></span>
+                        <span class='required-indicator'>*</span>
+                    </label>
+                    <select name='reportId' 
+                            id='reportId'  
+                            required='required'
 
+                            class='form-control' >
+                        <option value='${null}' ><spring:message code='default.select.null' text='Select One'/></option>
+                        <c:forEach items='${reportMap}' var='sss' varStatus='loopStatus'>
+                            <option value='${sss.id}' >${sss}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+
+     
 
             <form:form action='${pageContext.request.contextPath}/_AdmReport/indexReport' method='POST'>
                 <div>
-                    <button class='btn btn-primary' type='submit'>Report</button>
+                    <button class='btn btn-primary' type='submit'><spring:message code='report' text='Report'/></button>
                 </div>
             </form:form>
+            
             <div id='LoadingImageLoadProcess' style='display: none;'>
                 <g:img dir='images/image_loading.gif'/>
             </div>
         </div>
     </div>
-</div>
+
 
 </tiles:putAttribute>  
 

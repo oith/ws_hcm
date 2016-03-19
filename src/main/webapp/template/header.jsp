@@ -40,13 +40,37 @@
     <script src='<%=request.getContextPath()%>/resources/js/jquery/jquery-datatable-1.10.10/jquery.dataTables.js'></script>
     <script src='<%=request.getContextPath()%>/resources/themes/jquery-ui-1.11.4/Base/jquery-ui.js'></script>--%>
 
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
+    <script src='<%=request.getContextPath()%>/webjars/jquery/2.2.1/jquery.min.js'></script>
     <script src='<%=request.getContextPath()%>/webjars/bootstrap/3.3.6/js/bootstrap.min.js'></script>
     <script src='<%=request.getContextPath()%>/resources/js/oith/oith-1.0.0.js'></script>
-    <script src='<%=request.getContextPath()%>/webjars/jquery/2.2.1/jquery.min.js'></script>
+
+    <style>
+        .modal-header, h4, .close {
+            background-color: #5cb85c;
+            color:white !important;
+            text-align: center;
+            font-size: 30px;
+        }
+        .modal-footer {
+            background-color: #f9f9f9;
+        }
+    </style>
 
 </head>
 
+<!--<script>
+    $(document).ready(function () {
+         alert('mac test anis ');
+        $("#myBtn").click(function () {
+            $("#myModal").modal();
+        });
+    });
+</script>-->
+
 <body>   
+
+
     <div class='wrapper'>
         <nav class="navbar navbar-inverse">
             <!--<nav class="navbar navbar-inverse navbar-fixed-top">-->
@@ -68,6 +92,10 @@
                         </a>
                     </sec:authorize>
                     <sec:authorize access='isAnonymous()'>
+
+
+                        <jsp:include page="_loginDialog.jsp"/>
+
                         <a class="navbar-brand" href="<%=request.getContextPath()%>">
                             <img class='logo' id='imagePreview' height='40px' width='120px' src='<%=request.getContextPath()%>/resources/images/oith_logo.png' alt='oith_logo'/>
                         </a>
@@ -79,15 +107,13 @@
                         <sec:authentication var='menus' property='principal.menus'/>
                         ${menus}
                     </sec:authorize>
-                
+
                     <sec:authorize access='isAnonymous()'>
                         <ul class='nav navbar-nav navbar-right'>
                             <li>
                                 <a href='${pageContext.request.contextPath}/user/create'><span class='glyphicon glyphicon-user'></span>&nbsp;<spring:message code='make.new.user' text='Make new user'/></a>
                             </li>
-                            <li>
-                                <a href='${pageContext.request.contextPath}/login'><span class='glyphicon glyphicon-log-in'></span>&nbsp;<spring:message code='login' text='Login'/></a>
-                            </li>
+                            <button type="button" class="btn btn-default btn-lg" id="btnOnLoginDialog" ><span class='glyphicon glyphicon-log-in'></span>&nbsp;<spring:message code='login' text='Login'/></button>
                         </ul>
                     </sec:authorize>
 
@@ -153,9 +179,19 @@
             </div>
 
             <script type='text/javascript'>
+
                 jQuery(document).ready(function () {
-                    //alert('mac test jsb ');
+                    // alert('mac test jsb>' + "<");
+
+                <sec:authorize access='isAnonymous()'>
+                    $("#btnOnLoginDialog").click(function () {
+                        $("#modalLoginDialog").modal();
+                    });
+                </sec:authorize>
+                <sec:authorize access='isAuthenticated()'>
                     $('#openInNewPage').prop('checked',${openInNewPageLoc});
+                </sec:authorize>
+
                 });
                 //        $(document).ready(function () {
                 //            alert('mac test js ' + contextPath);
@@ -217,3 +253,5 @@
                     });
                 }
             </script>
+
+

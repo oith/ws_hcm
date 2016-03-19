@@ -164,7 +164,7 @@ public class UserController extends _OithClientAuditController {
         }
 
         if (authUser == null) {
-            return "noLoginState";
+            return "/";
         }
 
         currObject.setId(userId);
