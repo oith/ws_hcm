@@ -2,16 +2,21 @@ package oith.ws.ctrl.core;
 
 import oith.ws.dom.core.AdmProcess;
 import oith.ws.dom.core.AdmProcessDetail;
+
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import javax.validation.Valid;
+import oith.ws.dom.core.AdmParam;
+import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
@@ -61,6 +66,12 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
         //    genders.put(col, messageSource.getMessage("label.gender." + col.name(), null, locale));
         //}
         //model.addAttribute("genders", genders);
+        //
+        //model.addAttribute("signs", Arrays.asList(TrnscFm.Sign.values()));
+        //List emps = new LinkedList();
+        //for (Emp col : empService.findAllByClient(client)) {
+        //    emps.add(col);
+        //}
         //model.addAttribute("emps", emps);
         //List accountHeadFms = new LinkedList();
         //for (AccountHeadFm col : accountHeadFmService.findAllByClient(client)) {
@@ -167,7 +178,7 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
 
         try {
             //admProcess = admProcessService.update(currObject);
-            AdmProcess currObjectLocal = admProcessService.update(currObject, "auditor,code,module,title,cmd,isActive,slNo,remarks");
+            AdmProcess currObjectLocal = admProcessService.update(currObject, "auditor,code,module,title,cmd,isActive,slNo,admProcessDetails,remarks");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -308,6 +319,18 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
             return REDIRECT_TO_LOGIN;
         }
 
+        Map<AllEnum.ZoneType, String> zoneTypes = new EnumMap(AllEnum.ZoneType.class);
+        for (AllEnum.ZoneType col : AllEnum.ZoneType.values()) {
+            zoneTypes.put(col, col.name());
+        }
+        model.addAttribute("zoneTypes", zoneTypes);
+
+        Map<AllEnum.WidgetType, String> widgetTypes = new EnumMap(AllEnum.WidgetType.class);
+        for (AllEnum.WidgetType col : AllEnum.WidgetType.values()) {
+            widgetTypes.put(col, col.name());
+        }
+        model.addAttribute("widgetTypes", widgetTypes);
+
         try {
             AdmProcess currObjectLocal = admProcessService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
@@ -341,7 +364,6 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
     }
 
     @RequestMapping(value = "/admProcessDetails/edit/{id}", method = RequestMethod.POST)
-
     public String admProcessDetailsModal(
             @PathVariable("id") String id,
             @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmProcessDetail currObject,
@@ -360,6 +382,9 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
             }
 
             if (currObject.getEmbdId() == null) {//new detail
+
+                currObject.setZoneType(AllEnum.ZoneType.PARAM_QU);
+                currObject.setAdmParam(new AdmParam("fffff", "ttrt", AllEnum.WidgetType.DATE, Boolean.TRUE, Boolean.TRUE, Integer.SIZE, id, LOGIN, REDIRECT));
 
                 int mx = -1;
                 for (AdmProcessDetail col : objOrignal.getAdmProcessDetails()) {
@@ -387,7 +412,7 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
         return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + id;
     }
 
-    @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.GET)
+    @RequestMapping(value = "/det/del/{dets}", method = RequestMethod.DELETE)
     public String submitDelDtl(@PathVariable("dets") String dets, RedirectAttributes attributes) {
 
         String aaa[] = dets.split("~");

@@ -246,9 +246,9 @@ class _AdmProcessController extends _OithClientAuditController {
 
         for (AdmProcessDetail nnnx : admProcMst.getAdmProcessDetails()) {
 
-            String nnncmd = nnnx.getCmd();
-            String nnnwidgetIdentity = nnnx.getWidgetIdentity();
-            AllEnum.WidgetType nnnwidgetType = nnnx.getWidgetType();
+            String nnncmd = nnnx.getAdmParam().getCmd();
+            String nnnwidgetIdentity = nnnx.getAdmParam().getParamName();
+            AllEnum.WidgetType nnnwidgetType = nnnx.getAdmParam().getWidgetType();
 
             if (nnnx.getAdmParam() != null) {
                 if (nnncmd == null || nnncmd.equalsIgnoreCase("SUPER")) {
@@ -258,7 +258,7 @@ class _AdmProcessController extends _OithClientAuditController {
                     nnnwidgetIdentity = nnnx.getAdmParam().getParamName();
                 }
                 if (nnnwidgetType == null || nnnwidgetType == AllEnum.WidgetType.SUPER) {
-                    nnnwidgetType = nnnx.getAdmParam().getParamType();
+                    nnnwidgetType = nnnx.getAdmParam().getWidgetType();
                 }
             }
 

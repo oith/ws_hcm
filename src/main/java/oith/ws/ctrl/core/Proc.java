@@ -104,11 +104,11 @@ public class Proc {
         //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");
         for (AdmProcessDetail admProcDtl : admProcMst.getAdmProcessDetails()) {
 
-            if (admProcDtl.getZoneType() != ZoneType.SEARCH || !admProcDtl.getIsActive()) {
+            if (admProcDtl.getZoneType() != ZoneType.SEARCH || !admProcDtl.getAdmParam().getIsActive()) {
                 continue;
             }
-            String defaultValue = admProcDtl.getDefaultVal();
-            String widgetIdentity = admProcDtl.getWidgetIdentity();
+            String defaultValue = admProcDtl.getAdmParam().getDefaultVal();
+            String widgetIdentity = admProcDtl.getAdmParam().getParamName();
 
             if (defaultValue != null && !(defaultValue = defaultValue.trim()).isEmpty()) {
                 if (defaultValue.startsWith("{") && defaultValue.endsWith("}")) {
@@ -148,14 +148,14 @@ public class Proc {
             for (AdmProcessDetail resultSet : statement.getAdmProcessDetails()) {
 
                 ZoneType zoneType = resultSet.getZoneType();
-                Boolean isMandatory = resultSet.getIsMandatory();
+                Boolean isMandatory = resultSet.getAdmParam().getIsMandatory();
 
-                String widgetLabel = resultSet.getWidgetLabel();
-                String helpText = resultSet.getHelpText();
-                String defaultValue = resultSet.getDefaultVal();
-                WidgetType widgetType = resultSet.getWidgetType();
-                String det_cmd = resultSet.getCmd();
-                String widgetIdentity = resultSet.getWidgetIdentity();
+                String widgetLabel = resultSet.getAdmParam().getTitle();
+                String helpText = resultSet.getAdmParam().getHelpText();
+                String defaultValue = resultSet.getAdmParam().getDefaultVal();
+                WidgetType widgetType = resultSet.getAdmParam().getWidgetType();
+                String det_cmd = resultSet.getAdmParam().getCmd();
+                String widgetIdentity = resultSet.getAdmParam().getParamName();
                 String reqIndication = "";
                 String req = "";
                 String reqlab = "";
@@ -423,8 +423,8 @@ public class Proc {
                     continue;
                 }
                 // String cmd = resultSet.getString("CMD");
-                String widgetIdentity = resultSet.getWidgetIdentity();
-                WidgetType widgetType = resultSet.getWidgetType();
+                String widgetIdentity = resultSet.getAdmParam().getParamName();
+                WidgetType widgetType = resultSet.getAdmParam().getWidgetType();
 
                 colParma.add(widgetIdentity);
 
