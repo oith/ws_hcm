@@ -26,7 +26,7 @@
                     <tr class='${loopStatus.index % 2 == 0 ? 'odd' : 'even'}'>
                         <td><c:out value='${admProcessDetails.embdId}'/></td>
                         <td><button id='${admProcess.id}~${admProcessDetails.embdId}' type='button' class='btn btn-info' value='${admProcess.id}~${admProcessDetails.embdId}' data-toggle='modal' data-target='#admProcessDetails_modal' class='btn btn-primary'><spring:message code='edit.link.label' text='Edit'/></button></td>
-                        <td><c:out value='${admProcessDetails.admParam}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.title}'/></td>
                         <td><c:out value='${admProcessDetails.zoneType}'/></td>
                         <td><c:out value='${admProcessDetails.embdId}'/></td>
 
@@ -70,15 +70,15 @@
                         widgetType;
                         --%>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='admParam' text='Adm Param'/>
+                            <spring:message code='admParam.title' text='Title' />
                             <input type='text' name='admParam.title' id='admProcessDetails_admParam.title' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='admParam' text='Adm Param'/>
+                            <spring:message code='admParam.paramName' text='Param Name'/>
                             <input type='text' name='admParam.paramName' id='admProcessDetails_admParam.paramName' class='form-control' value='' >
                         </div>
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='admParam' text='Adm Param'/>
+                            <spring:message code='admParam.widgetType' text='Widget Type'/>
 
                             <select  class='form-control' name='admParam.widgetType' id='admProcessDetails_admParam.widgetType' required='true' >
                                 <c:forEach items='${widgetTypes}' var='sss' varStatus='loopStatus'>
@@ -92,7 +92,7 @@
                             <spring:message code='zoneType' text='Zone Type'/>
                             <!--<input type='text' name='zoneType' id='admProcessDetails_zoneType' class='form-control' value='' >-->
 
-                            <select  class='form-control' name='zoneType' id='admProcessDetails_zoneType' required='true' >
+                            <select  class='form-control' name='admProcessDetails_zoneType' id='admProcessDetails_zoneType' required='true' >
 
                                 <c:forEach items='${zoneTypes}' var='sss' varStatus='loopStatus'>
                                     <option value=${sss} >${sss}</option>
@@ -138,7 +138,7 @@
 
     $(document).on('click', 'tr', function () {
         $('#admProcessDetails_id').val($('td:eq(0)', this).text());
-        $('#admProcessDetails_admParam').val($('td:eq(2)', this).text());
+//        $('#admProcessDetails_admParam').val($('td:eq(2)', this).text());
         $('#admProcessDetails_zoneType').val($('td:eq(3)', this).text());
         $('#admProcessDetails_embdId').val($('td:eq(4)', this).text());
 
