@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.validation.Valid;
 import oith.ws.dom.core.AdmReport;
 import oith.ws.dom.core.AdmReportDetail;
+import oith.ws.dom.core.AllEnum;
 import oith.ws.dom.core.Client;
 import oith.ws.dom.core.IEmbdDetail;
 import oith.ws.dto._SearchDTO;
@@ -174,7 +175,7 @@ public class AdmReportController extends oith.ws.ctrl.core._OithClientAuditContr
 
         try {
             //admReport = reportService.update(currObject);
-            AdmReport currObjectLocal = admReportService.update(currObject, "auditor,code,module,title,fileName,isActive,slNo,tags,supportFormats,admReportDetails,remarks");
+            AdmReport currObjectLocal = admReportService.update(currObject, "auditor,code,module,title,fileName,isActive,slNo,tags,supportFormats,remarks");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -315,6 +316,8 @@ public class AdmReportController extends oith.ws.ctrl.core._OithClientAuditContr
             return REDIRECT_TO_LOGIN;
         }
 
+        model.addAttribute("widgetTypes", AllEnum.WidgetType.values());
+
         try {
             AdmReport currObjectLocal = admReportService.findById(id, client);
             model.addAttribute(MODEL_ATTIRUTE, currObjectLocal);
@@ -348,7 +351,6 @@ public class AdmReportController extends oith.ws.ctrl.core._OithClientAuditContr
     }
 
     @RequestMapping(value = "/admReportDetails/edit/{id}", method = RequestMethod.POST)
-
     public String reportDetailsModal(
             @PathVariable("id") String id,
             @ModelAttribute(MODEL_ATTIRUTE) @Valid AdmReportDetail currObject,

@@ -319,7 +319,6 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
             return REDIRECT_TO_LOGIN;
         }
 
-       
         model.addAttribute("zoneTypes", AllEnum.ZoneType.values());
         model.addAttribute("widgetTypes", AllEnum.WidgetType.values());
 
