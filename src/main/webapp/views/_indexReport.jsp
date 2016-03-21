@@ -28,7 +28,6 @@
     }
 
     function getReport() {
-
         hideAjaxLoadingImageProc();
         $('#LoadingImageLoadProcess').show();
         //       $('#error').empty();
@@ -43,7 +42,7 @@
 //        $('#outputMsg').empty();
 //        $('#searchContent').empty();
 //        $('#searchButtonContent').empty();
-//        $('#paramsContent').empty();
+        $('#paramsContent').empty();
 //        $('#buttonContent').empty();
 //        $('#tableContent').empty();
 //        $('#totalRecordDiv').empty();
@@ -68,6 +67,52 @@
             }
         });
     }
+
+    function getDynamicContent() {
+        $('#error').empty();
+        hideAjaxLoadingImageProc();
+        $('#LoadingImageLoadProcess').show();
+
+        $('#outputMsg').addClass('highlight');
+        $('#searchContent').addClass('highlight');
+        $('#searchButtonContent').addClass('highlight');
+        $('#paramsContent').addClass('highlight');
+        $('#buttonContent').addClass('highlight');
+        $('#tableContent').addClass('highlight');
+        $('#totalRecordDiv').addClass('highlight');
+        $('#errMsg').addClass('highlight');
+
+        $('#outputMsg').empty();
+        $('#searchContent').empty();
+        $('#searchButtonContent').empty();
+        $('#paramsContent').empty();
+        $('#buttonContent').empty();
+        $('#tableContent').empty();
+        $('#totalRecordDiv').empty();
+        $('#errMsg').empty();
+        $('#qparams').empty();
+
+        $.ajax({
+            type: 'POST',
+            url: '${pageContext.request.contextPath}/_AdmReport/getDynamicContent',
+            data: {
+                reportId: $('#reportId').val()
+            },
+            async: false,
+            success: function (d) {
+                //alert(d);
+                hideAjaxLoadingImageProc();
+              
+                $('#paramsContent').append(d.paramer.toString());
+                $('#paramsContent').addClass('fieldcontain');
+            },
+            error: function (err) {
+                alert('No Report Is Configured: ' + err);
+                hideAjaxLoadingImageProc();
+            }
+        });
+    }
+
 </script>
 
 <tiles:putAttribute name='menu'>
@@ -108,7 +153,7 @@
                     <select name='reportId' 
                             id='reportId'  
                             required='required'
-
+                            onchange='getDynamicContent()' 
                             class='form-control' >
                         <option value='${null}' ><spring:message code='default.select.null' text='Select One'/></option>
                         <c:forEach items='${reportMap}' var='sss' varStatus='loopStatus'>
@@ -123,13 +168,12 @@
                     <button class='btn btn-primary' type='submit'><spring:message code='report' text='Report'/></button>
                 </div>
             </form:form>
-            
+
             <div id='LoadingImageLoadProcess' style='display: none;'>
                 <g:img dir='images/image_loading.gif'/>
             </div>
         </div>
     </div>
-
 
 </tiles:putAttribute>  
 

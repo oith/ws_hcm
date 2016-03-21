@@ -13,9 +13,6 @@
 </tiles:putAttribute>
 
 <script type='text/javascript'>
-//       jQuery(document).ready(function () {
-//            alert('mac test jsb ');
-//        });
     $(document).on('click', '#checkAll', function () {
         if ($(this).is(':checked')) {
             $('.chkAplc').each(function () {
