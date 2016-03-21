@@ -83,7 +83,6 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th><spring:message code='auditor' text='Auditor'/></th>
                         <th><spring:message code='code' text='Code'/></th>
                         <th><spring:message code='module' text='Module'/></th>
                         <th><spring:message code='title' text='Title'/></th>
@@ -104,7 +103,6 @@
                                     <spring:message code="show.link.label"/>
                                 </a>
                             </td>
-                            <td><c:out value='${admProcess.auditor}'/></td>
                             <td><c:out value='${admProcess.code}'/></td>
                             <td><c:out value='${admProcess.module}'/></td>
                             <td><c:out value='${admProcess.title}'/></td>

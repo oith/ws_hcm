@@ -154,7 +154,7 @@
                                         <!--<div class = "col-sm-offset-2 col-sm-10">-->
                                             <div class='checkbox'>
                                                 <label>
-                                                    <input id='openInNewPage' name='openInNewPage' type='checkbox'  value='gfdgdfgdfgdfgd'><spring:message code='default.open.in.new.page' text='Open in New Page'/>
+                                                    <input id='openInNewPage' name='openInNewPage' type='checkbox'  value=''><spring:message code='default.open.in.new.page' text='Open in New Page'/>
                                                 </label>
                                             </div>
                                         <!--</div>-->

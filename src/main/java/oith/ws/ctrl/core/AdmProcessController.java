@@ -178,7 +178,7 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
 
         try {
             //admProcess = admProcessService.update(currObject);
-            AdmProcess currObjectLocal = admProcessService.update(currObject, "auditor,code,module,title,cmd,isActive,slNo,admProcessDetails,remarks");
+            AdmProcess currObjectLocal = admProcessService.update(currObject, "auditor,code,module,title,cmd,isActive,slNo,remarks");
             addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_EDITED, currObjectLocal.getId());
             return REDIRECT + "/" + SHOW_FORM_VIEW + "/" + currObjectLocal.getId();
         } catch (Exception e) {
@@ -319,17 +319,9 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
             return REDIRECT_TO_LOGIN;
         }
 
-        Map<AllEnum.ZoneType, String> zoneTypes = new EnumMap(AllEnum.ZoneType.class);
-        for (AllEnum.ZoneType col : AllEnum.ZoneType.values()) {
-            zoneTypes.put(col, col.name());
-        }
-        model.addAttribute("zoneTypes", zoneTypes);
-
-        Map<AllEnum.WidgetType, String> widgetTypes = new EnumMap(AllEnum.WidgetType.class);
-        for (AllEnum.WidgetType col : AllEnum.WidgetType.values()) {
-            widgetTypes.put(col, col.name());
-        }
-        model.addAttribute("widgetTypes", widgetTypes);
+       
+        model.addAttribute("zoneTypes", AllEnum.ZoneType.values());
+        model.addAttribute("widgetTypes", AllEnum.WidgetType.values());
 
         try {
             AdmProcess currObjectLocal = admProcessService.findById(id, client);
@@ -383,8 +375,8 @@ public class AdmProcessController extends oith.ws.ctrl.core._OithClientAuditCont
 
             if (currObject.getEmbdId() == null) {//new detail
 
-                currObject.setZoneType(AllEnum.ZoneType.PARAM_QU);
-                currObject.setAdmParam(new AdmParam("fffff", "ttrt", AllEnum.WidgetType.DATE, Boolean.TRUE, Boolean.TRUE, Integer.SIZE, id, LOGIN, REDIRECT));
+                //currObject.setZoneType(AllEnum.ZoneType.PARAM_QU);
+                //currObject.setAdmParam(new AdmParam("fffff", "ttrt", AllEnum.WidgetType.DATE, Boolean.TRUE, Boolean.TRUE, Integer.SIZE, id, LOGIN, REDIRECT));
 
                 int mx = -1;
                 for (AdmProcessDetail col : objOrignal.getAdmProcessDetails()) {

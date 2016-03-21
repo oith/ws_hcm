@@ -14,10 +14,16 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th><spring:message code='admParam' text='Adm Param'/></th>
+                    <th><spring:message code='title' text='Title'/></th>
+                    <th><spring:message code='paramName' text='ParamName'/></th>
+                    <th><spring:message code='widgetType' text='Widget Type'/></th>
+                    <th><spring:message code='isActive' text='Is Active'/></th>
+                    <th><spring:message code='isMandatory' text='Is Mandatory'/></th>
+                    <th><spring:message code='slNo' text='Sl No'/></th>
+                    <th><spring:message code='cmd' text='Cmd'/></th>
+                    <th><spring:message code='defaultVal' text='Default Val'/></th>
+                    <th><spring:message code='helpText' text='Help Text'/></th>
                     <th><spring:message code='zoneType' text='Zone Type'/></th>
-                    <th><spring:message code='embdId' text='Embd Id'/></th>
-
                     <th></th>
                 </tr>
             </thead>
@@ -27,9 +33,15 @@
                         <td><c:out value='${admProcessDetails.embdId}'/></td>
                         <td><button id='${admProcess.id}~${admProcessDetails.embdId}' type='button' class='btn btn-info' value='${admProcess.id}~${admProcessDetails.embdId}' data-toggle='modal' data-target='#admProcessDetails_modal' class='btn btn-primary'><spring:message code='edit.link.label' text='Edit'/></button></td>
                         <td><c:out value='${admProcessDetails.admParam.title}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.paramName}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.widgetType}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.isActive}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.isMandatory}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.slNo}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.cmd}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.defaultVal}'/></td>
+                        <td><c:out value='${admProcessDetails.admParam.helpText}'/></td>
                         <td><c:out value='${admProcessDetails.zoneType}'/></td>
-                        <td><c:out value='${admProcessDetails.embdId}'/></td>
-
                         <td><button type='button' class='admProcessDetails_del btn btn-warning' value='admProcessDetails~${admProcess.id}~${admProcessDetails.embdId}'><spring:message code='erase.button.label' text='Erase'/></button></td>
                     </tr>
                 </c:forEach>
@@ -42,67 +54,70 @@
     <!-- Modal -->
     <div class='modal fade' id='admProcessDetails_modal' role='dialog'>
         <div class='modal-dialog'>
-            <div class='modal-content'>
+            <div class="modal-content">
 
-                <form:form action='${pageContext.request.contextPath}/admProcess/admProcessDetails/edit/${admProcess.id}' commandName='admProcessDetails' method='POST' class='form-horizontal'>
+                <form:form action='${pageContext.request.contextPath}/admProcess/admProcessDetails/edit/${admProcess.id}' commandName='admProcessDetail' method='POST' class='form-horizontal'>
 
                     <!--modal-header-->
-                    <div class='modal-header' style='background-color: #5D9CEC'>
-                        <div class='form-group'>
-                            <h4 class='modal-title col-md-6' style='float: left'>
-                                <spring:message code='admProcessDetails' text='Adm Process Details'/>
-                            </h4>
-                            <button type='button' class='close col-md-6' data-dismiss='modal' style='float: right; text-align: right; color: red'>&times;</button>
-                        </div>
+                    <!--<div class='modal-header' style='background-color: #5D9CEC'>-->
+                    <div class="modal-header" style="padding:10px 50px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4>
+                            <i class="glyphicon glyphicon-copy"></i>
+                            <spring:message code='admProcessDetails' text='Adm Process Details'/>
+                        </h4>
                     </div>
 
                     <!--modal-body-->
                     <div class='modal-body'>
 
-                        <input type='hidden' name='admProcessId' id='admProcessId' value='${admProcess.id}'>
-                        <input type='hidden' name='embdId' id='admProcessDetails_id' value=''>
-                        <%--                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                                                    <spring:message code='admParam' text='Adm Param'/>
-                                                    <input type='text' name='admParam' id='admProcessDetails_admParam' class='form-control' value='' >
-                                                </div>
-                        title;
-                        paramName;
-                        widgetType;
-                        --%>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='admParam.title' text='Title' />
-                            <input type='text' name='admParam.title' id='admProcessDetails_admParam.title' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='admParam.paramName' text='Param Name'/>
-                            <input type='text' name='admParam.paramName' id='admProcessDetails_admParam.paramName' class='form-control' value='' >
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='admParam.widgetType' text='Widget Type'/>
+                        <input type='text' name='embdId' id='admProcessDetails_embdId' value=''>
 
-                            <select  class='form-control' name='admParam.widgetType' id='admProcessDetails_admParam.widgetType' required='true' >
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                            <spring:message code='title' text='Title'/>
+                            <input type='text' name='admParam.title' id='admProcessDetails_admParam_title' class='form-control' value='' >
+                        </div>
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                            <spring:message code='paramName' text='Param Name'/>
+                            <input type='text' name='admParam.paramName' id='admProcessDetails_admParam_paramName' class='form-control' value='' >
+                        </div>
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                            <spring:message code='widgetType' text='Widget Type'/>
+                            <select  class='form-control' name='admParam.widgetType' id='admProcessDetails_admParam_widgetType' required='true' >
                                 <c:forEach items='${widgetTypes}' var='sss' varStatus='loopStatus'>
-                                    <option value='${sss}' >${sss}</option>
+                                    <option value=${sss}>${sss}</option>
                                 </c:forEach>
                             </select>
-
-
                         </div>
+
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                            <div class='checkbox'>
+                                <label>
+                                    <input id='admProcessDetails_admParam_isActive' name='admParam.isActive' type='checkbox'  value='true'><spring:message code='isActive' text='is Active'/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                            <div class='checkbox'>
+                                <label>
+                                    <input id='admProcessDetails_admParam_isMandatory' name='admParam.isMandatory' type='checkbox'  value='true'><spring:message code='isMandatory' text='is Mandatory'/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><spring:message code='slNo' text='slNo'/><input type='text' name='admParam.slNo' id='admProcessDetails_admParam_slNo' class='form-control' value='' ></div>
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><spring:message code='cmd' text='cmd'/><input type='text' name='admParam.cmd' id='admProcessDetails_admParam_cmd' class='form-control' value='' ></div>
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><spring:message code='defaultVal' text='defaultVal'/><input type='text' name='admParam.defaultVal' id='admProcessDetails_admParam_defaultVal' class='form-control' value='' ></div>
+                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><spring:message code='helpText' text='helpText'/><input type='text' name='admParam.helpText' id='admProcessDetails_admParam_helpText' class='form-control' value='' ></div>
+
                         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
                             <spring:message code='zoneType' text='Zone Type'/>
-                            <!--<input type='text' name='zoneType' id='admProcessDetails_zoneType' class='form-control' value='' >-->
-
-                            <select  class='form-control' name='admProcessDetails_zoneType' id='admProcessDetails_zoneType' required='true' >
-
+                            <select  class='form-control' name='zoneType' id='admProcessDetails_zoneType' required='true' >
                                 <c:forEach items='${zoneTypes}' var='sss' varStatus='loopStatus'>
-                                    <option value=${sss} >${sss}</option>
+                                    <option value=${sss}>${sss}</option>
                                 </c:forEach>
                             </select>
-
-                        </div>
-                        <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                            <spring:message code='embdId' text='Embd Id'/>
-                            <input type='text' name='embdId' id='admProcessDetails_embdId' class='form-control' value='' >
                         </div>
 
                         <div style='padding-left: 15px' class='form-group'></div>
@@ -119,45 +134,48 @@
         </div>
     </div>
 </div>
-<!--========================================================================================================================================-->
-<style>
-    .modal {
-        border: 1px solid #999999;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 6px;
-        -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-        box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-        background-clip: padding-box;
-    }
-</style>
-<!-------------------------------------------------------------------------------------------------------------------------------------------->
 <script type='text/javascript'>
     $(document).ready(function () {
         //$('.not_show').hide();
     });
 
     $(document).on('click', 'tr', function () {
-        $('#admProcessDetails_id').val($('td:eq(0)', this).text());
-//        $('#admProcessDetails_admParam').val($('td:eq(2)', this).text());
-        $('#admProcessDetails_zoneType').val($('td:eq(3)', this).text());
-        $('#admProcessDetails_embdId').val($('td:eq(4)', this).text());
+        $('#admProcessDetails_embdId').val($('td:eq(0)', this).text());
+        $('#admProcessDetails_admParam_title').val($('td:eq(2)', this).text());
+        $('#admProcessDetails_admParam_paramName').val($('td:eq(3)', this).text());
+        $('#admProcessDetails_admParam_widgetType').val($('td:eq(4)', this).text());
 
+//        $('#myCheckbox').attr('checked', true);
+
+        // .prop('checked',openInNewPageLoc});
+//        $('#admProcessDetails_admParam_isActive').is(':checked');//=  $('td:eq(5)', this).text()==='true';
+        $('#admProcessDetails_admParam_isActive').prop('checked', $('td:eq(5)', this).text() === 'true');//=  ;
+        $('#admProcessDetails_admParam_isMandatory').prop('checked', $('td:eq(6)', this).text() === 'true');
+        $('#admProcessDetails_admParam_slNo').val($('td:eq(7)', this).text());
+        $('#admProcessDetails_admParam_cmd').val($('td:eq(8)', this).text());
+        $('#admProcessDetails_admParam_defaultVal').val($('td:eq(9)', this).text());
+        $('#admProcessDetails_admParam_helpText').val($('td:eq(10)', this).text());
+        $('#admProcessDetails_zoneType').val($('td:eq(11)', this).text());
     });
 
     $(document).on('click', '#admProcessDetails_create', function () {
-        $('#admProcessDetails_id').val('');
-        $('#admProcessDetails_admParam').val('');
-        $('#admProcessDetails_zoneType').val('');
         $('#admProcessDetails_embdId').val('');
-
+        $('#admProcessDetails_admParam_title').val('');
+        $('#admProcessDetails_admParam_paramName').val('');
+        $('#admProcessDetails_admParam_widgetType').val('');
+        $('#admProcessDetails_admParam_isActive').val('');
+        $('#admProcessDetails_admParam_isMandatory').val('');
+        $('#admProcessDetails_admParam_slNo').val('');
+        $('#admProcessDetails_admParam_cmd').val('');
+        $('#admProcessDetails_admParam_defaultVal').val('');
+        $('#admProcessDetails_admParam_helpText').val('');
+        $('#admProcessDetails_zoneType').val('');
     });
 
     $(document).on('click', '.admProcessDetails_del', function () {
         var contextPath = '<%=request.getContextPath()%>';
         var action = '/admProcess/det/del/';
         var data = $(this).val();
-
-        alert('Data deleted id: ' + data);
 
         $.ajax({
             url: contextPath + action + data,
@@ -166,7 +184,6 @@
             async: false,
             success: function (response) {
                 $('#div_admProcessDetails').load(location.href + ' #div_admProcessDetails>*', '');
-                //alert('Data deleted successfully!');
                 setTimeout(function () {
                     alert('Data deleted successfully!');
                 }, 200);
