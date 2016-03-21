@@ -144,11 +144,6 @@
         $('#admProcessDetails_admParam_title').val($('td:eq(2)', this).text());
         $('#admProcessDetails_admParam_paramName').val($('td:eq(3)', this).text());
         $('#admProcessDetails_admParam_widgetType').val($('td:eq(4)', this).text());
-
-//        $('#myCheckbox').attr('checked', true);
-
-        // .prop('checked',openInNewPageLoc});
-//        $('#admProcessDetails_admParam_isActive').is(':checked');//=  $('td:eq(5)', this).text()==='true';
         $('#admProcessDetails_admParam_isActive').prop('checked', $('td:eq(5)', this).text() === 'true');//=  ;
         $('#admProcessDetails_admParam_isMandatory').prop('checked', $('td:eq(6)', this).text() === 'true');
         $('#admProcessDetails_admParam_slNo').val($('td:eq(7)', this).text());
