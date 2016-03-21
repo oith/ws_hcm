@@ -84,7 +84,7 @@ class _AdmProcessController extends _OithClientAuditController {
         return new ResponseEntity<>(sb.toString(), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/getDynamicContent", method = RequestMethod.POST)//produces = MediaType.APPLICATION_JSON_VALUE
+    @RequestMapping(value = "/getDynamicContent", method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<String> getDynamicContent(@RequestParam String processId) {
 

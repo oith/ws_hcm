@@ -12,9 +12,12 @@ import java.util.*;
 import java.util.Date;
 import oith.ws.dom.core.AdmProcess;
 import oith.ws.dom.core.AdmProcessDetail;
+import oith.ws.dom.core.AdmReport;
+import oith.ws.dom.core.AdmReportDetail;
 import oith.ws.dom.core.AllEnum.WidgetType;
 import oith.ws.dom.core.AllEnum.ZoneType;
 import oith.ws.service.AdmProcessService;
+import oith.ws.service.AdmReportService;
 import oith.ws.service.MacUserDetail;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -84,6 +87,244 @@ public class Proc {
         }
     }
 
+    public Map<String, String> getReportPageMap(final String reportId, final AdmReportService admReportService) {
+
+        Map<String, String> objMap = new HashMap();
+
+        //String query = "SELECT  COALESCE(A.DEFAULT_VAL,P.DEFAULT_VAL), UPPER(TRIM (COALESCE(A.WIDGET_IDENTITY,P.PARAM_NAME))) FROM ADM_PROC_DTL A,  ADM_PARAM P WHERE ADM_PROC_MST_ID = " + processId + " AND A.ADM_PARAM_ID =P.ID AND ADM_PARAM_ID IS NOT NULL AND A.IS_ACTIVE = 1 AND ZONE_TYPE = '" + ZoneType.SEARCH.toString() + "'  ORDER BY SL_NO ";
+        //String query = "SELECT DEFAULT_VAL, WIDGET_IDENTITY FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND ZONE_TYPE = '" + ZoneType.SEARCH + "' ORDER BY SL_NO";
+        AdmReport admProcMst = null;
+        try {
+            admProcMst = admReportService.findById(reportId);
+        } catch (Exception e) {
+            System.out.println("err 849: " + e);
+        }
+
+        if (admProcMst == null) {
+            return objMap;
+        }
+
+        //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");
+        for (AdmReportDetail admProcDtl : admProcMst.getAdmReportDetails()) {
+
+            String defaultValue = admProcDtl.getAdmParam().getDefaultVal();
+            String widgetIdentity = admProcDtl.getAdmParam().getParamName();
+
+            if (defaultValue != null && !(defaultValue = defaultValue.trim()).isEmpty()) {
+                if (defaultValue.startsWith("{") && defaultValue.endsWith("}")) {
+                    defaultValue = getSingleValFromDBx(defaultValue.trim());
+                }
+            }
+            objMap.put(widgetIdentity, defaultValue);
+        }
+
+        return getReportPageMap(reportId, objMap, admReportService);
+    }
+
+    public Map<String, String> getReportPageMap(final String reportId, final Map<String, String> objMap, AdmReportService admReportService) {
+
+        String client = null;
+        Object authUserObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (authUserObj instanceof MacUserDetail) {
+            client = ((MacUserDetail) authUserObj).getClientId();
+        }
+
+        Map<String, String> mapper = new HashMap();
+
+        String paramer = "";
+        String fparams = "";
+        //String query = "SELECT ZONE_TYPE, IS_MANDATORY, WIDGET_LABEL, HELP_TEXT, DEFAULT_VAL, widget_Type,CMD, WIDGET_IDENTITY,id FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 ORDER BY ZONE_TYPE,SL_NO";
+
+        try {
+
+            AdmReport statement = admReportService.findById(reportId);
+
+            //ResultSet resultSet = statement.executeQuery("SELECT WIDGET_IDENTITY, WIDGET_TYPE  FROM CALL_VU_ADM_PROC_DTL WHERE ADM_PROC_MST_ID = " + processId + " AND IS_ACTIVE = 1 AND UPPER (TRIM (ZONE_TYPE))='PARAM_QU'  ORDER BY SL_NO");
+            for (AdmReportDetail resultSet : statement.getAdmReportDetails()) {
+
+                Boolean isMandatory = resultSet.getAdmParam().getIsMandatory();
+                String widgetLabel = resultSet.getAdmParam().getTitle();
+                String helpText = resultSet.getAdmParam().getHelpText();
+                String defaultValue = resultSet.getAdmParam().getDefaultVal();
+                WidgetType widgetType = resultSet.getAdmParam().getWidgetType();
+                String det_cmd = resultSet.getAdmParam().getCmd();
+                String widgetIdentity = resultSet.getAdmParam().getParamName();
+                String reqIndication = "";
+                String req = "";
+                String reqlab = "";
+                Object strdef = "";
+
+                if (defaultValue != null && !(defaultValue = defaultValue.trim()).isEmpty()) {
+
+                    if ((defaultValue.startsWith("{") && defaultValue.endsWith("}"))) {
+                        strdef = getSingleValFromDBx(defaultValue);
+                    } else {
+                        strdef = defaultValue;
+                    }
+                }
+
+                try {
+
+                    fparams += widgetIdentity + ",";
+
+                } catch (Exception ec) {
+                }
+
+                if (isMandatory != null) {
+                    if (isMandatory) {
+                        reqIndication = "*";
+                        req = " required='required' ";
+                    } 
+                }
+
+                if (widgetLabel != null) {
+                    reqlab = widgetLabel;
+                }
+
+                if (helpText == null) {
+                    helpText = reqlab;
+                }
+
+                String rrrrrr;
+                if (reqIndication.equals("*")) {
+                    rrrrrr = "<span class='required-indicator'> " + reqlab + reqIndication + "</span>";
+                } else {
+                    rrrrrr = reqlab;
+                }
+
+                if (widgetType != WidgetType.UUID) {// && !(widgetType.equals(WidgetType.QU_PARAM_INVISIBLE.toString()) || widgetType.equals(WidgetType.QU_PARAM_VISIBLE.toString()))) {
+                    paramer += "<div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'><div class='form-group'>" + "<label for='" + reqlab + "'>" + rrrrrr + "</label>";
+                }
+
+                if (widgetType != null) {
+
+//                    if (widgetType.equals(WidgetType.MODAL.toString())) {
+//
+////                        <g:render template="../allOrgModal" model="[paramHidAllOrgId: 'hidAllOrgId', paramAllOrgTitleId: 'divAllOrgTitleId']"></g:render>
+//                        if (zoneType.equals(ZoneType.SEARCH.toString())) {
+//                            searcher +=
+//                                    "<div id='divAllOrgTitleId' style='display: inline-block; border-style: none; margin-right: 10px;'>" + "  No organization selected" + "</div>"
+//                                            + "<input id='P_ALL_ORG_ID' type='hidden' name='P_ALL_ORG_ID'>"
+//                                            + "<input type='button' class='btnOrgModal' id='_allOrgModal' value='Select Organization' onclick='return openModal();'></input>";
+//
+//                        }
+//                    }
+                    if (widgetType == WidgetType.PASSWORD) {
+
+                        paramer += "<input class='form-control' type='" + widgetType + "' name='" + widgetIdentity + "' id='" + widgetIdentity + "' value='" + strdef + "' " + req + "/>";
+
+                    } else if (widgetType == WidgetType.TEXT) {
+
+                        paramer += "<input class='form-control' type='" + widgetType + "' name='" + widgetIdentity + "' id='" + widgetIdentity + "' value='" + strdef + "' " + req + "/>";
+
+                    } else if (widgetType == WidgetType.DATE) {
+
+                        paramer += "<input class='form-control date' type='text' placeholder='DD/MM/YYYY' ";
+                        paramer += " name='";
+                        paramer += widgetIdentity;
+                        paramer += "' id='";
+                        paramer += widgetIdentity;
+                        paramer += "' value='";
+                        paramer += strdef;
+                        paramer += "'/>";
+
+                    } else if (det_cmd != null) {
+
+                        if (widgetType == WidgetType.LIST) {
+
+                            List<Map> optionList = getListFromDB(det_cmd, client);
+
+                            System.out.println("optionList:" + optionList + "kkkkkkkkk:" + strdef);
+                            String optSb = new String();
+                            optSb += "<option value=''>Select</option>";
+
+                            if (optionList != null) {
+                                for (Map p : optionList) {
+                                    Object idx = p.get("id");
+                                    Object showx = p.get("show");
+
+                                    if ((strdef instanceof String && idx instanceof String && strdef.equals(idx))
+                                            || (strdef instanceof String && idx instanceof Number && strdef.equals(idx + ""))
+                                            || (strdef instanceof Number && idx instanceof String && idx.equals(strdef + ""))) {
+                                        optSb += "<option " + SELECTED + " value='" + idx + "'>" + showx + "</option>";
+                                    } else if (strdef instanceof Date && idx instanceof Date && strdef.equals(idx)) {
+                                        optSb += "<option " + SELECTED + " value='" + idx + "'>" + showx + "</option>";
+                                    } else if (strdef instanceof Number && idx instanceof Number && strdef.equals(idx)) {
+                                        optSb += "<option " + SELECTED + " value='" + idx + "'>" + showx + "</option>";
+                                    } else {
+                                        optSb += "<option value='" + idx + "'>" + showx + "</option>";
+                                    }
+                                }
+                            }
+
+                            paramer += "<Select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "' " + req + ">" + optSb + "</select>";
+
+                        } else if (widgetType.equals(WidgetType.LIST_FIXED)) {
+                            String optSb = new String();
+
+                            optSb += "<option value='${null}'>Select One</option>";
+                            String[] lstFixed = det_cmd.split(",");
+
+                            for (String xxx : lstFixed) {
+
+                                String kk = xxx;
+                                String vv = xxx;
+
+                                if (xxx.contains("~")) {
+                                    String[] tld = xxx.split("~");
+                                    kk = tld[0];
+                                    vv = tld[1];
+                                }
+
+                                if (strdef.equals(kk)) {
+                                    optSb += "<option " + SELECTED + " value='" + kk + "'>" + vv + "</option>";
+                                } else {
+                                    optSb += "<option value='" + kk + "'>" + vv + "</option>";
+                                }
+                            }
+
+                            paramer += "<select class='form-control' name='" + widgetIdentity + "' id='" + widgetIdentity + "'>" + optSb + "</select>";
+
+                        }
+                    }
+                }
+                paramer += "</div></div>";
+
+            }
+
+        } catch (Exception hhh) {
+            hhh.printStackTrace(System.out);
+            System.out.println("mac say err 0606: " + hhh);
+        }
+
+        if (!paramer.isEmpty()) {
+            paramer = "<fieldset class='fsStyle'>"
+                    + "<legend class='legendStyle'><h4>Fixed Parameter</h4></legend>"
+                    + paramer
+                    + "</fieldset>";
+        }
+
+        mapper.put("paramer", paramer);
+
+        try {
+            fparams = fparams.substring(0, fparams.length() - 1);
+            mapper.put("fparams", fparams);
+        } catch (Exception e) {
+        }
+
+        try (FileWriter hhjj = new FileWriter("D://a123.txt")) {
+            hhjj.write(new Date() + "\n" + mapper + "");
+            hhjj.flush();
+        } catch (Exception e) {
+        }
+
+        return mapper;
+    }
+
+    //////////////////
+    ///////////////////
+    /////////////////
     public Map<String, String> getProcPageMap(final String processId, final AdmProcessService admProcMstService) {
 
         Map<String, String> objMap = new HashMap();

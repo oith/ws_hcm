@@ -21,8 +21,11 @@ import oith.ws.dom.core.AdmReport;
 import oith.ws.dom.core.AllEnum;
 import oith.ws.exception.NotLoggedInException;
 import oith.ws.service.AdmReportService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -40,6 +43,8 @@ public class _AdmReportController extends _OithClientAuditController {
     private org.springframework.context.MessageSource messageSource;
     @Autowired
     private AdmReportService admReportService;
+
+    private Proc procObj;
 
     @RequestMapping(value = {"/", "/indexReport", ""}, method = RequestMethod.GET)
     public String indexReport(ModelMap model, RedirectAttributes attributes) {
@@ -99,6 +104,36 @@ public class _AdmReportController extends _OithClientAuditController {
         //final HttpHeaders headers = new HttpHeaders();
         //headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(sb.toString(), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/getDynamicContent", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<String> getDynamicContent(@RequestParam String reportId) {
+
+        System.out.println("finding getDynamicContent: code: " + reportId);
+        procObj = getProcObj();
+
+        Map<String, String> allMap;
+
+        if (procObj == null) {
+            allMap = new HashMap();
+            allMap.put("error", "Connection not found!!!");
+        } else {
+            allMap = procObj.getReportPageMap(reportId, admReportService);
+
+        }
+
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return new ResponseEntity<>(objectMapper.writeValueAsString(allMap), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @RequestMapping(value = {"/", "/indexReport", ""}, method = RequestMethod.POST)
@@ -176,5 +211,13 @@ public class _AdmReportController extends _OithClientAuditController {
         }
         System.out.println("done");
 
+    }
+
+    Proc getProcObj() {
+
+        if (procObj == null) {
+            procObj = new Proc();
+        }
+        return procObj;
     }
 }
