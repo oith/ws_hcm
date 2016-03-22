@@ -153,7 +153,7 @@
                                     <!--<div class = "form-group">-->
                                         <!--<div class = "col-sm-offset-2 col-sm-10">-->
                                             <div class='checkbox'>
-                                                <label>
+                                                <label style="color:white;">
                                                     <input id='openInNewPage' name='openInNewPage' type='checkbox'  value=''><spring:message code='default.open.in.new.page' text='Open in New Page'/>
                                                 </label>
                                             </div>

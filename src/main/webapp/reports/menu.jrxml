@@ -28,7 +28,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="18" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Report Title]]></text>
+				<text><![CDATA[Menu Report]]></text>
 			</staticText>
 		</band>
 	</title>

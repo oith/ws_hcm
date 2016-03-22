@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -56,8 +57,7 @@ public class _AdmReportController extends _OithClientAuditController {
             return REDIRECT_TO_LOGIN;
         }
 
-        List<AllEnum.Module> pgs = Arrays.asList(AllEnum.Module.values());// AdmProcMst.executeQuery("SELECT m FROM AdmProcMst m WHERE m.itemType='PG' AND m.isActive=true ORDER BY m.slNo, m.title");
-        //List<AdmProcMst> kkx = ;// AdmProcMst.executeQuery("SELECT m FROM AdmProcMst m WHERE m.itemType='P' AND m.isActive=true ORDER BY m.parentAdmPermissible.slNo, m.parentAdmPermissible.title, m.slNo, m.title");
+        List<AllEnum.Module> pgs = Arrays.asList(AllEnum.Module.values());
         List<AdmReport> kk = new ArrayList();
 
         for (AdmReport bbb : admReportService.findAllByClient(client)) {
@@ -69,6 +69,88 @@ public class _AdmReportController extends _OithClientAuditController {
 
         model.addAttribute("module", pgs);
         model.addAttribute("reportMap", kk);
+        return "_indexReport";
+    }
+
+    @RequestMapping(value = {"/", "/indexReport", ""}, method = RequestMethod.POST)
+    public String dddd(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+
+        Client client;
+        try {
+            client = super.getLoggedClient();
+        } catch (NotLoggedInException e) {
+            return REDIRECT_TO_LOGIN;
+        }
+
+        Map<String, Object> parameters = new HashMap<>();
+
+        parameters.put("P_CLIENT_ID", client.getId());
+
+        Enumeration<String> ghhh = request.getParameterNames();
+        while (ghhh.hasMoreElements()) {
+            String key = ghhh.nextElement();
+            String val = request.getParameter(key);
+            parameters.put(key, val);
+        }
+
+        System.out.println("parameters 1141: " + parameters);
+
+        try {
+            response.reset();
+
+            MongoDbConnection connection = new MongoDbConnection("mongodb://localhost:27017/demodb", null, null);
+
+            JRProperties.setProperty("net.sf.jasperreports.query.executer.factory.MongoDbQuery", "com.jaspersoft.mongodb.query.MongoDbQueryExecuterFactory");
+
+            String hjjd = request.getContextPath();
+            String hjjdx = request.getPathInfo();
+            String hjjdxd = request.getServletPath();
+            String hjj = request.getServletContext().getRealPath("/");
+            System.out.println("1205 report getContextPath: " + hjjd + " getPathInfo: " + hjjdx + " getServletPath:" + hjjdxd + " realPath: " + hjj);
+
+            String pp = "";
+
+            boolean jjj = hjj.contains("/");
+            if (jjj) {
+                pp = "/";
+            }
+            jjj = hjj.contains("\\");
+            if (jjj) {
+                pp = "\\";
+            }
+
+            if (hjj.endsWith("/") || hjj.endsWith("\\")) {
+                hjj = hjj + "reports" + pp;
+            } else {
+                hjj = hjj + pp + "reports" + pp;
+            }
+
+            System.out.println("452 reportpath: " + hjj + "");
+
+            String reportName = request.getParameter("reportName");// "oith";
+
+            if (request.getParameter("reportFormat").equals("XLS")) {
+                parameters.put("IS_IGNORE_PAGINATION", Boolean.TRUE);
+                //  reportDef = new JasperReportDef(name: admReportMaster.fileName, parameters: parameters, fileFormat: JasperExportFormat.XLS_FORMAT)
+            } else {
+                //  println("MAC pdf: ")
+            }
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(hjj + reportName + ".jasper", parameters, connection);
+//            JasperPrint jasperPrint = JasperFillManager.fillReport("D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jasper", parameters, connection);
+
+            response.setContentType("application/pdf");
+            response.setHeader("Content-disposition", "inline; filename=" + reportName + ".pdf");
+
+            JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+
+            response.getOutputStream().flush();
+            //allComboSetup(model);
+
+        } catch (JRException | IOException e) {
+            System.out.println("errr 678:" + e);
+        }
+
         return "_indexReport";
     }
 
@@ -134,62 +216,6 @@ public class _AdmReportController extends _OithClientAuditController {
         }
 
         return null;
-    }
-
-    @RequestMapping(value = {"/", "/indexReport", ""}, method = RequestMethod.POST)
-    public String dddd(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-
-        try {
-            response.reset();
-
-            //JasperCompileManager.compileReportToFile("D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jrxml", "D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jasper");
-            Map<String, Object> parameters = new HashMap<>();
-
-            MongoDbConnection connection = new MongoDbConnection("mongodb://localhost:27017/demodb", null, null);
-
-            JRProperties.setProperty("net.sf.jasperreports.query.executer.factory.MongoDbQuery", "com.jaspersoft.mongodb.query.MongoDbQueryExecuterFactory");
-
-            String hjjd = request.getContextPath();
-            String hjjdx = request.getPathInfo();
-            String hjjdxd = request.getServletPath();
-            String hjj = request.getServletContext().getRealPath("/");
-            System.out.println("1205 report getContextPath: " + hjjd + " getPathInfo: " + hjjdx + " getServletPath:" + hjjdxd + " realPath: " + hjj);
-
-            String pp = "";
-
-            boolean jjj = hjj.contains("/");
-            if (jjj) {
-                pp = "/";
-            }
-            jjj = hjj.contains("\\");
-            if (jjj) {
-                pp = "\\";
-            }
-
-            if (hjj.endsWith("/") || hjj.endsWith("\\")) {
-                hjj = hjj + "reports" + pp;
-            } else {
-                hjj = hjj + pp + "reports" + pp;
-            }
-
-            System.out.println("452 reportpath: " + hjj + "");
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(hjj + "oith.jasper", parameters, connection);
-//            JasperPrint jasperPrint = JasperFillManager.fillReport("D:\\_OITH_OUTPUT\\oith_ws_web\\trunk\\src\\main\\webapp\\reports\\oith.jasper", parameters, connection);
-
-            response.setContentType("application/pdf");
-            response.setHeader("Content-disposition", "inline; filename=" + "ioioi" + ".pdf");
-
-            JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-
-            response.getOutputStream().flush();
-            //allComboSetup(model);
-
-        } catch (JRException | IOException e) {
-            System.out.println("errr 678:" + e);
-        }
-
-        return "_indexReport";
     }
 
     public static void mainx(String[] args) {

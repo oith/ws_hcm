@@ -3,16 +3,26 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="P_CLIENT_ID" class="java.lang.String"/>
 	<queryString language="MongoDbQuery">
-		<![CDATA[{"collectionName":"Menu"}]]>
+		<![CDATA[{
+collectionName: "Lookup",
+findQuery:
+{
+}
+}]]>
 	</queryString>
 	<field name="_class" class="java.lang.String"/>
 	<field name="_id" class="org.bson.types.ObjectId"/>
-	<field name="accessPath" class="java.lang.String"/>
-	<field name="address" class="java.lang.String"/>
+	<field name="active" class="java.lang.Boolean"/>
+	<field name="auditor.insertByUser" class="com.mongodb.DBRef"/>
+	<field name="auditor.insertDate" class="java.util.Date"/>
+	<field name="client" class="com.mongodb.DBRef"/>
 	<field name="code" class="java.lang.String"/>
-	<field name="menuType" class="java.lang.String"/>
-	<field name="text" class="java.lang.String"/>
+	<field name="lookupKeyword" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="remarks" class="java.lang.String"/>
+	<field name="slNo" class="java.lang.Integer"/>
 	<field name="version" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -28,14 +38,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="18" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Report Title]]></text>
+				<text><![CDATA[Lookup Report]]></text>
 			</staticText>
 		</band>
 	</title>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="b27f76f5-1784-4536-a0f4-8e87fda7ed03" mode="Opaque" x="0" y="0" width="111" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
+				<reportElement uuid="94e434ba-a89a-4e2e-9af4-49084e0f1cea" x="140" y="0" width="70" height="20"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -43,13 +53,11 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
-				<text><![CDATA[accessPath]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="01147733-bce3-48e5-9b91-437559ae0384" mode="Opaque" x="111" y="0" width="111" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
+				<reportElement uuid="8ca96d25-5244-4875-8c09-d60615684403" x="70" y="0" width="70" height="20"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -57,13 +65,11 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
-				<text><![CDATA[address]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[lookupKeyword]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="79d4a04e-29f8-4bd8-8746-3667b5662cd9" mode="Opaque" x="222" y="0" width="111" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
+				<reportElement uuid="68b02a9d-3f77-45c1-9841-5335f473e85b" x="210" y="0" width="73" height="20"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -71,112 +77,77 @@
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[slNo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="81969a04-c552-4017-a1cb-a56f3a4557f0" x="0" y="0" width="70" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[code]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="9e664d81-0d39-41e8-a138-bdeedaf8721f" mode="Opaque" x="333" y="0" width="111" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
-				<text><![CDATA[menuType]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="5269dde2-2924-425c-852b-9b9a915504b1" mode="Opaque" x="444" y="0" width="111" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
-				<text><![CDATA[text]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="4520757c-7442-4ac0-95aa-52477b509af2" x="0" y="0" width="111" height="20" forecolor="#000000"/>
-				<box leftPadding="3">
+				<reportElement uuid="b1f4d1aa-4caa-43c0-aed7-31c2d55b616e" x="140" y="0" width="70" height="20"/>
+				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{accessPath}]]></textFieldExpression>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="0f183ae3-8076-4524-b40b-bac2a03b8ed9" x="111" y="0" width="111" height="20" forecolor="#000000"/>
-				<box leftPadding="3">
+				<reportElement uuid="7c189ad9-6ced-465c-8b76-e1e083f0269d" x="70" y="0" width="70" height="20"/>
+				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lookupKeyword}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4ee270e7-149a-43be-a57a-7f4c7ada6462" x="222" y="0" width="111" height="20" forecolor="#000000"/>
-				<box leftPadding="3">
+				<reportElement uuid="6cccef55-cfe8-4462-843f-48cb69aac9db" x="0" y="0" width="70" height="20"/>
+				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1cc9f0fa-0a9f-4b58-a3aa-5f5c70146070" x="333" y="0" width="111" height="20" forecolor="#000000"/>
-				<box leftPadding="3">
+				<reportElement uuid="76e15350-9b97-4180-a045-5d8500523569" x="210" y="0" width="73" height="20"/>
+				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{menuType}]]></textFieldExpression>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{slNo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="92684a73-5db7-48d8-b78a-1513e2df534f" x="444" y="0" width="111" height="20" forecolor="#000000"/>
-				<box leftPadding="3">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{text}]]></textFieldExpression>
+				<reportElement uuid="3be8b5be-1481-451c-abb4-1a04960b6dfa" x="283" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{client}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -13,41 +13,15 @@
 </tiles:putAttribute>
 
 <script type='text/javascript'>
-    jQuery(document).ready(function () {
-        $('#tblAdmProc').dataTable({
-            //            paging:true,
-            //            info:true,
-            //            lengthChange:true
-        });
-    });
 
     function hideAjaxLoadingImageProc() {
         $('#LoadingImageSrch').hide();
         $('#LoadingImageLoadProcess').hide();
-        $('#LoadingImageExecuteProcess').hide();
     }
 
     function getReport() {
         hideAjaxLoadingImageProc();
         $('#LoadingImageLoadProcess').show();
-        //       $('#error').empty();
-        $('#outputMsg').addClass('highlight');
-        $('#searchContent').addClass('highlight');
-        $('#searchButtonContent').addClass('highlight');
-        $('#paramsContent').addClass('highlight');
-        $('#buttonContent').addClass('highlight');
-        $('#tableContent').addClass('highlight');
-        $('#totalRecordDiv').addClass('highlight');
-        $('#errMsg').addClass('highlight');
-//        $('#outputMsg').empty();
-//        $('#searchContent').empty();
-//        $('#searchButtonContent').empty();
-        $('#paramsContent').empty();
-//        $('#buttonContent').empty();
-//        $('#tableContent').empty();
-//        $('#totalRecordDiv').empty();
-//        $('#errMsg').empty();
-//        $('#qparams').empty();
 
         $.ajax({
             type: 'POST',
@@ -73,24 +47,8 @@
         hideAjaxLoadingImageProc();
         $('#LoadingImageLoadProcess').show();
 
-        $('#outputMsg').addClass('highlight');
-        $('#searchContent').addClass('highlight');
-        $('#searchButtonContent').addClass('highlight');
-        $('#paramsContent').addClass('highlight');
-        $('#buttonContent').addClass('highlight');
-        $('#tableContent').addClass('highlight');
-        $('#totalRecordDiv').addClass('highlight');
-        $('#errMsg').addClass('highlight');
-
-        $('#outputMsg').empty();
-        $('#searchContent').empty();
-        $('#searchButtonContent').empty();
-        $('#paramsContent').empty();
-        $('#buttonContent').empty();
-        $('#tableContent').empty();
-        $('#totalRecordDiv').empty();
-        $('#errMsg').empty();
-        $('#qparams').empty();
+        $('#dynamicContentHeader').empty();
+        $('#dynamicContent').empty();
 
         $.ajax({
             type: 'POST',
@@ -100,11 +58,16 @@
             },
             async: false,
             success: function (d) {
-                //alert(d);
                 hideAjaxLoadingImageProc();
-              
-                $('#paramsContent').append(d.paramer.toString());
-                $('#paramsContent').addClass('fieldcontain');
+                $('#reportFormat').empty();
+
+                $('#reportName').val(d.reportName.toString());
+
+//                 $('#dynamicContent').append('<input id="reportName" >'+d.reportName.toString()+'</input>');
+
+                $('#reportFormat').append(d.reportFormat.toString());
+                $('#dynamicContentHeader').append('<h4><spring:message code='fixed.Parameter' text='Fixed Parameter'/></h4>');
+                $('#dynamicContent').append(d.paramer.toString());
             },
             error: function (err) {
                 alert('No Report Is Configured: ' + err);
@@ -124,55 +87,76 @@
     <title><spring:message code='report' text='Report'/></title>
     <h1><spring:message code='report' text='Report'/></h1>
 
-    <div>
-        <div class='row'>
+    <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+        <div class='form-group'>
+            <label for='module'>
+                <span><spring:message code='module' text='Module'/></span>
+            </label>
+            <select name='module' 
+                    id='module'
+                    onchange='getReport()' 
+                    class='form-control'>
+                <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
+                <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
+                    <option value='${sss}' >${sss}</option>
+                </c:forEach>
+            </select>
+        </div>
+    </div>   
 
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                <div class='form-group'>
-                    <label for='module'>
-                        <span><spring:message code='module' text='Module'/></span>
-                    </label>
-                    <select name='module' 
-                            id='module'
-                            onchange='getReport()' 
-                            class='form-control'>
-                        <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
-                        <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
-                            <option value='${sss}' >${sss}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>   
+    <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+        <div class='form-group'>
+            <label for='reportId'>
+                <span><spring:message code='report' text='Report'/></span>
+                <span class='required-indicator'>*</span>
+            </label>
+            <select name='reportId' 
+                    id='reportId'  
+                    required='required'
+                    onchange='getDynamicContent()' 
+                    class='form-control' >
+                <option value='${null}' ><spring:message code='default.select.null' text='Select One'/></option>
+                <c:forEach items='${reportMap}' var='sss' varStatus='loopStatus'>
+                    <option value='${sss.id}' >${sss}</option>
+                </c:forEach>
+            </select>
+        </div>
+    </div>
 
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                <div class='form-group'>
-                    <label for='reportId'>
-                        <span><spring:message code='report' text='Report'/></span>
-                        <span class='required-indicator'>*</span>
-                    </label>
-                    <select name='reportId' 
-                            id='reportId'  
-                            required='required'
-                            onchange='getDynamicContent()' 
-                            class='form-control' >
-                        <option value='${null}' ><spring:message code='default.select.null' text='Select One'/></option>
-                        <c:forEach items='${reportMap}' var='sss' varStatus='loopStatus'>
-                            <option value='${sss.id}' >${sss}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
 
-            <form:form action='${pageContext.request.contextPath}/_AdmReport/indexReport' method='POST'>
-                <div>
-                    <button class='btn btn-primary' type='submit'><spring:message code='report' text='Report'/></button>
-                </div>
-            </form:form>
+    <form:form action='${pageContext.request.contextPath}/_AdmReport/indexReport' method='POST'>    
 
-            <div id='LoadingImageLoadProcess' style='display: none;'>
-                <g:img dir='images/image_loading.gif'/>
+        <input type='hidden' name='reportName' id='reportName' value=''>
+
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+            <div class='form-group'>
+                <label for='reportFormat'>
+                    <span><spring:message code='reportFormat' text='Report Format'/></span>
+                    <span class='required-indicator'>*</span>
+                </label>
+                <select name='reportFormat' 
+                        id='reportFormat'  
+                        required='required'
+                        class='form-control' >
+                </select>
             </div>
         </div>
+
+        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+            <div class='form-group'>
+                <div id="dynamicContentHeader"></div>
+            </div>
+        </div>
+
+        <div id="dynamicContent"></div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <button class='btn btn-primary' type='submit'><spring:message code='report' text='Report'/></button>
+        </div>
+    </form:form>
+
+    <div id='LoadingImageLoadProcess' style='display: none;'>
+        <g:img dir='images/image_loading.gif'/>
     </div>
 
 </tiles:putAttribute>  
