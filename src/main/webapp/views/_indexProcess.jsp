@@ -15,16 +15,15 @@
 <script type='text/javascript'>
     $(document).on('click', '#checkAll', function () {
         if ($(this).is(':checked')) {
-            $('.chkAplc').each(function () {
+            $('.checkBoxTouchAll').each(function () {
                 $(this).prop('checked', true);
             });
         } else {
-            $('.chkAplc').each(function () {
+            $('.checkBoxTouchAll').each(function () {
                 $(this).prop('checked', false);
             });
         }
     });
-
     function hideAjaxLoadingImageProc() {
         $('#LoadingImageSrch').hide();
         $('#LoadingImageLoadProcess').hide();
@@ -36,30 +35,23 @@
         if (!$this.data('datepicker'))
             $this.datepicker({dateFormat: 'dd/mm/yy'});
     });
-
     function getProcess() {
 
         hideAjaxLoadingImageProc();
         $('#LoadingImageLoadProcess').show();
-        $('#error').empty();
-        $('#outputMsg').addClass('highlight');
-        $('#searchContent').addClass('highlight');
-        $('#searchButtonContent').addClass('highlight');
-        $('#paramsContent').addClass('highlight');
-        $('#buttonContent').addClass('highlight');
-        $('#tableContent').addClass('highlight');
-        $('#totalRecordDiv').addClass('highlight');
-        $('#errMsg').addClass('highlight');
-        $('#outputMsg').empty();
-        $('#searchContent').empty();
-        $('#searchButtonContent').empty();
-        $('#paramsContent').empty();
         $('#buttonContent').empty();
+        $('#errMsg').empty();
+        $('#error').empty();
+        $('#fixedParameter').empty();
+        $('#fixedParameterHeader').empty();
+        $('#outputMsg').empty();
+        $('#qparams').empty();
+        $('#searchButton').empty();
+        $('#searchButtonContent').empty();
+        $('#searchContent').empty();
+        $('#searchParameterHeader').empty();
         $('#tableContent').empty();
         $('#totalRecordDiv').empty();
-        $('#errMsg').empty();
-        $('#qparams').empty();
-
         $.ajax({
             type: 'POST',
             url: '${pageContext.request.contextPath}/_AdmProcess/getProcess',
@@ -81,28 +73,22 @@
     }
 
     function getDynamicContent() {
-        $('#error').empty();
+
         hideAjaxLoadingImageProc();
         $('#LoadingImageLoadProcess').show();
-
-        $('#outputMsg').addClass('highlight');
-        $('#searchContent').addClass('highlight');
-        $('#searchButtonContent').addClass('highlight');
-        $('#paramsContent').addClass('highlight');
-        $('#buttonContent').addClass('highlight');
-        $('#tableContent').addClass('highlight');
-        $('#totalRecordDiv').addClass('highlight');
-        $('#errMsg').addClass('highlight');
-
-        $('#outputMsg').empty();
-        $('#searchContent').empty();
-        $('#searchButtonContent').empty();
-        $('#paramsContent').empty();
         $('#buttonContent').empty();
+        $('#errMsg').empty();
+        $('#error').empty();
+        $('#fixedParameter').empty();
+        $('#fixedParameterHeader').empty();
+        $('#outputMsg').empty();
+        $('#qparams').empty();
+        $('#searchButton').empty();
+        $('#searchButtonContent').empty();
+        $('#searchContent').empty();
+        $('#searchParameterHeader').empty();
         $('#tableContent').empty();
         $('#totalRecordDiv').empty();
-        $('#errMsg').empty();
-        $('#qparams').empty();
 
         $.ajax({
             type: 'POST',
@@ -112,20 +98,20 @@
             },
             async: false,
             success: function (d) {
-                //alert(d);
+
                 hideAjaxLoadingImageProc();
-                $('#searchContent').append(d.searchContent.toString());
-                //$('#searchContent').addClass('form');
+                if (d.searchContent !== null) {
+                    $('#searchParameterHeader').append("<div class='form-group'><h4><spring:message code='search.Parameter' text='Search Parameter'/></h4></div>");
+                    $('#searchContent').append(d.searchContent.toString());
+                    $('#searchButton').append("<button onclick='getDynamicTable()' class='btn btn-primary' title='Press to Search' type='button' name='search' id='search' ><i class = 'glyphicon glyphicon-search'></i><spring:message code='search.form.submit.label' text='Search'/></button>");
+                }
 
-                $('#searchButtonContent').append(d.searcher_btner.toString());
-                $('#searchButtonContent').addClass('buttons');
-
-                $('#paramsContent').append(d.paramer.toString());
-                $('#paramsContent').addClass('fieldcontain');
+                if (d.fixedParameter !== null) {
+                    $('#fixedParameterHeader').append("<div class='form - group'><h4><spring:message code='fixed.Parameter' text='Fixed Parameter'/></h4></div>");
+                    $('#fixedParameter').append(d.fixedParameter.toString());
+                }
 
                 $('#buttonContent').append(d.btner.toString());
-                $('#buttonContent').addClass('btn-group btn-group-justified');
-
                 $('#qparams').append(d.qparams.toString());
             },
             error: function (err) {
@@ -139,7 +125,6 @@
         hideAjaxLoadingImageProc();
         $('#LoadingImageSrch').show();
         var my_cars = {};
-
         $('#searchContent').find(':required').each(function () {
             if ($(this).val() === '') {
                 $(this).focus();
@@ -147,16 +132,13 @@
                 return;
             }
         });
-
         $('#searchContent').find(':input').each(function () {
             my_cars[$(this).attr('id')] = $('#' + $(this).attr('id')).val();
         });
-
         var strKeyVal = JSON.stringify(my_cars);
         $('#tableContent').empty();
         $('#totalRecordDiv').empty();
         $('#outputMsg').empty();
-
         $.ajax({
             type: 'POST',
             url: '${pageContext.request.contextPath}/_AdmProcess/search',
@@ -170,7 +152,6 @@
                 $('#totalRecordDiv').append('<b>Total Records Found: ' + d.TOTAL_RECORD.toString() + '</b>');
                 $('#tableContent').attr('class', 'fieldcontain');
                 $('#totalRecordDiv').attr('class', 'fieldcontain');
-
                 $('#search').prop('disabled', false);
             },
             error: function (err) {
@@ -187,8 +168,7 @@
         var myParam = {};
         var isReturn = false;
         $('#errMsg').empty();
-
-        if ($('.chkAplc').length !== 0 && $('.chkAplc:checked').length === 0) {
+        if ($('.checkBoxTouchAll').length !== 0 && $('.checkBoxTouchAll:checked').length === 0) {
             alert('Select at least one.');
             $('#' + btnId).prop('disabled', false);
             return;
@@ -201,7 +181,7 @@
             return;
         }
 
-        $('#paramsContent').find(':required').each(function () {
+        $('#fixedParameter').find(':required').each(function () {
             if ($(this).val() === '') {
                 alert('Enter required field');
                 hideAjaxLoadingImageProc();
@@ -209,28 +189,23 @@
                 return false;
             }
         });
-
         if (isReturn) {
             return;
         }
 
-        $('#paramsContent').find(':input').each(function () {
+        $('#fixedParameter').find(':input').each(function () {
             myParam[$(this).attr('id')] = $('#' + $(this).attr('id')).val();
         });
-
         var porcTitleMApxLOC = {};
-
         porcTitleMApxLOC['PROC_BTN_ID'] = btnId;
         porcTitleMApxLOC['FIXED_PARAM_VAL'] = myParam;
         porcTitleMApxLOC['QU_PARAM_VAL'] = $('#qparams').text();
-
-        var spltqparams = $('#qparams').text();//'ID,OITH_ID,MAC_REMARKSX';
+        var spltqparams = $('#qparams').text(); //'ID,OITH_ID,MAC_REMARKSX';
 
         var outSpltqparams = spltqparams.split(',');
         var arrKeyVal = {};
-
         var i = 1;
-        $('.chkAplc').each(function () {
+        $('.checkBoxTouchAll').each(function () {
             if (this.checked) {
                 var smy_cars = {};
                 for (var j = 0; j < outSpltqparams.length; j++) {
@@ -240,12 +215,8 @@
             }
             i++;
         });
-
         var strKeyVal = JSON.stringify(arrKeyVal);
         var porcTitleMApx = JSON.stringify(porcTitleMApxLOC);
-
-        //alert('uuuuuu btnId:' + btnId);
-
         $.ajax({
             type: 'POST',
             url: '${pageContext.request.contextPath}/_AdmProcess/executeProcess',
@@ -259,14 +230,11 @@
                 hideAjaxLoadingImageProc();
                 $('#outputMsg').empty();
                 $('#outputMsg').append('Process executed on ' + new Date() + '<br/>');
-
                 $('#' + btnId).prop('disabled', false);
-
                 $('#outputMsg').append('No of Successful Process:  ' + d.countsPass.toString() + '<br/>');
                 $('#outputMsg').append('No of Failed Process:  ' + d.countsFail.toString() + '<br/>');
                 $('#outputMsg').append(d.procOutLink.toString());
                 $('#errMsg').append(d.errMsg.toString());
-
                 $('#outputMsg').attr('class', 'fieldcontain');
                 $('#errMsg').attr('class', 'fieldcontain');
             },
@@ -288,71 +256,75 @@
     <title><spring:message code='process' text='Process'/></title>
     <h1><spring:message code='process' text='Process'/></h1>
 
-    <div>
-        <div class='row'>
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                <div class='form-group'>
-                    <label for='module'>
-                        <span><spring:message code='module' text='Module'/></span>
-                    </label>
-                    <select name='module' 
-                            id='module'
-                            onchange='getProcess()' 
-                            class='form-control'>
-                        <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
-                        <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
-                            <option value='${sss}' >${sss}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
 
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                <div class='form-group'>
-                    <label for='processId'>
-                        <span><spring:message code='process' text='Process'/></span>
-                        <span class='required-indicator'>*</span>
-                    </label>
-
-                    <select name='processId' 
-                            id='processId'  
-                            required='required'
-                            onchange='getDynamicContent()' 
-                            class='form-control'>
-                        <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
-                        <c:forEach items='${processMap}' var='sss' varStatus='loopStatus'>
-                            <option value='${sss.id}' >${sss}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-
-            <div id='error'></div>
-
-            <div id='searchContent'></div>
-
-            <div class='row'>
-                <div id='searchButtonContent'></div>
-            </div>
-
-            <div id='paramsContent'></div>
-
-            <form controller='_AdmProcess' id='oith' name='oith' action='executeProcess'>
-                <div id='buttonContent'></div>
-            </form>
-
-            <div id='fparams' style='display: none' class='fieldcontain'></div>
-            <div id='qparams' style='display: none' class='fieldcontain'></div>
-            <div id='outputMsg' class='outputMsg'></div>
-
-            <div id='tableContent'></div>
-            <div id='totalRecordDiv'></div>
-            <div id='errMsg'></div>
-
-            <div id='LoadingImageLoadProcess' style='display: none;'>
-                <g:img dir='images/image_loading.gif'/>
-            </div>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <label for='module'>
+                <span><spring:message code='module' text='Module'/></span>
+            </label>
+            <select name='module' 
+                    id='module'
+                    onchange='getProcess()' 
+                    class='form-control'>
+                <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
+                <c:forEach items='${module}' var='sss' varStatus='loopStatus'>
+                    <option value='${sss}' >${sss}</option>
+                </c:forEach>
+            </select>
         </div>
+    </div>
+
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <div class='form-group'>
+            <label for='processId'>
+                <span><spring:message code='process' text='Process'/></span>
+                <span class='required-indicator'>*</span>
+            </label>
+
+            <select name='processId' 
+                    id='processId'  
+                    required='required'
+                    onchange='getDynamicContent()' 
+                    class='form-control'>
+                <option value='${null}'><spring:message code='default.select.null' text='Select One'/></option>
+                <c:forEach items='${processMap}' var='sss' varStatus='loopStatus'>
+                    <option value='${sss.id}' >${sss}</option>
+                </c:forEach>
+            </select>
+        </div>
+    </div>
+
+    <div id='error'></div>
+
+    <div id='searchParameterHeader' class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>    
+    </div>
+
+    <div id='searchContent'></div>
+
+    <div id='searchButton' class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+
+    <div id="fixedParameterHeader" class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+    </div>
+
+    <div id='fixedParameter'></div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <form controller='_AdmProcess' id='oith' name='oith' action='executeProcess'>
+            <div class='btn-group' id='buttonContent'></div>
+        </form>
+    </div>
+
+    <div id='fparams' style='display: none' ></div>
+    <div id='qparams' style='display: none' ></div>
+
+    <div id='outputMsg' class='outputMsg'></div>
+
+    <div id='tableContent'></div>
+    <div id='totalRecordDiv'></div>
+    <div id='errMsg'></div>
+
+    <div id='LoadingImageLoadProcess' style='display: none;'>
+        <g:img dir='images/image_loading.gif'/>
     </div>
 
 </tiles:putAttribute>  

@@ -22,6 +22,10 @@
     function getReport() {
         hideAjaxLoadingImageProc();
         $('#LoadingImageLoadProcess').show();
+        $('#fixedParameterHeader').empty();
+        $('#fixedParameter').empty();
+        $('#reportFormat').empty();
+        $('#genReport').empty();
 
         $.ajax({
             type: 'POST',
@@ -46,9 +50,10 @@
         $('#error').empty();
         hideAjaxLoadingImageProc();
         $('#LoadingImageLoadProcess').show();
-
-        $('#dynamicContentHeader').empty();
-        $('#dynamicContent').empty();
+        $('#fixedParameterHeader').empty();
+        $('#fixedParameter').empty();
+        $('#reportFormat').empty();
+        $('#genReport').empty();
 
         $.ajax({
             type: 'POST',
@@ -59,15 +64,12 @@
             async: false,
             success: function (d) {
                 hideAjaxLoadingImageProc();
-                $('#reportFormat').empty();
 
                 $('#reportName').val(d.reportName.toString());
-
-//                 $('#dynamicContent').append('<input id="reportName" >'+d.reportName.toString()+'</input>');
-
                 $('#reportFormat').append(d.reportFormat.toString());
-                $('#dynamicContentHeader').append('<h4><spring:message code='fixed.Parameter' text='Fixed Parameter'/></h4>');
-                $('#dynamicContent').append(d.paramer.toString());
+                $('#fixedParameterHeader').append('<h4><spring:message code='fixed.Parameter' text='Fixed Parameter'/></h4>');
+                $('#fixedParameter').append(d.fixedParameter.toString());
+                $('#genReport').append("<button class='btn btn-primary' type='submit'><i class='glyphicon glyphicon-book'></i><spring:message code='report' text='Report'/></button>");
             },
             error: function (err) {
                 alert('No Report Is Configured: ' + err);
@@ -75,7 +77,6 @@
             }
         });
     }
-
 </script>
 
 <tiles:putAttribute name='menu'>
@@ -123,7 +124,6 @@
         </div>
     </div>
 
-
     <form:form action='${pageContext.request.contextPath}/_AdmReport/indexReport' method='POST'>    
 
         <input type='hidden' name='reportName' id='reportName' value=''>
@@ -144,15 +144,13 @@
 
         <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
             <div class='form-group'>
-                <div id="dynamicContentHeader"></div>
+                <div id="fixedParameterHeader"></div>
             </div>
         </div>
 
-        <div id="dynamicContent"></div>
+        <div id="fixedParameter"></div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button class='btn btn-primary' type='submit'><spring:message code='report' text='Report'/></button>
-        </div>
+        <div id="genReport" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
     </form:form>
 
     <div id='LoadingImageLoadProcess' style='display: none;'>

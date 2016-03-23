@@ -98,17 +98,6 @@ class _AdmProcessController extends _OithClientAuditController {
             allMap.put("error", "Connection not found!!!");
         } else {
             allMap = procObj.getProcPageMap(processId, admProcessService);
-
-//            allMap.put("btner", "abc tj btner kfds");
-//            allMap.put("paramer", "abc tj paramer kfds");
-//            allMap.put("qparams", "abc tj qparams kfds");
-//            allMap.put("searcher", "<div class=\"fieldcontain\" title=\"Enter Employee ID(s)\">\n"
-//                    + "<label for=\"Employee ID(s)\">\n"
-//                    + "<input id=\"P_EMP_CODES\" type=\"TEXT\" value=\"\" name=\"P_EMP_CODES\">\n"
-//                    + "</div>");
-//            allMap.put("searcher_btner", "<fieldset class=\"buttons\">\n"
-//                    + "<button id=\"search\" class=\"save\" name=\"search\" type=\"button\" title=\"Press to Search\" onclick=\"getDynamicTable()\">Search</button>\n"
-//                    + "</fieldset>");
         }
 
         final HttpHeaders headers = new HttpHeaders();
@@ -249,18 +238,6 @@ class _AdmProcessController extends _OithClientAuditController {
             String nnncmd = nnnx.getAdmParam().getCmd();
             String nnnwidgetIdentity = nnnx.getAdmParam().getParamName();
             AllEnum.WidgetType nnnwidgetType = nnnx.getAdmParam().getWidgetType();
-
-            if (nnnx.getAdmParam() != null) {
-                if (nnncmd == null || nnncmd.equalsIgnoreCase("SUPER")) {
-                    nnncmd = nnnx.getAdmParam().getCmd();
-                }
-                if (nnnwidgetIdentity == null || nnnwidgetIdentity.equalsIgnoreCase("SUPER")) {
-                    nnnwidgetIdentity = nnnx.getAdmParam().getParamName();
-                }
-                if (nnnwidgetType == null || nnnwidgetType == AllEnum.WidgetType.SUPER) {
-                    nnnwidgetType = nnnx.getAdmParam().getWidgetType();
-                }
-            }
 
             if (nnnwidgetIdentity.equalsIgnoreCase(PROC_BTN_ID)) {
                 porcTitleNw = nnncmd;
